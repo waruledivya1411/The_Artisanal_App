@@ -3,7 +3,7 @@
 ## The short way
 
 ```powershell
-cd "C:\Users\ACER\OneDrive\Desktop\The Artisanal Lens\artisanal_lens"
+cd artisanal_lens
 .\run_app.ps1
 ```
 
@@ -53,7 +53,7 @@ adb devices          # want: emulator-5554   device
 ### 3. Run the app
 
 ```powershell
-cd "C:\Users\ACER\OneDrive\Desktop\The Artisanal Lens\artisanal_lens"
+cd artisanal_lens
 flutter run
 ```
 
