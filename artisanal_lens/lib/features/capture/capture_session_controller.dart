@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/providers.dart';
 import '../../domain/entities/fold_preset.dart';
+import '../../domain/entities/photography_template.dart';
 import '../../domain/entities/preset_capture_guidance.dart';
 import '../../domain/entities/shot_guidance.dart';
 import '../../domain/entities/shot_type.dart';
@@ -22,6 +23,7 @@ class CaptureSession extends Equatable {
     this.presetId,
     this.pendingPhotoPath,
     this.skipsStyle = false,
+    this.template,
   });
 
   final String? setId;
@@ -29,6 +31,13 @@ class CaptureSession extends Equatable {
 
   /// Which named slot of [shotType] is being filled.
   final int? slotIndex;
+
+  /// The photography template the chosen slot carries, when it has one.
+  ///
+  /// Held here rather than looked up from [slotIndex], because Click & Social
+  /// slots are indexed by HTML frame (0..11) instead of by position in a
+  /// category's five-template list.
+  final PhotographyTemplate? template;
 
   /// Chosen style preset; null for Detail shots, which skip that step.
   final String? presetId;
@@ -52,8 +61,10 @@ class CaptureSession extends Equatable {
     String? presetId,
     String? pendingPhotoPath,
     bool? skipsStyle,
+    PhotographyTemplate? template,
     bool clearPreset = false,
     bool clearPendingPhoto = false,
+    bool clearTemplate = false,
   }) {
     return CaptureSession(
       setId: setId ?? this.setId,
@@ -64,12 +75,20 @@ class CaptureSession extends Equatable {
           ? null
           : (pendingPhotoPath ?? this.pendingPhotoPath),
       skipsStyle: skipsStyle ?? this.skipsStyle,
+      template: clearTemplate ? null : (template ?? this.template),
     );
   }
 
   @override
-  List<Object?> get props =>
-      [setId, shotType, slotIndex, presetId, pendingPhotoPath, skipsStyle];
+  List<Object?> get props => [
+        setId,
+        shotType,
+        slotIndex,
+        presetId,
+        pendingPhotoPath,
+        skipsStyle,
+        template,
+      ];
 }
 
 class CaptureSessionController extends Notifier<CaptureSession> {
@@ -89,12 +108,15 @@ class CaptureSessionController extends Notifier<CaptureSession> {
     ShotType shotType, {
     required int slotIndex,
     bool skipsStyle = false,
+    PhotographyTemplate? template,
   }) {
     state = state.copyWith(
       shotType: shotType,
       slotIndex: slotIndex,
       skipsStyle: skipsStyle,
+      template: template,
       clearPreset: true,
+      clearTemplate: template == null,
     );
   }
 
@@ -138,6 +160,11 @@ final selectedPresetProvider = Provider<FoldPreset?>((ref) {
 /// Content, needs and technique for the photograph about to be taken.
 final sessionGuidanceProvider = Provider<ShotGuidance>((ref) {
   final session = ref.watch(captureSessionProvider);
+
+  // The slot named its own template, so there is nothing to look up.
+  final template = session.template;
+  if (template != null) return ShotGuidance.fromTemplate(template);
+
   final preset = ref.watch(selectedPresetProvider);
   final shotType = session.shotType ?? ShotType.detail;
   final setId = session.setId;

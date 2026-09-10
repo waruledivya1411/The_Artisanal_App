@@ -58,7 +58,8 @@ abstract final class AppTheme {
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textOnPrimary,
-          minimumSize: const Size.fromHeight(AppDimens.minTapTarget),
+          // Finite width — Size.fromHeight is Infinity and crashes in Rows.
+          minimumSize: const Size(0, AppDimens.minTapTarget),
           textStyle: AppTypography.labelLarge,
           shape: const StadiumBorder(),
         ),
@@ -66,7 +67,7 @@ abstract final class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
-          minimumSize: const Size.fromHeight(AppDimens.minTapTarget),
+          minimumSize: const Size(0, AppDimens.minTapTarget),
           textStyle: AppTypography.labelLarge,
           side: const BorderSide(color: AppColors.primary),
           shape: const StadiumBorder(),

@@ -28,7 +28,9 @@ class ShotSetsController extends AsyncNotifier<List<ShotSet>> {
       silkTypeId: silkTypeId,
     );
     await _refresh();
-    await _syncIfSignedIn();
+    // Do not block the UI on cloud sync — Continue must navigate immediately.
+    // ignore: unawaited_futures
+    _syncIfSignedIn();
     return created;
   }
 

@@ -13,10 +13,7 @@ import '../../../shared/widgets/choice_image_grid.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/shot_sets_controller.dart';
 
-/// Product setup — Figma frame "Product Setup Flow".
-///
-/// Category grid and product name, then the photo list. Category is locked
-/// once a shoot exists so its presets stay scoped to it.
+/// Step 1 — What are you photographing? (category + name).
 class ProductSetupPage extends ConsumerStatefulWidget {
   const ProductSetupPage({
     this.setId,
@@ -37,16 +34,7 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
   final TextEditingController _nameController = TextEditingController();
   String? _selectedCategoryId;
   bool _isStarting = false;
-
-  /// Guards the one-time copy of a resumed shoot into the form fields.
   bool _hydrated = false;
-
-  /// The shoot this screen is tracking.
-  ///
-  /// Starts as [ProductSetupPage.setId], but a screen opened for a brand-new
-  /// product creates its set on the first "Start with …" tap and adopts that
-  /// id here. Without this the page would still believe it was an empty form
-  /// when the capture flow pops back to it, and would show 0 / 7 forever.
   String? _activeSetId;
 
   @override
@@ -70,9 +58,6 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
         ? null
         : ref.watch(shotSetProvider(_activeSetId!));
 
-    // When resuming, mirror the stored set into the form once the set has
-    // loaded. Done after the frame because assigning to a TextEditingController
-    // notifies its listeners, which must not happen during build.
     if (existingSet != null && !_hydrated) {
       _hydrated = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -86,7 +71,9 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
 
     final selectedCategory = _selectedCategoryId == null
         ? null
-        : ref.watch(catalogRepositoryProvider).categoryById(_selectedCategoryId!);
+        : ref
+            .watch(catalogRepositoryProvider)
+            .categoryById(_selectedCategoryId!);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -110,8 +97,16 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
         ),
         children: [
           Text(
-            AppLocalizations.of(context).whatPhotographing,
+            'What are you photographing?',
             style: AppTypography.displayLarge,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Pick your product.',
+            style: AppTypography.labelSmall.copyWith(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
           ),
           const SizedBox(height: AppDimens.space20),
           ChoiceImageGrid(
@@ -170,14 +165,17 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
           ],
         ],
       ),
-      // Hands over to the photo list, which is the hub for the shoot.
       bottomNavigationBar: selectedCategory == null
           ? null
           : BottomAction(
               child: FilledButton.icon(
                 onPressed: _canStart && !_isStarting ? _start : null,
                 icon: const Icon(Icons.arrow_forward, size: 20),
-                label: Text(AppLocalizations.of(context).continueAction),
+                label: Text(
+                  _isExistingSet
+                      ? AppLocalizations.of(context).continueAction
+                      : 'NEXT — MATERIAL',
+                ),
               ),
             ),
     );
@@ -193,26 +191,26 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
     setState(() => _isStarting = true);
 
     try {
-      final controller = ref.read(shotSetsProvider.notifier);
-      var setId = _activeSetId;
-
-      // A brand-new product is only persisted once the artisan continues, so
-      // abandoning the form leaves nothing behind.
-      if (setId == null) {
-        final created = await controller.createSet(
-          productName: _nameController.text.trim(),
-          categoryId: _selectedCategoryId!,
-          materialId: widget.materialId,
-          silkTypeId: widget.silkTypeId,
-        );
-        setId = created.id;
-        if (mounted) setState(() => _activeSetId = setId);
+      // Resuming an existing shoot skips setup and opens the checklist.
+      if (_activeSetId != null) {
+        if (!mounted) return;
+        context.go('/product/$_activeSetId/list');
+        return;
       }
 
       if (!mounted) return;
-      context.pushReplacementNamed(
-        AppRoute.photoList,
-        pathParameters: {'setId': setId},
+      context.pushNamed(
+        AppRoute.material,
+        queryParameters: {
+          'category': _selectedCategoryId!,
+          'name': _nameController.text.trim(),
+        },
+      );
+    } catch (error, stack) {
+      debugPrint('Product setup continue failed: $error\n$stack');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not continue: $error')),
       );
     } finally {
       if (mounted) setState(() => _isStarting = false);

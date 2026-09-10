@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
@@ -9,19 +9,30 @@ import '../../../domain/entities/fabric_material.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/choice_image_grid.dart';
 import '../../../shared/widgets/common.dart';
+import '../../home/shot_sets_controller.dart';
 
-/// Second New Product step: named varieties for each fibre material.
-class SilkTypePage extends StatefulWidget {
-  const SilkTypePage({this.materialId, super.key});
+/// Material variety step, then framing quiz / shoot flow.
+class SilkTypePage extends ConsumerStatefulWidget {
+  const SilkTypePage({
+    this.materialId,
+    this.categoryId,
+    this.productName,
+    this.technique,
+    super.key,
+  });
 
   final String? materialId;
+  final String? categoryId;
+  final String? productName;
+  final String? technique;
 
   @override
-  State<SilkTypePage> createState() => _SilkTypePageState();
+  ConsumerState<SilkTypePage> createState() => _SilkTypePageState();
 }
 
-class _SilkTypePageState extends State<SilkTypePage> {
+class _SilkTypePageState extends ConsumerState<SilkTypePage> {
   String? _selectedId;
+  bool _busy = false;
 
   FabricMaterial get _material =>
       FabricMaterial.byId(widget.materialId ?? '') ?? FabricMaterial.silk;
@@ -116,21 +127,59 @@ class _SilkTypePageState extends State<SilkTypePage> {
       ),
       bottomNavigationBar: BottomAction(
         child: FilledButton.icon(
-          onPressed: _selectedId == null ? null : _continue,
+          onPressed: _selectedId == null || _busy ? null : _continue,
           icon: const Icon(Icons.arrow_forward, size: 20),
-          label: Text(l10n.continueAction),
+          label: const Text('NEXT — FRAME IT'),
         ),
       ),
     );
   }
 
-  void _continue() {
-    context.pushNamed(
-      AppRoute.productSetup,
-      queryParameters: {
-        'material': _material.id,
-        if (_selectedId != null) 'silkType': _selectedId!,
-      },
-    );
+  Future<void> _continue() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+
+    try {
+      final categoryId = widget.categoryId;
+      final productName = widget.productName?.trim();
+      if (categoryId == null ||
+          categoryId.isEmpty ||
+          productName == null ||
+          productName.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Missing product details. Go back and try again.'),
+          ),
+        );
+        return;
+      }
+
+      final created = await ref.read(shotSetsProvider.notifier).createSet(
+            productName: productName,
+            categoryId: categoryId,
+            materialId: _material.id,
+            silkTypeId: _selectedId,
+          );
+
+      if (!mounted) return;
+
+      final technique = widget.technique;
+      final material = _material.id;
+      final q = <String>[
+        'category=$categoryId',
+        'material=$material',
+        if (technique != null && technique.isNotEmpty) 'technique=$technique',
+      ].join('&');
+      context.go('/product/${created.id}/pick-frames?$q');
+    } catch (error, stack) {
+      debugPrint('Silk type continue failed: $error\n$stack');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not continue: $error')),
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 }

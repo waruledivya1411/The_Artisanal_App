@@ -159,3 +159,39 @@ class PhotoThumb extends ConsumerWidget {
     );
   }
 }
+
+/// A bundled reference photograph, with a neutral tile when it is missing.
+///
+/// Lesson content ships dozens of these; a typo in one path should leave a
+/// placeholder rather than a red error box in the middle of a guide.
+class GuideImage extends StatelessWidget {
+  const GuideImage({
+    required this.asset,
+    this.fit = BoxFit.contain,
+    this.borderRadius,
+    super.key,
+  });
+
+  final String asset;
+  final BoxFit fit;
+  final BorderRadius? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = Image.asset(
+      asset,
+      fit: fit,
+      errorBuilder: (_, _, _) => Container(
+        color: AppColors.surfaceMuted,
+        alignment: Alignment.center,
+        child: const Icon(
+          Icons.image_outlined,
+          color: AppColors.textMuted,
+          size: 28,
+        ),
+      ),
+    );
+    if (borderRadius == null) return image;
+    return ClipRRect(borderRadius: borderRadius!, child: image);
+  }
+}

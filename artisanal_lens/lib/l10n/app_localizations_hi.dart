@@ -2113,4 +2113,1162 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get guideStoleEdgeThickness3 => 'कुंडली पर सीधे ऊपर से लें।';
+
+  @override
+  String get csNavLearn => 'सीखें';
+
+  @override
+  String get csNavPractice => 'अभ्यास';
+
+  @override
+  String get csNavProgress => 'प्रगति';
+
+  @override
+  String get csLearnerFallback => 'सीखने वाले';
+
+  @override
+  String get csClusterNotSelected => 'क्लस्टर चुना नहीं गया';
+
+  @override
+  String get csAntaranLearningTool => 'अंतरण · सीखने का साधन';
+
+  @override
+  String get csWorksOffline => 'बिना इंटरनेट चलता है';
+
+  @override
+  String get csClickAndSocial => 'CLICK &\nSOCIAL';
+
+  @override
+  String get csClickAndSocialInline => 'CLICK & SOCIAL';
+
+  @override
+  String get csOnboardingTagline =>
+      'अपने हुनर की तस्वीर लें। उसकी कहानी सुनाएँ। उसे ऑनलाइन बेचें — सब इसी फ़ोन से।';
+
+  @override
+  String get csStepYourName => 'आपका नाम';
+
+  @override
+  String get csNameHint => 'अपना नाम लिखें';
+
+  @override
+  String get csStepYourLanguage => 'आपकी भाषा';
+
+  @override
+  String csLanguageChip(String label, String code) {
+    return '$label ($code)';
+  }
+
+  @override
+  String get csStepYourCluster => 'आपका क्लस्टर — जहाँ आप काम करते हैं';
+
+  @override
+  String get csClusterHint =>
+      'एक बार चुनें। आपके पाठ, कहानियाँ और हैशटैग इसी के हिसाब से बनेंगे।';
+
+  @override
+  String get csSelected => 'चुना गया';
+
+  @override
+  String get csPick => 'चुनें';
+
+  @override
+  String get csStartLearning => 'सीखना शुरू करें';
+
+  @override
+  String get csOfflineReady => 'बिना इंटरनेट तैयार';
+
+  @override
+  String csHelloName(String name) {
+    return 'नमस्ते, $name';
+  }
+
+  @override
+  String get csChange => 'बदलें';
+
+  @override
+  String csLessonsDone(int done) {
+    return '5 में से $done पाठ पूरे';
+  }
+
+  @override
+  String get csLesson01Title => 'फ़ोटोग्राफ़ी';
+
+  @override
+  String get csLesson01Subtitle =>
+      'उत्पाद · सामग्री · क्लस्टर · फ़्रेम · रोशनी';
+
+  @override
+  String get csLesson02Title => 'इंस्टाग्राम पर अपना पेज बनाएँ';
+
+  @override
+  String get csLesson02Subtitle => 'नाम · बायो · प्रोफ़ेशनल अकाउंट';
+
+  @override
+  String get csLesson03Title => 'पोस्ट बनाएँ';
+
+  @override
+  String get csLesson03Subtitle => 'कहानी · हैशटैग · प्रकाशित करें';
+
+  @override
+  String get csLesson04Title => 'पोस्ट करने की योजना';
+
+  @override
+  String get csLesson04Subtitle => 'कब पोस्ट करें · हफ़्ते की लय';
+
+  @override
+  String get csLesson05Title => 'आँकड़े पढ़ें';
+
+  @override
+  String get csLesson05Subtitle => 'पहुँच · क्या चला और क्यों';
+
+  @override
+  String get csLesson01Overline => 'पाठ 01';
+
+  @override
+  String get csLesson02Overline => 'पाठ 02';
+
+  @override
+  String get csLesson03Overline => 'पाठ 03';
+
+  @override
+  String get csLesson04Overline => 'पाठ 04';
+
+  @override
+  String get csLesson05Overline => 'पाठ 05';
+
+  @override
+  String csStepOfTotal(int step, int total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get csPickYourUsername => 'अपना यूज़रनेम चुनें';
+
+  @override
+  String get csUsernameHint =>
+      'छोटा हो। उसमें आपका हुनर दिखे। बोलने में आसान हो।';
+
+  @override
+  String get csNextEditProfile => 'आगे — EDIT PROFILE';
+
+  @override
+  String get csEditProfileIntroBefore => 'यह ';
+
+  @override
+  String get csEditProfileIntroBold => 'Edit profile';
+
+  @override
+  String get csEditProfileIntroAfter => ' स्क्रीन है। हर पंक्ति भरें।';
+
+  @override
+  String get csChangePhotoTip =>
+      'फ़ोटो बदलें — अपना उत्पाद लगाएँ, सूरज ढलने की तस्वीर नहीं';
+
+  @override
+  String get csFieldName => 'Name';
+
+  @override
+  String get csFieldUsername => 'Username';
+
+  @override
+  String get csFieldBio => 'Bio';
+
+  @override
+  String get csBioPlaceholder => 'नीचे की पंक्तियाँ छूकर इसे बनाएँ…';
+
+  @override
+  String get csBioLinesPrompt =>
+      'बायो की पंक्तियाँ — कम से कम 2 चुनें (जगह + हुनर + कैसे ख़रीदें)';
+
+  @override
+  String get csNextGoProfessional => 'आगे — प्रोफ़ेशनल बनें';
+
+  @override
+  String get csSettingsPrompt =>
+      'ऐप में Settings खोलें। जो पंक्ति प्रोफ़ेशनल अकाउंट तक ले जाती है, उसे ढूँढें — लाल बिंदु के पीछे चलें।';
+
+  @override
+  String get csSettingsPromptAlmost => 'बस एक कदम और — एक बार और छुएँ।';
+
+  @override
+  String get csSettingsTitle => 'Settings';
+
+  @override
+  String get csAccountTypeAndTools => 'Account type and tools';
+
+  @override
+  String get csSettingsNotifications => 'Notifications';
+
+  @override
+  String get csSettingsNotificationsSub => 'लाइक, कमेंट, मैसेज';
+
+  @override
+  String get csSettingsPrivacy => 'Privacy';
+
+  @override
+  String get csSettingsPrivacySub => 'प्राइवेट अकाउंट, ब्लॉक किए लोग';
+
+  @override
+  String get csSettingsAccountTypeSub => 'प्रोफ़ेशनल अकाउंट पर जाएँ';
+
+  @override
+  String get csSettingsHelp => 'Help';
+
+  @override
+  String get csSettingsHelpSub => 'समस्या बताएँ';
+
+  @override
+  String get csSettingsSwitchProfessional => 'Switch to professional account';
+
+  @override
+  String get csSettingsSwitchProfessionalSub =>
+      'मुफ़्त — क्रिएटर और कारोबार के लिए';
+
+  @override
+  String get csSettingsDeleteAccount => 'Delete account';
+
+  @override
+  String get csSettingsDeleteAccountSub => 'अपना अकाउंट हटाएँ';
+
+  @override
+  String get csSettingsPersonalInfo => 'Personal information';
+
+  @override
+  String get csSettingsPersonalInfoSub => 'जन्मदिन, ईमेल';
+
+  @override
+  String get csSettingsWrongPick => 'वह नहीं — लाल बिंदु के पीछे चलें।';
+
+  @override
+  String get csCategoryIntroBefore => 'आख़िरी कदम — ';
+
+  @override
+  String get csCategoryIntroBold => 'आप क्या हैं?';
+
+  @override
+  String get csCategoryIntroAfter => ' वह श्रेणी चुनें जो ख़रीदार देखेंगे।';
+
+  @override
+  String get csCategoryArtist => 'Artist';
+
+  @override
+  String get csCategoryShoppingRetail => 'Shopping & retail';
+
+  @override
+  String get csCategoryLocalBusiness => 'Local business';
+
+  @override
+  String get csCategoryEntrepreneur => 'Entrepreneur';
+
+  @override
+  String get csProAccountNote1 =>
+      'प्रोफ़ेशनल अकाउंट मुफ़्त है। इससे खुलते हैं ';
+
+  @override
+  String get csProAccountInsights => 'insights';
+
+  @override
+  String get csProAccountNote2 => ' (आपकी पोस्ट कौन देखता है — पाठ 05), एक ';
+
+  @override
+  String get csProAccountContactButton => 'contact button';
+
+  @override
+  String get csProAccountNote3 => ', और आगे चलकर ';
+
+  @override
+  String get csProAccountAds => 'ads';
+
+  @override
+  String get csProAccountNote4 => '।';
+
+  @override
+  String get csSwitchToProfessional => 'प्रोफ़ेशनल पर जाएँ';
+
+  @override
+  String get csPreviewIntro => 'हो गया। ख़रीदार आपका पेज ऐसे देखेंगे:';
+
+  @override
+  String get csPostsFollowers => '0 पोस्ट   0 फ़ॉलोअर';
+
+  @override
+  String get csFollow => 'FOLLOW';
+
+  @override
+  String get csMessage => 'MESSAGE';
+
+  @override
+  String get csProfessionalAccount => 'प्रोफ़ेशनल अकाउंट';
+
+  @override
+  String get csPickANameFallback => 'pick_a_name';
+
+  @override
+  String get csCraftFallback => 'हुनर';
+
+  @override
+  String get csBioFallbackHandloomWeaver => 'हथकरघा बुनकर';
+
+  @override
+  String get csBioFallbackDmToOrder => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csBioFallbackMadeByHand => 'हाथ से बना';
+
+  @override
+  String get csFormatPost => 'पोस्ट';
+
+  @override
+  String get csFormatStory => 'स्टोरी';
+
+  @override
+  String get csFormatReel => 'रील';
+
+  @override
+  String get csPhotoPlaceholder => 'पाठ 01 की आपकी फ़ोटो — या कोई फ़ोटो डालें';
+
+  @override
+  String get csExampleKotpad =>
+      'उदाहरण: कोटपाड़ की एक पोस्ट — पास से ली गई फ़ोटो, फिर दो पंक्तियाँ जिनमें हुनर और बुनकरों का नाम हो।';
+
+  @override
+  String get csAddYourStory => 'अपनी कहानी जोड़ें — पंक्तियाँ छुएँ';
+
+  @override
+  String get csHashtagsPick => 'हैशटैग — 3 से 5 चुनें ';
+
+  @override
+  String csHashtagCount(int count) {
+    return '$count/5';
+  }
+
+  @override
+  String csHashtagCountFull(int count) {
+    return '$count/5 — पाँच काफ़ी हैं';
+  }
+
+  @override
+  String get csCaptionPreview => 'कैप्शन की झलक';
+
+  @override
+  String get csCaptionPlaceholder =>
+      'ऊपर की कहानी पंक्तियाँ छूकर अपना कैप्शन लिखें।';
+
+  @override
+  String get csPostToPracticeFeed => 'अभ्यास फ़ीड पर पोस्ट करें';
+
+  @override
+  String get csPracticeFeedOnly =>
+      'सिर्फ़ अभ्यास फ़ीड — कुछ भी आपके फ़ोन से बाहर नहीं जाता।';
+
+  @override
+  String get csStoryFallbackHeritage => 'मेरे गाँव में हाथ से बना।';
+
+  @override
+  String get csStoryFallbackMaterial => 'प्राकृतिक रेशा, ध्यान से रंगा।';
+
+  @override
+  String get csStoryFallbackProcess => 'घर के करघे पर बुना, एक-एक बूटी।';
+
+  @override
+  String get csTagFallback0 => '#handwoven';
+
+  @override
+  String get csTagFallback1 => '#vocalforlocal';
+
+  @override
+  String get csTagFallback2 => '#craftindia';
+
+  @override
+  String get csTagFallback3 => '#madeinindia';
+
+  @override
+  String get csTagFallback4 => '#handloom';
+
+  @override
+  String get csWhenDoBuyersScroll => 'ख़रीदार कब स्क्रॉल करते हैं?';
+
+  @override
+  String get csTimeMorning => 'सुबह 6–9 बजे';
+
+  @override
+  String get csTimeNight => 'रात 7–10 बजे';
+
+  @override
+  String get csTimeAfternoon => 'दोपहर 2 बजे';
+
+  @override
+  String get csTimeCorrectMsg =>
+      'हाँ — शाम को, जब दिन का काम निपट जाता है, तभी लोग स्क्रॉल करते हैं और ख़रीदते हैं।';
+
+  @override
+  String get csTimeWrongMsg =>
+      'उस समय लोग काम पर होते हैं। दिन ढलने के बाद देखें।';
+
+  @override
+  String get csPlanYourWeek => 'अपना हफ़्ता तय करें — 3 दिन चुनें';
+
+  @override
+  String get csSpreadThemOut =>
+      'इन्हें फैलाकर रखें। ख़रीदार आपको पूरे हफ़्ते देखें।';
+
+  @override
+  String get csDayMon => 'सो';
+
+  @override
+  String get csDayTue => 'मं';
+
+  @override
+  String get csDayWed => 'बु';
+
+  @override
+  String get csDayThu => 'गु';
+
+  @override
+  String get csDayFri => 'शु';
+
+  @override
+  String get csDaySat => 'श';
+
+  @override
+  String get csDaySun => 'र';
+
+  @override
+  String get csGoodRhythm => 'अच्छी लय — तीन पोस्ट, पूरे हफ़्ते में फैली हुई।';
+
+  @override
+  String get csThreePostsOneWinner => 'तीन पोस्ट। एक विजेता।';
+
+  @override
+  String get csReachExplainer =>
+      'पहुँच = कितने लोगों ने देखा। सबसे अच्छी पोस्ट छुएँ।';
+
+  @override
+  String get csResultPhotoOnly => 'सिर्फ़ फ़ोटो';
+
+  @override
+  String get csResultPhotoStory => 'फ़ोटो + कहानी वाला कैप्शन';
+
+  @override
+  String get csResultPhotoStoryTags => 'फ़ोटो + कहानी + हैशटैग';
+
+  @override
+  String get csBestCorrectMsg =>
+      'सही — कहानी और हैशटैग ने अकेली फ़ोटो से 10 गुना ज़्यादा लोगों तक पहुँच बनाई।';
+
+  @override
+  String get csBestWrongMsg => 'फिर देखें — कौन-सी पट्टी सबसे लंबी है?';
+
+  @override
+  String get csYourWeekReached => 'आपका हफ़्ता — कितने लोगों तक पहुँचे';
+
+  @override
+  String get csTallBarsNote =>
+      'ऊँची पट्टियाँ आपके पोस्ट वाले दिन हैं। योजना के मुताबिक पोस्ट करें — पहुँच अपने आप बढ़ेगी।';
+
+  @override
+  String get csPracticeFeed => 'अभ्यास फ़ीड';
+
+  @override
+  String get csStaysOnYourPhone => 'आपके फ़ोन में ही रहता है';
+
+  @override
+  String get csFeedTimeNow => 'अभी';
+
+  @override
+  String get csFeedSampleTime1 => '2 दि';
+
+  @override
+  String get csFeedSampleTime2 => '5 दि';
+
+  @override
+  String get csFeedYourPhotoPlaceholder => 'पाठों में ली गई आपकी फ़ोटो';
+
+  @override
+  String get csFeedSamplePlaceholder => 'एक नमूना फ़ोटो डालें';
+
+  @override
+  String get csFeedSampleUser1 => 'maya_ikat';
+
+  @override
+  String get csFeedSampleUser2 => 'looms_of_naga';
+
+  @override
+  String get csFeedSampleCaption1 =>
+      'डबल इकत — बुनने से पहले हाथ से बाँधा और रंगा।';
+
+  @override
+  String get csFeedSampleTags1 => '#ikat #odishahandloom #handwoven';
+
+  @override
+  String get csFeedSampleCaption2 => 'कमर करघे की शॉल — हर धारी का एक मतलब है।';
+
+  @override
+  String get csFeedSampleTags2 => '#nagashawl #loinloom #handwoven';
+
+  @override
+  String get csFeedCommentUser1 => 'buyer_priya';
+
+  @override
+  String get csFeedCommentUser2 => 'craft.lover';
+
+  @override
+  String get csFeedCommentBuyer => 'बहुत सुंदर! दाम बताइए?';
+
+  @override
+  String get csFeedCommentCraftLover => 'कमाल का काम!';
+
+  @override
+  String get csFeedTapHeart => 'दिल छूकर देखें कि ख़रीदार कैसे जवाब देते हैं।';
+
+  @override
+  String get csYourProgress => 'आपकी प्रगति';
+
+  @override
+  String get csBadgesOfFive => '/ 5 बैज';
+
+  @override
+  String get csBadgePhotographer => 'फ़ोटोग्राफ़र';
+
+  @override
+  String get csBadgePageBuilder => 'पेज बनाने वाले';
+
+  @override
+  String get csBadgeStoryteller => 'कहानीकार';
+
+  @override
+  String get csBadgePlanner => 'योजनाकार';
+
+  @override
+  String get csBadgeAnalyst => 'विश्लेषक';
+
+  @override
+  String get csBadgeEarned => 'मिल गया';
+
+  @override
+  String get csBadgeLocked => 'अभी बंद';
+
+  @override
+  String get csEditNameLanguageCluster => 'नाम, भाषा या क्लस्टर बदलें';
+
+  @override
+  String get csAccountCloudBackup => 'अकाउंट और क्लाउड बैकअप';
+
+  @override
+  String get csStartOverClearProgress =>
+      'फिर से शुरू करें — सारी प्रगति मिटाएँ';
+
+  @override
+  String get csStartOverTitle => 'फिर से शुरू करें?';
+
+  @override
+  String get csStartOverBody =>
+      'इससे इस फ़ोन के पाठ बैज और अभ्यास पोस्ट मिट जाएँगे। आपने जो फ़ोटो ले ली हैं, वे फ़ोन में सुरक्षित रहेंगी।';
+
+  @override
+  String get csCancel => 'रहने दें';
+
+  @override
+  String get csClear => 'मिटाएँ';
+
+  @override
+  String get csStoryKickerHeritage => 'विरासत';
+
+  @override
+  String get csStoryKickerMaterial => 'सामग्री';
+
+  @override
+  String get csStoryKickerProcess => 'प्रक्रिया';
+
+  @override
+  String get csClusterAssamFabric => 'मेखला सादोर — मूगा और एरी रेशम';
+
+  @override
+  String get csClusterAssamShortName => 'मेखला सादोर';
+
+  @override
+  String get csClusterAssamPlace => 'कामरूप और नलबाड़ी, असम';
+
+  @override
+  String get csClusterAssamBio0 => 'हथकरघा बुनकर';
+
+  @override
+  String get csClusterAssamBio1 => 'कामरूप, असम';
+
+  @override
+  String get csClusterAssamBio2 => 'मेखला सादोर और स्टोल';
+
+  @override
+  String get csClusterAssamBio3 => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csClusterAssamBio4 => 'तीसरी पीढ़ी का बुनकर';
+
+  @override
+  String get csClusterAssamStoryHeritage =>
+      'मूगा — सुनहरा रेशम, जो सिर्फ़ असम में होता है।';
+
+  @override
+  String get csClusterAssamStoryMaterial =>
+      'हाथ से काता एरी — शॉल जैसा मुलायम, ऊन जैसा गरम।';
+
+  @override
+  String get csClusterAssamStoryProcess =>
+      'घर पर बुना, हफ़्तों करघे पर, एक-एक बूटी।';
+
+  @override
+  String get csClusterAssamTag0 => '#mekhelachador';
+
+  @override
+  String get csClusterAssamTag1 => '#mugasilk';
+
+  @override
+  String get csClusterAssamTag2 => '#erisilk';
+
+  @override
+  String get csClusterAssamTag3 => '#assamhandloom';
+
+  @override
+  String get csClusterAssamTag4 => '#handwoven';
+
+  @override
+  String get csClusterAssamTag5 => '#vocalforlocal';
+
+  @override
+  String get csClusterAssamTag6 => '#silksofindia';
+
+  @override
+  String get csClusterAssamTag7 => '#weaversofindia';
+
+  @override
+  String get csClusterSrikalahastiFabric =>
+      'कलमकारी — हाथ से चित्रित सूती कपड़ा';
+
+  @override
+  String get csClusterSrikalahastiShortName => 'कलमकारी';
+
+  @override
+  String get csClusterSrikalahastiPlace => 'श्रीकालहस्ती, आंध्र प्रदेश';
+
+  @override
+  String get csClusterSrikalahastiBio0 => 'कलमकारी कलाकार';
+
+  @override
+  String get csClusterSrikalahastiBio1 => 'श्रीकालहस्ती, आंध्र प्रदेश';
+
+  @override
+  String get csClusterSrikalahastiBio2 => 'हाथ से चित्रित पैनल और साड़ियाँ';
+
+  @override
+  String get csClusterSrikalahastiBio3 => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csClusterSrikalahastiBio4 => 'मंदिर कला वाला परिवार';
+
+  @override
+  String get csClusterSrikalahastiStoryHeritage =>
+      'मंदिर की कहानियाँ, बाँस की कलम से बनाई गईं।';
+
+  @override
+  String get csClusterSrikalahastiStoryMaterial =>
+      'सूती कपड़ा और प्राकृतिक रंग — हरड़, लोहा, फिटकरी।';
+
+  @override
+  String get csClusterSrikalahastiStoryProcess =>
+      'एक-एक लकीर से बनी — कोई दो टुकड़े एक जैसे नहीं।';
+
+  @override
+  String get csClusterSrikalahastiTag0 => '#kalamkari';
+
+  @override
+  String get csClusterSrikalahastiTag1 => '#srikalahasti';
+
+  @override
+  String get csClusterSrikalahastiTag2 => '#naturaldyes';
+
+  @override
+  String get csClusterSrikalahastiTag3 => '#handpainted';
+
+  @override
+  String get csClusterSrikalahastiTag4 => '#craftindia';
+
+  @override
+  String get csClusterSrikalahastiTag5 => '#vocalforlocal';
+
+  @override
+  String get csClusterSrikalahastiTag6 => '#textileart';
+
+  @override
+  String get csClusterSrikalahastiTag7 => '#madeinindia';
+
+  @override
+  String get csClusterVenkatgiriFabric => 'वेंकटगिरी साड़ी — महीन सूती और ज़री';
+
+  @override
+  String get csClusterVenkatgiriShortName => 'वेंकटगिरी साड़ी';
+
+  @override
+  String get csClusterVenkatgiriPlace => 'वेंकटगिरी, आंध्र प्रदेश';
+
+  @override
+  String get csClusterVenkatgiriBio0 => 'हथकरघा बुनकर';
+
+  @override
+  String get csClusterVenkatgiriBio1 => 'वेंकटगिरी, आंध्र प्रदेश';
+
+  @override
+  String get csClusterVenkatgiriBio2 => 'महीन सूती और ज़री की साड़ियाँ';
+
+  @override
+  String get csClusterVenkatgiriBio3 => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csClusterVenkatgiriBio4 => '1970 से बुनकरों का परिवार';
+
+  @override
+  String get csClusterVenkatgiriStoryHeritage =>
+      'कभी वेंकटगिरी दरबार के लिए बुनी जाती थी।';
+
+  @override
+  String get csClusterVenkatgiriStoryMaterial =>
+      'इतनी महीन सूती कि साड़ी हवा में तैरती है।';
+
+  @override
+  String get csClusterVenkatgiriStoryProcess =>
+      'जामदानी बूटियाँ — तोता, आम, हंस — हाथ से बुनी गईं।';
+
+  @override
+  String get csClusterVenkatgiriTag0 => '#venkatagiri';
+
+  @override
+  String get csClusterVenkatgiriTag1 => '#jamdani';
+
+  @override
+  String get csClusterVenkatgiriTag2 => '#zari';
+
+  @override
+  String get csClusterVenkatgiriTag3 => '#handloomsaree';
+
+  @override
+  String get csClusterVenkatgiriTag4 => '#cottonsaree';
+
+  @override
+  String get csClusterVenkatgiriTag5 => '#vocalforlocal';
+
+  @override
+  String get csClusterVenkatgiriTag6 => '#sareesofinstagram';
+
+  @override
+  String get csClusterVenkatgiriTag7 => '#madeinindia';
+
+  @override
+  String get csClusterManiabandhaFabric => 'खंडुआ इकत — बाँधकर रंगा रेशम';
+
+  @override
+  String get csClusterManiabandhaShortName => 'खंडुआ इकत';
+
+  @override
+  String get csClusterManiabandhaPlace => 'मणिआबंधा, ओडिशा';
+
+  @override
+  String get csClusterManiabandhaBio0 => 'इकत बुनकर';
+
+  @override
+  String get csClusterManiabandhaBio1 => 'मणिआबंधा, ओडिशा';
+
+  @override
+  String get csClusterManiabandhaBio2 => 'खंडुआ साड़ियाँ और स्टोल';
+
+  @override
+  String get csClusterManiabandhaBio3 => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csClusterManiabandhaBio4 => 'महानदी किनारे बुनकरों का गाँव';
+
+  @override
+  String get csClusterManiabandhaStoryHeritage =>
+      'खंडुआ — भगवान जगन्नाथ के लिए बुनी जाती है।';
+
+  @override
+  String get csClusterManiabandhaStoryMaterial =>
+      'रेशम के धागे करघे तक पहुँचने से पहले ही बाँधकर रंगे जाते हैं।';
+
+  @override
+  String get csClusterManiabandhaStoryProcess =>
+      'नक़्शा धागे में ही रंगा जाता है, फिर हूबहू बुना जाता है।';
+
+  @override
+  String get csClusterManiabandhaTag0 => '#khandua';
+
+  @override
+  String get csClusterManiabandhaTag1 => '#ikat';
+
+  @override
+  String get csClusterManiabandhaTag2 => '#odishahandloom';
+
+  @override
+  String get csClusterManiabandhaTag3 => '#maniabandha';
+
+  @override
+  String get csClusterManiabandhaTag4 => '#handwoven';
+
+  @override
+  String get csClusterManiabandhaTag5 => '#tiedye';
+
+  @override
+  String get csClusterManiabandhaTag6 => '#vocalforlocal';
+
+  @override
+  String get csClusterManiabandhaTag7 => '#sareelove';
+
+  @override
+  String get csClusterGopalpurFabric => 'गोपालपुर तसर — जंगली रेशम';
+
+  @override
+  String get csClusterGopalpurShortName => 'तसर साड़ी';
+
+  @override
+  String get csClusterGopalpurPlace => 'गोपालपुर, जाजपुर, ओडिशा';
+
+  @override
+  String get csClusterGopalpurBio0 => 'तसर बुनकर';
+
+  @override
+  String get csClusterGopalpurBio1 => 'गोपालपुर, ओडिशा';
+
+  @override
+  String get csClusterGopalpurBio2 => 'साड़ियाँ, स्टोल और कपड़ा';
+
+  @override
+  String get csClusterGopalpurBio3 => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csClusterGopalpurBio4 => 'GI टैग वाला हुनर';
+
+  @override
+  String get csClusterGopalpurStoryHeritage =>
+      'गोपालपुर में 16वीं सदी से बुनी जा रही है — GI टैग वाली।';
+
+  @override
+  String get csClusterGopalpurStoryMaterial =>
+      'जंगली तसर — इसका सुनहरापन प्राकृतिक है, रंग का नहीं।';
+
+  @override
+  String get csClusterGopalpurStoryProcess =>
+      'हाथ से लपेटा, हाथ से काता, अतिरिक्त बाने की बूटियाँ।';
+
+  @override
+  String get csClusterGopalpurTag0 => '#tussarsilk';
+
+  @override
+  String get csClusterGopalpurTag1 => '#gopalpur';
+
+  @override
+  String get csClusterGopalpurTag2 => '#odishaweaves';
+
+  @override
+  String get csClusterGopalpurTag3 => '#wildsilk';
+
+  @override
+  String get csClusterGopalpurTag4 => '#handspun';
+
+  @override
+  String get csClusterGopalpurTag5 => '#vocalforlocal';
+
+  @override
+  String get csClusterGopalpurTag6 => '#silksofindia';
+
+  @override
+  String get csClusterGopalpurTag7 => '#handwoven';
+
+  @override
+  String get csClusterNagalandFabric => 'नगा शॉल — कमर करघा';
+
+  @override
+  String get csClusterNagalandShortName => 'नगा शॉल';
+
+  @override
+  String get csClusterNagalandPlace => 'नगालैंड के क्लस्टर';
+
+  @override
+  String get csClusterNagalandBio0 => 'कमर करघा बुनकर';
+
+  @override
+  String get csClusterNagalandBio1 => 'नगालैंड';
+
+  @override
+  String get csClusterNagalandBio2 => 'शॉल और मेखला';
+
+  @override
+  String get csClusterNagalandBio3 => 'ऑर्डर के लिए DM करें';
+
+  @override
+  String get csClusterNagalandBio4 => 'मेरे समुदाय की बुनाई';
+
+  @override
+  String get csClusterNagalandStoryHeritage =>
+      'हर धारी और हर बूटी बताती है कि आप कौन हैं।';
+
+  @override
+  String get csClusterNagalandStoryMaterial =>
+      'कमर करघे पर मोटा सूती, गहरा रंगा।';
+
+  @override
+  String get csClusterNagalandStoryProcess =>
+      'पट्टी दर पट्टी बुनी, फिर सिलकर एक शॉल बनी।';
+
+  @override
+  String get csClusterNagalandTag0 => '#nagashawl';
+
+  @override
+  String get csClusterNagalandTag1 => '#loinloom';
+
+  @override
+  String get csClusterNagalandTag2 => '#nagaland';
+
+  @override
+  String get csClusterNagalandTag3 => '#handwoven';
+
+  @override
+  String get csClusterNagalandTag4 => '#tribaltextile';
+
+  @override
+  String get csClusterNagalandTag5 => '#vocalforlocal';
+
+  @override
+  String get csClusterNagalandTag6 => '#northeastindia';
+
+  @override
+  String get csClusterNagalandTag7 => '#craftindia';
+
+  @override
+  String get csNewProductTitle => 'नया उत्पाद';
+
+  @override
+  String get csHowIsItMade => 'यह कैसे बनता है?';
+
+  @override
+  String get csTechniqueSub => 'तकनीक तय करती है कि कैमरे को क्या दिखाना है।';
+
+  @override
+  String get csTechniqueWoven => 'बुना हुआ';
+
+  @override
+  String get csTechniqueHandPainted => 'हाथ से चित्रित';
+
+  @override
+  String get csNextMaterialType => 'आगे — सामग्री का प्रकार';
+
+  @override
+  String get csNextMaterial => 'आगे — सामग्री';
+
+  @override
+  String get csWhatArePhotographing => 'आप किसकी फ़ोटो ले रहे हैं?';
+
+  @override
+  String get csPickYourProduct => 'अपना उत्पाद चुनें।';
+
+  @override
+  String get csPickYourFrames => 'अपने फ़्रेम चुनें';
+
+  @override
+  String get csPickFramesSub => 'आप कौन-सी तस्वीरें लेंगे? कम से कम दो चुनें।';
+
+  @override
+  String get csNoTemplatesYet => 'इस उत्पाद के लिए अभी कोई टेम्पलेट नहीं है।';
+
+  @override
+  String get csNextFrameIt => 'आगे — फ़्रेम करें';
+
+  @override
+  String csFramingProgress(int index, int total) {
+    return 'फ़्रेमिंग $index / $total';
+  }
+
+  @override
+  String csFramingProgressNamed(int index, int total, String names) {
+    return 'फ़्रेमिंग $index / $total — $names';
+  }
+
+  @override
+  String get csFramingThirdsTitle => 'आपका उत्पाद कहाँ रखा जाए?';
+
+  @override
+  String get csFramingThirdsSub =>
+      'सबसे अच्छा फ़्रेम छुएँ। ये लकीरें तिहाई का नियम हैं।';
+
+  @override
+  String get csFramingThirdsMsg0 =>
+      'बिल्कुल बीच में रखने से तस्वीर सपाट लगती है। किसी कटान बिंदु पर रखकर देखें।';
+
+  @override
+  String get csFramingThirdsMsg1 =>
+      'हाँ — जहाँ लकीरें कटती हैं, वहाँ रखें। तस्वीर में साँस आ जाती है।';
+
+  @override
+  String get csFramingThirdsMsg2 => 'किनारे के बहुत पास — उत्पाद कट जाता है।';
+
+  @override
+  String get csFramingCenterTitle => 'कितना पास जाएँ?';
+
+  @override
+  String get csFramingCenterSub =>
+      'पास से ली गई, समतल रखी और टँगी हुई चीज़ें बीच में रहती हैं — बीच का ख़ाना भरें।';
+
+  @override
+  String get csFramingCenterMsg0 => 'बहुत दूर — बारीकी खो जाती है। पास आएँ।';
+
+  @override
+  String get csFramingCenterMsg1 =>
+      'हाँ — बीच का ख़ाना भरें, किनारे फ़्रेम के समानांतर रखें।';
+
+  @override
+  String get csFramingCenterMsg2 =>
+      'आधा फ़्रेम से बाहर — फ़ोटो लेने से पहले इसे बीच में लाएँ।';
+
+  @override
+  String get csFramingDiagTitle => 'कपड़ा किस तरह बहे?';
+
+  @override
+  String get csFramingDiagSub =>
+      'लटकते कपड़े और बारीक तस्वीरें तिरछी लकीर पर चलती हैं — कपड़े को नज़र की राह बनने दें।';
+
+  @override
+  String get csFramingDiagMsg0 =>
+      'सीधी कतार में कोई हलचल नहीं होती। इसे तिरछी लकीर पर गिरने दें।';
+
+  @override
+  String get csFramingDiagMsg1 =>
+      'हाँ — सिलवटें तिरछी लकीर पर उतरती हैं और नज़र साथ चलती है।';
+
+  @override
+  String get csFramingDiagMsg2 => 'एक कोने में सिमटा हुआ — बहाव ख़त्म।';
+
+  @override
+  String get csFramingDetailTitle => 'फ़्रेम में किनारा कितना हो?';
+
+  @override
+  String get csFramingDetailSub =>
+      'किनारा, बूटी और तह वाली तस्वीरें: बारीकी वाले फ़्रेम को काम से ही भरें।';
+
+  @override
+  String get csFramingDetailMsg0 =>
+      'बहुत पतला, बहुत दूर — हुनर किसी को दिखता ही नहीं।';
+
+  @override
+  String get csFramingDetailMsg1 =>
+      'हाँ — किनारा पूरा फ़्रेम भरता है, इतना पास कि धागे गिने जा सकें।';
+
+  @override
+  String get csFramingDetailMsg2 =>
+      'हवा में तैरता चौकोर न किनारा दिखाता है, न बूटी। पट्टी के साथ चलें।';
+
+  @override
+  String get csNextFraming => 'अगली फ़्रेमिंग';
+
+  @override
+  String get csNextLightIt => 'आगे — रोशनी दें';
+
+  @override
+  String get csLightSide => 'बग़ल से रोशनी';
+
+  @override
+  String get csLightFront => 'सामने से नरम रोशनी';
+
+  @override
+  String get csLightBack => 'पीछे से रोशनी';
+
+  @override
+  String get csLightHeadingPanel => 'चित्रित पैनल को चमक पसंद नहीं।';
+
+  @override
+  String get csLightHeadingPainted => 'हाथ से चित्रित — रोशनी बराबर रखें।';
+
+  @override
+  String get csLightHeadingSilk => 'रेशम चमकता है। उसे दमकने दें।';
+
+  @override
+  String get csLightHeadingCotton => 'सूती नरम होती है। रोशनी भी नरम रखें।';
+
+  @override
+  String get csLightPromptPanel =>
+      'कपड़े पर बनी पेंटिंग चमक लौटाती है। रोशनी सपाट और नरम रखें।';
+
+  @override
+  String get csLightPromptPainted =>
+      'वह रोशनी चुनें जो चित्रित रंगों को सही रखे।';
+
+  @override
+  String get csLightPromptSilk =>
+      'वह रोशनी चुनें जो आपके रेशम को सबसे अच्छा दिखाए।';
+
+  @override
+  String get csLightPromptDefault =>
+      'वह रोशनी चुनें जो आपके उत्पाद को सबसे अच्छा दिखाए।';
+
+  @override
+  String get csLightWhyPanel =>
+      'सही — सामने से नरम, बराबर, फैली हुई रोशनी। प्राकृतिक रंग सही दिखते हैं और कैमरे में कोई चमक नहीं आती। फ़्लैश कभी न चलाएँ।';
+
+  @override
+  String get csLightWhyPainted =>
+      'सही — सामने से बराबर रोशनी रंगों को सही रखती है, चित्रित सतह पर कोई चमक नहीं।';
+
+  @override
+  String get csLightWhySilk => 'सही — बग़ल की रोशनी रेशम की चमक पकड़ लेती है।';
+
+  @override
+  String get csLightWhyCotton =>
+      'सही — सामने से नरम रोशनी सूती को कोमल और उसके रंगों को सही रखती है।';
+
+  @override
+  String get csLightWrongPanel =>
+      'बग़ल से पड़ती तिरछी रोशनी ब्रश के काम पर परछाइयाँ डालती है और सतह पर चमक ले आती है। रोशनी बराबर और फैली हुई रखें।';
+
+  @override
+  String get csLightWrongPainted =>
+      'बग़ल की रोशनी चित्रित काम पर परछाइयाँ डालती है। रोशनी नरम और बराबर रखें।';
+
+  @override
+  String get csLightWrongSilk =>
+      'सामने की सपाट रोशनी चमक मार देती है। रोशनी को बग़ल में ले आएँ।';
+
+  @override
+  String get csLightWrongCotton =>
+      'बग़ल की तेज़ रोशनी सूती को खुरदरा दिखाती है। सामने से नरम रोशनी रखें।';
+
+  @override
+  String get csLightWrongBacklight =>
+      'पीछे की रोशनी आपके उत्पाद को परछाईं बना देती है। इसे मोटाई वाली तस्वीर के लिए रखें।';
+
+  @override
+  String get csLightTipDoThisBadge => 'ऐसा करें';
+
+  @override
+  String get csLightTipDoThisBody =>
+      'बड़ी खिड़की की नरम रोशनी, पर्दा खींचा हुआ। पूरे पैनल पर बराबर रोशनी — हर रंग सही, कोई चमक नहीं।';
+
+  @override
+  String get csLightTipNeverFlashBadge => 'फ़्लैश कभी नहीं';
+
+  @override
+  String get csLightTipNeverFlashBody =>
+      'फ़्लैश सीधा लौटकर आता है — एक सफ़ेद चमकीला धब्बा पेंटिंग को जला देता है।';
+
+  @override
+  String get csLightTipAvoidSideBadge => 'तेज़ बग़ल की रोशनी से बचें';
+
+  @override
+  String get csLightTipAvoidSideBody =>
+      'एक तरफ़ से आती लैंप या धूप ब्रश के काम पर परछाइयाँ खींच देती है और कपड़े की बुनावट पेंटिंग से टकराने लगती है।';
+
+  @override
+  String get csLightNowPick => 'अब सही रोशनी चुनें';
+
+  @override
+  String get csNextShootYours => 'आगे — अपनी फ़ोटो लें';
+
+  @override
+  String get csFinishEarnBadge => 'पूरा करें — बैज पाएँ';
 }

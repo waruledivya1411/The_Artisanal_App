@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/capture/presentation/capture_page.dart';
+import '../features/checklist/presentation/frame_guide_page.dart';
+import '../features/checklist/presentation/framing_quiz_page.dart';
+import '../features/checklist/presentation/light_quiz_page.dart';
 import '../features/checklist/presentation/material_selection_page.dart';
 import '../features/checklist/presentation/photo_list_page.dart';
+import '../features/checklist/presentation/pick_frames_page.dart';
 import '../features/checklist/presentation/product_setup_page.dart';
 import '../features/checklist/presentation/silk_type_page.dart';
+import '../features/checklist/presentation/technique_selection_page.dart';
 import '../features/completion/presentation/completion_page.dart';
-import '../features/gallery/presentation/gallery_page.dart';
 import '../features/gallery/presentation/product_viewer_page.dart';
-import '../features/home/presentation/home_page.dart';
+import '../features/home/presentation/click_social_home_page.dart';
+import '../features/home/presentation/create_post_page.dart';
+import '../features/home/presentation/instagram_setup_page.dart';
+import '../features/home/presentation/posting_plan_page.dart';
+import '../features/home/presentation/practice_feed_page.dart';
+import '../features/home/presentation/progress_badges_page.dart';
+import '../features/home/presentation/read_the_numbers_page.dart';
 import '../features/instruction/presentation/lighting_setup_page.dart';
 import '../features/instruction/presentation/tutorial_page.dart';
 import '../features/onboarding/presentation/opening_sequence_page.dart';
@@ -17,6 +27,7 @@ import '../features/review/presentation/review_page.dart';
 import '../features/settings/presentation/settings_page.dart';
 import '../features/shot_type/presentation/shot_and_style_page.dart';
 import '../shared/widgets/app_shell.dart';
+import 'theme/app_colors.dart';
 
 /// Route names, referenced by screens rather than raw path strings.
 abstract final class AppRoute {
@@ -24,7 +35,17 @@ abstract final class AppRoute {
   static const String home = 'home';
   static const String gallery = 'gallery';
   static const String settings = 'settings';
+  static const String account = 'account';
+  static const String instagramSetup = 'instagramSetup';
+  static const String createPost = 'createPost';
+  static const String postingPlan = 'postingPlan';
+  static const String readTheNumbers = 'readTheNumbers';
   static const String productSetup = 'productSetup';
+  static const String technique = 'technique';
+  static const String framingQuiz = 'framingQuiz';
+  static const String pickFrames = 'pickFrames';
+  static const String frameGuide = 'frameGuide';
+  static const String lightQuiz = 'lightQuiz';
   static const String material = 'material';
   static const String silkType = 'silkType';
   static const String photoList = 'photoList';
@@ -59,37 +80,61 @@ GoRouter createRouter() {
           GoRoute(
             path: '/home',
             name: AppRoute.home,
-            builder: (context, state) => const HomePage(),
+            builder: (context, state) => const ClickSocialHomePage(),
           ),
           GoRoute(
             path: '/gallery',
             name: AppRoute.gallery,
-            builder: (context, state) => const GalleryPage(),
+            builder: (context, state) => const PracticeFeedPage(),
           ),
           GoRoute(
             path: '/settings',
             name: AppRoute.settings,
-            builder: (context, state) => const SettingsPage(),
+            builder: (context, state) => const ProgressBadgesPage(),
           ),
         ],
       ),
 
-      // The capture flow runs above the shell so the bottom bar is out of the
-      // way once a shoot has started.
+      // Account / cloud backup (former Settings tab), opened from Progress.
       GoRoute(
-        path: '/product/material',
-        name: AppRoute.material,
+        path: '/account',
+        name: AppRoute.account,
         parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => const MaterialSelectionPage(),
-      ),
-      GoRoute(
-        path: '/product/silk-type',
-        name: AppRoute.silkType,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => SilkTypePage(
-          materialId: state.uri.queryParameters['material'],
+        builder: (context, state) => const Scaffold(
+          backgroundColor: AppColors.background,
+          body: SettingsPage(),
         ),
       ),
+
+      // Lesson screens sit above the shell (no bottom bar), like capture.
+      GoRoute(
+        path: '/lesson/instagram',
+        name: AppRoute.instagramSetup,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const InstagramSetupPage(),
+      ),
+      GoRoute(
+        path: '/lesson/create-post',
+        name: AppRoute.createPost,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const CreatePostPage(),
+      ),
+      GoRoute(
+        path: '/lesson/posting-plan',
+        name: AppRoute.postingPlan,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const PostingPlanPage(),
+      ),
+      GoRoute(
+        path: '/lesson/read-the-numbers',
+        name: AppRoute.readTheNumbers,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const ReadTheNumbersPage(),
+      ),
+
+      // The capture flow runs above the shell so the bottom bar is out of the
+      // way once a shoot has started.
+      // Capture setup: product → material → technique → variety → quizzes → list.
       GoRoute(
         path: '/product/setup',
         name: AppRoute.productSetup,
@@ -98,6 +143,91 @@ GoRouter createRouter() {
           setId: state.uri.queryParameters['setId'],
           materialId: state.uri.queryParameters['material'],
           silkTypeId: state.uri.queryParameters['silkType'],
+        ),
+      ),
+      GoRoute(
+        path: '/product/material',
+        name: AppRoute.material,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => MaterialSelectionPage(
+          categoryId: state.uri.queryParameters['category'],
+          productName: state.uri.queryParameters['name'],
+        ),
+      ),
+      GoRoute(
+        path: '/product/technique',
+        name: AppRoute.technique,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => TechniqueSelectionPage(
+          categoryId: state.uri.queryParameters['category'],
+          productName: state.uri.queryParameters['name'],
+          materialId: state.uri.queryParameters['material'],
+        ),
+      ),
+      GoRoute(
+        path: '/product/silk-type',
+        name: AppRoute.silkType,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => SilkTypePage(
+          materialId: state.uri.queryParameters['material'],
+          categoryId: state.uri.queryParameters['category'],
+          productName: state.uri.queryParameters['name'],
+          technique: state.uri.queryParameters['technique'],
+        ),
+      ),
+      GoRoute(
+        path: '/product/:setId/pick-frames',
+        name: AppRoute.pickFrames,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => PickFramesPage(
+          setId: state.pathParameters['setId']!,
+          categoryId: state.uri.queryParameters['category'] ?? 'saree',
+          materialId: state.uri.queryParameters['material'],
+          technique: state.uri.queryParameters['technique'],
+        ),
+      ),
+      GoRoute(
+        path: '/product/:setId/framing-quiz',
+        name: AppRoute.framingQuiz,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final framesRaw = state.uri.queryParameters['frames'] ?? '';
+          final frames = framesRaw
+              .split(',')
+              .map((e) => int.tryParse(e.trim()))
+              .whereType<int>()
+              .toList();
+          return FramingQuizPage(
+            setId: state.pathParameters['setId']!,
+            categoryId: state.uri.queryParameters['category'] ?? 'saree',
+            frameIndexes: frames,
+            materialId: state.uri.queryParameters['material'],
+            technique: state.uri.queryParameters['technique'],
+          );
+        },
+      ),
+      GoRoute(
+        path: '/product/:setId/frame-guide',
+        name: AppRoute.frameGuide,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => FrameGuidePage(
+          setId: state.pathParameters['setId']!,
+          frameIndex:
+              int.tryParse(state.uri.queryParameters['frame'] ?? '') ?? 0,
+          clusterId: state.uri.queryParameters['cluster'],
+          categoryId: state.uri.queryParameters['category'],
+          technique: state.uri.queryParameters['technique'],
+        ),
+      ),
+      GoRoute(
+        path: '/product/:setId/light-quiz',
+        name: AppRoute.lightQuiz,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => LightQuizPage(
+          setId: state.pathParameters['setId']!,
+          categoryId: state.uri.queryParameters['category'],
+          materialId: state.uri.queryParameters['material'],
+          technique: state.uri.queryParameters['technique'],
         ),
       ),
       GoRoute(

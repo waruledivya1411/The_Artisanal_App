@@ -982,4 +982,194 @@ abstract final class AppCopy {
         LightingAdvisoryReason.tooDark => l10n.advisoryDarkDetail,
         LightingAdvisoryReason.hazyOrCloudy => l10n.advisoryDarkDetail,
       };
+
+  static String clusterPlace(AppLocalizations l10n, String id) => switch (id) {
+        'assam' => l10n.csClusterAssamPlace,
+        'srikalahasti' => l10n.csClusterSrikalahastiPlace,
+        'venkatgiri' => l10n.csClusterVenkatgiriPlace,
+        'maniabandha' => l10n.csClusterManiabandhaPlace,
+        'gopalpur' => l10n.csClusterGopalpurPlace,
+        'nagaland' => l10n.csClusterNagalandPlace,
+        _ => '',
+      };
+
+  static String clusterFabric(AppLocalizations l10n, String id) => switch (id) {
+        'assam' => l10n.csClusterAssamFabric,
+        'srikalahasti' => l10n.csClusterSrikalahastiFabric,
+        'venkatgiri' => l10n.csClusterVenkatgiriFabric,
+        'maniabandha' => l10n.csClusterManiabandhaFabric,
+        'gopalpur' => l10n.csClusterGopalpurFabric,
+        'nagaland' => l10n.csClusterNagalandFabric,
+        _ => '',
+      };
+
+  static String clusterShortName(AppLocalizations l10n, String id) =>
+      switch (id) {
+        'assam' => l10n.csClusterAssamShortName,
+        'srikalahasti' => l10n.csClusterSrikalahastiShortName,
+        'venkatgiri' => l10n.csClusterVenkatgiriShortName,
+        'maniabandha' => l10n.csClusterManiabandhaShortName,
+        'gopalpur' => l10n.csClusterGopalpurShortName,
+        'nagaland' => l10n.csClusterNagalandShortName,
+        _ => '',
+      };
+
+  static List<String> clusterBioLines(AppLocalizations l10n, String id) =>
+      switch (id) {
+        'assam' => [
+          l10n.csClusterAssamBio0,
+          l10n.csClusterAssamBio1,
+          l10n.csClusterAssamBio2,
+          l10n.csClusterAssamBio3,
+          l10n.csClusterAssamBio4,
+        ],
+        'srikalahasti' => [
+          l10n.csClusterSrikalahastiBio0,
+          l10n.csClusterSrikalahastiBio1,
+          l10n.csClusterSrikalahastiBio2,
+          l10n.csClusterSrikalahastiBio3,
+          l10n.csClusterSrikalahastiBio4,
+        ],
+        'venkatgiri' => [
+          l10n.csClusterVenkatgiriBio0,
+          l10n.csClusterVenkatgiriBio1,
+          l10n.csClusterVenkatgiriBio2,
+          l10n.csClusterVenkatgiriBio3,
+          l10n.csClusterVenkatgiriBio4,
+        ],
+        'maniabandha' => [
+          l10n.csClusterManiabandhaBio0,
+          l10n.csClusterManiabandhaBio1,
+          l10n.csClusterManiabandhaBio2,
+          l10n.csClusterManiabandhaBio3,
+          l10n.csClusterManiabandhaBio4,
+        ],
+        'gopalpur' => [
+          l10n.csClusterGopalpurBio0,
+          l10n.csClusterGopalpurBio1,
+          l10n.csClusterGopalpurBio2,
+          l10n.csClusterGopalpurBio3,
+          l10n.csClusterGopalpurBio4,
+        ],
+        'nagaland' => [
+          l10n.csClusterNagalandBio0,
+          l10n.csClusterNagalandBio1,
+          l10n.csClusterNagalandBio2,
+          l10n.csClusterNagalandBio3,
+          l10n.csClusterNagalandBio4,
+        ],
+        _ => const [],
+      };
+
+  /// Caption building blocks as `(kicker, text)` pairs.
+  static List<(String, String)> clusterStoryBlocks(
+    AppLocalizations l10n,
+    String id,
+  ) {
+    final story = switch (id) {
+      'assam' => (
+        l10n.csClusterAssamStoryHeritage,
+        l10n.csClusterAssamStoryMaterial,
+        l10n.csClusterAssamStoryProcess,
+      ),
+      'srikalahasti' => (
+        l10n.csClusterSrikalahastiStoryHeritage,
+        l10n.csClusterSrikalahastiStoryMaterial,
+        l10n.csClusterSrikalahastiStoryProcess,
+      ),
+      'venkatgiri' => (
+        l10n.csClusterVenkatgiriStoryHeritage,
+        l10n.csClusterVenkatgiriStoryMaterial,
+        l10n.csClusterVenkatgiriStoryProcess,
+      ),
+      'maniabandha' => (
+        l10n.csClusterManiabandhaStoryHeritage,
+        l10n.csClusterManiabandhaStoryMaterial,
+        l10n.csClusterManiabandhaStoryProcess,
+      ),
+      'gopalpur' => (
+        l10n.csClusterGopalpurStoryHeritage,
+        l10n.csClusterGopalpurStoryMaterial,
+        l10n.csClusterGopalpurStoryProcess,
+      ),
+      'nagaland' => (
+        l10n.csClusterNagalandStoryHeritage,
+        l10n.csClusterNagalandStoryMaterial,
+        l10n.csClusterNagalandStoryProcess,
+      ),
+      _ => null,
+    };
+    if (story == null) return const [];
+    // Stable English kickers so selection state survives locale switches.
+    return [
+      ('HERITAGE', story.$1),
+      ('MATERIAL', story.$2),
+      ('PROCESS', story.$3),
+    ];
+  }
+
+  static List<String> clusterTags(AppLocalizations l10n, String id) =>
+      switch (id) {
+        'assam' => [
+          l10n.csClusterAssamTag0,
+          l10n.csClusterAssamTag1,
+          l10n.csClusterAssamTag2,
+          l10n.csClusterAssamTag3,
+          l10n.csClusterAssamTag4,
+          l10n.csClusterAssamTag5,
+          l10n.csClusterAssamTag6,
+          l10n.csClusterAssamTag7,
+        ],
+        'srikalahasti' => [
+          l10n.csClusterSrikalahastiTag0,
+          l10n.csClusterSrikalahastiTag1,
+          l10n.csClusterSrikalahastiTag2,
+          l10n.csClusterSrikalahastiTag3,
+          l10n.csClusterSrikalahastiTag4,
+          l10n.csClusterSrikalahastiTag5,
+          l10n.csClusterSrikalahastiTag6,
+          l10n.csClusterSrikalahastiTag7,
+        ],
+        'venkatgiri' => [
+          l10n.csClusterVenkatgiriTag0,
+          l10n.csClusterVenkatgiriTag1,
+          l10n.csClusterVenkatgiriTag2,
+          l10n.csClusterVenkatgiriTag3,
+          l10n.csClusterVenkatgiriTag4,
+          l10n.csClusterVenkatgiriTag5,
+          l10n.csClusterVenkatgiriTag6,
+          l10n.csClusterVenkatgiriTag7,
+        ],
+        'maniabandha' => [
+          l10n.csClusterManiabandhaTag0,
+          l10n.csClusterManiabandhaTag1,
+          l10n.csClusterManiabandhaTag2,
+          l10n.csClusterManiabandhaTag3,
+          l10n.csClusterManiabandhaTag4,
+          l10n.csClusterManiabandhaTag5,
+          l10n.csClusterManiabandhaTag6,
+          l10n.csClusterManiabandhaTag7,
+        ],
+        'gopalpur' => [
+          l10n.csClusterGopalpurTag0,
+          l10n.csClusterGopalpurTag1,
+          l10n.csClusterGopalpurTag2,
+          l10n.csClusterGopalpurTag3,
+          l10n.csClusterGopalpurTag4,
+          l10n.csClusterGopalpurTag5,
+          l10n.csClusterGopalpurTag6,
+          l10n.csClusterGopalpurTag7,
+        ],
+        'nagaland' => [
+          l10n.csClusterNagalandTag0,
+          l10n.csClusterNagalandTag1,
+          l10n.csClusterNagalandTag2,
+          l10n.csClusterNagalandTag3,
+          l10n.csClusterNagalandTag4,
+          l10n.csClusterNagalandTag5,
+          l10n.csClusterNagalandTag6,
+          l10n.csClusterNagalandTag7,
+        ],
+        _ => const [],
+      };
 }

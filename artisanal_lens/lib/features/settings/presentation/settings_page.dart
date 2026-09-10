@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/locale_controller.dart';
 import '../../../app/theme/app_colors.dart';
@@ -25,16 +26,32 @@ class SettingsPage extends ConsumerWidget {
           bottom: false,
           child: Container(
             height: AppDimens.appBarHeight,
-            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             decoration: const BoxDecoration(
               color: AppColors.backgroundAlt,
               border: Border(bottom: BorderSide(color: AppColors.divider)),
             ),
-            child: Text(
-              l10n.settings,
-              style: AppTypography.displayMedium.copyWith(
-                color: AppColors.primary,
-              ),
+            child: Row(
+              children: [
+                if (Navigator.of(context).canPop())
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    color: AppColors.textPrimary,
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                else
+                  const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    l10n.settings,
+                    textAlign: TextAlign.center,
+                    style: AppTypography.displayMedium.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 48),
+              ],
             ),
           ),
         ),
@@ -62,10 +79,11 @@ class SettingsPage extends ConsumerWidget {
               const SizedBox(height: AppDimens.space12),
               RadioGroup<AppLanguage>(
                 groupValue: selected,
-                onChanged: (value) {
-                  if (value != null) {
-                    ref.read(localeProvider.notifier).select(value);
-                  }
+                onChanged: (value) async {
+                  if (value == null) return;
+                  await ref.read(localeProvider.notifier).select(value);
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString('click_social_language', value.code);
                 },
                 child: Column(
                   children: [

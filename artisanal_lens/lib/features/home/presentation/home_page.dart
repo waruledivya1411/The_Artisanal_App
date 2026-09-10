@@ -120,7 +120,7 @@ class _NewProductCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppDimens.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-        onTap: () => context.pushNamed(AppRoute.material),
+        onTap: () => context.pushNamed(AppRoute.productSetup),
         child: SizedBox(
           height: 136,
           child: Column(

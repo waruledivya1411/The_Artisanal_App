@@ -10,9 +10,16 @@ import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/choice_image_grid.dart';
 import '../../../shared/widgets/common.dart';
 
-/// First New Product step: Silk, Cotton, Wool or Jute.
+/// Step 2 — What is it made of?
 class MaterialSelectionPage extends StatefulWidget {
-  const MaterialSelectionPage({super.key});
+  const MaterialSelectionPage({
+    this.categoryId,
+    this.productName,
+    super.key,
+  });
+
+  final String? categoryId;
+  final String? productName;
 
   @override
   State<MaterialSelectionPage> createState() => _MaterialSelectionPageState();
@@ -44,8 +51,16 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
         ),
         children: [
           Text(
-            l10n.materialHeadline,
+            'What is it made of?',
             style: AppTypography.displayLarge,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'The material decides the light.',
+            style: AppTypography.labelSmall.copyWith(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
           ),
           const SizedBox(height: AppDimens.space20),
           ChoiceImageGrid(
@@ -66,7 +81,7 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
         child: FilledButton.icon(
           onPressed: selected == null ? null : () => _continue(selected),
           icon: const Icon(Icons.arrow_forward, size: 20),
-          label: Text(l10n.continueAction),
+          label: const Text('NEXT — TECHNIQUE'),
         ),
       ),
     );
@@ -74,8 +89,12 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
 
   void _continue(FabricMaterial material) {
     context.pushNamed(
-      AppRoute.silkType,
-      queryParameters: {'material': material.id},
+      AppRoute.technique,
+      queryParameters: {
+        if (widget.categoryId != null) 'category': widget.categoryId!,
+        if (widget.productName != null) 'name': widget.productName!,
+        'material': material.id,
+      },
     );
   }
 }

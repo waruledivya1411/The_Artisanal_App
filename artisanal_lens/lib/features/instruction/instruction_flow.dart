@@ -12,12 +12,18 @@ import '../capture/capture_session_controller.dart';
 /// session always carries the chosen set, shot type and slot. Style is
 /// inserted when the photograph needs a fold. Close-ups skip it and go
 /// Lighting → Camera.
+///
+/// Set [closeCurrentPage] when the caller is itself a page the artisan should
+/// not come back to — the Click & Social frame guide ends on "Take the shot".
 void beginCaptureForSlot(
   BuildContext context,
   WidgetRef ref, {
   required String setId,
   required ShotSlot slot,
+  bool closeCurrentPage = false,
 }) {
+  // Held rather than used through `context`, which is gone after the pop below.
+  final router = GoRouter.of(context);
   final skipsStyle =
       slot.template?.skipsStyleStep ?? slot.shotType.skipsStyleStep;
   ref.read(captureSessionProvider.notifier)
@@ -26,18 +32,13 @@ void beginCaptureForSlot(
       slot.shotType,
       slotIndex: slot.index,
       skipsStyle: skipsStyle,
+      template: slot.template,
     );
 
-  if (skipsStyle) {
-    context.pushNamed(
-      AppRoute.lightingSetup,
-      pathParameters: {'setId': setId},
-    );
-    return;
-  }
+  if (closeCurrentPage && router.canPop()) router.pop();
 
-  context.pushNamed(
-    AppRoute.shotAndStyle,
+  router.pushNamed(
+    skipsStyle ? AppRoute.lightingSetup : AppRoute.shotAndStyle,
     pathParameters: {'setId': setId},
   );
 }

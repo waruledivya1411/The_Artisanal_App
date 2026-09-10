@@ -3,15 +3,15 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/router.dart';
 import '../../app/theme/app_colors.dart';
-import '../../app/theme/app_dimens.dart';
 import '../../app/theme/app_typography.dart';
 import '../../l10n/app_localizations.dart';
 
-/// The bottom navigation shell.
+/// Bottom navigation matching Click & Social HTML: LEARN · PRACTICE · PROGRESS.
 ///
-/// Four destinations, matching the "Bottom Navigation Shell" component in
-/// Figma: Home, Gallery, New Product and Settings. "New Product" is an action
-/// rather than a tab — it starts the setup flow above the shell.
+/// Wired to existing app routes:
+/// - LEARN → home lesson path
+/// - PRACTICE → gallery (practice feed)
+/// - PROGRESS → settings (badges + edit profile)
 class AppShell extends StatelessWidget {
   const AppShell({required this.child, super.key});
 
@@ -38,39 +38,33 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.backgroundAlt,
-        border: Border(top: BorderSide(color: AppColors.divider)),
+        color: AppColors.background,
+        border: Border(top: BorderSide(color: AppColors.divider, width: 2)),
       ),
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: AppDimens.bottomNavHeight,
+          height: 58,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _NavItem(
                 icon: Icons.home_outlined,
-                label: l10n.navHome,
+                label: l10n.csNavLearn,
                 isActive: location == '/home',
                 onTap: () => context.goNamed(AppRoute.home),
               ),
               _NavItem(
-                icon: Icons.photo_library_outlined,
-                label: l10n.navGallery,
+                icon: Icons.photo_camera_outlined,
+                label: l10n.csNavPractice,
                 isActive: location == '/gallery',
                 onTap: () => context.goNamed(AppRoute.gallery),
               ),
               _NavItem(
-                icon: Icons.add_a_photo_outlined,
-                label: l10n.navNewProduct,
-                isActive: false,
-                onTap: () => context.pushNamed(AppRoute.material),
-              ),
-              _NavItem(
-                icon: Icons.settings_outlined,
-                label: l10n.navSettings,
+                icon: Icons.military_tech_outlined,
+                label: l10n.csNavProgress,
                 isActive: location == '/settings',
                 onTap: () => context.goNamed(AppRoute.settings),
               ),
@@ -97,39 +91,26 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The active destination is drawn as a filled terracotta pill wrapping
-    // both icon and label.
-    final foreground =
-        isActive ? AppColors.textOnPrimary : AppColors.textSecondary;
+    final color = isActive ? AppColors.primary : AppColors.textPrimary;
 
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(AppDimens.radiusPill),
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppDimens.space16,
-              vertical: AppDimens.space8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 22, color: color),
+            const SizedBox(height: 3),
+            Text(
+              label,
+              style: AppTypography.navLabel.copyWith(
+                fontSize: 9,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.0,
+                color: color,
+              ),
             ),
-            decoration: BoxDecoration(
-              color: isActive ? AppColors.primaryLight : Colors.transparent,
-              borderRadius: BorderRadius.circular(AppDimens.radiusPill),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, size: 22, color: foreground),
-                const SizedBox(height: 2),
-                Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTypography.navLabel.copyWith(color: foreground),
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );
