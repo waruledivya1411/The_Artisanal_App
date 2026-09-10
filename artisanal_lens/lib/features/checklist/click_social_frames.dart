@@ -62,6 +62,7 @@ class ClickSocialFrame {
     required this.thumbAsset,
     required this.arch,
     required this.tipDetail,
+    required this.gridPath,
   });
 
   /// Position in the HTML frame list, 0..11. Persisted, so it is the identity.
@@ -82,11 +83,22 @@ class ClickSocialFrame {
   /// Second half of HTML `shotDefs[i][1]` — the grid the frame teaches.
   final String tipDetail;
 
-  GridOverlayType get grid => switch (arch) {
-        FrameArch.thirds => GridOverlayType.ruleOfThirds,
-        FrameArch.center => GridOverlayType.centerFocus,
-        FrameArch.diag => GridOverlayType.leadingLines,
-        FrameArch.detail => GridOverlayType.detailFrame,
+  /// HTML `gridPaths[i]` in a 100×100 viewBox — unique per frame, not per arch.
+  final String gridPath;
+
+  /// Coarse overlay type for the analyser; drawing prefers [gridPath].
+  GridOverlayType get grid => switch (index) {
+        0 || 5 || 7 || 10 => GridOverlayType.ruleOfThirds,
+        1 || 6 || 8 || 11 => GridOverlayType.centerFocus,
+        2 || 9 => GridOverlayType.leadingLines,
+        3 => GridOverlayType.detailFrame,
+        4 => GridOverlayType.horizontalFolds,
+        _ => switch (arch) {
+            FrameArch.thirds => GridOverlayType.ruleOfThirds,
+            FrameArch.center => GridOverlayType.centerFocus,
+            FrameArch.diag => GridOverlayType.leadingLines,
+            FrameArch.detail => GridOverlayType.detailFrame,
+          },
       };
 
   /// HTML `shotDefs[i][1]` — content plus the grid, as shown on the checklist.
@@ -160,6 +172,10 @@ class ClickSocialFrame {
 }
 
 /// The twelve frames, in HTML order. Index is the persisted identity.
+/// The twelve frames, in HTML order. Index is the persisted identity.
+///
+/// Each [ClickSocialFrame.gridPath] is the matching HTML `gridPaths[i]` string
+/// (100×100 viewBox) — kept inline so this list stays a compile-time constant.
 const clickSocialFrames = <ClickSocialFrame>[
   ClickSocialFrame(
     index: 0,
@@ -168,6 +184,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-full-form.jpg',
     arch: FrameArch.thirds,
     tipDetail: 'rule of thirds grid',
+    gridPath: 'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100',
   ),
   ClickSocialFrame(
     index: 1,
@@ -176,6 +193,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-close-motif.jpg',
     arch: FrameArch.center,
     tipDetail: 'center focus grid',
+    gridPath: 'M30 28h40v44h-40zM50 0v28M50 72v100',
   ),
   ClickSocialFrame(
     index: 2,
@@ -184,6 +202,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-drape-pleats.jpg',
     arch: FrameArch.diag,
     tipDetail: 'leading lines grid',
+    gridPath: 'M0 100L100 0M0 55L55 0M45 100L100 45',
   ),
   ClickSocialFrame(
     index: 3,
@@ -192,6 +211,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-border-folds.jpg',
     arch: FrameArch.detail,
     tipDetail: 'detail frame grid',
+    gridPath: 'M52 8h36v34h-36zM0 100L100 34',
   ),
   ClickSocialFrame(
     index: 4,
@@ -200,6 +220,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-folded-layers.jpg',
     arch: FrameArch.detail,
     tipDetail: 'horizontal & diagonal grid',
+    gridPath: 'M0 33h100M0 66h100M0 82L100 22',
   ),
   ClickSocialFrame(
     index: 5,
@@ -208,6 +229,8 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-drape-chair-pink.jpg',
     arch: FrameArch.thirds,
     tipDetail: 'rule of thirds + reference',
+    gridPath:
+        'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100M74 66.6a8 10 0 1 1-.1 0',
   ),
   ClickSocialFrame(
     index: 6,
@@ -216,6 +239,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/stole-flatlay.png',
     arch: FrameArch.center,
     tipDetail: 'symmetric grid + props',
+    gridPath: 'M50 0v100M0 50h100M18 14h64v72h-64z',
   ),
   ClickSocialFrame(
     index: 7,
@@ -224,6 +248,8 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-drape-chair.jpg',
     arch: FrameArch.thirds,
     tipDetail: 'eye-level rule of thirds',
+    gridPath:
+        'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100M22 26h56v48h-56z',
   ),
   ClickSocialFrame(
     index: 8,
@@ -232,6 +258,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/stole-hung.webp',
     arch: FrameArch.center,
     tipDetail: 'center vertical axis',
+    gridPath: 'M50 0v100M0 50h100',
   ),
   ClickSocialFrame(
     index: 9,
@@ -240,6 +267,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/ex-border-flat.jpg',
     arch: FrameArch.diag,
     tipDetail: 'diagonal close-up grid',
+    gridPath: 'M0 100L100 0M0 70L70 0M30 100L100 30',
   ),
   ClickSocialFrame(
     index: 10,
@@ -248,6 +276,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/making-assam.jpg',
     arch: FrameArch.thirds,
     tipDetail: 'rule of thirds',
+    gridPath: 'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100',
   ),
   ClickSocialFrame(
     index: 11,
@@ -256,6 +285,7 @@ const clickSocialFrames = <ClickSocialFrame>[
     thumbAsset: '$_guides/kal-panel-tree.jpg',
     arch: FrameArch.center,
     tipDetail: 'square-on, no glare · symmetric grid',
+    gridPath: 'M12 10h76v80h-76zM22 20h56v60h-56z',
   ),
 ];
 
@@ -377,6 +407,7 @@ PhotographyTemplate asTemplate(ClickSocialFrame f, {String? thumbAsset}) {
     name: f.name,
     content: f.content,
     grid: f.grid,
+    gridPath: f.gridPath,
     composition: switch (f.arch) {
       FrameArch.thirds => CompositionRule.ruleOfThirds,
       FrameArch.center => CompositionRule.centerFocus,

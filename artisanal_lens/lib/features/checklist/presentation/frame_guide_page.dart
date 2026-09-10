@@ -4,19 +4,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
-import '../../../domain/entities/shot_set.dart';
-import '../../../domain/entities/shot_type.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/click_social_clusters.dart';
-import '../../home/shot_sets_controller.dart';
-import '../../instruction/instruction_flow.dart';
 import '../click_social_frames.dart';
 
 /// HTML photoStep 7 GUIDE — one frame, taught a page at a time.
 ///
-/// The last page is "TAKE THE SHOT", which closes the guide and starts the
-/// capture flow for the same frame: Lighting, then the camera.
+/// The last page is "TAKE THE SHOT", which closes the guide and expands that
+/// frame's drop zone on the checklist (HTML: drop / upload, not the camera).
 class FrameGuidePage extends ConsumerStatefulWidget {
   const FrameGuidePage({
     required this.setId,
@@ -121,31 +117,11 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
     _takeTheShot();
   }
 
-  /// Closes the guide and hands the same frame to the capture flow.
+  /// HTML TAKE THE SHOT: close the guide and expand that frame's drop zone.
   void _takeTheShot() {
     final frame = _frame;
     if (frame == null) return;
-    final set = ref.read(shotSetProvider(widget.setId));
-
-    beginCaptureForSlot(
-      context,
-      ref,
-      setId: widget.setId,
-      slot: ShotSlot(
-        shotType: ShotType.photography,
-        index: frame.index,
-        label: frame.name,
-        template: asTemplate(
-          frame,
-          thumbAsset: frame.thumbAssetFor(
-            clusterId: _clusterId,
-            categoryId: widget.categoryId ?? set?.categoryId,
-            technique: widget.technique,
-          ),
-        ),
-      ),
-      closeCurrentPage: true,
-    );
+    Navigator.of(context).pop(frame.index);
   }
 
   @override
@@ -310,14 +286,21 @@ class _StepBody extends StatelessWidget {
       builder: (context, constraints) {
         final height = (constraints.maxWidth / 2) * 140 / 200;
         return Container(
-          height: height.clamp(150.0, 260.0),
+          height: height.clamp(180.0, 280.0),
           clipBehavior: Clip.antiAlias,
           decoration: box,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                child: CustomPaint(
-                  painter: GuideDiagramPainter(step.diagram ?? 'grid'),
+                // CustomPaint with no child prefers Size.zero; without expand it
+                // collapses under Row's loose height and only the muted panel shows.
+                child: ColoredBox(
+                  color: AppColors.surface,
+                  child: CustomPaint(
+                    painter: GuideDiagramPainter(step.diagram ?? 'grid'),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
               Expanded(
@@ -333,22 +316,28 @@ class _StepBody extends StatelessWidget {
                       Positioned(
                         left: 6,
                         bottom: 6,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.textPrimary,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            photoLabel,
-                            style: AppTypography.navLabel.copyWith(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 0.8,
-                              color: AppColors.white,
+                        right: 6,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.textPrimary,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              photoLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.navLabel.copyWith(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.8,
+                                color: AppColors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -504,6 +493,7 @@ class GuideDiagramPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
     canvas.drawRect(Offset.zero & size, Paint()..color = AppColors.surface);
     canvas.save();
     canvas.scale(size.width / 200, size.height / 140);

@@ -97,6 +97,7 @@ class _CapturePageState extends ConsumerState<CapturePage> {
           if (camera.isReady)
             GuideOverlay(
               grid: technique.grid,
+              gridPath: session.template?.gridPath,
               // Live analysis already names the one thing to change. The
               // catalog caption is a static setup line and fights it.
               caption: overlayCaption,

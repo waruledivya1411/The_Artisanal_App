@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -11,10 +13,13 @@ import '../../../domain/entities/shot_guidance.dart';
 import '../../../domain/entities/shot_set.dart';
 import '../../../domain/entities/shot_type.dart';
 import '../../../l10n/app_copy.dart';
+import '../../../shared/painting/svg_path.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/shot_sets_controller.dart';
 import '../../instruction/instruction_flow.dart';
+import '../../home/click_social_lessons.dart';
 import '../click_social_frames.dart';
+import 'photo_lesson_chrome.dart';
 
 /// The required-photo checklist — the hub of the photography journey.
 ///
@@ -39,6 +44,9 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
   List<int>? _picks;
   String? _clusterId;
   String? _technique;
+
+  /// HTML `expandedShot` — which frame's drop zone is open.
+  int? _expandedShot;
 
   @override
   void initState() {
@@ -147,87 +155,200 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
   ) {
     final slots = _frameSlots(set, frames);
     final done = slots.where((slot) => slot.isFilled).length;
-    final next = slots.where((slot) => !slot.isFilled).firstOrNull;
-    final ratio = slots.isEmpty ? 1.0 : done / slots.length;
+    final allDone = done == slots.length && slots.isNotEmpty;
+    final left = slots.length - done;
+    final isPanel = clickSocialIsPanel(
+      categoryId: set.categoryId,
+      technique: _technique,
+    );
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(set.productName),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          AppDimens.pagePadding,
-          AppDimens.space20,
-          AppDimens.pagePadding,
-          AppDimens.space32,
-        ),
+    return PhotoLessonChrome(
+      stepIndex: isPanel ? 4 : 6,
+      isPanel: isPanel,
+      onBack: () => context.pop(),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
         children: [
-          Text(l10n.photosToCapture, style: AppTypography.displayLarge),
-          const SizedBox(height: AppDimens.space8),
-          Text(
-            'Open the guide, take the shot, drop it in, tick it off.',
-            style: AppTypography.bodyMedium,
-          ),
-          const SizedBox(height: AppDimens.space16),
-          Row(
-            children: [
-              Expanded(child: AppProgressBar(value: ratio)),
-              const SizedBox(width: AppDimens.space12),
-              Text(
-                '$done / ${slots.length}',
-                style: AppTypography.labelLargeBold.copyWith(
-                  color: AppColors.primary,
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: '${l10n.csPhotosToCaptureHeading} ',
+                  style: AppTypography.displayMedium.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
-              ),
-            ],
+                TextSpan(
+                  text: '$done/${slots.length}',
+                  style: AppTypography.displayMedium.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: AppDimens.space24),
+          const SizedBox(height: 6),
+          Text(
+            l10n.csOpenGuideDropTick,
+            style: AppTypography.labelSmall.copyWith(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 14),
           for (var i = 0; i < slots.length; i++) ...[
             _FrameSlotCard(
               slot: slots[i],
               frame: frames[i],
               tip: frames[i].tipFor(clusterId: _clusterId),
-              isNext: next != null && next.index == slots[i].index,
+              expanded: _expandedShot == frames[i].index,
+              onToggle: () => setState(() {
+                final id = frames[i].index;
+                _expandedShot = _expandedShot == id ? null : id;
+              }),
               onOpenGuide: () => _openGuide(set, frames[i].index),
-              onCapture: () => beginCaptureForSlot(
-                context,
-                ref,
-                setId: widget.setId,
-                slot: slots[i],
+              onDropZone: () => _pickAndSaveShot(slots[i]),
+              onMark: () => _markFrame(slots[i]),
+            ),
+            if (i != slots.length - 1) const SizedBox(height: 8),
+          ],
+          if (!allDone && left > 0) ...[
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              color: AppColors.surfaceMuted,
+              child: Text(
+                left == slots.length
+                    ? l10n.csDropFirstShot
+                    : l10n.csShotsLeft(left),
+                style: AppTypography.labelSmall.copyWith(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textSecondary,
+                ),
               ),
             ),
-            if (i != slots.length - 1) const SizedBox(height: AppDimens.space12),
           ],
-        ],
-      ),
-      bottomNavigationBar: BottomAction(
-        child: next == null
-            ? FilledButton.icon(
-                onPressed: () => context.pushNamed(
-                  AppRoute.completion,
-                  pathParameters: {'setId': widget.setId},
-                ),
-                icon: const Icon(Icons.check, size: 20),
-                label: Text(l10n.viewCompletedSet),
-              )
-            : FilledButton.icon(
-                // The lesson teaches the frame before the shutter, so the
-                // primary action is the guide, not the camera.
-                onPressed: () => _openGuide(set, next.index),
-                icon: const Icon(Icons.menu_book_outlined, size: 20),
-                label: Text('OPEN THE GUIDE — ${next.label.toUpperCase()}'),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 52,
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: allDone ? () => _finishPhotoLesson(l10n) : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                disabledBackgroundColor: AppColors.surfaceMuted,
+                foregroundColor: AppColors.white,
+                disabledForegroundColor: AppColors.textMuted,
+                shape: const RoundedRectangleBorder(),
               ),
+              child: Text(
+                l10n.csFinishEarnBadge,
+                style: AppTypography.labelLarge.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: allDone ? AppColors.white : AppColors.textMuted,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void _openGuide(ShotSet set, int frameIndex) {
-    context.pushNamed(
+  /// HTML `completePhoto`: badge toast → home (not the BTP completion screen).
+  Future<void> _finishPhotoLesson(AppLocalizations l10n) {
+    return ClickSocialLessons.complete(
+      context,
+      prefsKey: ClickSocialLessons.photoDoneKey,
+      badgeLabel: l10n.csBadgePhotographer,
+      routeName: AppRoute.home,
+    );
+  }
+
+  /// HTML `image-slot`: pick a photo from the library (no in-app camera).
+  Future<void> _pickAndSaveShot(ShotSlot slot) async {
+    if (slot.isFilled) return;
+
+    final picked = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 92,
+    );
+    if (picked == null || !mounted) return;
+
+    try {
+      final stored = await ref.read(photoStorageProvider).persist(
+            picked.path,
+            setId: widget.setId,
+          );
+      final savedToGallery =
+          await ref.read(photoStorageProvider).saveToDeviceGallery(stored);
+
+      final shot = CapturedShot(
+        id: 'shot_${DateTime.now().microsecondsSinceEpoch}',
+        setId: widget.setId,
+        shotType: ShotType.photography,
+        slotIndex: slot.index,
+        filePath: stored,
+        capturedAt: DateTime.now(),
+        savedToDeviceGallery: savedToGallery,
+      );
+
+      await ref
+          .read(shotSetsProvider.notifier)
+          .addShot(setId: widget.setId, shot: shot);
+
+      if (!mounted) return;
+      final latest = ref.read(shotSetProvider(widget.setId));
+      final frames = _frames;
+      final remaining = latest == null || frames == null
+          ? 0
+          : frames.where((f) => _shotFor(latest, f.index) == null).length;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            remaining == 0
+                ? AppLocalizations.of(context).csAllShotsSaved
+                : AppLocalizations.of(context).csShotSavedLeft(remaining),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not save photo: $error')),
+      );
+    }
+  }
+
+  /// HTML `mark`: tick by dropping a shot, or undo a filled slot.
+  Future<void> _markFrame(ShotSlot slot) async {
+    final shot = slot.shot;
+    if (shot != null) {
+      await ref.read(shotSetsProvider.notifier).removeShot(
+            setId: widget.setId,
+            shotId: shot.id,
+          );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context).csTickedUndo),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    await _pickAndSaveShot(slot);
+  }
+
+  Future<void> _openGuide(ShotSet set, int frameIndex) async {
+    final result = await context.pushNamed<int>(
       AppRoute.frameGuide,
       pathParameters: {'setId': widget.setId},
       queryParameters: {
@@ -238,6 +359,11 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
           'technique': _technique!,
       },
     );
+    if (!mounted) return;
+    // HTML TAKE THE SHOT closes the guide and expands that shot's drop zone.
+    if (result != null) {
+      setState(() => _expandedShot = result);
+    }
   }
 
   // ---------------------------------------------------------------- legacy
@@ -364,156 +490,300 @@ List<ShotSlot> _orderedSlots(ShotSet set) {
   ];
 }
 
-/// HTML `fiveShots` row: thumbnail, name, tip, and a GUIDE button.
+/// HTML `fiveShots` row: checkbox, thumb, name+tip, GUIDE, expandable drop zone.
 class _FrameSlotCard extends StatelessWidget {
   const _FrameSlotCard({
     required this.slot,
     required this.frame,
     required this.tip,
-    required this.isNext,
+    required this.expanded,
+    required this.onToggle,
     required this.onOpenGuide,
-    required this.onCapture,
+    required this.onDropZone,
+    required this.onMark,
   });
 
   final ShotSlot slot;
   final ClickSocialFrame frame;
   final String tip;
-  final bool isNext;
+  final bool expanded;
+  final VoidCallback onToggle;
   final VoidCallback onOpenGuide;
-  final VoidCallback onCapture;
+  final VoidCallback onDropZone;
+  final VoidCallback onMark;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final filled = slot.isFilled;
-    final borderColor = isNext
-        ? AppColors.primary
-        : filled
-            ? AppColors.successBorder
-            : AppColors.border;
-    final background = isNext
-        ? AppColors.surfaceSelected
-        : filled
-            ? AppColors.background
-            : AppColors.surface;
+    final boxBorder = filled ? AppColors.primary : AppColors.textPrimary;
+    final boxBg = filled ? AppColors.primary : Colors.transparent;
 
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-        border: Border.all(color: borderColor, width: isNext ? 2 : 1),
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.border),
       ),
-      // Intrinsic height so the GUIDE button and its divider run the full
-      // height of the row, as they do in the HTML.
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: InkWell(
-                // HTML flow: open the guide, then take the shot.
-                onTap: filled ? onCapture : onOpenGuide,
-                child: Padding(
-                  padding: const EdgeInsets.all(AppDimens.space12),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 56,
-                        height: 52,
-                        child: filled
-                            ? PhotoThumb(path: slot.shot!.filePath)
-                            : GuideImage(
-                                asset: slot.template!.referenceImageAsset!,
-                                fit: BoxFit.cover,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: onToggle,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 22,
+                            height: 22,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: boxBg,
+                              border: Border.all(color: boxBorder, width: 2),
+                            ),
+                            child: filled
+                                ? const Icon(
+                                    Icons.check,
+                                    size: 14,
+                                    color: AppColors.white,
+                                  )
+                                : null,
+                          ),
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: 48,
+                            height: 44,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: filled
+                                  ? PhotoThumb(path: slot.shot!.filePath)
+                                  : GuideImage(
+                                      asset:
+                                          slot.template!.referenceImageAsset!,
+                                      fit: BoxFit.cover,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  frame.name,
+                                  style: AppTypography.bodyLarge.copyWith(
+                                    fontSize: 13.5,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  tip,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.labelSmall.copyWith(
+                                    fontSize: 11,
+                                    color: AppColors.textMuted,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: AppDimens.space12),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                  ),
+                ),
+                const VerticalDivider(
+                  width: 2,
+                  thickness: 2,
+                  color: AppColors.divider,
+                ),
+                SizedBox(
+                  width: 64,
+                  child: TextButton(
+                    onPressed: onOpenGuide,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      shape: const RoundedRectangleBorder(),
+                      foregroundColor: AppColors.primary,
+                    ),
+                    child: Text(
+                      'GUIDE',
+                      style: AppTypography.navLabel.copyWith(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (expanded) ...[
+            const Divider(height: 2, thickness: 2, color: AppColors.divider),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: onDropZone,
+                      child: SizedBox(
+                        height: 150,
+                        child: Stack(
+                          fit: StackFit.expand,
                           children: [
-                            Text(
-                              frame.name,
-                              style: AppTypography.bodyLarge.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
+                            if (filled)
+                              ClipRRect(
+                                child: PhotoThumb(path: slot.shot!.filePath),
+                              )
+                            else
+                              ColoredBox(
+                                color: AppColors.surfaceMuted
+                                    .withValues(alpha: 0.35),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.image_outlined,
+                                        size: 28,
+                                        color: AppColors.textMuted
+                                            .withValues(alpha: 0.7),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
+                                        child: Text(
+                                          AppLocalizations.of(context)
+                                              .csDropYourShotHere(
+                                            frame.name.toLowerCase(),
+                                          ),
+                                          textAlign: TextAlign.center,
+                                          style: AppTypography.labelSmall
+                                              .copyWith(
+                                            fontSize: 12,
+                                            color: AppColors.textMuted,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            CustomPaint(
+                              painter: _DashedDropZonePainter(
+                                gridPath: frame.gridPath,
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              frame.content,
-                              style: AppTypography.labelSmall,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              tip,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTypography.labelSmall.copyWith(
-                                fontSize: 11,
-                                color: AppColors.textMuted,
-                              ),
-                            ),
-                            if (isNext) ...[
-                              const SizedBox(height: AppDimens.space8),
-                              AppPill(
-                                label: l10n.nextPill,
-                                background: AppColors.primary,
-                                foreground: AppColors.textOnPrimary,
-                              ),
-                            ],
                           ],
                         ),
                       ),
-                      const SizedBox(width: AppDimens.space8),
-                      if (filled)
-                        const CircleAvatar(
-                          radius: 14,
-                          backgroundColor: AppColors.success,
-                          child: Icon(
-                            Icons.check,
-                            size: 16,
-                            color: AppColors.white,
-                          ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 44,
+                    child: OutlinedButton(
+                      onPressed: onMark,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.textPrimary,
+                        side: const BorderSide(
+                          color: AppColors.border,
+                          width: 1.5,
                         ),
-                    ],
+                        shape: const RoundedRectangleBorder(),
+                      ),
+                      child: Text(
+                        filled
+                            ? AppLocalizations.of(context).csTickedUndo
+                            : AppLocalizations.of(context).csMarkAsTaken,
+                        style: AppTypography.labelLarge.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.4,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            const VerticalDivider(
-              width: 2,
-              thickness: 2,
-              color: AppColors.divider,
-            ),
-            SizedBox(
-              width: 64,
-              child: TextButton(
-                onPressed: onOpenGuide,
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shape: const RoundedRectangleBorder(),
-                  foregroundColor: AppColors.primary,
-                ),
-                child: Text(
-                  'GUIDE',
-                  style: AppTypography.navLabel.copyWith(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.8,
-                    color: AppColors.primary,
-                  ),
-                ),
+                ],
               ),
             ),
           ],
-        ),
+        ],
       ),
     );
   }
+}
+
+/// Drop-zone dashed border + per-frame HTML `gridPath` overlay.
+class _DashedDropZonePainter extends CustomPainter {
+  const _DashedDropZonePainter({required this.gridPath});
+
+  final String gridPath;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final border = Paint()
+      ..color = AppColors.border
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    _dashedRect(canvas, Offset.zero & size, border, dash: 6, gap: 4);
+
+    final grid = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.8)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0
+      ..strokeCap = StrokeCap.square;
+    paintSvgPath(canvas, size, gridPath, grid);
+  }
+
+  void _dashedRect(
+    Canvas canvas,
+    Rect rect,
+    Paint paint, {
+    required double dash,
+    required double gap,
+  }) {
+    void line(Offset from, Offset to) {
+      final delta = to - from;
+      final length = delta.distance;
+      if (length == 0) return;
+      final step = delta / length;
+      var travelled = 0.0;
+      while (travelled < length) {
+        final segment = (travelled + dash).clamp(0.0, length);
+        canvas.drawLine(from + step * travelled, from + step * segment, paint);
+        travelled += dash + gap;
+      }
+    }
+
+    line(rect.topLeft, rect.topRight);
+    line(rect.topRight, rect.bottomRight);
+    line(rect.bottomRight, rect.bottomLeft);
+    line(rect.bottomLeft, rect.topLeft);
+  }
+
+  @override
+  bool shouldRepaint(covariant _DashedDropZonePainter oldDelegate) =>
+      oldDelegate.gridPath != gridPath;
 }
 
 class _PhotoSlotCard extends StatelessWidget {

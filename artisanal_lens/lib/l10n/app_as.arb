@@ -759,7 +759,6 @@
   "authEmailNotConfirmed": "ইমেইল নিশ্চিত কৰক, তাৰ পিছত চেষ্টা কৰক।",
   "authGeneric": "ছাইন ইন কৰিব পৰা নগ’ল। পুনৰ চেষ্টা কৰক।",
   "languageAssamese": "অসমীয়া",
-  "languageHindi": "হিন্দী",
   "languageEnglish": "ইংৰাজী",
   "guideSareeDrapedLook1": "কাপোৰ স্বাভাৱিকভাৱে পৰিবলৈ দিয়ক।",
   "guideSareeDrapedLook2": "ভাঁজবোৰ তিৰ্যক ৰেখাৰে যায়।",
@@ -938,7 +937,7 @@
   "csFormatPost": "পোষ্ট",
   "csFormatStory": "ষ্ট'ৰী",
   "csFormatReel": "ৰীল",
-  "csPhotoPlaceholder": "পাঠ ০১ৰ আপোনাৰ ফটো — বা এখন ফটো দিয়ক",
+  "csPhotoPlaceholder": "পাঠ ০১ ৰ পৰা আপোনাৰ ফটো — বা ফটো বা ভিডিঅ' ড্ৰপ কৰক",
   "csExampleKotpad": "উদাহৰণ: এটা কোটপাড় পোষ্ট — ওচৰৰ পৰা তোলা ফটো, তাৰ পিছত দুটা শাৰীত শিল্প আৰু বয়নশিল্পীৰ নাম।",
   "csAddYourStory": "আপোনাৰ কাহিনী যোগ কৰক — শাৰীবোৰত টিপক",
   "csHashtagsPick": "হেছটেগ — ৩ৰ পৰা ৫ টা বাছক ",
@@ -1234,5 +1233,47 @@
   "csLightTipAvoidSideBody": "এফালৰ পৰা অহা বাতি বা ৰ'দে বুৰুচৰ কামত ছাঁ টানি আনে আৰু কাপোৰৰ বুননিয়ে ছবিখনৰ লগত যুঁজ লগায়।",
   "csLightNowPick": "এতিয়া সঠিক পোহৰটো বাছক",
   "csNextShootYours": "পৰৱৰ্তী — নিজৰ ফটো তোলক",
-  "csFinishEarnBadge": "সম্পূৰ্ণ কৰক — বেজ পাওক"
+  "csFinishEarnBadge": "সম্পূৰ্ণ কৰক — বেজ পাওক",
+  "languageOdia": "ଓଡ଼ିଆ",
+  "languageTelugu": "తెలుగు",
+  "csWhatIsItMadeOf": "কিহৰ পৰা তৈয়াৰ কৰা হৈছে?",
+  "csMaterialDecidesLight": "সামগ্ৰীয়ে পোহৰৰ সিদ্ধান্ত লয়।",
+  "csNextTechnique": "পৰৱৰ্তী — কৌশল",
+  "csNextPickYourFrames": "পৰৱৰ্তী — আপোনাৰ ফ্ৰেম বাছি লওক",
+  "csMaterialCotton": "কপাহ",
+  "csMaterialSilk": "ৰেশম",
+  "csPhotosToCaptureHeading": "ফটোবোৰ ধৰি ৰাখিবলৈ",
+  "csOpenGuideDropTick": "গাইডখন খুলিব, শ্বটটো লওক, ড্ৰপ ইন কৰক, টিক অফ কৰক।",
+  "csMarkAsTaken": "MARK AS TAKEN বুলি চিহ্নিত কৰক",
+  "csTickedUndo": "টিকড — UNDO",
+  "csDropFirstShot": "আৰম্ভ কৰিবলৈ আপোনাৰ প্ৰথম শ্বটটো ড্ৰপ কৰক।",
+  "csShotsLeft": "{count} শ্বট বাকী আছে।",
+  "@csShotsLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csAllShotsSaved": "ALL SHOTS SAVED কৰা হৈছে",
+  "csShotSavedLeft": "SHOT SAVED — {count} বাওঁফালে",
+  "@csShotSavedLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csDropYourShotHere": "আপোনাৰ {name} শ্বট ইয়াত ড্ৰপ কৰক",
+  "@csDropYourShotHere": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "csChoosePhoto": "ফটো",
+  "csChooseVideo": "ভিডিঅ",
+  "csDropPhotoOrVideo": "পাঠ ০১ ৰ পৰা আপোনাৰ ফটো — বা ফটো বা ভিডিঅ' ড্ৰপ কৰক",
+  "csVideoSelected": "ভিডিঅ' নিৰ্বাচিত কৰা হৈছে — সলনি কৰিবলৈ টেপ কৰক"
 }

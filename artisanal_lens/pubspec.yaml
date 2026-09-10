@@ -53,6 +53,7 @@ dependencies:
   supabase_flutter: ^2.9.1
   connectivity_plus: ^6.1.4
   video_player: ^2.14.0
+  image_picker: ^1.2.3
 
 # path_provider_android 2.3.x ships libdartjni.so for 32-bit and x86_64 only,
 # so plugin registration crashes on arm64 phones and sqflite never loads.

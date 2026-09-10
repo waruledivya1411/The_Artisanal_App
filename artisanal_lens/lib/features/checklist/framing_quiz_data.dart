@@ -16,13 +16,17 @@ class FramingOption {
 }
 
 class FramingArchDef {
-  const FramingArchDef({required this.options});
+  const FramingArchDef({required this.gridPath, required this.options});
+
+  /// HTML `archDefs.*.grid` in a 120×64 viewBox.
+  final String gridPath;
 
   final List<FramingOption> options;
 }
 
 const framingArchDefs = <FrameArch, FramingArchDef>{
   FrameArch.thirds: FramingArchDef(
+    gridPath: 'M40 0v64M80 0v64M0 21.3h120M0 42.6h120',
     options: [
       FramingOption(
         rects: [Rect.fromLTWH(50, 22, 20, 20)],
@@ -39,6 +43,7 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
     ],
   ),
   FrameArch.center: FramingArchDef(
+    gridPath: 'M40 12h40v40h-40zM60 0v12M60 52v64',
     options: [
       FramingOption(
         rects: [Rect.fromLTWH(4, 4, 16, 16)],
@@ -55,6 +60,7 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
     ],
   ),
   FrameArch.diag: FramingArchDef(
+    gridPath: 'M0 64L120 0M0 40L45 0',
     options: [
       FramingOption(
         rects: [
@@ -82,6 +88,7 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
     ],
   ),
   FrameArch.detail: FramingArchDef(
+    gridPath: 'M0 42h120M62 6h46v26h-46z',
     options: [
       FramingOption(
         rects: [Rect.fromLTWH(0, 56, 120, 6)],
@@ -112,6 +119,8 @@ class LocalizedFramingArch {
   final FramingArchDef _def;
 
   List<FramingOption> get options => _def.options;
+
+  String get gridPath => _def.gridPath;
 
   String get title => switch (arch) {
         FrameArch.thirds => _l10n.csFramingThirdsTitle,

@@ -26,6 +26,7 @@ class PhotographyTemplate {
     this.referenceImageAsset,
     this.skipsStyleStep = false,
     this.allowedPresetIds = const [],
+    this.gridPath,
   });
 
   final String id;
@@ -38,6 +39,12 @@ class PhotographyTemplate {
   final String? needs;
 
   final GridOverlayType grid;
+
+  /// Optional SVG path in a 100×100 viewBox (Click & Social `gridPaths`).
+  ///
+  /// When set, the camera and checklist draw this exact grid instead of the
+  /// coarse [grid] enum silhouette.
+  final String? gridPath;
   final CompositionRule composition;
   final CameraAngle angle;
   final LightingSetup lighting;

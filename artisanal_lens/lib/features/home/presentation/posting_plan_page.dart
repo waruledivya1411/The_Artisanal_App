@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
+import '../click_social_lessons.dart';
 
 /// Lesson 04 — Posting Plan (matches Click & Social HTML).
 class PostingPlanPage extends StatefulWidget {
@@ -16,8 +16,6 @@ class PostingPlanPage extends StatefulWidget {
 }
 
 class _PostingPlanPageState extends State<PostingPlanPage> {
-  static const _prefsStrategyDone = 'click_social_lesson_strategy_done';
-
   String? _timeId; // m / e / a
   final Set<int> _days = {};
 
@@ -31,10 +29,13 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
   bool get _planReady => _timeCorrect && _days.length == 3;
 
   Future<void> _finish() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefsStrategyDone, true);
-    if (!mounted) return;
-    context.goNamed(AppRoute.home);
+    final l10n = AppLocalizations.of(context);
+    await ClickSocialLessons.complete(
+      context,
+      prefsKey: ClickSocialLessons.strategyDoneKey,
+      badgeLabel: l10n.csBadgePlanner,
+      routeName: AppRoute.home,
+    );
   }
 
   @override

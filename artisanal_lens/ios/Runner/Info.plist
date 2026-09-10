@@ -71,7 +71,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Your finished photos are saved to your photo library so you can share them.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your finished photos are saved to your photo library so you can share them.</string>
+	<string>The Artisanal Lens lets you drop product photos from your library into the lesson checklist.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>The tilt sensor is used to tell you when the phone is at the right angle.</string>
 </dict>

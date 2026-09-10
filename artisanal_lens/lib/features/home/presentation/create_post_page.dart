@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
+import '../../../shared/widgets/local_video_preview.dart';
 import '../../home/shot_sets_controller.dart';
 import '../click_social_clusters.dart';
+import '../click_social_lessons.dart';
 
 /// Lesson 03 — Create a Post (matches Click & Social HTML).
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -23,10 +27,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   static const _prefsName = 'click_social_name';
   static const _prefsClusterId = 'click_social_cluster_id';
   static const _prefsUsername = 'click_social_ig_username';
-  static const _prefsContentDone = 'click_social_lesson_content_done';
   static const _prefsPublishedCaption = 'click_social_published_caption';
   static const _prefsPublishedTags = 'click_social_published_tags';
   static const _prefsPublishedUser = 'click_social_published_user';
+  static const _prefsPostMedia = 'click_social_post_media_path';
+  static const _prefsPostMediaIsVideo = 'click_social_post_media_is_video';
+  static const _exampleAsset = 'assets/images/guides/ex-post-card.jpg';
 
   /// Format ids stay English; only the tab labels are localized.
   String _format = 'POST';
@@ -37,6 +43,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   ClickSocialCluster? _cluster;
   bool _loading = true;
 
+  /// HTML `image-slot`: learner drops any photo/video, or falls back to Lesson 01.
+  String? _mediaPath;
+  bool _mediaIsVideo = false;
+
   @override
   void initState() {
     super.initState();
@@ -45,10 +55,13 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   Future<void> _restore() async {
     final prefs = await SharedPreferences.getInstance();
+    final savedMedia = prefs.getString(_prefsPostMedia);
     setState(() {
       _learnerName = prefs.getString(_prefsName);
       _username = prefs.getString(_prefsUsername);
       _cluster = clusterById(prefs.getString(_prefsClusterId));
+      _mediaPath = savedMedia;
+      _mediaIsVideo = prefs.getBool(_prefsPostMediaIsVideo) ?? false;
       _loading = false;
     });
   }
@@ -95,6 +108,68 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   bool get _canPublish =>
       _selectedKickers.isNotEmpty && _selectedTags.length >= 3;
 
+  String? _lesson01CoverPath() {
+    final sets = ref.read(shotSetsProvider).valueOrNull;
+    if (sets == null || sets.isEmpty) return null;
+    return sets.first.coverShot?.filePath;
+  }
+
+  /// Display path: dropped media wins; else Lesson 01 cover (HTML behaviour).
+  String? get _displayMediaPath => _mediaPath ?? _lesson01CoverPath();
+
+  bool get _displayIsVideo => _mediaPath != null && _mediaIsVideo;
+
+  Future<void> _pickMedia() async {
+    final l10n = AppLocalizations.of(context);
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_outlined),
+              title: Text(l10n.csChoosePhoto),
+              onTap: () => Navigator.pop(context, 'photo'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.videocam_outlined),
+              title: Text(l10n.csChooseVideo),
+              onTap: () => Navigator.pop(context, 'video'),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (choice == null || !mounted) return;
+
+    final picker = ImagePicker();
+    final XFile? picked = choice == 'video'
+        ? await picker.pickVideo(source: ImageSource.gallery)
+        : await picker.pickImage(source: ImageSource.gallery, imageQuality: 92);
+    if (picked == null || !mounted) return;
+
+    try {
+      final stored = await ref.read(photoStorageProvider).persist(
+            picked.path,
+            setId: 'lesson03_post',
+          );
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_prefsPostMedia, stored);
+      await prefs.setBool(_prefsPostMediaIsVideo, choice == 'video');
+      if (!mounted) return;
+      setState(() {
+        _mediaPath = stored;
+        _mediaIsVideo = choice == 'video';
+      });
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$error')),
+      );
+    }
+  }
+
   Future<void> _publish(AppLocalizations l10n) async {
     if (!_canPublish) return;
     final caption = _captionText(l10n);
@@ -102,18 +177,23 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final learnerName = _learnerName ?? l10n.csLearnerFallback;
     final user = _username ??
         '${learnerName.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '')}_weaves';
-    await prefs.setBool(_prefsContentDone, true);
     await prefs.setString(_prefsPublishedCaption, caption);
     await prefs.setString(_prefsPublishedTags, _tagLine);
     await prefs.setString(_prefsPublishedUser, user);
+    // Keep the dropped media for the practice feed.
+    final media = _displayMediaPath;
+    if (media != null && media.isNotEmpty) {
+      await prefs.setString(_prefsPostMedia, media);
+      await prefs.setBool(_prefsPostMediaIsVideo, _displayIsVideo);
+    }
     if (!mounted) return;
-    context.goNamed(AppRoute.gallery);
-  }
-
-  String? _coverPath() {
-    final sets = ref.read(shotSetsProvider).valueOrNull;
-    if (sets == null || sets.isEmpty) return null;
-    return sets.first.coverShot?.filePath;
+    // HTML: content lesson goes to practice feed (`gram`), not home.
+    await ClickSocialLessons.complete(
+      context,
+      prefsKey: ClickSocialLessons.contentDoneKey,
+      badgeLabel: l10n.csBadgeStoryteller,
+      routeName: AppRoute.gallery,
+    );
   }
 
   @override
@@ -126,9 +206,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     }
 
     final l10n = AppLocalizations.of(context);
-    final coverPath = _coverPath();
     final tagsFull = _selectedTags.length >= 5;
     final captionText = _captionText(l10n);
+    final displayPath = _displayMediaPath;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -144,53 +224,69 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                     selected: _format,
                     onPick: (v) => setState(() => _format = v),
                   ),
-                  Container(
-                    height: 190,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceMuted,
-                      border: Border.all(
-                        color: AppColors.textPrimary,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    child: coverPath == null || coverPath.isEmpty
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                l10n.csPhotoPlaceholder,
-                                textAlign: TextAlign.center,
-                                style: AppTypography.labelSmall.copyWith(
-                                  color: AppColors.textMuted,
-                                ),
-                              ),
-                            ),
-                          )
-                        : PhotoThumb(
-                            path: coverPath,
-                            borderRadius: BorderRadius.zero,
+                  Material(
+                    color: AppColors.surfaceMuted,
+                    child: InkWell(
+                      onTap: _pickMedia,
+                      child: Container(
+                        height: 190,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.textPrimary,
+                            width: 2,
                           ),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: displayPath == null || displayPath.isEmpty
+                            ? Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Text(
+                                    l10n.csDropPhotoOrVideo,
+                                    textAlign: TextAlign.center,
+                                    style: AppTypography.labelSmall.copyWith(
+                                      color: AppColors.textMuted,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : _displayIsVideo
+                                ? LocalVideoPreview(path: displayPath)
+                                : PhotoThumb(
+                                    path: displayPath,
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                      ),
+                    ),
                   ),
+                  if (_displayIsVideo) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.csVideoSelected,
+                      style: AppTypography.labelSmall.copyWith(
+                        fontSize: 11,
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
+                      color: AppColors.surfaceMuted,
                       border: Border.all(color: AppColors.border),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 64,
                           height: 64,
-                          color: AppColors.surfaceMuted,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.image_outlined,
-                            color: AppColors.textMuted,
+                          child: GuideImage(
+                            asset: _exampleAsset,
+                            fit: BoxFit.cover,
+                            borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                         const SizedBox(width: 12),

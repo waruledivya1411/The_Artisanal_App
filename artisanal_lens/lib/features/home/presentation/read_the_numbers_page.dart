@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
+import '../click_social_lessons.dart';
 
 /// Lesson 05 — Read the Numbers (matches Click & Social HTML analytics).
 class ReadTheNumbersPage extends StatefulWidget {
@@ -16,8 +16,6 @@ class ReadTheNumbersPage extends StatefulWidget {
 }
 
 class _ReadTheNumbersPageState extends State<ReadTheNumbersPage> {
-  static const _prefsAnalyticsDone = 'click_social_lesson_analytics_done';
-
   int? _best; // 0, 1, 2
 
   bool get _bestCorrect => _best == 2;
@@ -28,10 +26,13 @@ class _ReadTheNumbersPageState extends State<ReadTheNumbersPage> {
   }
 
   Future<void> _finish() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefsAnalyticsDone, true);
-    if (!mounted) return;
-    context.goNamed(AppRoute.home);
+    final l10n = AppLocalizations.of(context);
+    await ClickSocialLessons.complete(
+      context,
+      prefsKey: ClickSocialLessons.analyticsDoneKey,
+      badgeLabel: l10n.csBadgeAnalyst,
+      routeName: AppRoute.home,
+    );
   }
 
   @override

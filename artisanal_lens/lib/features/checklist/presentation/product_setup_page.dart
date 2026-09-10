@@ -1,260 +1,195 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
-import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
-import '../../../domain/entities/lighting_advisory.dart';
 import '../../../l10n/app_copy.dart';
-import '../../../shared/widgets/choice_image_grid.dart';
-import '../../../shared/widgets/common.dart';
+import '../../home/click_social_clusters.dart';
 import '../../home/shot_sets_controller.dart';
+import '../click_social_frames.dart';
+import 'photo_lesson_chrome.dart';
 
-/// Step 1 — What are you photographing? (category + name).
+/// HTML photoStep 0 — What are you photographing?
+///
+/// Cluster-specific product chips (text only, no images), matching the HTML.
 class ProductSetupPage extends ConsumerStatefulWidget {
   const ProductSetupPage({
     this.setId,
     this.materialId,
-    this.silkTypeId,
     super.key,
   });
 
   final String? setId;
   final String? materialId;
-  final String? silkTypeId;
 
   @override
   ConsumerState<ProductSetupPage> createState() => _ProductSetupPageState();
 }
 
 class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
-  final TextEditingController _nameController = TextEditingController();
-  String? _selectedCategoryId;
-  bool _isStarting = false;
-  bool _hydrated = false;
-  String? _activeSetId;
+  String? _clusterId;
+  String? _product;
+  bool _loading = true;
+  bool _busy = false;
 
   @override
   void initState() {
     super.initState();
-    _activeSetId = widget.setId;
+    _restore();
   }
 
-  bool get _isExistingSet => _activeSetId != null;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
+  Future<void> _restore() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _clusterId = prefs.getString(clickSocialClusterKey);
+      _loading = false;
+    });
   }
+
+  List<String> get _products => productsForCluster(_clusterId);
 
   @override
   Widget build(BuildContext context) {
-    final categories = ref.watch(catalogRepositoryProvider).categories();
-    final existingSet = _activeSetId == null
-        ? null
-        : ref.watch(shotSetProvider(_activeSetId!));
-
-    if (existingSet != null && !_hydrated) {
-      _hydrated = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        setState(() {
-          _selectedCategoryId = existingSet.categoryId;
-          _nameController.text = existingSet.productName;
-        });
-      });
+    if (_loading) {
+      return const Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
-    final selectedCategory = _selectedCategoryId == null
-        ? null
-        : ref
-            .watch(catalogRepositoryProvider)
-            .categoryById(_selectedCategoryId!);
+    if (widget.setId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        context.go('/product/${widget.setId}/list');
+      });
+      return const Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(
-          existingSet?.productName.isNotEmpty == true
-              ? existingSet!.productName
-              : AppLocalizations.of(context).newProduct,
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          AppDimens.pagePadding,
-          AppDimens.space24,
-          AppDimens.pagePadding,
-          AppDimens.space32,
-        ),
+    return PhotoLessonChrome(
+      stepIndex: 0,
+      isPanel: _product == 'Kalamkari panel',
+      child: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context);
+          return ListView(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
         children: [
           Text(
-            'What are you photographing?',
-            style: AppTypography.displayLarge,
+            l10n.csWhatArePhotographing,
+            style: AppTypography.displayMedium.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
-            'Pick your product.',
+            l10n.csPickYourProduct,
             style: AppTypography.labelSmall.copyWith(
               fontSize: 13,
               color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(height: AppDimens.space20),
-          ChoiceImageGrid(
-            choices: [
-              for (final category in categories)
-                ImageChoice(
-                  id: category.id,
-                  name: AppCopy.categoryName(
-                    AppLocalizations.of(context),
-                    category.id,
-                  ),
-                  thumbnailAsset: category.thumbnailAsset,
-                ),
-            ],
-            selectedId: _selectedCategoryId,
-            onSelected: _isExistingSet
-                ? null
-                : (id) => setState(() => _selectedCategoryId = id),
+          const SizedBox(height: 16),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _products.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              childAspectRatio: 1.55,
+            ),
+            itemBuilder: (context, i) {
+              final label = _products[i];
+              return PhotoChoiceChip(
+                label: label,
+                selected: _product == label,
+                onTap: () => setState(() => _product = label),
+              );
+            },
           ),
-          if (selectedCategory != null) ...[
-            const SizedBox(height: AppDimens.space32),
-            const Divider(),
-            const SizedBox(height: AppDimens.space24),
-            Text(
-              AppCopy.categoryName(
-                AppLocalizations.of(context),
-                selectedCategory.id,
-              ),
-              style: AppTypography.displayMedium,
-            ),
-            const SizedBox(height: AppDimens.space12),
-            Text(
-              AppLocalizations.of(context).giveProductName,
-              style: AppTypography.labelSmall,
-            ),
-            const SizedBox(height: AppDimens.space8),
-            TextField(
-              controller: _nameController,
-              enabled: !_isExistingSet,
-              textCapitalization: TextCapitalization.words,
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textPrimary,
-              ),
-              decoration: InputDecoration(
-                hintText: AppLocalizations.of(context).nameHint(
-                  AppCopy.categoryName(
-                    AppLocalizations.of(context),
-                    selectedCategory.id,
+          if (_product != null) ...[
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _busy ? null : _continue,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.white,
+                  shape: const RoundedRectangleBorder(),
+                ),
+                child: Text(
+                  _product == 'Kalamkari panel'
+                      ? l10n.csNextPickYourFrames
+                      : l10n.csNextMaterial,
+                  style: AppTypography.labelLarge.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.white,
                   ),
                 ),
               ),
-              onChanged: (_) => setState(() {}),
             ),
-            const SizedBox(height: AppDimens.space24),
-            const _ProTipBanner(),
           ],
         ],
+      );
+        },
       ),
-      bottomNavigationBar: selectedCategory == null
-          ? null
-          : BottomAction(
-              child: FilledButton.icon(
-                onPressed: _canStart && !_isStarting ? _start : null,
-                icon: const Icon(Icons.arrow_forward, size: 20),
-                label: Text(
-                  _isExistingSet
-                      ? AppLocalizations.of(context).continueAction
-                      : 'NEXT — MATERIAL',
-                ),
-              ),
-            ),
     );
   }
 
-  bool get _canStart =>
-      _selectedCategoryId != null && _nameController.text.trim().isNotEmpty;
+  Future<void> _continue() async {
+    final product = _product;
+    if (product == null || _busy) return;
+    final categoryId = categoryIdForProduct(product);
 
-  Future<void> _start() async {
-    if (_isStarting) return;
-
-    FocusScope.of(context).unfocus();
-    setState(() => _isStarting = true);
-
-    try {
-      // Resuming an existing shoot skips setup and opens the checklist.
-      if (_activeSetId != null) {
+    // HTML: Kalamkari panel skips material + technique → pick frames.
+    if (product == 'Kalamkari panel') {
+      setState(() => _busy = true);
+      try {
+        final created = await ref.read(shotSetsProvider.notifier).createSet(
+              productName: product,
+              categoryId: categoryId,
+            );
         if (!mounted) return;
-        context.go('/product/$_activeSetId/list');
-        return;
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+          'click_social_technique_${created.id}',
+          'HAND-PAINTED',
+        );
+        if (!mounted) return;
+        context.go(
+          '/product/${created.id}/pick-frames'
+          '?category=$categoryId&technique=HAND-PAINTED&product=${Uri.encodeComponent(product)}',
+        );
+      } catch (error, stack) {
+        debugPrint('Panel continue failed: $error\n$stack');
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not continue: $error')),
+        );
+      } finally {
+        if (mounted) setState(() => _busy = false);
       }
-
-      if (!mounted) return;
-      context.pushNamed(
-        AppRoute.material,
-        queryParameters: {
-          'category': _selectedCategoryId!,
-          'name': _nameController.text.trim(),
-        },
-      );
-    } catch (error, stack) {
-      debugPrint('Product setup continue failed: $error\n$stack');
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not continue: $error')),
-      );
-    } finally {
-      if (mounted) setState(() => _isStarting = false);
+      return;
     }
-  }
-}
 
-class _ProTipBanner extends StatelessWidget {
-  const _ProTipBanner();
-
-  @override
-  Widget build(BuildContext context) {
-    final advisory = LightingAdvisory.forTime(DateTime.now());
-    final l10n = AppLocalizations.of(context);
-    final message = advisory.shouldWait
-        ? '${AppCopy.advisoryHeadline(l10n, advisory.reason)}: ${AppCopy.advisoryDetail(l10n, advisory.reason)}'
-        : l10n.proTipGoodLight;
-
-    return Container(
-      padding: const EdgeInsets.all(AppDimens.space12),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceSand,
-        borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-        border: Border.all(color: AppColors.successBorder),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.lightbulb_outline,
-            size: 18,
-            color: AppColors.success,
-          ),
-          const SizedBox(width: AppDimens.space8),
-          Expanded(
-            child: Text(
-              message,
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ),
-        ],
-      ),
+    context.pushNamed(
+      AppRoute.material,
+      queryParameters: {
+        'category': categoryId,
+        'name': product,
+        'product': product,
+      },
     );
   }
 }

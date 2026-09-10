@@ -141,11 +141,13 @@ class _SilkTypePageState extends ConsumerState<SilkTypePage> {
 
     try {
       final categoryId = widget.categoryId;
-      final productName = widget.productName?.trim();
-      if (categoryId == null ||
-          categoryId.isEmpty ||
-          productName == null ||
-          productName.isEmpty) {
+      final l10n = AppLocalizations.of(context);
+      final productName = (widget.productName?.trim().isNotEmpty == true)
+          ? widget.productName!.trim()
+          : (categoryId == null || categoryId.isEmpty)
+              ? l10n.newProduct
+              : AppCopy.categoryName(l10n, categoryId);
+      if (categoryId == null || categoryId.isEmpty) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

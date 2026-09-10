@@ -96,7 +96,6 @@ class _LightQuizPageState extends State<LightQuizPage> {
 
   void _continue() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('click_social_lesson_photo_done', true);
     // Pick your frames writes these. Fall back to the HTML defaults so the
     // checklist still opens in Click & Social mode if that step was skipped.
     final picksKey = clickSocialFramePicksKey(widget.setId);

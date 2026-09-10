@@ -222,3 +222,41 @@ ClickSocialCluster? clusterById(String? id) {
   }
   return null;
 }
+
+/// HTML `clusterProducts` — product chips on photoStep 0.
+List<String> productsForCluster(String? clusterId) => switch (clusterId) {
+      'assam' => const [
+          'Mekhela sador',
+          'Sari',
+          'Stole / Dupatta',
+          'Accessories',
+        ],
+      'srikalahasti' => const [
+          'Kalamkari panel',
+          'Sari',
+          'Stole / Dupatta',
+          'Table runner',
+          'Bedcover',
+          'Pillow cover',
+          'Bags',
+          'Accessories',
+        ],
+      'venkatgiri' => const ['Sari', 'Stole / Dupatta'],
+      'maniabandha' => const ['Sari', 'Stole / Dupatta', 'Table runner'],
+      'gopalpur' => const ['Sari', 'Stole / Dupatta', 'Accessories'],
+      'nagaland' => const ['Mekhela sador', 'Shawl', 'Bags', 'Accessories'],
+      _ => const ['Sari', 'Stole / Dupatta'],
+    };
+
+/// Map an HTML product label onto the nearest capture category id.
+String categoryIdForProduct(String productLabel) => switch (productLabel) {
+      'Kalamkari panel' || 'Pillow cover' || 'Bedcover' => 'cushion_cover',
+      'Shawl' => 'shawl',
+      'Stole / Dupatta' ||
+      'Table runner' ||
+      'Bags' ||
+      'Accessories' =>
+        'stole',
+      _ => 'saree', // Mekhela sador, Sari, …
+    };
+

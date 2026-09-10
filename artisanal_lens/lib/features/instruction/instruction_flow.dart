@@ -13,6 +13,10 @@ import '../capture/capture_session_controller.dart';
 /// inserted when the photograph needs a fold. Close-ups skip it and go
 /// Lighting → Camera.
 ///
+/// Click & Social frames (`cs_frame_*`) skip Lighting & setup entirely —
+/// the lesson already taught light in the light quiz, so the guide goes
+/// straight to the camera (HTML photo checklist → shutter).
+///
 /// Set [closeCurrentPage] when the caller is itself a page the artisan should
 /// not come back to — the Click & Social frame guide ends on "Take the shot".
 void beginCaptureForSlot(
@@ -26,6 +30,8 @@ void beginCaptureForSlot(
   final router = GoRouter.of(context);
   final skipsStyle =
       slot.template?.skipsStyleStep ?? slot.shotType.skipsStyleStep;
+  final isClickSocial =
+      slot.template?.id.startsWith('cs_frame_') ?? false;
   ref.read(captureSessionProvider.notifier)
     ..startFor(setId)
     ..chooseShotType(
@@ -36,6 +42,14 @@ void beginCaptureForSlot(
     );
 
   if (closeCurrentPage && router.canPop()) router.pop();
+
+  if (isClickSocial) {
+    router.pushNamed(
+      AppRoute.capture,
+      pathParameters: {'setId': setId},
+    );
+    return;
+  }
 
   router.pushNamed(
     skipsStyle ? AppRoute.lightingSetup : AppRoute.shotAndStyle,

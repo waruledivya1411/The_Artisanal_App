@@ -2004,9 +2004,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageAssamese => 'Assamese';
 
   @override
-  String get languageHindi => 'Hindi';
-
-  @override
   String get languageEnglish => 'English';
 
   @override
@@ -2483,7 +2480,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csFormatReel => 'REEL';
 
   @override
-  String get csPhotoPlaceholder => 'Your photo from Lesson 01 — or drop one';
+  String get csPhotoPlaceholder =>
+      'Your photo from Lesson 01 — or drop a photo or video';
 
   @override
   String get csExampleKotpad =>
@@ -3333,4 +3331,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csFinishEarnBadge => 'FINISH — EARN BADGE';
+
+  @override
+  String get languageOdia => 'Odia';
+
+  @override
+  String get languageTelugu => 'Telugu';
+
+  @override
+  String get csWhatIsItMadeOf => 'What is it made of?';
+
+  @override
+  String get csMaterialDecidesLight => 'The material decides the light.';
+
+  @override
+  String get csNextTechnique => 'NEXT — TECHNIQUE';
+
+  @override
+  String get csNextPickYourFrames => 'NEXT — PICK YOUR FRAMES';
+
+  @override
+  String get csMaterialCotton => 'COTTON';
+
+  @override
+  String get csMaterialSilk => 'SILK';
+
+  @override
+  String get csPhotosToCaptureHeading => 'Photos to capture';
+
+  @override
+  String get csOpenGuideDropTick =>
+      'Open the guide, take the shot, drop it in, tick it off.';
+
+  @override
+  String get csMarkAsTaken => 'MARK AS TAKEN';
+
+  @override
+  String get csTickedUndo => 'TICKED — UNDO';
+
+  @override
+  String get csDropFirstShot => 'Drop your first shot to get started.';
+
+  @override
+  String csShotsLeft(int count) {
+    return '$count shots left.';
+  }
+
+  @override
+  String get csAllShotsSaved => 'ALL SHOTS SAVED';
+
+  @override
+  String csShotSavedLeft(int count) {
+    return 'SHOT SAVED — $count LEFT';
+  }
+
+  @override
+  String csDropYourShotHere(String name) {
+    return 'Drop your $name shot here';
+  }
+
+  @override
+  String get csChoosePhoto => 'Photo';
+
+  @override
+  String get csChooseVideo => 'Video';
+
+  @override
+  String get csDropPhotoOrVideo =>
+      'Your photo from Lesson 01 — or drop a photo or video';
+
+  @override
+  String get csVideoSelected => 'Video selected — tap to change';
 }

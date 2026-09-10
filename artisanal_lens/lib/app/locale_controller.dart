@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// The languages the app offers.
-///
-/// Assamese leads because the app was tested in the Kamrup cluster, and the
-/// BTP report puts language barriers at 42% of the artisans surveyed.
+/// Languages offered in the Click & Social lesson (HTML onboarding chips).
 enum AppLanguage {
-  assamese('as', 'অসমীয়া (Assamese)'),
-  hindi('hi', 'हिन्दी (Hindi)'),
-  english('en', 'English');
+  english('en', 'English'),
+  assamese('as', 'অসমীয়া'),
+  odia('or', 'ଓଡ଼ିଆ'),
+  telugu('te', 'తెలుగు');
 
   const AppLanguage(this.code, this.label);
 
   final String code;
+
+  /// Native script label shown on language chips.
   final String label;
 
   Locale get locale => Locale(code);
 
   static AppLanguage fromCode(String? code) {
+    // Migrated away from Hindi — fall back to English if an old install
+    // still has `hi` stored.
+    if (code == 'hi') return AppLanguage.english;
     for (final language in AppLanguage.values) {
       if (language.code == code) return language;
     }

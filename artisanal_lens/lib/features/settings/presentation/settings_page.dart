@@ -93,7 +93,7 @@ class SettingsPage extends ConsumerWidget {
                         activeColor: AppColors.primary,
                         contentPadding: EdgeInsets.zero,
                         title: Text(
-                          AppCopy.languageLabel(l10n, language),
+                          language.label,
                           style: AppTypography.bodyMedium.copyWith(
                             color: AppColors.textPrimary,
                           ),

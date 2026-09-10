@@ -2,20 +2,28 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../domain/entities/technique_preset.dart';
+import '../../../../shared/painting/svg_path.dart';
 
 /// The ghost frame and grid drawn over the live camera preview.
 ///
 /// Both come from the chosen preset: the grid type is preset-specific
 /// (rule of thirds, centre focus, leading lines, detail frame, horizontal
 /// folds) and the dashed ghost frame marks where the product should sit.
+///
+/// Click & Social frames pass [gridPath] (HTML `gridPaths[i]`) so each picked
+/// frame draws its own composition grid, not a shared archetype silhouette.
 class GuideOverlay extends StatelessWidget {
   const GuideOverlay({
     required this.grid,
     required this.caption,
+    this.gridPath,
     super.key,
   });
 
   final GridOverlayType grid;
+
+  /// SVG path in a 100×100 viewBox. When non-null, drawn instead of [grid].
+  final String? gridPath;
 
   /// Instruction rendered under the ghost frame, e.g. "Align pallu here".
   /// Empty while the guidance card is carrying the words instead.
@@ -29,7 +37,9 @@ class GuideOverlay extends StatelessWidget {
           return Stack(
             children: [
               Positioned.fill(
-                child: CustomPaint(painter: _GuidePainter(grid: grid)),
+                child: CustomPaint(
+                  painter: _GuidePainter(grid: grid, gridPath: gridPath),
+                ),
               ),
               if (caption.trim().isNotEmpty)
                 Positioned(
@@ -69,9 +79,10 @@ class GuideOverlay extends StatelessWidget {
 }
 
 class _GuidePainter extends CustomPainter {
-  const _GuidePainter({required this.grid});
+  const _GuidePainter({required this.grid, this.gridPath});
 
   final GridOverlayType grid;
+  final String? gridPath;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -85,20 +96,26 @@ class _GuidePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
-    switch (grid) {
-      case GridOverlayType.ruleOfThirds:
-        _drawThirds(canvas, size, gridPaint);
-      case GridOverlayType.centerFocus:
-        _drawThirds(canvas, size, gridPaint);
-      case GridOverlayType.leadingLines:
-        _drawDiagonals(canvas, size, gridPaint);
-      case GridOverlayType.detailFrame:
-        // Photography Guide Preset 4: detail frame + leading (diagonal) lines.
-        _drawDiagonals(canvas, size, gridPaint);
-      case GridOverlayType.horizontalFolds:
-        // Photography Guide Preset 5: horizontal folds with diagonal assists.
-        _drawHorizontals(canvas, size, gridPaint);
-        _drawDiagonals(canvas, size, gridPaint);
+    final path = gridPath?.trim();
+    if (path != null && path.isNotEmpty) {
+      final pathPaint = Paint()
+        ..color = AppColors.primary.withValues(alpha: 0.75)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2;
+      paintSvgPath(canvas, size, path, pathPaint);
+    } else {
+      switch (grid) {
+        case GridOverlayType.ruleOfThirds:
+          _drawThirds(canvas, size, gridPaint);
+        case GridOverlayType.centerFocus:
+          _drawCenterFocus(canvas, size, gridPaint);
+        case GridOverlayType.leadingLines:
+          _drawLeadingLines(canvas, size, gridPaint);
+        case GridOverlayType.detailFrame:
+          _drawDetailFrame(canvas, size, gridPaint);
+        case GridOverlayType.horizontalFolds:
+          _drawHorizontalFolds(canvas, size, gridPaint);
+      }
     }
 
     // The dashed rectangle is the region the analyser measures, so both read
@@ -126,16 +143,77 @@ class _GuidePainter extends CustomPainter {
     }
   }
 
-  void _drawHorizontals(Canvas canvas, Size size, Paint paint) {
-    for (var i = 1; i < 4; i++) {
-      final y = size.height * i / 4;
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
+  /// HTML gridPaths[1]: centre box + vertical axis stubs.
+  void _drawCenterFocus(Canvas canvas, Size size, Paint paint) {
+    final box = Rect.fromLTRB(
+      size.width * 0.30,
+      size.height * 0.28,
+      size.width * 0.70,
+      size.height * 0.72,
+    );
+    canvas.drawRect(box, paint);
+    canvas.drawLine(
+      Offset(size.width * 0.5, 0),
+      Offset(size.width * 0.5, box.top),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(size.width * 0.5, box.bottom),
+      Offset(size.width * 0.5, size.height),
+      paint,
+    );
   }
 
-  void _drawDiagonals(Canvas canvas, Size size, Paint paint) {
-    canvas.drawLine(Offset.zero, Offset(size.width, size.height), paint);
-    canvas.drawLine(Offset(size.width, 0), Offset(0, size.height), paint);
+  /// HTML gridPaths[2]: main diagonal plus two parallels.
+  void _drawLeadingLines(Canvas canvas, Size size, Paint paint) {
+    canvas.drawLine(Offset(0, size.height), Offset(size.width, 0), paint);
+    canvas.drawLine(
+      Offset(0, size.height * 0.55),
+      Offset(size.width * 0.55, 0),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(size.width * 0.45, size.height),
+      Offset(size.width, size.height * 0.45),
+      paint,
+    );
+  }
+
+  /// HTML gridPaths[3]: detail box + diagonal assist.
+  void _drawDetailFrame(Canvas canvas, Size size, Paint paint) {
+    canvas.drawRect(
+      Rect.fromLTRB(
+        size.width * 0.52,
+        size.height * 0.08,
+        size.width * 0.88,
+        size.height * 0.42,
+      ),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(0, size.height),
+      Offset(size.width, size.height * 0.34),
+      paint,
+    );
+  }
+
+  /// HTML gridPaths[4]: fold horizontals + diagonal.
+  void _drawHorizontalFolds(Canvas canvas, Size size, Paint paint) {
+    canvas.drawLine(
+      Offset(0, size.height * 0.33),
+      Offset(size.width, size.height * 0.33),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(0, size.height * 0.66),
+      Offset(size.width, size.height * 0.66),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(0, size.height * 0.82),
+      Offset(size.width, size.height * 0.22),
+      paint,
+    );
   }
 
   /// Draws the ghost frame as a dashed rectangle.
@@ -168,5 +246,5 @@ class _GuidePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _GuidePainter oldDelegate) =>
-      oldDelegate.grid != grid;
+      oldDelegate.grid != grid || oldDelegate.gridPath != gridPath;
 }

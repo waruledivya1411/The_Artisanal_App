@@ -6,6 +6,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/common.dart';
+import '../../../shared/widgets/local_video_preview.dart';
 import '../../home/shot_sets_controller.dart';
 
 /// PRACTICE FEED — matches Click & Social HTML `isGram` screen.
@@ -20,11 +21,15 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
   static const _prefsPublishedCaption = 'click_social_published_caption';
   static const _prefsPublishedTags = 'click_social_published_tags';
   static const _prefsPublishedUser = 'click_social_published_user';
+  static const _prefsPostMedia = 'click_social_post_media_path';
+  static const _prefsPostMediaIsVideo = 'click_social_post_media_is_video';
 
   bool _loading = true;
   String? _publishedUser;
   String? _publishedCaption;
   String? _publishedTags;
+  String? _publishedMediaPath;
+  bool _publishedMediaIsVideo = false;
 
   int _mineLikes = 0;
   final Map<int, int> _sampleLikes = {0: 34, 1: 57};
@@ -47,10 +52,14 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
     final user = prefs.getString(_prefsPublishedUser);
     final caption = prefs.getString(_prefsPublishedCaption);
     final tags = prefs.getString(_prefsPublishedTags);
+    final media = prefs.getString(_prefsPostMedia);
+    final isVideo = prefs.getBool(_prefsPostMediaIsVideo) ?? false;
     if (!mounted) return;
     if (user == _publishedUser &&
         caption == _publishedCaption &&
         tags == _publishedTags &&
+        media == _publishedMediaPath &&
+        isVideo == _publishedMediaIsVideo &&
         !_loading) {
       return;
     }
@@ -58,6 +67,8 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
       _publishedUser = user;
       _publishedCaption = caption;
       _publishedTags = tags;
+      _publishedMediaPath = media;
+      _publishedMediaIsVideo = isVideo;
       _loading = false;
     });
   }
@@ -66,6 +77,12 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
     final sets = ref.watch(shotSetsProvider).valueOrNull;
     if (sets == null || sets.isEmpty) return null;
     return sets.first.coverShot?.filePath;
+  }
+
+  String? get _mineMediaPath {
+    final dropped = _publishedMediaPath;
+    if (dropped != null && dropped.isNotEmpty) return dropped;
+    return _coverPath;
   }
 
   List<_FeedPost> _posts(AppLocalizations l10n) {
@@ -81,7 +98,10 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
           tags: _publishedTags ?? '',
           likes: _mineLikes,
           baseLikes: 0,
-          photoPath: _coverPath,
+          photoPath: _mineMediaPath,
+          isVideo: _publishedMediaPath != null &&
+              _publishedMediaPath!.isNotEmpty &&
+              _publishedMediaIsVideo,
           placeholder: l10n.csFeedYourPhotoPlaceholder,
           avatarColor: AppColors.primary,
           comments: _mineLikes > 0
@@ -107,6 +127,7 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
         likes: _sampleLikes[0] ?? 34,
         baseLikes: 34,
         photoPath: null,
+        isVideo: false,
         placeholder: l10n.csFeedSamplePlaceholder,
         avatarColor: AppColors.textSecondary,
         comments: [
@@ -126,6 +147,7 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
         likes: _sampleLikes[1] ?? 57,
         baseLikes: 57,
         photoPath: null,
+        isVideo: false,
         placeholder: l10n.csFeedSamplePlaceholder,
         avatarColor: AppColors.textSecondary,
         comments: const [],
@@ -237,6 +259,7 @@ class _FeedPost {
     required this.likes,
     required this.baseLikes,
     required this.photoPath,
+    this.isVideo = false,
     required this.placeholder,
     required this.avatarColor,
     required this.comments,
@@ -251,6 +274,7 @@ class _FeedPost {
   final int likes;
   final int baseLikes;
   final String? photoPath;
+  final bool isVideo;
   final String placeholder;
   final Color avatarColor;
   final List<_FeedComment> comments;
@@ -339,18 +363,20 @@ class _FeedCard extends StatelessWidget {
                       ),
                     ),
                   )
-                : ColorFiltered(
-                    colorFilter: const ColorFilter.matrix(<double>[
-                      0.2126, 0.7152, 0.0722, 0, 0,
-                      0.2126, 0.7152, 0.0722, 0, 0,
-                      0.2126, 0.7152, 0.0722, 0, 0,
-                      0, 0, 0, 1, 0,
-                    ]),
-                    child: PhotoThumb(
-                      path: post.photoPath!,
-                      borderRadius: BorderRadius.zero,
-                    ),
-                  ),
+                : post.isVideo
+                    ? LocalVideoPreview(path: post.photoPath!)
+                    : ColorFiltered(
+                        colorFilter: const ColorFilter.matrix(<double>[
+                          0.2126, 0.7152, 0.0722, 0, 0,
+                          0.2126, 0.7152, 0.0722, 0, 0,
+                          0.2126, 0.7152, 0.0722, 0, 0,
+                          0, 0, 0, 1, 0,
+                        ]),
+                        child: PhotoThumb(
+                          path: post.photoPath!,
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),

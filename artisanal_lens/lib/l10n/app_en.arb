@@ -759,7 +759,6 @@
   "authEmailNotConfirmed": "Confirm your email, then try again.",
   "authGeneric": "Could not sign in. Try again.",
   "languageAssamese": "Assamese",
-  "languageHindi": "Hindi",
   "languageEnglish": "English",
   "guideSareeDrapedLook1": "Let the fabric fall naturally.",
   "guideSareeDrapedLook2": "Folds follow the diagonal.",
@@ -938,7 +937,7 @@
   "csFormatPost": "POST",
   "csFormatStory": "STORY",
   "csFormatReel": "REEL",
-  "csPhotoPlaceholder": "Your photo from Lesson 01 — or drop one",
+  "csPhotoPlaceholder": "Your photo from Lesson 01 — or drop a photo or video",
   "csExampleKotpad": "Example: a Kotpad post — photo up close, then two lines naming the craft and its weavers.",
   "csAddYourStory": "Add your story — tap lines",
   "csHashtagsPick": "Hashtags — pick 3 to 5 ",
@@ -1234,5 +1233,47 @@
   "csLightTipAvoidSideBody": "A lamp or sun from one side drags shadows across the brushwork and the cloth texture fights the painting.",
   "csLightNowPick": "Now pick the right light",
   "csNextShootYours": "NEXT — SHOOT YOURS",
-  "csFinishEarnBadge": "FINISH — EARN BADGE"
+  "csFinishEarnBadge": "FINISH — EARN BADGE",
+  "languageOdia": "Odia",
+  "languageTelugu": "Telugu",
+  "csWhatIsItMadeOf": "What is it made of?",
+  "csMaterialDecidesLight": "The material decides the light.",
+  "csNextTechnique": "NEXT — TECHNIQUE",
+  "csNextPickYourFrames": "NEXT — PICK YOUR FRAMES",
+  "csMaterialCotton": "COTTON",
+  "csMaterialSilk": "SILK",
+  "csPhotosToCaptureHeading": "Photos to capture",
+  "csOpenGuideDropTick": "Open the guide, take the shot, drop it in, tick it off.",
+  "csMarkAsTaken": "MARK AS TAKEN",
+  "csTickedUndo": "TICKED — UNDO",
+  "csDropFirstShot": "Drop your first shot to get started.",
+  "csShotsLeft": "{count} shots left.",
+  "csAllShotsSaved": "ALL SHOTS SAVED",
+  "csShotSavedLeft": "SHOT SAVED — {count} LEFT",
+  "csDropYourShotHere": "Drop your {name} shot here",
+  "@csShotsLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@csShotSavedLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@csDropYourShotHere": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "csChoosePhoto": "Photo",
+  "csChooseVideo": "Video",
+  "csDropPhotoOrVideo": "Your photo from Lesson 01 — or drop a photo or video",
+  "csVideoSelected": "Video selected — tap to change"
 }

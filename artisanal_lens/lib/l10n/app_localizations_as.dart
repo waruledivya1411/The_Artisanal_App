@@ -1959,9 +1959,6 @@ class AppLocalizationsAs extends AppLocalizations {
   String get languageAssamese => 'অসমীয়া';
 
   @override
-  String get languageHindi => 'হিন্দী';
-
-  @override
   String get languageEnglish => 'ইংৰাজী';
 
   @override
@@ -2432,7 +2429,8 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csFormatReel => 'ৰীল';
 
   @override
-  String get csPhotoPlaceholder => 'পাঠ ০১ৰ আপোনাৰ ফটো — বা এখন ফটো দিয়ক';
+  String get csPhotoPlaceholder =>
+      'পাঠ ০১ ৰ পৰা আপোনাৰ ফটো — বা ফটো বা ভিডিঅ\' ড্ৰপ কৰক';
 
   @override
   String get csExampleKotpad =>
@@ -3279,4 +3277,76 @@ class AppLocalizationsAs extends AppLocalizations {
 
   @override
   String get csFinishEarnBadge => 'সম্পূৰ্ণ কৰক — বেজ পাওক';
+
+  @override
+  String get languageOdia => 'ଓଡ଼ିଆ';
+
+  @override
+  String get languageTelugu => 'తెలుగు';
+
+  @override
+  String get csWhatIsItMadeOf => 'কিহৰ পৰা তৈয়াৰ কৰা হৈছে?';
+
+  @override
+  String get csMaterialDecidesLight => 'সামগ্ৰীয়ে পোহৰৰ সিদ্ধান্ত লয়।';
+
+  @override
+  String get csNextTechnique => 'পৰৱৰ্তী — কৌশল';
+
+  @override
+  String get csNextPickYourFrames => 'পৰৱৰ্তী — আপোনাৰ ফ্ৰেম বাছি লওক';
+
+  @override
+  String get csMaterialCotton => 'কপাহ';
+
+  @override
+  String get csMaterialSilk => 'ৰেশম';
+
+  @override
+  String get csPhotosToCaptureHeading => 'ফটোবোৰ ধৰি ৰাখিবলৈ';
+
+  @override
+  String get csOpenGuideDropTick =>
+      'গাইডখন খুলিব, শ্বটটো লওক, ড্ৰপ ইন কৰক, টিক অফ কৰক।';
+
+  @override
+  String get csMarkAsTaken => 'MARK AS TAKEN বুলি চিহ্নিত কৰক';
+
+  @override
+  String get csTickedUndo => 'টিকড — UNDO';
+
+  @override
+  String get csDropFirstShot => 'আৰম্ভ কৰিবলৈ আপোনাৰ প্ৰথম শ্বটটো ড্ৰপ কৰক।';
+
+  @override
+  String csShotsLeft(int count) {
+    return '$count শ্বট বাকী আছে।';
+  }
+
+  @override
+  String get csAllShotsSaved => 'ALL SHOTS SAVED কৰা হৈছে';
+
+  @override
+  String csShotSavedLeft(int count) {
+    return 'SHOT SAVED — $count বাওঁফালে';
+  }
+
+  @override
+  String csDropYourShotHere(String name) {
+    return 'আপোনাৰ $name শ্বট ইয়াত ড্ৰপ কৰক';
+  }
+
+  @override
+  String get csChoosePhoto => 'ফটো';
+
+  @override
+  String get csChooseVideo => 'ভিডিঅ';
+
+  @override
+  String get csDropPhotoOrVideo =>
+      'পাঠ ০১ ৰ পৰা আপোনাৰ ফটো — বা ফটো বা ভিডিঅ\' ড্ৰপ কৰক';
+
+  @override
+  String get csVideoSelected =>
+      'ভিডিঅ\' নিৰ্বাচিত কৰা হৈছে — সলনি কৰিবলৈ টেপ কৰক';
 }

@@ -291,10 +291,9 @@ class _OnboardingView extends StatelessWidget {
                   _ChoiceButton(
                     selected: language == selectedLanguage,
                     onTap: () => onLanguagePick(language),
-                    label: l10n.csLanguageChip(
-                      AppCopy.languageLabel(l10n, language),
-                      language.code.toUpperCase(),
-                    ),
+                    // HTML shows the native script on the chip (English /
+                    // অসমীয়া / ଓଡ଼ିଆ / తెలుగు), not a translated name.
+                    label: language.label,
                   ),
               ],
             ),

@@ -4,15 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
-import '../../../l10n/app_copy.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/common.dart';
 import '../click_social_frames.dart';
+import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 4 — Pick your frames (at least two).
-///
-/// The frames are the twelve shared Click & Social frames, not the five BTP
-/// templates for the category. The picks are saved against the shoot so the
-/// framing quiz, the checklist and the guide all work from the same list.
 class PickFramesPage extends StatefulWidget {
   const PickFramesPage({
     required this.setId,
@@ -56,7 +53,6 @@ class _PickFramesPageState extends State<PickFramesPage> {
       final prefs = await SharedPreferences.getInstance();
       clusterId = prefs.getString(clickSocialClusterKey);
     } catch (_) {
-      // No store to read: the default reference photographs still apply.
       return;
     }
     if (!mounted) return;
@@ -65,20 +61,14 @@ class _PickFramesPageState extends State<PickFramesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final frames = _frames;
+    final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(l10n.csLesson01Title),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+    return PhotoLessonChrome(
+      stepIndex: 3,
+      isPanel: _isPanel,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
         children: [
           Text(
             l10n.csPickYourFrames,
@@ -192,17 +182,30 @@ class _PickFramesPageState extends State<PickFramesPage> {
               );
             },
           ),
-        ],
-      ),
-      bottomNavigationBar: !_ready
-          ? null
-          : BottomAction(
-              child: FilledButton.icon(
+          if (_ready) ...[
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: ElevatedButton(
                 onPressed: _continue,
-                icon: const Icon(Icons.arrow_forward, size: 20),
-                label: Text(l10n.csNextFrameIt),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.white,
+                  shape: const RoundedRectangleBorder(),
+                ),
+                child: Text(
+                  l10n.csNextFrameIt,
+                  style: AppTypography.labelLarge.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.white,
+                  ),
+                ),
               ),
             ),
+          ],
+        ],
+      ),
     );
   }
 

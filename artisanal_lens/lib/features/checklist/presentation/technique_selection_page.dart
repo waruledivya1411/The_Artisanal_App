@@ -1,61 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
-import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
-import '../../../shared/widgets/common.dart';
+import '../../home/shot_sets_controller.dart';
+import '../click_social_frames.dart';
+import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 2 — How is it made? (WOVEN / HAND-PAINTED).
-class TechniqueSelectionPage extends StatefulWidget {
+class TechniqueSelectionPage extends ConsumerStatefulWidget {
   const TechniqueSelectionPage({
     this.categoryId,
     this.productName,
     this.materialId,
+    this.productLabel,
     super.key,
   });
 
   final String? categoryId;
   final String? productName;
   final String? materialId;
+  final String? productLabel;
 
   @override
-  State<TechniqueSelectionPage> createState() => _TechniqueSelectionPageState();
+  ConsumerState<TechniqueSelectionPage> createState() =>
+      _TechniqueSelectionPageState();
 }
 
-class _TechniqueSelectionPageState extends State<TechniqueSelectionPage> {
-  /// Stored technique ids — displayed through [AppLocalizations].
+class _TechniqueSelectionPageState
+    extends ConsumerState<TechniqueSelectionPage> {
   static const _techniqueIds = ['WOVEN', 'HAND-PAINTED'];
 
   String? _technique;
+  bool _busy = false;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(l10n.csNewProductTitle),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          AppDimens.pagePadding,
-          AppDimens.space24,
-          AppDimens.pagePadding,
-          AppDimens.space32,
-        ),
+    final labels = {
+      'WOVEN': l10n.csTechniqueWoven,
+      'HAND-PAINTED': l10n.csTechniqueHandPainted,
+    };
+
+    return PhotoLessonChrome(
+      stepIndex: 2,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
         children: [
           Text(
             l10n.csHowIsItMade,
-            style: AppTypography.displayLarge.copyWith(fontSize: 28),
+            style: AppTypography.displayMedium.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-          const SizedBox(height: AppDimens.space8),
+          const SizedBox(height: 6),
           Text(
             l10n.csTechniqueSub,
             style: AppTypography.labelSmall.copyWith(
@@ -63,81 +65,110 @@ class _TechniqueSelectionPageState extends State<TechniqueSelectionPage> {
               color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(height: AppDimens.space20),
+          const SizedBox(height: 16),
           Row(
             children: [
-              for (final id in _techniqueIds) ...[
+              for (var i = 0; i < _techniqueIds.length; i++) ...[
                 Expanded(
-                  child: _TechniqueCard(
-                    label: id == 'WOVEN'
-                        ? l10n.csTechniqueWoven
-                        : l10n.csTechniqueHandPainted,
-                    selected: _technique == id,
-                    onTap: () => setState(() => _technique = id),
+                  child: PhotoChoiceChip(
+                    label: labels[_techniqueIds[i]]!,
+                    selected: _technique == _techniqueIds[i],
+                    onTap: () =>
+                        setState(() => _technique = _techniqueIds[i]),
+                    minHeight: 72,
+                    fontSize: 15,
+                    letterSpacing: 0.6,
+                    fontWeight: FontWeight.w800,
+                    useHeadingFont: true,
                   ),
                 ),
-                if (id == 'WOVEN') const SizedBox(width: 8),
+                if (i == 0) const SizedBox(width: 8),
               ],
             ],
           ),
+          if (_technique != null) ...[
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _busy ? null : _continue,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.white,
+                  shape: const RoundedRectangleBorder(),
+                ),
+                child: Text(
+                  l10n.csNextPickYourFrames,
+                  style: AppTypography.labelLarge.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
-      bottomNavigationBar: BottomAction(
-        child: FilledButton.icon(
-          onPressed: _technique == null ? null : _continue,
-          icon: const Icon(Icons.arrow_forward, size: 20),
-          label: Text(l10n.csNextMaterialType),
-        ),
-      ),
     );
   }
 
-  void _continue() {
-    context.pushNamed(
-      AppRoute.silkType,
-      queryParameters: {
-        if (widget.categoryId != null) 'category': widget.categoryId!,
-        if (widget.productName != null) 'name': widget.productName!,
-        if (widget.materialId != null) 'material': widget.materialId!,
-        'technique': _technique!,
-      },
-    );
-  }
-}
+  Future<void> _continue() async {
+    if (_busy || _technique == null) return;
+    setState(() => _busy = true);
 
-class _TechniqueCard extends StatelessWidget {
-  const _TechniqueCard({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 72,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.textPrimary : AppColors.white,
-          border: Border.all(color: AppColors.textPrimary, width: 2),
-        ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: AppTypography.labelLarge.copyWith(
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 0.4,
-            color: selected ? AppColors.white : AppColors.textPrimary,
+    try {
+      final l10n = AppLocalizations.of(context);
+      final categoryId = widget.categoryId;
+      final materialId = widget.materialId;
+      if (categoryId == null ||
+          categoryId.isEmpty ||
+          materialId == null ||
+          materialId.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Missing product details. Go back and try again.'),
           ),
-        ),
-      ),
-    );
+        );
+        return;
+      }
+
+      final productName = (widget.productName?.trim().isNotEmpty == true)
+          ? widget.productName!.trim()
+          : AppCopy.categoryName(l10n, categoryId);
+
+      final created = await ref.read(shotSetsProvider.notifier).createSet(
+            productName: productName,
+            categoryId: categoryId,
+            materialId: materialId,
+          );
+
+      if (!mounted) return;
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        clickSocialTechniqueKey(created.id),
+        _technique!,
+      );
+
+      if (!mounted) return;
+      final q = <String>[
+        'category=$categoryId',
+        'material=$materialId',
+        'technique=${_technique!}',
+        if (widget.productLabel != null && widget.productLabel!.isNotEmpty)
+          'product=${Uri.encodeComponent(widget.productLabel!)}',
+      ].join('&');
+      context.go('/product/${created.id}/pick-frames?$q');
+    } catch (error, stack) {
+      debugPrint('Technique continue failed: $error\n$stack');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not continue: $error')),
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 }

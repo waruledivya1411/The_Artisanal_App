@@ -3,15 +3,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../app/supabase_config.dart';
 
-/// Boots Supabase when credentials are supplied via `--dart-define`.
+/// Boots Supabase when [SupabaseConfig.isConfigured] is true.
 ///
-/// When [SupabaseConfig.isConfigured] is false the app stays fully offline;
-/// nothing in the UI breaks.
+/// When the backend is disconnected (`SupabaseConfig.enabled == false`) the
+/// app stays fully offline; auth, sync, and remote tutorials stay dormant.
 Future<void> initializeSupabase() async {
   if (!SupabaseConfig.isConfigured) {
     debugPrint(
-      'Supabase: not configured. Pass SUPABASE_URL and SUPABASE_ANON_KEY '
-      'via --dart-define to enable cloud sync.',
+      'Supabase: disconnected. Set SupabaseConfig.enabled = true to reconnect.',
     );
     return;
   }

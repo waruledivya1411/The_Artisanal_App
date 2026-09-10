@@ -5,6 +5,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../framing_quiz_data.dart';
+import '../../../shared/painting/svg_path.dart';
 
 /// HTML photoStep 5 — framing quizzes. Inserted before the existing photo list.
 class FramingQuizPage extends StatefulWidget {
@@ -153,7 +154,7 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                             aspectRatio: 120 / 64,
                             child: CustomPaint(
                               painter: _FramingPainter(
-                                arch: _arch,
+                                gridPath: def.gridPath,
                                 option: def.options[oi],
                               ),
                             ),
@@ -266,9 +267,9 @@ class _LessonHeader extends StatelessWidget {
 }
 
 class _FramingPainter extends CustomPainter {
-  _FramingPainter({required this.arch, required this.option});
+  _FramingPainter({required this.gridPath, required this.option});
 
-  final FrameArch arch;
+  final String gridPath;
   final FramingOption option;
 
   @override
@@ -280,46 +281,19 @@ class _FramingPainter extends CustomPainter {
       Paint()..color = AppColors.surfaceMuted,
     );
 
+    // HTML: dashed archetype grid matching the frames that share this quiz.
     final grid = Paint()
       ..color = AppColors.border
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-
-    switch (arch) {
-      case FrameArch.thirds:
-        canvas.drawLine(Offset(40 * sx, 0), Offset(40 * sx, size.height), grid);
-        canvas.drawLine(Offset(80 * sx, 0), Offset(80 * sx, size.height), grid);
-        canvas.drawLine(
-          Offset(0, 21.3 * sy),
-          Offset(size.width, 21.3 * sy),
-          grid,
-        );
-        canvas.drawLine(
-          Offset(0, 42.6 * sy),
-          Offset(size.width, 42.6 * sy),
-          grid,
-        );
-      case FrameArch.center:
-        canvas.drawRect(
-          Rect.fromLTWH(40 * sx, 12 * sy, 40 * sx, 40 * sy),
-          grid,
-        );
-        canvas.drawLine(Offset(60 * sx, 0), Offset(60 * sx, 12 * sy), grid);
-        canvas.drawLine(
-          Offset(60 * sx, 52 * sy),
-          Offset(60 * sx, size.height),
-          grid,
-        );
-      case FrameArch.diag:
-        canvas.drawLine(Offset(0, size.height), Offset(size.width, 0), grid);
-        canvas.drawLine(Offset(0, 40 * sy), Offset(45 * sx, 0), grid);
-      case FrameArch.detail:
-        canvas.drawLine(Offset(0, 42 * sy), Offset(size.width, 42 * sy), grid);
-        canvas.drawRect(
-          Rect.fromLTWH(62 * sx, 6 * sy, 46 * sx, 26 * sy),
-          grid,
-        );
-    }
+      ..strokeWidth = 1
+      ..strokeCap = StrokeCap.square;
+    paintSvgPath(
+      canvas,
+      size,
+      gridPath,
+      grid,
+      viewBox: const Size(120, 64),
+    );
 
     final fill = Paint()..color = AppColors.textPrimary;
     for (final r in option.rects) {
@@ -332,5 +306,5 @@ class _FramingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FramingPainter oldDelegate) =>
-      oldDelegate.option != option || oldDelegate.arch != arch;
+      oldDelegate.option != option || oldDelegate.gridPath != gridPath;
 }

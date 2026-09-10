@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
+import '../../../shared/widgets/common.dart';
 import '../click_social_clusters.dart';
+import '../click_social_lessons.dart';
 
 /// Lesson 02 — Set Up Your Page on Instagram (matches Click & Social HTML).
-class InstagramSetupPage extends StatefulWidget {
+class InstagramSetupPage extends ConsumerStatefulWidget {
   const InstagramSetupPage({super.key});
 
   @override
-  State<InstagramSetupPage> createState() => _InstagramSetupPageState();
+  ConsumerState<InstagramSetupPage> createState() => _InstagramSetupPageState();
 }
 
-class _InstagramSetupPageState extends State<InstagramSetupPage> {
+class _InstagramSetupPageState extends ConsumerState<InstagramSetupPage> {
   static const _prefsName = 'click_social_name';
   static const _prefsClusterId = 'click_social_cluster_id';
-  static const _prefsProfileDone = 'click_social_lesson_profile_done';
   static const _prefsUsername = 'click_social_ig_username';
   static const _prefsBio = 'click_social_ig_bio';
   static const _prefsCategory = 'click_social_ig_category';
+  static const _prefsProfilePhoto = 'click_social_profile_photo_path';
 
   int _step = 0; // 0..4
   int _settingsSub = 0; // 0 = Settings, 1 = Account type and tools
@@ -32,6 +37,7 @@ class _InstagramSetupPageState extends State<InstagramSetupPage> {
   String? _category;
   String? _learnerName;
   ClickSocialCluster? _cluster;
+  String? _profilePhotoPath;
   bool _loading = true;
 
   @override
@@ -51,8 +57,33 @@ class _InstagramSetupPageState extends State<InstagramSetupPage> {
       _username = prefs.getString(_prefsUsername);
       _bio.addAll(savedBio);
       _category = prefs.getString(_prefsCategory);
+      _profilePhotoPath = prefs.getString(_prefsProfilePhoto);
       _loading = false;
     });
+  }
+
+  Future<void> _pickProfilePhoto() async {
+    final picked = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 92,
+    );
+    if (picked == null || !mounted) return;
+
+    try {
+      final stored = await ref.read(photoStorageProvider).persist(
+            picked.path,
+            setId: 'lesson02_profile',
+          );
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_prefsProfilePhoto, stored);
+      if (!mounted) return;
+      setState(() => _profilePhotoPath = stored);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$error')),
+      );
+    }
   }
 
   List<String> _usernameOptions(String learnerName) {
@@ -85,7 +116,6 @@ class _InstagramSetupPageState extends State<InstagramSetupPage> {
 
   Future<void> _finish() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefsProfileDone, true);
     if (_username != null) {
       await prefs.setString(_prefsUsername, _username!);
     }
@@ -94,7 +124,13 @@ class _InstagramSetupPageState extends State<InstagramSetupPage> {
       await prefs.setString(_prefsCategory, _category!);
     }
     if (!mounted) return;
-    context.goNamed(AppRoute.home);
+    final l10n = AppLocalizations.of(context);
+    await ClickSocialLessons.complete(
+      context,
+      prefsKey: ClickSocialLessons.profileDoneKey,
+      badgeLabel: l10n.csBadgePageBuilder,
+      routeName: AppRoute.home,
+    );
   }
 
   @override
@@ -146,6 +182,8 @@ class _InstagramSetupPageState extends State<InstagramSetupPage> {
                     username: _username ?? l10n.csPickANameFallback,
                     bioPicked: _bio.toList(),
                     bioOptions: _bioOptions(l10n),
+                    photoPath: _profilePhotoPath,
+                    onPickPhoto: _pickProfilePhoto,
                     onToggleBio: (line) {
                       setState(() {
                         if (_bio.contains(line)) {
@@ -191,6 +229,7 @@ class _InstagramSetupPageState extends State<InstagramSetupPage> {
                             ? 'A'
                             : (_username ?? learnerName)[0])
                         .toUpperCase(),
+                    photoPath: _profilePhotoPath,
                     onFinish: _finish,
                   ),
               },
@@ -351,6 +390,8 @@ class _EditProfileStep extends StatelessWidget {
     required this.username,
     required this.bioPicked,
     required this.bioOptions,
+    required this.photoPath,
+    required this.onPickPhoto,
     required this.onToggleBio,
     required this.onNext,
   });
@@ -359,6 +400,8 @@ class _EditProfileStep extends StatelessWidget {
   final String username;
   final List<String> bioPicked;
   final List<String> bioOptions;
+  final String? photoPath;
+  final VoidCallback onPickPhoto;
   final ValueChanged<String> onToggleBio;
   final VoidCallback onNext;
 
@@ -394,23 +437,45 @@ class _EditProfileStep extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 16),
-              Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.surfaceMuted,
-                  border: Border.all(color: AppColors.textPrimary, width: 2),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onPickPhoto,
+                  customBorder: const CircleBorder(),
+                  child: Ink(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.surfaceMuted,
+                      border:
+                          Border.all(color: AppColors.textPrimary, width: 2),
+                    ),
+                    child: ClipOval(
+                      child: photoPath == null || photoPath!.isEmpty
+                          ? const Icon(Icons.person_outline, size: 32)
+                          : PhotoThumb(
+                              path: photoPath!,
+                              borderRadius: BorderRadius.zero,
+                            ),
+                    ),
+                  ),
                 ),
-                child: const Icon(Icons.person_outline, size: 32),
               ),
               const SizedBox(height: 4),
-              Text(
-                l10n.csChangePhotoTip,
-                style: AppTypography.navLabel.copyWith(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+              InkWell(
+                onTap: onPickPhoto,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  child: Text(
+                    l10n.csChangePhotoTip,
+                    textAlign: TextAlign.center,
+                    style: AppTypography.navLabel.copyWith(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -769,6 +834,7 @@ class _PreviewStep extends StatelessWidget {
     required this.categoryKey,
     required this.bioPicked,
     required this.avatarLetter,
+    required this.photoPath,
     required this.onFinish,
   });
 
@@ -776,6 +842,7 @@ class _PreviewStep extends StatelessWidget {
   final String categoryKey;
   final List<String> bioPicked;
   final String avatarLetter;
+  final String? photoPath;
   final VoidCallback onFinish;
 
   @override
@@ -813,14 +880,20 @@ class _PreviewStep extends StatelessWidget {
                       border:
                           Border.all(color: AppColors.textPrimary, width: 2),
                     ),
-                    child: Text(
-                      avatarLetter,
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                      ),
-                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: photoPath == null || photoPath!.isEmpty
+                        ? Text(
+                            avatarLetter,
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18,
+                            ),
+                          )
+                        : PhotoThumb(
+                            path: photoPath!,
+                            borderRadius: BorderRadius.zero,
+                          ),
                   ),
                   const SizedBox(width: 14),
                   Expanded(

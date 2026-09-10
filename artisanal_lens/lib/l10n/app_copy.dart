@@ -880,9 +880,10 @@ abstract final class AppCopy {
 
   static String languageLabel(AppLocalizations l10n, AppLanguage language) =>
       switch (language) {
-        AppLanguage.assamese => l10n.languageAssamese,
-        AppLanguage.hindi => l10n.languageHindi,
         AppLanguage.english => l10n.languageEnglish,
+        AppLanguage.assamese => l10n.languageAssamese,
+        AppLanguage.odia => l10n.languageOdia,
+        AppLanguage.telugu => l10n.languageTelugu,
       };
 
   /// Maps Supabase / AuthException English messages to the active locale.

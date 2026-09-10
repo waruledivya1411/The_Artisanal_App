@@ -7,7 +7,8 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_as.dart';
 import 'app_localizations_en.dart';
-import 'app_localizations_hi.dart';
+import 'app_localizations_or.dart';
+import 'app_localizations_te.dart';
 
 // ignore_for_file: type=lint
 
@@ -97,7 +98,8 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('as'),
     Locale('en'),
-    Locale('hi'),
+    Locale('or'),
+    Locale('te'),
   ];
 
   /// No description provided for @appTitle.
@@ -3640,12 +3642,6 @@ abstract class AppLocalizations {
   /// **'Assamese'**
   String get languageAssamese;
 
-  /// No description provided for @languageHindi.
-  ///
-  /// In en, this message translates to:
-  /// **'Hindi'**
-  String get languageHindi;
-
   /// No description provided for @languageEnglish.
   ///
   /// In en, this message translates to:
@@ -4513,7 +4509,7 @@ abstract class AppLocalizations {
   /// No description provided for @csPhotoPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'Your photo from Lesson 01 — or drop one'**
+  /// **'Your photo from Lesson 01 — or drop a photo or video'**
   String get csPhotoPlaceholder;
 
   /// No description provided for @csExampleKotpad.
@@ -6069,6 +6065,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'FINISH — EARN BADGE'**
   String get csFinishEarnBadge;
+
+  /// No description provided for @languageOdia.
+  ///
+  /// In en, this message translates to:
+  /// **'Odia'**
+  String get languageOdia;
+
+  /// No description provided for @languageTelugu.
+  ///
+  /// In en, this message translates to:
+  /// **'Telugu'**
+  String get languageTelugu;
+
+  /// No description provided for @csWhatIsItMadeOf.
+  ///
+  /// In en, this message translates to:
+  /// **'What is it made of?'**
+  String get csWhatIsItMadeOf;
+
+  /// No description provided for @csMaterialDecidesLight.
+  ///
+  /// In en, this message translates to:
+  /// **'The material decides the light.'**
+  String get csMaterialDecidesLight;
+
+  /// No description provided for @csNextTechnique.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT — TECHNIQUE'**
+  String get csNextTechnique;
+
+  /// No description provided for @csNextPickYourFrames.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT — PICK YOUR FRAMES'**
+  String get csNextPickYourFrames;
+
+  /// No description provided for @csMaterialCotton.
+  ///
+  /// In en, this message translates to:
+  /// **'COTTON'**
+  String get csMaterialCotton;
+
+  /// No description provided for @csMaterialSilk.
+  ///
+  /// In en, this message translates to:
+  /// **'SILK'**
+  String get csMaterialSilk;
+
+  /// No description provided for @csPhotosToCaptureHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos to capture'**
+  String get csPhotosToCaptureHeading;
+
+  /// No description provided for @csOpenGuideDropTick.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the guide, take the shot, drop it in, tick it off.'**
+  String get csOpenGuideDropTick;
+
+  /// No description provided for @csMarkAsTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'MARK AS TAKEN'**
+  String get csMarkAsTaken;
+
+  /// No description provided for @csTickedUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'TICKED — UNDO'**
+  String get csTickedUndo;
+
+  /// No description provided for @csDropFirstShot.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop your first shot to get started.'**
+  String get csDropFirstShot;
+
+  /// No description provided for @csShotsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} shots left.'**
+  String csShotsLeft(int count);
+
+  /// No description provided for @csAllShotsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL SHOTS SAVED'**
+  String get csAllShotsSaved;
+
+  /// No description provided for @csShotSavedLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'SHOT SAVED — {count} LEFT'**
+  String csShotSavedLeft(int count);
+
+  /// No description provided for @csDropYourShotHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop your {name} shot here'**
+  String csDropYourShotHere(String name);
+
+  /// No description provided for @csChoosePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get csChoosePhoto;
+
+  /// No description provided for @csChooseVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get csChooseVideo;
+
+  /// No description provided for @csDropPhotoOrVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your photo from Lesson 01 — or drop a photo or video'**
+  String get csDropPhotoOrVideo;
+
+  /// No description provided for @csVideoSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Video selected — tap to change'**
+  String get csVideoSelected;
 }
 
 class _AppLocalizationsDelegate
@@ -6082,7 +6204,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['as', 'en', 'hi'].contains(locale.languageCode);
+      <String>['as', 'en', 'or', 'te'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -6095,8 +6217,10 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsAs();
     case 'en':
       return AppLocalizationsEn();
-    case 'hi':
-      return AppLocalizationsHi();
+    case 'or':
+      return AppLocalizationsOr();
+    case 'te':
+      return AppLocalizationsTe();
   }
 
   throw FlutterError(
