@@ -41,6 +41,7 @@ class IoPhotoStorage implements PhotoStorage {
     Uint8List bytes, {
     required String setId,
     required String shotId,
+    String extension = '.jpg',
   }) async {
     final directory = await getApplicationDocumentsDirectory();
     final photosDir = Directory(p.join(directory.path, 'photos'));
@@ -48,7 +49,8 @@ class IoPhotoStorage implements PhotoStorage {
       photosDir.createSync(recursive: true);
     }
 
-    final destination = p.join(photosDir.path, '${setId}_$shotId.jpg');
+    final ext = extension.startsWith('.') ? extension : '.$extension';
+    final destination = p.join(photosDir.path, '${setId}_$shotId$ext');
     await File(destination).writeAsBytes(bytes, flush: true);
     return destination;
   }

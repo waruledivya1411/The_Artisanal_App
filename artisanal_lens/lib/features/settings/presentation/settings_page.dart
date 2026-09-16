@@ -8,6 +8,8 @@ import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../domain/entities/photography_guideline.dart';
 import '../../../l10n/app_copy.dart';
+import '../../home/click_social_store.dart';
+import '../../../data/services/click_social_sync_service.dart';
 import 'account_settings_section.dart';
 
 /// Settings.
@@ -84,6 +86,8 @@ class SettingsPage extends ConsumerWidget {
                   await ref.read(localeProvider.notifier).select(value);
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setString('click_social_language', value.code);
+                  await ClickSocialStore.touch(prefs);
+                  ClickSocialSync.schedulePush();
                 },
                 child: Column(
                   children: [

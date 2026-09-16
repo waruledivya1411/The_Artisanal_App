@@ -172,6 +172,8 @@ GoRouter createRouter() {
           categoryId: state.uri.queryParameters['category'] ?? 'saree',
           materialId: state.uri.queryParameters['material'],
           technique: state.uri.queryParameters['technique'],
+          productLabel: state.uri.queryParameters['product'] ??
+              state.uri.queryParameters['name'],
         ),
       ),
       GoRoute(
@@ -211,12 +213,21 @@ GoRouter createRouter() {
         path: '/product/:setId/light-quiz',
         name: AppRoute.lightQuiz,
         parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => LightQuizPage(
-          setId: state.pathParameters['setId']!,
-          categoryId: state.uri.queryParameters['category'],
-          materialId: state.uri.queryParameters['material'],
-          technique: state.uri.queryParameters['technique'],
-        ),
+        builder: (context, state) {
+          final framesRaw = state.uri.queryParameters['frames'] ?? '';
+          final frames = framesRaw
+              .split(',')
+              .map((e) => int.tryParse(e.trim()))
+              .whereType<int>()
+              .toList();
+          return LightQuizPage(
+            setId: state.pathParameters['setId']!,
+            categoryId: state.uri.queryParameters['category'],
+            materialId: state.uri.queryParameters['material'],
+            technique: state.uri.queryParameters['technique'],
+            frameIndexes: frames,
+          );
+        },
       ),
       GoRoute(
         path: '/product/:setId/list',

@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'providers.dart';
 import '../data/services/auth_service.dart';
+import '../data/services/click_social_sync_service.dart';
 import '../data/services/cloud_sync_service.dart';
+import '../data/services/supabase_initializer.dart';
 import '../features/home/shot_sets_controller.dart';
+import 'providers.dart';
 
 /// Signed-in artisan state for the account screen and sync triggers.
 class AuthSession {
@@ -17,7 +19,7 @@ class AuthSession {
   final User? user;
   final String? username;
 
-  bool get isSignedIn => user != null;
+  bool get isSignedIn => user != null && user!.isAnonymous != true;
 }
 
 class AuthController extends Notifier<AuthSession> {
@@ -31,7 +33,7 @@ class AuthController extends Notifier<AuthSession> {
     ref.onDispose(() => _subscription?.cancel());
 
     final user = _auth.currentUser;
-    if (user == null) return const AuthSession.signedOut();
+    if (user == null || user.isAnonymous) return const AuthSession.signedOut();
     return AuthSession(
       user: user,
       username: _auth.usernameFromUser(user),
@@ -40,8 +42,11 @@ class AuthController extends Notifier<AuthSession> {
 
   Future<void> _onAuthStateChanged(AuthState event) async {
     final user = event.session?.user;
-    if (user == null) {
+    if (user == null || user.isAnonymous) {
       state = const AuthSession.signedOut();
+      if (user != null) {
+        await _syncAfterSignIn();
+      }
       return;
     }
 
@@ -75,9 +80,11 @@ class AuthController extends Notifier<AuthSession> {
   Future<void> signOut() async {
     await _auth.signOut();
     state = const AuthSession.signedOut();
+    await ensureLearnerSession();
   }
 
   Future<CloudSyncResult> syncNow() async {
+    await ClickSocialSync.reconcile();
     final sync = ref.read(cloudSyncServiceProvider);
     final result = await sync.syncAll();
     if (result.didWork) {
@@ -87,6 +94,7 @@ class AuthController extends Notifier<AuthSession> {
   }
 
   Future<void> _syncAfterSignIn() async {
+    await ClickSocialSync.reconcile();
     final sync = ref.read(cloudSyncServiceProvider);
     if (!sync.canSync) return;
     final result = await sync.syncAll();

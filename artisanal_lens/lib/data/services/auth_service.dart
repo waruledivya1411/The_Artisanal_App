@@ -69,6 +69,21 @@ class AuthService {
     final passwordError = validatePassword(password);
     if (passwordError != null) throw AuthException(passwordError);
 
+    final current = client.auth.currentUser;
+    if (current != null && current.isAnonymous) {
+      await client.auth.updateUser(
+        UserAttributes(
+          email: emailForUsername(normalized),
+          password: password,
+          data: {
+            'username': normalized,
+            'display_name': normalized,
+          },
+        ),
+      );
+      return;
+    }
+
     final response = await client.auth.signUp(
       email: emailForUsername(normalized),
       password: password,

@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/modernist-3722c299-4639-4848-8cd2-2441a7421483/styles.css">
+  <script src="_ds/modernist-3722c299-4639-4848-8cd2-2441a7421483/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    :root {
+      --color-text: #3b3f47;
+      --color-accent: #2b6cb0;
+      --color-accent-2: #4a86c8;
+      --color-divider: color-mix(in srgb, #3b3f47 32%, transparent);
+      --color-neutral-800: #565a63;
+      --color-neutral-900: #43474f;
+      --color-accent-100: #eef4fb;
+      --color-accent-200: #d9e6f6;
+      --color-accent-300: #b6cfec;
+      --color-accent-400: #7eaadb;
+      --color-accent-500: #4a86c8;
+      --color-accent-600: #2b6cb0;
+      --color-accent-700: #1f5391;
+      --color-accent-800: #183e6d;
+      --color-accent-900: #142c4a;
+      --color-accent-2-100: #eef4fb;
+      --color-accent-2-200: #d9e6f6;
+      --color-accent-2-300: #b6cfec;
+      --color-accent-2-400: #7eaadb;
+      --color-accent-2-500: #4a86c8;
+      --color-accent-2-600: #2b6cb0;
+      --color-accent-2-700: #1f5391;
+      --color-accent-2-800: #183e6d;
+      --color-accent-2-900: #142c4a;
+    }
+    body { margin: 0; background: var(--color-bg); font-family: var(--font-body); }
+    a { color: var(--color-accent); } a:hover { color: var(--color-accent-700); }
+    @keyframes toastUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  </style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;background:var(--color-bg)">
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);position:relative">
+
+<sc-if value="{{ isLang }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Onboarding — language" style="flex:1;display:flex;flex-direction:column;padding:28px 20px 20px;overflow:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-family:var(--font-heading);font-weight:800;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-neutral-700)">Antaran · Learning tool</span>
+    <span class="tag tag-outline" style="font-size:10px">WORKS OFFLINE</span>
+  </div>
+  <div style="margin-top:40px">
+    <h1 style="font-size:46px;line-height:0.98;letter-spacing:-0.02em;margin:0">CLICK &amp;<br>SOCIAL<span style="color:var(--color-accent)">.</span></h1>
+    <p style="margin-top:14px;font-size:15px;line-height:1.45;color:var(--color-neutral-700);max-width:280px">Photograph your craft. Tell its story. Sell it online — all from this phone.</p>
+  </div>
+  <div class="hr" style="margin:24px 0 0"></div>
+  <h6 style="margin:18px 0 8px;font-size:11px"><span style="color:var(--color-accent)">1</span> · Your name</h6>
+  <input class="input" value="{{ nameVal }}" onInput="{{ nameInput }}" placeholder="Type your name" style="width:100%;min-height:50px;font-size:16px;border:2px solid var(--color-text);background:var(--color-neutral-100);padding:0 14px;font-family:var(--font-body);color:var(--color-text);box-sizing:border-box">
+  <h6 style="margin:20px 0 6px;font-size:11px"><span style="color:var(--color-accent)">2</span> · Your language <span style="font-weight:400;color:var(--color-neutral-600);text-transform:none;letter-spacing:0">— translations coming soon; lessons are in English for now</span></h6>
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="4">
+      <button onClick="{{ lg.pick }}" style="min-height:46px;padding:0 14px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:14px;background:{{ lg.bg }};color:{{ lg.color }}">{{ lg.native }} <span style="font-size:11px;opacity:0.7">{{ lg.en }}</span></button>
+    </sc-for>
+  </div>
+  <h6 style="margin:20px 0 6px;font-size:11px"><span style="color:var(--color-accent)">3</span> · Your cluster — where you work</h6>
+  <p style="margin:0 0 8px;font-size:11.5px;color:var(--color-neutral-600)">Chosen once. Your lessons, stories and hashtags are tuned to it.</p>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <sc-for list="{{ clusterOpts }}" as="cl" hint-placeholder-count="6">
+      <button onClick="{{ cl.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:50px;padding:8px 14px;text-align:left;border:2px solid {{ cl.border }};background:var(--color-neutral-100);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+        <span style="font-weight:700;font-size:14px">{{ cl.fabric }}</span>
+        <span style="font-size:9px;font-weight:800;letter-spacing:0.1em;color:var(--color-accent);flex-shrink:0">{{ cl.markLabel }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <button class="btn btn-primary btn-block" onClick="{{ startApp }}" disabled="{{ obNotReady }}" style="min-height:52px;font-size:15px;margin-top:24px">START LEARNING
+    <span style="margin-left:auto">
+      <svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square;display:block"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+  </button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Home — learning path" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:2px solid var(--color-divider)">
+    <span style="font-family:var(--font-heading);font-weight:800;font-size:15px;letter-spacing:-0.01em">CLICK &amp; SOCIAL<span style="color:var(--color-accent)">.</span></span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span style="width:8px;height:8px;background:var(--color-accent)"></span>
+      <span style="font-size:9px;letter-spacing:0.1em;font-weight:600;color:var(--color-neutral-700)">OFFLINE READY</span>
+    </span>
+  </div>
+  <div style="padding:22px 20px 16px">
+    <h3 style="margin:0;font-size:26px">Hello, {{ learnerName }}</h3>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+      <span style="font-size:12px;color:var(--color-neutral-700)">{{ clusterName }}</span>
+      <button onClick="{{ editProfile }}" style="min-height:32px;padding:0 10px;border:2px solid var(--color-text);background:transparent;cursor:pointer;font-family:var(--font-body);font-size:10px;font-weight:800;letter-spacing:0.08em;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">CHANGE</button>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--color-neutral-700)">{{ doneCount }} OF 5 LESSONS DONE</span>
+    </div>
+    <div style="height:8px;background:var(--color-neutral-300);margin-top:8px">
+      <div style="height:8px;background:var(--color-accent);width:{{ progressPct }}"></div>
+    </div>
+  </div>
+  <sc-for list="{{ lessons }}" as="ls" hint-placeholder-count="5">
+    <button onClick="{{ ls.open }}" style="display:flex;align-items:center;gap:16px;width:100%;text-align:left;min-height:76px;padding:12px 20px;background:transparent;border:none;border-top:2px solid var(--color-divider);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+      <span style="font-family:var(--font-heading);font-weight:800;font-size:22px;color:{{ ls.numColor }};width:36px;flex-shrink:0">{{ ls.n }}</span>
+      <span style="flex:1;min-width:0">
+        <span style="display:block;font-weight:600;font-size:16px">{{ ls.t }}</span>
+        <span style="display:block;font-size:12px;color:var(--color-neutral-600);margin-top:2px">{{ ls.s }}</span>
+      </span>
+      <sc-if value="{{ ls.done }}" hint-placeholder-val="{{ false }}">
+        <span style="width:26px;height:26px;background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:square;display:block"><path d="M4 12l5 5L20 6"></path></svg>
+        </span>
+      </sc-if>
+      <sc-if value="{{ ls.notDone }}" hint-placeholder-val="{{ true }}">
+        <svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:var(--color-neutral-500);stroke-width:2.5;stroke-linecap:square;flex-shrink:0"><path d="M9 6l6 6-6 6"></path></svg>
+      </sc-if>
+    </button>
+  </sc-for>
+  <div style="border-top:2px solid var(--color-divider)"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPhoto }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Lesson 01 — Photography" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:2px solid var(--color-divider);flex-shrink:0">
+    <button onClick="{{ photoBack }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+      <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square"><path d="M15 18l-6-6 6-6"></path></svg>
+    </button>
+    <div style="flex:1">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">LESSON 01</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:17px">Photography</div>
+    </div>
+    <span style="font-size:12px;font-weight:600;color:var(--color-neutral-600);padding-right:8px">{{ photoStepLabel }}</span>
+  </div>
+  <div style="display:flex;gap:4px;padding:8px 20px 0">
+    <sc-for list="{{ photoSegs }}" as="sg" hint-placeholder-count="7">
+      <span style="flex:1;height:5px;background:{{ sg.bg }}"></span>
+    </sc-for>
+  </div>
+  <sc-if value="{{ isPhoto0 }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">What are you photographing?</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">Pick your product.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <sc-for list="{{ productOpts }}" as="op" hint-placeholder-count="9">
+          <button onClick="{{ op.pick }}" style="min-height:60px;padding:8px 6px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:12px;background:{{ op.bg }};color:{{ op.color }}">{{ op.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasProduct }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ photoNext }}" style="min-height:50px;margin-top:16px">NEXT — MATERIAL</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto1 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">What is it made of?</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">The material decides the light.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <sc-for list="{{ materialOpts }}" as="op" hint-placeholder-count="2">
+          <button onClick="{{ op.pick }}" style="min-height:72px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:0.04em;background:{{ op.bg }};color:{{ op.color }}">{{ op.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasMaterial }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ photoNext }}" style="min-height:50px;margin-top:16px">NEXT — TECHNIQUE</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto2 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">How is it made?</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">The technique decides what the camera must show.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <sc-for list="{{ techniqueOpts }}" as="op" hint-placeholder-count="2">
+          <button onClick="{{ op.pick }}" style="min-height:72px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-heading);font-weight:800;font-size:15px;letter-spacing:0.04em;background:{{ op.bg }};color:{{ op.color }}">{{ op.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasTechnique }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ photoNext }}" style="min-height:50px;margin-top:16px">NEXT — PICK YOUR FRAMES</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto3 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">Where is it from?</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">Your cluster tunes the story, tags and detail shots.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ clusterOpts }}" as="cl" hint-placeholder-count="6">
+          <button onClick="{{ cl.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:58px;padding:10px 14px;text-align:left;border:2px solid {{ cl.border }};background:var(--color-neutral-100);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+            <span><span style="display:block;font-weight:700;font-size:14px">{{ cl.fabric }}</span><span style="display:block;font-size:11.5px;color:var(--color-neutral-600);margin-top:1px">{{ cl.place }}</span></span>
+            <span style="font-size:9px;font-weight:800;letter-spacing:0.1em;color:var(--color-accent);flex-shrink:0">{{ cl.markLabel }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ clusterPicked }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ photoNext }}" style="min-height:50px;margin-top:16px">NEXT — PICK YOUR FRAMES</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto4 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">Pick your frames</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">Which shots will you take? Choose at least two.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <sc-for list="{{ frameOpts }}" as="fr" hint-placeholder-count="5">
+          <button onClick="{{ fr.pick }}" style="display:block;width:100%;padding:0;text-align:left;border:1px solid {{ fr.border }};border-radius:8px;overflow:hidden;background:var(--color-neutral-100);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+            <span style="display:block;width:100%;height:150px;background-color:var(--color-neutral-200);background-image:url('{{ fr.img }}');background-size:contain;background-repeat:no-repeat;background-position:center"></span>
+            <span style="display:flex;align-items:flex-start;gap:8px;padding:8px 10px">
+              <span style="flex:1;min-width:0"><span style="display:block;font-weight:700;font-size:13px;line-height:1.2">{{ fr.name }}</span><span style="display:block;font-size:10.5px;color:var(--color-neutral-600);margin-top:2px">{{ fr.desc }}</span></span>
+              <span style="width:20px;height:20px;border:2px solid {{ fr.boxBorder }};background:{{ fr.boxBg }};flex-shrink:0"></span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ framesReady }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ photoNext }}" style="min-height:50px;margin-top:16px">NEXT — FRAME IT</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto5 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">FRAMING {{ fqPos }} — {{ fqFrames }}</div>
+      <h4 style="margin:4px 0 0;font-size:20px">{{ fqTitle }}</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">{{ fqSub }}</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ fqOpts }}" as="op" hint-placeholder-count="3">
+          <button onClick="{{ op.pick }}" style="display:block;width:100%;padding:0;border:2px solid {{ op.border }};background:var(--color-neutral-100);cursor:pointer">
+            <svg viewBox="0 0 120 64" style="display:block;width:100%;height:auto">
+              <rect x="0" y="0" width="120" height="64" style="fill:var(--color-neutral-200)"></rect>
+              <path d="{{ fqGrid }}" style="fill:none;stroke:var(--color-neutral-400);stroke-width:1;stroke-dasharray:3 2"></path>
+              <path d="{{ op.prod }}" style="fill:var(--color-neutral-800)"></path>
+            </svg>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ fqMsg }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px;padding:12px 14px;background:{{ fqMsgBg }};font-size:13px;font-weight:600;color:{{ fqMsgColor }}">{{ fqMsg }}</div>
+      </sc-if>
+      <sc-if value="{{ fqCorrect }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ fqNext }}" style="min-height:50px;margin-top:16px">{{ fqNextLabel }}</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto6 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">{{ lightHeading }}</h4>
+      <p style="margin:6px 0 14px;font-size:13px;color:var(--color-neutral-700)">{{ lightPrompt }}</p>
+      <sc-if value="{{ showPanelTips }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+          <div style="display:flex;gap:12px;align-items:center;border:1px solid var(--color-accent);border-radius:8px;background:var(--color-neutral-100);padding:10px">
+            <svg viewBox="0 0 90 64" width="110" style="flex-shrink:0">
+              <rect x="0" y="0" width="90" height="64" style="fill:var(--color-neutral-200)"></rect>
+              <rect x="4" y="8" width="14" height="48" style="fill:var(--color-neutral-100);stroke:var(--color-neutral-600);stroke-width:1.5"></rect>
+              <path d="M4 20h14M4 32h14M4 44h14" style="stroke:var(--color-neutral-600);stroke-width:1"></path>
+              <path d="M20 18L40 26M20 32h20M20 46L40 38" style="stroke:var(--color-accent);stroke-width:1.5;stroke-dasharray:3 2"></path>
+              <rect x="46" y="12" width="34" height="40" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M52 20c6 4 16 4 22 0M52 32c6 4 16 4 22 0M52 44c6 4 16 4 22 0" style="fill:none;stroke:var(--color-neutral-600);stroke-width:1.2"></path>
+            </svg>
+            <span><span style="display:block;font-size:10px;font-weight:800;letter-spacing:0.1em;color:var(--color-accent)">DO THIS</span><span style="display:block;font-size:12.5px;line-height:1.4;margin-top:2px"><b>Big soft window, curtain drawn.</b> Even light across the whole panel — every colour true, no shine.</span></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;border:1px solid var(--color-neutral-400);border-radius:8px;background:var(--color-neutral-100);padding:10px">
+            <svg viewBox="0 0 90 64" width="110" style="flex-shrink:0">
+              <rect x="0" y="0" width="90" height="64" style="fill:var(--color-neutral-200)"></rect>
+              <rect x="46" y="12" width="34" height="40" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <circle cx="63" cy="30" r="8" style="fill:var(--color-neutral-100)"></circle>
+              <circle cx="63" cy="30" r="4" style="fill:#fff"></circle>
+              <rect x="8" y="24" width="12" height="18" style="fill:var(--color-text)"></rect>
+              <circle cx="14" cy="30" r="3" style="fill:#fff"></circle>
+              <path d="M22 28L44 28M22 33L44 32" style="stroke:var(--color-neutral-600);stroke-width:1.5"></path>
+              <path d="M56 20l14 20M70 20L56 40" style="stroke:var(--color-neutral-500);stroke-width:1"></path>
+            </svg>
+            <span><span style="display:block;font-size:10px;font-weight:800;letter-spacing:0.1em;color:var(--color-neutral-700)">NEVER FLASH</span><span style="display:block;font-size:12.5px;line-height:1.4;margin-top:2px">Flash bounces straight back — a white glare spot burns out the painting.</span></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;border:1px solid var(--color-neutral-400);border-radius:8px;background:var(--color-neutral-100);padding:10px">
+            <svg viewBox="0 0 90 64" width="110" style="flex-shrink:0">
+              <rect x="0" y="0" width="90" height="64" style="fill:var(--color-neutral-200)"></rect>
+              <circle cx="10" cy="10" r="6" style="fill:var(--color-neutral-600)"></circle>
+              <path d="M16 14L40 30" style="stroke:var(--color-neutral-600);stroke-width:1.5;stroke-dasharray:3 2"></path>
+              <rect x="46" y="12" width="34" height="40" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M46 12l34 40V12z" style="fill:var(--color-neutral-500);opacity:0.55"></path>
+            </svg>
+            <span><span style="display:block;font-size:10px;font-weight:800;letter-spacing:0.1em;color:var(--color-neutral-700)">AVOID HARD SIDE LIGHT</span><span style="display:block;font-size:12.5px;line-height:1.4;margin-top:2px">A lamp or sun from one side drags shadows across the brushwork and the cloth texture fights the painting.</span></span>
+          </div>
+        </div>
+        <h6 style="margin:0 0 8px;font-size:11px">Now pick the right light</h6>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ lightOpts }}" as="op" hint-placeholder-count="3">
+          <button onClick="{{ op.pick }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:10px 14px;text-align:left;border:2px solid {{ op.border }};background:var(--color-neutral-100);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+            <svg viewBox="0 0 32 32" width="30" height="30" style="flex-shrink:0">
+              <rect x="11" y="18" width="10" height="10" style="fill:var(--color-neutral-800)"></rect>
+              <circle cx="{{ op.sx }}" cy="{{ op.sy }}" r="4" style="fill:var(--color-accent)"></circle>
+            </svg>
+            <span style="font-size:14px;font-weight:600">{{ op.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ lightMsg }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px;padding:12px 14px;background:{{ lightMsgBg }};font-size:13px;font-weight:600;color:{{ lightMsgColor }}">{{ lightMsg }}</div>
+      </sc-if>
+      <sc-if value="{{ lightCorrect }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ showPanelTips }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px">
+            <h6 style="margin:0 0 8px;font-size:11px">Well-lit panels — see the difference</h6>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="width:100%;height:240px;background-color:var(--color-neutral-200);background-image:url('assets/kal-framed-dining.jpg');background-size:contain;background-repeat:no-repeat;background-position:center;border:1px solid var(--color-neutral-400);border-radius:8px"></div>
+              <p style="margin:0;font-size:11.5px;color:var(--color-neutral-600)">Even room light from above and the side of the room — no glare, colours read true edge to edge.</p>
+              <div style="width:100%;height:240px;background-color:var(--color-neutral-200);background-image:url('assets/kal-scroll-hang.jpg');background-size:contain;background-repeat:no-repeat;background-position:center;border:1px solid var(--color-neutral-400);border-radius:8px"></div>
+              <p style="margin:0;font-size:11.5px;color:var(--color-neutral-600)">Soft daylight falling flat on the scroll — the deep greens stay deep, the gold stays gold.</p>
+            </div>
+          </div>
+        </sc-if>
+        <button class="btn btn-primary btn-block" onClick="{{ photoNext }}" style="min-height:50px;margin-top:16px">NEXT — SHOOT YOURS</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isPhoto7 }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ guideOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:20px;display:flex;flex-direction:column;flex:1">
+        <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">{{ guideShotName }}</div>
+        <h4 style="margin:4px 0 0;font-size:20px">{{ guideTitle }}</h4>
+        <p style="margin:6px 0 14px;font-size:13px;color:var(--color-neutral-700)">{{ guideSub }}</p>
+        <div style="border:1px solid var(--color-neutral-400);border-radius:8px;overflow:hidden;background:var(--color-neutral-200);display:grid;grid-template-columns:{{ gCols }};align-items:stretch">
+          <sc-if value="{{ gImg }}" hint-placeholder-val="{{ false }}">
+            <div style="width:100%;height:340px;background-color:var(--color-neutral-200);background-image:url('{{ gImg }}');background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+          </sc-if>
+          <sc-if value="{{ gGallery }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:10px;padding:10px">
+              <sc-for list="{{ galleryImgs }}" as="gi" hint-placeholder-count="2">
+                <div style="width:100%;height:280px;background-color:var(--color-neutral-200);background-image:url('{{ gi.src }}');background-size:contain;background-repeat:no-repeat;background-position:center;border:1px solid var(--color-neutral-400);border-radius:8px"></div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ dHang }}" hint-placeholder-val="{{ true }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="16" y="28" width="168" height="7" style="fill:var(--color-neutral-700)"></rect>
+              <rect x="82" y="35" width="44" height="88" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M92 36v86M102 36v86M112 36v86" style="stroke:var(--color-neutral-400);stroke-width:1"></path>
+              <rect x="82" y="109" width="44" height="14" style="fill:var(--color-text)"></rect>
+              <path d="M38 112C38 62 54 42 74 33" style="fill:none;stroke:var(--color-accent);stroke-width:2;stroke-dasharray:5 4"></path>
+              <path d="M78 32l-10-1 4 8z" style="fill:var(--color-accent)"></path>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dDrape }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="16" y="28" width="168" height="7" style="fill:var(--color-neutral-700)"></rect>
+              <rect x="72" y="35" width="56" height="72" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M72 35l14 88 14-70 14 70 14-88" style="fill:var(--color-neutral-400);stroke:var(--color-text);stroke-width:2;stroke-linejoin:bevel"></path>
+              <path d="M40 100C44 66 56 46 68 36" style="fill:none;stroke:var(--color-accent);stroke-width:2;stroke-dasharray:5 4"></path>
+              <path d="M72 34l-10 0 3 8z" style="fill:var(--color-accent)"></path>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dGrid }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="62" y="4" width="76" height="132" style="fill:var(--color-text)"></rect>
+              <rect x="68" y="14" width="64" height="98" style="fill:var(--color-neutral-200)"></rect>
+              <path d="M89 14v98M111 14v98M68 47h64M68 80h64" style="stroke:var(--color-accent);stroke-width:1;stroke-dasharray:3 3;fill:none"></path>
+              <rect x="89" y="24" width="22" height="70" style="fill:var(--color-neutral-400);stroke:var(--color-text);stroke-width:1.5"></rect>
+              <rect x="89" y="83" width="22" height="11" style="fill:var(--color-text)"></rect>
+              <circle cx="100" cy="124" r="6" style="fill:var(--color-neutral-100)"></circle>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dFoldMid }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="20" y="30" width="160" height="80" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <rect x="20" y="30" width="160" height="8" style="fill:var(--color-text)"></rect>
+              <rect x="20" y="102" width="160" height="8" style="fill:var(--color-text)"></rect>
+              <path d="M20 70h160" style="stroke:var(--color-neutral-600);stroke-width:1.5;stroke-dasharray:6 4"></path>
+              <path d="M100 44C122 52 122 88 102 96" style="fill:none;stroke:var(--color-accent);stroke-width:2;stroke-dasharray:5 4"></path>
+              <path d="M100 98l10-4-6-7z" style="fill:var(--color-accent)"></path>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dFoldDiag }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="20" y="36" width="160" height="72" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M20 36l64 0-64 64z" style="fill:var(--color-neutral-400);stroke:var(--color-text);stroke-width:2"></path>
+              <path d="M70 92C58 78 48 66 40 56" style="fill:none;stroke:var(--color-accent);stroke-width:2;stroke-dasharray:5 4"></path>
+              <path d="M37 52l1 10 7-5z" style="fill:var(--color-accent)"></path>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dDist }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="16" y="108" width="168" height="18" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M16 112h168M16 117h168M16 122h168" style="stroke:var(--color-neutral-500);stroke-width:1"></path>
+              <rect x="82" y="18" width="36" height="22" rx="3" style="fill:var(--color-text)"></rect>
+              <circle cx="100" cy="29" r="5" style="fill:none;stroke:#fff;stroke-width:2"></circle>
+              <path d="M100 46v54" style="stroke:var(--color-accent);stroke-width:2"></path>
+              <path d="M100 46l-4 7h8zM100 100l-4-7h8z" style="fill:var(--color-accent)"></path>
+              <text x="108" y="78" style="font-family:var(--font-heading);font-weight:800;font-size:13px;fill:var(--color-text)">15–30 cm</text>
+              <text x="108" y="92" style="font-family:var(--font-body);font-size:9px;fill:var(--color-neutral-600)">about one hand-span</text>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dRake }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="16" y="96" width="168" height="26" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M28 96q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0q6-8 12 0" style="fill:none;stroke:var(--color-neutral-700);stroke-width:1.5"></path>
+              <path d="M42 94h7M66 94h7M90 94h7M114 94h7M138 94h7M162 94h7" style="stroke:var(--color-text);stroke-width:3"></path>
+              <circle cx="26" cy="40" r="10" style="fill:var(--color-accent)"></circle>
+              <path d="M38 46L88 88M42 40L110 82M40 54L70 88" style="stroke:var(--color-accent);stroke-width:1.5;stroke-dasharray:4 3"></path>
+              <path d="M112 88a40 40 0 0 0-24-20" style="fill:none;stroke:var(--color-neutral-600);stroke-width:1.2"></path>
+              <text x="118" y="86" style="font-family:var(--font-heading);font-weight:800;font-size:13px;fill:var(--color-text)">30°</text>
+              <text x="118" y="100" style="font-family:var(--font-body);font-size:9px;fill:var(--color-neutral-600)">low light = shadows show weave</text>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dClose }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="28" y="18" width="144" height="104" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <path d="M28 34h144M28 50h144M28 66h144M28 82h144M28 98h144M28 114h144" style="stroke:var(--color-neutral-400);stroke-width:1"></path>
+              <path d="M52 40h96M52 100h96" style="stroke:var(--color-neutral-500);stroke-width:1"></path>
+              <path d="M52 54v-14h14M148 40h-14M52 86v14h14M148 100h-14" style="fill:none;stroke:var(--color-accent);stroke-width:2.5"></path>
+              <path d="M6 44l18 14" style="stroke:var(--color-accent);stroke-width:2"></path>
+              <path d="M26 60l-2-10-7 5z" style="fill:var(--color-accent)"></path>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ dBorder }}" hint-placeholder-val="{{ false }}">
+            <svg viewBox="0 0 200 140" style="display:block;width:100%;height:auto">
+              <rect x="28" y="24" width="144" height="92" style="fill:var(--color-neutral-300);stroke:var(--color-text);stroke-width:2"></rect>
+              <rect x="28" y="84" width="144" height="32" style="fill:var(--color-neutral-400);stroke:var(--color-text);stroke-width:2"></rect>
+              <rect x="44" y="94" width="12" height="10" style="fill:var(--color-text)"></rect>
+              <rect x="70" y="94" width="12" height="10" style="fill:var(--color-text)"></rect>
+              <rect x="96" y="94" width="12" height="10" style="fill:var(--color-text)"></rect>
+              <rect x="122" y="94" width="12" height="10" style="fill:var(--color-text)"></rect>
+              <rect x="88" y="78" width="56" height="42" style="fill:none;stroke:var(--color-accent);stroke-width:2;stroke-dasharray:5 3"></rect>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ gPhoto }}" hint-placeholder-val="{{ false }}">
+            <div style="position:relative;min-height:150px;border-left:1px solid var(--color-neutral-400);background-color:var(--color-neutral-100);background-image:url('{{ gPhoto }}');background-size:contain;background-repeat:no-repeat;background-position:center">
+              <span style="position:absolute;left:6px;bottom:6px;font-size:8px;font-weight:800;letter-spacing:0.1em;padding:3px 6px;border-radius:4px;background:var(--color-text);color:var(--color-neutral-100)">{{ gPhotoLabel }}</span>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ guideCaption }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:10px 0 0;font-size:12px;color:var(--color-neutral-600)">{{ guideCaption }}</p>
+        </sc-if>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:16px">
+          <button onClick="{{ guideBack }}" style="width:50px;height:50px;display:flex;align-items:center;justify-content:center;border:2px solid var(--color-text);background:transparent;cursor:pointer;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+            <svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square"><path d="M15 18l-6-6 6-6"></path></svg>
+          </button>
+          <span style="flex:1;text-align:center;font-size:12px;font-weight:700;color:var(--color-neutral-600)">{{ guideStepLabel }}</span>
+          <button class="btn btn-primary" onClick="{{ guideNext }}" style="min-height:50px;min-width:130px">{{ guideNextLabel }}</button>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ guideClosed }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:20px">
+        <h4 style="margin:0;font-size:20px">Photos to capture <span style="color:var(--color-accent)">{{ capturedCount }}/{{ pickedCount }}</span></h4>
+        <p style="margin:6px 0 14px;font-size:13px;color:var(--color-neutral-700)">Open the guide, take the shot, drop it in, tick it off.</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ fiveShots }}" as="sh" hint-placeholder-count="5">
+            <div style="border:1px solid var(--color-neutral-400);border-radius:8px;overflow:hidden;background:var(--color-neutral-100)">
+              <div style="display:flex;align-items:stretch">
+                <button onClick="{{ sh.toggle }}" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;min-height:60px;padding:8px 10px;text-align:left;border:none;background:transparent;cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+                  <span style="width:22px;height:22px;border:2px solid {{ sh.boxBorder }};background:{{ sh.boxBg }};color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <sc-if value="{{ sh.done }}" hint-placeholder-val="{{ false }}">
+                      <svg viewBox="0 0 24 24" width="14" height="14" style="fill:none;stroke:currentColor;stroke-width:3.5;stroke-linecap:square"><path d="M4 12l5 5L20 6"></path></svg>
+                    </sc-if>
+                  </span>
+                  <span style="width:48px;height:44px;flex-shrink:0;border-radius:6px;background-color:var(--color-neutral-200);background-image:url('{{ sh.thumb }}');background-size:cover;background-position:center"></span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-weight:700;font-size:13.5px">{{ sh.name }}</span><span style="display:block;font-size:11px;margin-top:2px;color:var(--color-neutral-600)">{{ sh.tip }}</span></span>
+                </button>
+                <button onClick="{{ sh.how }}" style="width:64px;flex-shrink:0;border:none;border-left:2px solid var(--color-divider);background:transparent;cursor:pointer;font-family:var(--font-body);font-size:10px;font-weight:800;letter-spacing:0.08em;color:var(--color-accent)" style-hover="background:var(--color-neutral-200)">GUIDE</button>
+              </div>
+              <sc-if value="{{ sh.expanded }}" hint-placeholder-val="{{ false }}">
+                <div style="border-top:2px solid var(--color-divider);padding:10px">
+                  <div style="position:relative">
+                    <image-slot id="{{ sh.slotId }}" shape="rect" style="width:100%;height:150px;display:block" placeholder="{{ sh.ph }}"></image-slot>
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+                      <path d="{{ sh.gridPath }}" style="fill:none;stroke:var(--color-accent);stroke-width:0.6;stroke-dasharray:2 1.5;opacity:0.8;vector-effect:non-scaling-stroke"></path>
+                    </svg>
+                  </div>
+                  <button onClick="{{ sh.mark }}" class="btn btn-secondary" style="min-height:44px;margin-top:8px;width:100%">{{ sh.markLabel }}</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ photoLeftMsg }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;padding:10px 14px;background:var(--color-neutral-200);font-size:12.5px;font-weight:600;color:var(--color-neutral-800)">{{ photoLeftMsg }}</div>
+        </sc-if>
+        <button class="btn btn-primary btn-block" onClick="{{ completePhoto }}" disabled="{{ photoNotDone }}" style="min-height:52px;margin-top:12px">FINISH — EARN BADGE</button>
+      </div>
+    </sc-if>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Lesson 02 — Profile setup" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:2px solid var(--color-divider);flex-shrink:0">
+    <button onClick="{{ goHome }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+      <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square"><path d="M15 18l-6-6 6-6"></path></svg>
+    </button>
+    <div style="flex:1">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">LESSON 02</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:15px">Set Up Your Page on Instagram</div>
+    </div>
+    <span style="font-size:12px;font-weight:600;color:var(--color-neutral-600);padding-right:8px">{{ profStepLabel }}</span>
+  </div>
+  <sc-if value="{{ isProf0 }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:20px">
+      <h4 style="margin:0;font-size:20px">Pick your username</h4>
+      <p style="margin:6px 0 16px;font-size:13px;color:var(--color-neutral-700)">Short. Your craft in it. Easy to say out loud.</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ userOpts }}" as="op" hint-placeholder-count="3">
+          <button onClick="{{ op.pick }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:50px;padding:0 14px;text-align:left;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:14px;background:{{ op.bg }};color:{{ op.color }}"><span style="color:var(--color-accent)">@</span>{{ op.name }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasUsername }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ profNext }}" style="min-height:50px;margin-top:16px">NEXT — EDIT PROFILE</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isProf1 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:16px 20px 24px">
+      <p style="margin:0 0 12px;font-size:13px;color:var(--color-neutral-700)">This is the <b>Edit profile</b> screen. Fill each row.</p>
+      <div style="border:2px solid var(--color-text);background:var(--color-neutral-100)">
+        <div style="display:flex;align-items:center;justify-content:center;padding:16px 0 4px">
+          <div style="width:72px;height:72px;border:2px solid var(--color-text);border-radius:50%;overflow:hidden;background:var(--color-neutral-200)">
+            <image-slot id="profile-photo" shape="circle" style="width:100%;height:100%;display:block" placeholder="Your photo"></image-slot>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:11px;font-weight:700;color:var(--color-accent);padding-bottom:10px">Change photo — use your product, not a sunset</div>
+        <div style="display:flex;gap:12px;padding:12px 14px;border-top:2px solid var(--color-divider);align-items:center">
+          <span style="width:70px;font-size:12px;color:var(--color-neutral-600);flex-shrink:0">Name</span>
+          <span style="font-size:13.5px;font-weight:600">{{ displayName }}</span>
+        </div>
+        <div style="display:flex;gap:12px;padding:12px 14px;border-top:2px solid var(--color-divider);align-items:center">
+          <span style="width:70px;font-size:12px;color:var(--color-neutral-600);flex-shrink:0">Username</span>
+          <span style="font-size:13.5px;font-weight:600">{{ previewName }}</span>
+        </div>
+        <div style="display:flex;gap:12px;padding:12px 14px;border-top:2px solid var(--color-divider)">
+          <span style="width:70px;font-size:12px;color:var(--color-neutral-600);flex-shrink:0">Bio</span>
+          <span style="flex:1;min-height:34px">
+            <sc-for list="{{ bioPicked }}" as="bl" hint-placeholder-count="2">
+              <span style="display:block;font-size:12.5px;line-height:1.45">{{ bl.t }}</span>
+            </sc-for>
+            <sc-if value="{{ bioEmpty }}" hint-placeholder-val="{{ true }}">
+              <span style="display:block;font-size:12.5px;color:var(--color-neutral-500)">Tap lines below to build it…</span>
+            </sc-if>
+          </span>
+        </div>
+      </div>
+      <h6 style="margin:16px 0 8px;font-size:11px">Bio lines — pick at least 2 (place + craft + how to buy)</h6>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ bioOpts }}" as="op" hint-placeholder-count="5">
+          <button onClick="{{ op.pick }}" style="min-height:44px;padding:0 14px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:13px;background:{{ op.bg }};color:{{ op.color }}">{{ op.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ bioReady }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ profNext }}" style="min-height:50px;margin-top:16px">NEXT — GO PROFESSIONAL</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isProf2 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:16px 20px 24px">
+      <p style="margin:0 0 12px;font-size:13px;color:var(--color-neutral-700)">{{ settingsPrompt }}</p>
+      <div style="border:2px solid var(--color-text);background:var(--color-neutral-100)">
+        <div style="padding:10px 14px;border-bottom:2px solid var(--color-divider);font-family:var(--font-heading);font-weight:800;font-size:13px">{{ settingsTitle }}</div>
+        <sc-for list="{{ settingsRows }}" as="rw" hint-placeholder-count="4">
+          <button onClick="{{ rw.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:8px 14px;text-align:left;border:none;border-top:2px solid var(--color-divider);cursor:pointer;font-family:var(--font-body);color:var(--color-text);background:{{ rw.bg }}" style-hover="background:var(--color-neutral-200)">
+            <span style="width:10px;height:10px;flex-shrink:0;background:{{ rw.dot }}"></span>
+            <span style="flex:1"><span style="display:block;font-size:13.5px;font-weight:600">{{ rw.label }}</span><span style="display:block;font-size:11px;color:var(--color-neutral-600)">{{ rw.sub }}</span></span>
+            <svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:var(--color-neutral-500);stroke-width:2.5;stroke-linecap:square;flex-shrink:0"><path d="M9 6l6 6-6 6"></path></svg>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ settingsMsg }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:12px;padding:12px 14px;background:{{ settingsMsgBg }};font-size:13px;font-weight:600;color:{{ settingsMsgColor }}">{{ settingsMsg }}</div>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isProf3 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:16px 20px 24px">
+      <p style="margin:0 0 12px;font-size:13px;color:var(--color-neutral-700)">Last step — <b>what are you?</b> Pick the category buyers will see.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ categoryOpts }}" as="op" hint-placeholder-count="4">
+          <button onClick="{{ op.pick }}" style="min-height:44px;padding:0 14px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:13px;background:{{ op.bg }};color:{{ op.color }}">{{ op.label }}</button>
+        </sc-for>
+      </div>
+      <div style="margin-top:14px;padding:12px 14px;background:var(--color-neutral-200);font-size:12.5px;line-height:1.5;color:var(--color-neutral-800)">A professional account is free. It unlocks <b>insights</b> (who sees your posts — Lesson 05), a <b>contact button</b>, and <b>ads</b> later.</div>
+      <sc-if value="{{ hasCategory }}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-primary btn-block" onClick="{{ profNext }}" style="min-height:50px;margin-top:16px">SWITCH TO PROFESSIONAL</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isProf4 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:16px 20px 24px">
+      <p style="margin:0 0 12px;font-size:13px;color:var(--color-neutral-700)">Done. This is how buyers will see your page:</p>
+      <div style="border:2px solid var(--color-text);padding:16px;background:var(--color-neutral-100)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:52px;height:52px;border:2px solid var(--color-text);border-radius:50%;overflow:hidden;background:var(--color-neutral-800);flex-shrink:0">
+            <image-slot id="profile-photo" shape="circle" style="width:100%;height:100%;display:block" placeholder="{{ avatarLetter }}"></image-slot>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:800;font-family:var(--font-heading);font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ previewName }}</div>
+            <div style="font-size:11px;color:var(--color-neutral-600);margin-top:2px">{{ categoryLabel }}</div>
+            <div style="display:flex;gap:14px;margin-top:4px;font-size:11px;color:var(--color-neutral-700)"><span><b>0</b> posts</span><span><b>0</b> followers</span></div>
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <sc-for list="{{ bioPicked }}" as="bl" hint-placeholder-count="2">
+            <div style="font-size:12.5px;line-height:1.45">{{ bl.t }}</div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <span style="flex:1;text-align:center;padding:8px 0;border:2px solid var(--color-text);font-size:11px;font-weight:800;letter-spacing:0.06em">FOLLOW</span>
+          <span style="flex:1;text-align:center;padding:8px 0;border:2px solid var(--color-text);font-size:11px;font-weight:800;letter-spacing:0.06em">MESSAGE</span>
+        </div>
+        <span class="tag tag-accent" style="margin-top:12px;font-size:10px">PROFESSIONAL ACCOUNT</span>
+      </div>
+      <button class="btn btn-primary btn-block" onClick="{{ completeProfile }}" style="min-height:52px;margin-top:20px">FINISH — EARN BADGE</button>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isContent }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Lesson 03 — Create a post" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:2px solid var(--color-divider);flex-shrink:0">
+    <button onClick="{{ goHome }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+      <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square"><path d="M15 18l-6-6 6-6"></path></svg>
+    </button>
+    <div style="flex:1">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">LESSON 03</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:17px">Create a Post</div>
+    </div>
+  </div>
+  <div style="padding:16px 20px 24px">
+    <div style="display:flex;border:2px solid var(--color-text)">
+      <sc-for list="{{ formats }}" as="fm" hint-placeholder-count="3">
+        <button onClick="{{ fm.pick }}" style="flex:1;min-height:46px;border:none;border-left:{{ fm.bl }};cursor:pointer;font-family:var(--font-heading);font-weight:800;font-size:12px;letter-spacing:0.06em;background:{{ fm.bg }};color:{{ fm.color }}">{{ fm.label }}</button>
+      </sc-for>
+    </div>
+    <div class="grayscale" style="border:2px solid var(--color-text);border-top:none">
+      <image-slot id="shot-0" shape="rect" style="width:100%;height:190px;display:block" placeholder="Your photo from Lesson 01 — or drop one"></image-slot>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:16px;border:1px solid var(--color-neutral-400);border-radius:8px;padding:10px;align-items:center">
+      <div style="flex-shrink:0;width:64px;height:64px;background-color:var(--color-neutral-200);background-image:url('assets/ex-post-card.jpg');background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+      <span style="font-size:11.5px;line-height:1.45;color:var(--color-neutral-700)">Example: a Kotpad post — photo up close, then two lines naming the craft and its weavers.</span>
+    </div>
+    <h6 style="margin:20px 0 8px;font-size:11px">Add your story — tap lines</h6>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ blocks }}" as="bk" hint-placeholder-count="3">
+        <button onClick="{{ bk.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:50px;padding:8px 12px;text-align:left;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);background:{{ bk.bg }};color:{{ bk.color }}">
+          <span style="font-size:9px;font-weight:800;letter-spacing:0.1em;width:64px;flex-shrink:0;color:{{ bk.kColor }}">{{ bk.kicker }}</span>
+          <span style="font-size:13px;line-height:1.35">{{ bk.text }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <h6 style="margin:20px 0 8px;font-size:11px">Hashtags — pick 3 to 5 <span style="color:var(--color-accent)">{{ tagCount }}/5 {{ tagCapNote }}</span></h6>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <sc-for list="{{ tagOpts }}" as="tg" hint-placeholder-count="8">
+        <button onClick="{{ tg.pick }}" style="min-height:40px;padding:0 12px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:12.5px;background:{{ tg.bg }};color:{{ tg.color }}">{{ tg.label }}</button>
+      </sc-for>
+    </div>
+    <div style="margin-top:18px;border-top:2px solid var(--color-divider);padding-top:12px">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-neutral-600)">CAPTION PREVIEW</div>
+      <p style="margin:8px 0 0;font-size:13px;line-height:1.5;color:{{ captionColor }}">{{ captionText }}</p>
+      <p style="margin:4px 0 0;font-size:12.5px;font-weight:600;color:var(--color-accent-700)">{{ tagLine }}</p>
+    </div>
+    <button class="btn btn-primary btn-block" onClick="{{ publish }}" disabled="{{ cannotPublish }}" style="min-height:52px;margin-top:16px">POST TO PRACTICE FEED</button>
+    <p style="margin:8px 0 0;font-size:11px;color:var(--color-neutral-600)">Practice feed only — nothing leaves your phone.</p>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isStrategy }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Lesson 04 — Posting plan" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:2px solid var(--color-divider);flex-shrink:0">
+    <button onClick="{{ goHome }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+      <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square"><path d="M15 18l-6-6 6-6"></path></svg>
+    </button>
+    <div style="flex:1">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">LESSON 04</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:17px">Posting Plan</div>
+    </div>
+  </div>
+  <div style="padding:20px">
+    <h4 style="margin:0;font-size:20px">When do buyers scroll?</h4>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+      <sc-for list="{{ timeOpts }}" as="op" hint-placeholder-count="3">
+        <button onClick="{{ op.pick }}" style="display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:8px 14px;text-align:left;border:2px solid {{ op.border }};background:var(--color-neutral-100);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+          <span style="font-size:14px;font-weight:600">{{ op.label }}</span>
+          <span style="font-size:18px">{{ op.icon }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ timeMsg }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:12px;padding:12px 14px;background:{{ timeMsgBg }};font-size:13px;font-weight:600;color:{{ timeMsgColor }}">{{ timeMsg }}</div>
+    </sc-if>
+    <sc-if value="{{ timeCorrect }}" hint-placeholder-val="{{ false }}">
+      <h4 style="margin:24px 0 4px;font-size:20px">Plan your week — pick 3 days</h4>
+      <p style="margin:0 0 12px;font-size:13px;color:var(--color-neutral-700)">Spread them out. Buyers should see you all week.</p>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+        <sc-for list="{{ days }}" as="dy" hint-placeholder-count="7">
+          <button onClick="{{ dy.pick }}" style="min-height:52px;border:2px solid var(--color-text);cursor:pointer;font-family:var(--font-heading);font-weight:800;font-size:12px;background:{{ dy.bg }};color:{{ dy.color }}">{{ dy.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ planReady }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:12px;padding:12px 14px;background:var(--color-accent-100);font-size:13px;font-weight:600;color:var(--color-accent-800)">Good rhythm — three posts, spread across the week.</div>
+        <button class="btn btn-primary btn-block" onClick="{{ completeStrategy }}" style="min-height:52px;margin-top:14px">FINISH — EARN BADGE</button>
+      </sc-if>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAnalytics }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Lesson 05 — Analytics" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:2px solid var(--color-divider);flex-shrink:0">
+    <button onClick="{{ goHome }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+      <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:square"><path d="M15 18l-6-6 6-6"></path></svg>
+    </button>
+    <div style="flex:1">
+      <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-accent)">LESSON 05</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:17px">Read the Numbers</div>
+    </div>
+  </div>
+  <div style="padding:20px">
+    <h4 style="margin:0;font-size:20px">Three posts. One winner.</h4>
+    <p style="margin:6px 0 14px;font-size:13px;color:var(--color-neutral-700)">Reach = how many people saw it. Tap the best post.</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{ resultOpts }}" as="op" hint-placeholder-count="3">
+        <button onClick="{{ op.pick }}" style="display:block;width:100%;padding:12px 14px;text-align:left;border:2px solid {{ op.border }};background:var(--color-neutral-100);cursor:pointer;font-family:var(--font-body);color:var(--color-text)" style-hover="background:var(--color-neutral-200)">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:13.5px;font-weight:600">{{ op.label }}</span>
+            <span style="font-family:var(--font-heading);font-weight:800;font-size:16px">{{ op.reach }}</span>
+          </div>
+          <div style="height:10px;background:var(--color-neutral-300);margin-top:8px">
+            <div style="height:10px;background:var(--color-accent);width:{{ op.w }}"></div>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ bestMsg }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:14px;padding:12px 14px;background:{{ bestMsgBg }};font-size:13px;font-weight:600;color:{{ bestMsgColor }}">{{ bestMsg }}</div>
+    </sc-if>
+    <sc-if value="{{ bestCorrect }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:20px;border-top:2px solid var(--color-divider);padding-top:14px">
+        <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--color-neutral-600)">YOUR WEEK — PEOPLE REACHED</div>
+        <div style="display:flex;align-items:flex-end;gap:6px;height:90px;margin-top:12px">
+          <sc-for list="{{ weekBars }}" as="wb" hint-placeholder-count="7">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
+              <div style="background:{{ wb.fill }};height:{{ wb.h }}"></div>
+              <div style="font-size:9px;font-weight:600;text-align:center;margin-top:4px;color:var(--color-neutral-600)">{{ wb.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin:10px 0 0;font-size:13px;color:var(--color-neutral-700)">Tall bars are your posting days. Post on your plan — reach follows.</p>
+      </div>
+      <button class="btn btn-primary btn-block" onClick="{{ completeAnalytics }}" style="min-height:52px;margin-top:16px">FINISH — EARN BADGE</button>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isGram }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Practice feed" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:2px solid var(--color-divider)">
+    <span style="font-family:var(--font-heading);font-weight:800;font-size:15px">PRACTICE FEED<span style="color:var(--color-accent)">.</span></span>
+    <span class="tag tag-outline" style="font-size:9px">STAYS ON YOUR PHONE</span>
+  </div>
+  <sc-for list="{{ feed }}" as="po" hint-placeholder-count="2">
+    <div style="border-bottom:2px solid var(--color-divider);padding-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 20px 10px">
+        <div style="width:34px;height:34px;background:{{ po.avBg }};color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:800;font-size:15px">{{ po.initial }}</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:13.5px">{{ po.user }}</div></div>
+        <div style="font-size:11px;color:var(--color-neutral-600)">{{ po.time }}</div>
+      </div>
+      <div class="grayscale">
+        <image-slot id="{{ po.slot }}" shape="rect" style="width:100%;height:230px;display:block" placeholder="{{ po.placeholder }}"></image-slot>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;padding:6px 12px 0">
+        <button onClick="{{ po.like }}" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;border:none;cursor:pointer;color:{{ po.likeColor }};font-family:var(--font-body)" style-hover="background:var(--color-neutral-200)">
+          <svg viewBox="0 0 24 24" width="22" height="22" style="fill:{{ po.heartFill }};stroke:currentColor;stroke-width:2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>
+          <span style="font-weight:700;font-size:13px">{{ po.likes }}</span>
+        </button>
+      </div>
+      <div style="padding:2px 20px 0;font-size:13px;line-height:1.45"><b>{{ po.user }}</b>&nbsp; {{ po.caption }}</div>
+      <div style="padding:2px 20px 0;font-size:12.5px;font-weight:600;color:var(--color-accent-700)">{{ po.tags }}</div>
+      <sc-for list="{{ po.comments }}" as="cm" hint-placeholder-count="1">
+        <div style="padding:4px 20px 0;font-size:12.5px;color:var(--color-neutral-800)"><b>{{ cm.u }}</b>&nbsp; {{ cm.t }}</div>
+      </sc-for>
+    </div>
+  </sc-for>
+  <div style="padding:16px 20px;font-size:11px;color:var(--color-neutral-600)">Tap the heart to see how buyers respond.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProgress }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Progress and badges" style="flex:1;display:flex;flex-direction:column;overflow:auto">
+  <div style="padding:24px 20px 16px;border-bottom:2px solid var(--color-divider)">
+    <h6 style="margin:0 0 6px;font-size:11px;color:var(--color-neutral-700)">Your progress</h6>
+    <div style="display:flex;align-items:baseline;gap:8px">
+      <span style="font-family:var(--font-heading);font-weight:800;font-size:56px;line-height:1">{{ doneCount }}</span>
+      <span style="font-family:var(--font-heading);font-weight:800;font-size:22px;color:var(--color-neutral-500)">/ 5 badges</span>
+    </div>
+    <div style="height:8px;background:var(--color-neutral-300);margin-top:12px">
+      <div style="height:8px;background:var(--color-accent);width:{{ progressPct }}"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 20px 8px">
+    <sc-for list="{{ badges }}" as="bd" hint-placeholder-count="5">
+      <div style="border:2px solid {{ bd.border }};padding:16px 14px;background:{{ bd.bg }}">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:{{ bd.iconBg }};color:{{ bd.iconColor }}">
+          <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square"><circle cx="12" cy="9" r="6"></circle><path d="M8.5 14L7 22l5-3 5 3-1.5-8"></path></svg>
+        </div>
+        <div style="font-family:var(--font-heading);font-weight:800;font-size:14px;margin-top:12px;color:{{ bd.tColor }}">{{ bd.name }}</div>
+        <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;margin-top:4px;color:{{ bd.sColor }}">{{ bd.status }}</div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="padding:8px 20px 20px;display:flex;flex-direction:column;gap:8px">
+    <button class="btn btn-secondary" onClick="{{ editProfile }}" style="min-height:46px;width:100%">EDIT NAME, LANGUAGE OR CLUSTER</button>
+    <button onClick="{{ resetAll }}" style="min-height:44px;width:100%;border:1px solid var(--color-neutral-400);border-radius:8px;background:transparent;cursor:pointer;font-family:var(--font-body);font-size:11px;font-weight:800;letter-spacing:0.08em;color:var(--color-neutral-700)" style-hover="background:var(--color-neutral-200)">START OVER — CLEAR ALL PROGRESS</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showNav }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;border-top:2px solid var(--color-text);background:var(--color-bg);flex-shrink:0">
+  <button onClick="{{ navLearn }}" style="flex:1;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:none;cursor:pointer;color:{{ navLearnColor }};font-family:var(--font-body)" style-hover="background:var(--color-neutral-200)">
+    <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square"><path d="M3 11l9-8 9 8v10h-6v-6h-6v6H3z"></path></svg>
+    <span style="font-size:9px;font-weight:800;letter-spacing:0.1em">LEARN</span>
+  </button>
+  <button onClick="{{ navGram }}" style="flex:1;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:none;cursor:pointer;color:{{ navGramColor }};font-family:var(--font-body)" style-hover="background:var(--color-neutral-200)">
+    <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square"><rect x="3" y="3" width="18" height="18"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.5"></circle></svg>
+    <span style="font-size:9px;font-weight:800;letter-spacing:0.1em">PRACTICE</span>
+  </button>
+  <button onClick="{{ navProgress }}" style="flex:1;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:none;cursor:pointer;color:{{ navProgressColor }};font-family:var(--font-body)" style-hover="background:var(--color-neutral-200)">
+    <svg viewBox="0 0 24 24" width="22" height="22" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square"><circle cx="12" cy="9" r="6"></circle><path d="M8.5 14L7 22l5-3 5 3-1.5-8"></path></svg>
+    <span style="font-size:9px;font-weight:800;letter-spacing:0.1em">PROGRESS</span>
+  </button>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:16px;right:16px;bottom:74px;background:var(--color-text);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);animation:toastUp 0.25s ease-out">
+  <span style="width:10px;height:10px;background:var(--color-accent);flex-shrink:0"></span>
+  <span style="font-family:var(--font-heading);font-weight:800;font-size:13px;letter-spacing:0.06em">{{ toast }}</span>
+</div>
+</sc-if>
+
+</div>
+</x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 560, &quot;height&quot;: 990}, &quot;learnerName&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Rina&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;startScreen&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;onboarding&quot;, &quot;home&quot;], &quot;default&quot;: &quot;onboarding&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;prefillProgress&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Demo&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: null, lang: 'English', name: '',
+    photoStep: 0, thirds: null, light: null, gridOn: true, cluster: null, shots: [], guide: null, expandedShot: null,
+    product: null, material: null, technique: null, framePicks: [], fq: { i: 0, pick: null, miss: 0 }, lightMiss: 0,
+    username: null, bio: [], business: false, profStep: 0, settingsSub: 0, settingsWrong: null, category: null,
+    format: 'POST', blocks: [], tags: [],
+    time: null, days: [], best: null,
+    done: {}, toast: null,
+    published: null, feedLikes: { 0: 34, 1: 57 }, mineLikes: 0,
+  };
+  // Cluster data — grounded in "Framing the Fabric" (IITG SSI Lab) and cluster craft references
+  clusters = [
+    { id: 'assam', fabric: 'Mekhela sador — muga & eri silk', short: 'mekhela sador', place: 'Kamrup & Nalbari, Assam', light: 'side',
+      lightHeading: 'Muga glows. Make it glow.',
+      lightWhy: 'Right — side light catches the natural golden lustre of muga and eri.',
+      wrongFlat: 'Flat front light kills the shine. Bring the light around to the side.',
+      detailTip: 'Close on the extra-weft buta of the pallu — that is the handwork',
+      story: [['HERITAGE', 'Muga — the golden silk only Assam grows.'], ['MATERIAL', 'Handspun eri — soft as a shawl, warm as wool.'], ['PROCESS', 'Woven at home, weeks on the loom, motif by motif.']],
+      tags: ['#mekhelachador', '#mugasilk', '#erisilk', '#assamhandloom', '#handwoven', '#vocalforlocal', '#silksofindia', '#weaversofindia'],
+      bio: ['Handloom weaver', 'Kamrup, Assam', 'Mekhela sador & stoles', 'DM to order', '3rd generation weaver'] },
+    { id: 'srikalahasti', fabric: 'Kalamkari — hand-painted cotton', short: 'kalamkari', place: 'Srikalahasti, Andhra Pradesh', light: 'front',
+      lightHeading: 'Matte cotton, painted by hand.',
+      lightWhy: 'Right — soft, even front light keeps natural-dye colours true, no glare on the painted surface.',
+      wrongFlat: 'Side light throws shadows across the painted lines. Keep it soft and even.',
+      detailTip: 'Close on one motif — show the free hand of the kalam pen',
+      story: [['HERITAGE', 'Temple stories, drawn with a bamboo kalam.'], ['MATERIAL', 'Cotton and natural dyes — myrobalan, iron, alum.'], ['PROCESS', 'Drawn line by line — no two pieces alike.']],
+      tags: ['#kalamkari', '#srikalahasti', '#naturaldyes', '#handpainted', '#craftindia', '#vocalforlocal', '#textileart', '#madeinindia'],
+      bio: ['Kalamkari artist', 'Srikalahasti, Andhra Pradesh', 'Hand-painted panels & saris', 'DM to order', 'Temple-art family'] },
+    { id: 'venkatgiri', fabric: 'Venkatgiri saree — fine cotton & zari', short: 'Venkatgiri saree', place: 'Venkatgiri, Andhra Pradesh', light: 'front',
+      lightHeading: 'Fine cotton, soft colours.',
+      lightWhy: 'Right — soft front light keeps the pastels true. Tilt the border till the zari glints.',
+      wrongFlat: 'Side light is harsh on fine pastel cotton. Keep it soft, from the front.',
+      detailTip: 'Close on the zari border at a slight angle so the gold glints',
+      story: [['HERITAGE', 'Once woven for the Venkatagiri court.'], ['MATERIAL', 'Cotton so fine the saree floats.'], ['PROCESS', 'Jamdani motifs — parrot, mango, swan — woven in by hand.']],
+      tags: ['#venkatagiri', '#jamdani', '#zari', '#handloomsaree', '#cottonsaree', '#vocalforlocal', '#sareesofinstagram', '#madeinindia'],
+      bio: ['Handloom weaver', 'Venkatgiri, Andhra Pradesh', 'Fine cotton & zari saris', 'DM to order', 'Weaving family since 1970'] },
+    { id: 'maniabandha', fabric: 'Khandua ikat — tie-dyed silk', short: 'Khandua ikat', place: 'Maniabandha, Odisha', light: 'front',
+      lightHeading: 'The pattern is the hero.',
+      lightWhy: 'Right — even front light keeps every ikat motif sharp, edge to edge.',
+      wrongFlat: 'Side shadows break up the pattern. Ikat wants even, frontal light.',
+      detailTip: 'Close on a motif edge — the soft feathering is proof of true ikat',
+      story: [['HERITAGE', 'Khandua — woven for Lord Jagannath.'], ['MATERIAL', 'Silk yarns tie-dyed before they ever meet the loom.'], ['PROCESS', 'The pattern is dyed into the thread, then woven true.']],
+      tags: ['#khandua', '#ikat', '#odishahandloom', '#maniabandha', '#handwoven', '#tiedye', '#vocalforlocal', '#sareelove'],
+      bio: ['Ikat weaver', 'Maniabandha, Odisha', 'Khandua saris & stoles', 'DM to order', 'Weaver village on the Mahanadi'] },
+    { id: 'gopalpur', fabric: 'Gopalpur tussar — wild silk', short: 'tussar sari', place: 'Gopalpur, Jajpur, Odisha', light: 'side',
+      lightHeading: 'Tussar has a natural shine.',
+      lightWhy: 'Right — raking side light brings out the golden sheen and the gheecha slubs.',
+      wrongFlat: 'Flat light hides the sheen and slubs. Bring the light around to the side.',
+      detailTip: 'Close on the gheecha texture — the slubs say real wild silk',
+      story: [['HERITAGE', 'Woven in Gopalpur since the 16th century — GI tagged.'], ['MATERIAL', 'Wild tussar — its gold is natural, not dye.'], ['PROCESS', 'Hand-reeled, hand-spun, extra-weft motifs.']],
+      tags: ['#tussarsilk', '#gopalpur', '#odishaweaves', '#wildsilk', '#handspun', '#vocalforlocal', '#silksofindia', '#handwoven'],
+      bio: ['Tussar weaver', 'Gopalpur, Odisha', 'Saris, stoles & fabric', 'DM to order', 'GI-tagged craft'] },
+    { id: 'nagaland', fabric: 'Naga shawl — loin loom', short: 'Naga shawl', place: 'Nagaland clusters', light: 'side',
+      lightHeading: 'Thick weave, bold stripes.',
+      lightWhy: 'Right — side light shows the ribbed loin-loom texture. Keep stripes square to the frame.',
+      wrongFlat: 'Flat light makes the thick weave look printed. Rake it from the side.',
+      detailTip: 'Close on the motif band — every stripe carries a meaning',
+      story: [['HERITAGE', 'Every stripe and motif tells who you are.'], ['MATERIAL', 'Thick cotton on the loin loom, dyed deep.'], ['PROCESS', 'Woven strip by strip, stitched into one shawl.']],
+      tags: ['#nagashawl', '#loinloom', '#nagaland', '#handwoven', '#tribaltextile', '#vocalforlocal', '#northeastindia', '#craftindia'],
+      bio: ['Loin-loom weaver', 'Nagaland', 'Shawls & mekhalas', 'DM to order', 'Weaves of my tribe'] },
+  ];
+  set(p) { this.setState(p); }
+  PERSIST_KEY = 'clickSocial:v1';
+  PERSIST_FIELDS = ['name', 'lang', 'cluster', 'done', 'shots', 'framePicks', 'product', 'material', 'technique', 'username', 'bio', 'category', 'published'];
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem(this.PERSIST_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        const patch = {};
+        this.PERSIST_FIELDS.forEach(k => { if (saved[k] !== undefined) patch[k] = saved[k]; });
+        // returning learner skips onboarding — unless the Tweaks panel forces it
+        if (patch.name && patch.cluster && this.state.screen === null && this.props.startScreen !== 'onboarding') patch.screen = 'home';
+        this.setState(patch);
+      }
+    } catch (e) { /* storage unavailable — run in memory */ }
+  }
+  componentDidUpdate() {
+    try {
+      const out = {};
+      this.PERSIST_FIELDS.forEach(k => { out[k] = this.state[k]; });
+      localStorage.setItem(this.PERSIST_KEY, JSON.stringify(out));
+    } catch (e) { /* ignore */ }
+  }
+  complete(id, badge) {
+    this.setState(s => ({ done: { ...s.done, [id]: true }, toast: 'BADGE EARNED — ' + badge, screen: id === 'content' ? 'gram' : 'home' }));
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+  renderVals() {
+    const s = this.state;
+    const learnerName = (s.name && s.name.trim()) || (this.props.learnerName ?? 'Rina');
+    const prefill = this.props.prefillProgress ?? false;
+    const screen = s.screen ?? ((this.props.startScreen ?? 'onboarding') === 'home' ? 'home' : 'lang');
+    const done = prefill ? { photo: 1, profile: 1, content: 1, strategy: 1, analytics: 1 } : s.done;
+    const ink = 'var(--color-text)', paper = 'var(--color-neutral-100)', accent = 'var(--color-accent)';
+    const selBg = ink, selColor = '#fff', offBg = paper, offColor = ink;
+    const langNames = [['English', 'English'], ['অসমীয়া', 'Assamese'], ['ଓଡ଼ିଆ', 'Odia'], ['తెలుగు', 'Telugu']];
+    const langs = langNames.map(([native, en]) => ({
+      native, en,
+      bg: s.lang === en ? 'var(--color-text)' : 'var(--color-neutral-100)',
+      color: s.lang === en ? '#fff' : 'var(--color-text)',
+      pick: () => this.set({ lang: en }),
+    }));
+    const lessonDefs = [
+      ['photo', '01', 'Photography', 'Product · Material · Cluster · Frames · Light'],
+      ['profile', '02', 'Set Up Your Page on Instagram', 'Name · Bio · Professional account'],
+      ['content', '03', 'Create a Post', 'Story · Hashtags · Publish'],
+      ['strategy', '04', 'Posting Plan', 'When to post · Weekly rhythm'],
+      ['analytics', '05', 'Read the Numbers', 'Reach · What worked and why'],
+    ];
+    const lessons = lessonDefs.map(([id, n, t, sub]) => ({
+      n, t, s: sub, done: !!done[id], notDone: !done[id],
+      numColor: done[id] ? accent : 'var(--color-neutral-400)',
+      open: () => this.set({ screen: id }),
+    }));
+    const doneCount = Object.keys(done).filter(k => done[k]).length;
+    // photography
+    const thirdsDefs = [
+      { id: 'A', px: 50, py: 22 }, { id: 'B', px: 70, py: 32.6 }, { id: 'C', px: 1, py: 1 },
+    ];
+    const thirdsOpts = thirdsDefs.map(d => ({
+      px: String(d.px), py: String(d.py),
+      border: s.thirds === d.id ? (d.id === 'B' ? accent : 'var(--color-neutral-500)') : ink,
+      pick: () => this.set({ thirds: d.id }),
+    }));
+    const thirdsCorrect = s.thirds === 'B';
+    const thirdsMsg = s.thirds === null ? '' : thirdsCorrect
+      ? 'Yes — set it where the lines cross. The photo breathes.'
+      : (s.thirds === 'A' ? 'Dead centre feels flat. Try a crossing point.' : 'Too close to the edge — the product gets cut off.');
+    const cluster = this.clusters.find(c => c.id === s.cluster) || this.clusters[0];
+    const clusterOpts = this.clusters.map(c => ({
+      fabric: c.place, place: '',
+      border: s.cluster === c.id ? accent : ink,
+      markLabel: s.cluster === c.id ? 'SELECTED' : '',
+      pick: () => this.set({ cluster: c.id }),
+    }));
+    const lightDefs = [
+      { id: 'side', label: 'Light from the side', sx: 4, sy: 20 },
+      { id: 'front', label: 'Soft light from the front', sx: 16, sy: 6 },
+      { id: 'back', label: 'Light from behind', sx: 28, sy: 20 },
+    ];
+    const painted = s.technique === 'HAND-PAINTED';
+    const silk = s.material === 'SILK';
+    const correctLight = painted ? 'front' : (s.material ? (silk ? 'side' : 'front') : cluster.light);
+    const isPanel = s.product === 'Kalamkari panel';
+    const productWord = s.product ? s.product.toLowerCase() : cluster.short;
+    const lightHeading = isPanel ? 'A painted panel hates glare.' : painted ? 'Painted by hand — keep it even.' : (silk ? 'Silk shines. Make it glow.' : 'Cotton is soft. Keep the light soft.');
+    const lightWhy = isPanel ? 'Right — soft, even, diffused light from the front. Natural-dye colours stay true and nothing shines back at the camera. Never use flash.' : painted ? 'Right — even front light keeps the colours true, no glare on the painted surface.' : (silk ? 'Right — side light catches the lustre of the silk.' : 'Right — soft front light keeps cotton gentle and its colours true.');
+    const lightWrong = isPanel ? 'Raking side light throws shadows across the brushwork and catches glare on the surface. Keep it even and diffused.' : painted ? 'Side light throws shadows across the painted work. Keep it soft and even.' : (silk ? 'Flat front light kills the shine. Bring the light around to the side.' : 'Hard side light makes cotton look rough. Keep it soft, from the front.');
+    const lightOpts = lightDefs.map(d => ({
+      label: d.label, sx: String(d.sx), sy: String(d.sy),
+      border: s.light === d.id ? (d.id === correctLight ? accent : 'var(--color-neutral-500)') : ink,
+      pick: () => {
+        if (d.id === correctLight) { this.set({ light: d.id }); return; }
+        const miss = s.lightMiss + 1;
+        this.set({ light: miss >= 2 ? correctLight : d.id, lightMiss: miss, lightRevealed: miss >= 2 });
+      },
+    }));
+    const lightCorrect = s.light === correctLight;
+    const lightMsg = s.light === null ? '' : lightCorrect
+      ? (s.lightRevealed ? 'Here is the right one — ' + lightWhy : lightWhy)
+      : (s.light === 'back' ? 'Backlight turns your product into a shadow. Save it for the thickness shot.' : lightWrong);
+    const isAssam = cluster.id === 'assam';
+    const clusterProducts = {
+      assam: ['Mekhela sador', 'Sari', 'Stole / Dupatta', 'Accessories'],
+      srikalahasti: ['Kalamkari panel', 'Sari', 'Stole / Dupatta', 'Table runner', 'Bedcover', 'Pillow cover', 'Bags', 'Accessories'],
+      venkatgiri: ['Sari', 'Stole / Dupatta'],
+      maniabandha: ['Sari', 'Stole / Dupatta', 'Table runner'],
+      gopalpur: ['Sari', 'Stole / Dupatta', 'Accessories'],
+      nagaland: ['Mekhela sador', 'Shawl', 'Bags', 'Accessories'],
+    };
+    const productNames = clusterProducts[cluster.id] || ['Sari', 'Stole / Dupatta'];
+    const productOpts = productNames.map(label => ({
+      label, bg: s.product === label ? selBg : offBg, color: s.product === label ? selColor : offColor,
+      pick: () => this.set({ product: label, framePicks: [], technique: label === 'Kalamkari panel' ? 'HAND-PAINTED' : null, material: label === 'Kalamkari panel' ? null : s.material }),
+    }));
+    const materialOpts = ['COTTON', 'SILK'].map(label => ({
+      label, bg: s.material === label ? selBg : offBg, color: s.material === label ? selColor : offColor,
+      pick: () => this.set({ material: label }),
+    }));
+    const techniqueChoices = s.product === 'Kalamkari panel' ? ['HAND-PAINTED'] : ['WOVEN', 'HAND-PAINTED'];
+    const techniqueOpts = techniqueChoices.map(label => ({
+      label, bg: s.technique === label ? selBg : offBg, color: s.technique === label ? selColor : offColor,
+      pick: () => this.set({ technique: label }),
+    }));
+    const isKal = s.technique === 'HAND-PAINTED' || cluster.id === 'srikalahasti';
+    const makingByCluster = cluster.id === 'srikalahasti' ? ['assets/kal-making-pen.jpg', 'assets/kal-making-outline.jpg', 'assets/kal-making-painting.jpg']
+      : (cluster.id === 'assam' || cluster.id === 'nagaland') ? ['assets/making-assam.jpg', 'assets/making-jamdani-1.jpg']
+      : ['assets/making-jamdani-1.jpg', 'assets/making-jamdani-2.jpg', 'assets/making-assam.jpg'];
+    const makingThumb = makingByCluster[0];
+    const kalProd = s.product === 'Stole / Dupatta' ? 'stole' : (s.product === 'Kalamkari panel' ? 'panel' : 'sari');
+    const kalFrameImgs = {
+      sari: ['assets/kal-sari-room-full.jpg', 'assets/kal-fish-close.jpg', 'assets/kal-sari-yali.jpg', 'assets/kal-radha-krishna.jpg', 'assets/kal-folded-zari.jpg', 'assets/kal-saree-back.jpg', 'assets/kal-fish-close-2.jpg', 'assets/kal-model-outdoor.jpg', 'assets/kal-hung-rod.jpg', 'assets/kal-drape-close.jpg', 'assets/kal-making-painting.jpg'],
+      stole: ['assets/kal-pen-bw.jpg', 'assets/kal-fish-close.jpg', 'assets/kal-stole-blue.jpg', 'assets/kal-pen-bw.jpg', 'assets/kal-folded-zari.jpg', 'assets/kal-runway.jpg', 'assets/kal-fish-close-2.jpg', 'assets/kal-model-dupatta.jpg', 'assets/kal-stole-blue.jpg', 'assets/kal-drape-close.jpg', 'assets/kal-making-painting.jpg'],
+      panel: ['assets/kal-panel-tree.jpg', 'assets/kal-panel-fish.jpg', 'assets/kal-panel-tree.jpg', 'assets/kal-panel-fish.jpg', 'assets/kal-panel-tree.jpg', 'assets/kal-panel-fish.jpg', 'assets/kal-panel-fish.jpg', 'assets/kal-panel-tree.jpg', 'assets/kal-panel-tree.jpg', 'assets/kal-panel-fish.jpg', 'assets/kal-making-painting.jpg'],
+    };
+    const frameImgs = isKal
+      ? kalFrameImgs[kalProd]
+      : ['assets/ex-full-form.jpg', 'assets/ex-close-motif.jpg', 'assets/ex-drape-pleats.jpg', 'assets/ex-border-folds.jpg', 'assets/ex-folded-layers.jpg', 'assets/ex-drape-chair-pink.jpg', 'assets/stole-flatlay.png', 'assets/ex-drape-chair.jpg', 'assets/stole-hung.webp', 'assets/ex-border-flat.jpg', makingThumb, 'assets/kal-panel-tree.jpg'];
+    const frameDescs = ['Colour, pattern, material', 'Texture, thickness, material', 'Flimsiness, sheen, flow, weight', 'Embroidery and quality', 'Thickness and material', 'Size, proportion, length', 'Styling, colour, use-case', 'Application, ambience', 'Drape, symmetry, fringe', 'Hand-finishing, craft', 'Process, hands, tools', 'Presentation, wall-ready'];
+    kalFrameImgs.sari.push('assets/kal-panel-tree.jpg');
+    kalFrameImgs.stole.push('assets/kal-panel-tree.jpg');
+    kalFrameImgs.panel.push('assets/kal-framed-sofa.jpg');
+    const shotDefs = [
+      ['Full display', 'Colour, pattern, material · rule of thirds grid'],
+      ['Close-up texture', 'Texture, thickness, material · center focus grid'],
+      ['Draped look', 'Flimsiness, sheen, flow, weight · leading lines grid'],
+      ['Embroidery & border', cluster.detailTip + ' · detail frame grid'],
+      ['Folded stack', 'Thickness, material · horizontal & diagonal grid'],
+      ['Scale reference', 'Size, proportion, length · rule of thirds + reference'],
+      ['Styled flat lay', 'Styling, colour, use-case · symmetric grid + props'],
+      ['In-context lifestyle', 'Application, ambience · eye-level rule of thirds'],
+      ['Hanging display', 'Drape, symmetry, fringe · center vertical axis'],
+      ['Macro fringe detail', 'Hand-finishing, craft · diagonal close-up grid'],
+      ['The making', 'You at work — the story behind the piece · rule of thirds'],
+      ['Framed display', 'Wall-ready · square-on, no glare · symmetric grid'],
+    ];
+    const gridPaths = [
+      'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100',
+      'M30 28h40v44h-40zM50 0v28M50 72v100',
+      'M0 100L100 0M0 55L55 0M45 100L100 45',
+      'M52 8h36v34h-36zM0 100L100 34',
+      'M0 33h100M0 66h100M0 82L100 22',
+      'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100M74 66.6a8 10 0 1 1-.1 0',
+      'M50 0v100M0 50h100M18 14h64v72h-64z',
+      'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100M22 26h56v48h-56z',
+      'M50 0v100M0 50h100',
+      'M0 100L100 0M0 70L70 0M30 100L100 30',
+      'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100',
+      'M12 10h76v80h-76zM22 20h56v60h-56z',
+    ];
+    const guideDefs = [
+      [
+        { t: 'Hang the whole piece', s: 'Bamboo rod or dress form · plain wall behind', d: 'hang' },
+        ...(isAssam ? [{ t: 'Three ways to style it', s: 'Pick one look and keep it for every product', img: 'assets/mekhela-drapes.png', cap: 'Mekhela sador on a dress form — full display, three drape styles.' }] : []),
+        { t: 'Align with the gridlines', s: 'Edges along the lines · borders straight', d: 'grid' },
+        { t: 'Good examples', s: 'Whole piece in frame — on a form, a chair, or spread flat', gal: ['assets/ex-full-form.jpg', 'assets/ex-full-dark.jpg', 'assets/ex-full-spread.jpg'] },
+      ],
+      [
+        { t: 'One hand-span away', s: 'Hold the phone 15–30 cm above the fabric — close enough to count threads', d: 'dist' },
+        { t: 'Rake the light across', s: 'Light from one side, low at about 30° — the tiny shadows make the weave stand up', d: 'rake' },
+        { t: 'Like this — window light', s: 'Flat on a mat · light raking in from one side', img: 'assets/stole-flatlay.png', cap: 'See the shadows in the tassels and motifs — that is the 30° raking light doing the work.' },
+        { t: 'Frame the detail', s: 'Fill the centre box · edges parallel', d: 'close' },
+        { t: 'Good examples', s: 'So close you can count the threads', gal: ['assets/ex-close-motif.jpg', 'assets/ex-border-flat.jpg'] },
+      ],
+      [
+        { t: 'Throw one end over', s: 'Let it fall in natural folds', d: 'drape' },
+        ...(isAssam ? [{ t: 'Like this — on a form', s: 'A dark background makes pale silk glow', img: 'assets/stole-hung.webp', cap: 'Stole draped on a dress form against black.' }] : []),
+        { t: 'Good examples', s: 'Pleats falling free — or over the back of a chair', gal: ['assets/ex-drape-pleats.jpg', 'assets/ex-drape-chair.jpg', 'assets/ex-drape-chair-pink.jpg'] },
+      ],
+      [
+        { t: 'Find the border', s: cluster.detailTip, d: 'border' },
+        { t: 'Motif on a crossing point', s: 'Use the grid — motif where lines cross', d: 'grid' },
+        { t: 'Good examples', s: 'Border filling the frame, folds giving it depth', gal: ['assets/ex-border-folds.jpg', 'assets/ex-border-flat.jpg'] },
+      ],
+      [
+        { t: 'Fold from the middle', s: 'Flat on the floor · fold in half', d: 'foldmid' },
+        { t: 'Fold a corner back', s: 'The folded edge shows the thickness', d: 'folddiag' },
+        { t: 'Good examples', s: 'Folded stacks — layers show body and weight', gal: ['assets/ex-folded-layers.jpg', 'assets/ex-folded-basket.jpg'] },
+      ],
+      [
+        { t: 'Add a familiar object', s: 'A bangle, coin or pen beside the piece shows true size', d: 'grid' },
+        { t: 'Object on a crossing point', s: 'Piece fills the frame · reference on a thirds line', d: 'grid' },
+      ],
+      [
+        { t: 'Lay it flat, style around it', s: 'Fold neatly · add 1–2 props: flowers, a cup, thread', d: 'foldmid' },
+        { t: 'Shoot from directly above', s: 'Keep the piece centred and edges parallel to the frame', d: 'grid' },
+        { t: 'Good example', s: 'Flat lay in window light', gal: ['assets/stole-flatlay.png', 'assets/ex-folded-basket.jpg'] },
+      ],
+      [
+        { t: 'Show it in use', s: 'Worn, on a bed, on a table — where it lives', d: 'drape' },
+        { t: 'Eye level, thirds grid', s: 'Camera at eye height · subject on a thirds line', d: 'grid' },
+        { t: 'Good examples', s: 'Draped over a chair — at home in a room', gal: ['assets/ex-drape-chair.jpg', 'assets/ex-drape-chair-pink.jpg'] },
+      ],
+      [
+        { t: 'Hang it dead centre', s: 'Rod or hanger · piece on the center vertical axis', d: 'hang' },
+        { t: 'Let the fringe hang free', s: 'Straighten the tassels · keep both edges symmetric', d: 'drape' },
+      ],
+      [
+        { t: 'Go macro on the fringe', s: 'As close as your phone will focus · tassels and knots', d: 'close' },
+        { t: 'Use the diagonal', s: 'Run the fringe along the diagonal line', d: 'folddiag' },
+        { t: 'Good example', s: 'Border and finishing, thread-close', gal: ['assets/ex-border-flat.jpg', 'assets/ex-close-motif.jpg'] },
+      ],
+      [
+        { t: 'Show your hands at work', s: 'Kalam, brush or shuttle in motion · window light on the work', d: 'close' },
+        { t: 'Buyers pay for the story', s: 'A making photo proves it is handmade — post one for every piece', gal: makingByCluster },
+      ],
+      [
+        { t: 'Hang it straight, eye height', s: 'On a plain wall · daylight from the side of the room, never flash', d: 'hang' },
+        { t: 'Shoot square-on', s: 'Phone parallel to the wall · panel edges parallel to the frame lines', d: 'grid' },
+        { t: 'Show it in a room', s: 'Framed, or on a scroll rod — buyers see it in their own home', gal: ['assets/kal-framed-sofa.jpg', 'assets/kal-framed-dining.jpg', 'assets/kal-scroll-hang.jpg', 'assets/kal-gallery-wall.jpg'] },
+      ],
+    ];
+    if (isKal) {
+      const makingGal = ['assets/kal-making-pen.jpg', 'assets/kal-making-intro.jpg', 'assets/kal-making-sketch.jpg', 'assets/kal-making-outline.jpg', 'assets/kal-making-painting.jpg'];
+      const kalGalsByProd = {
+        sari: {
+          0: ['assets/kal-sari-room-full.jpg', 'assets/kal-hung-rod.jpg', 'assets/kal-saree-back.jpg'],
+          1: ['assets/kal-sari-room-close.jpg', 'assets/kal-fish-close.jpg', 'assets/kal-radha-krishna.jpg'],
+          2: ['assets/kal-sari-yali.jpg', 'assets/kal-kanchi-drape.jpg', 'assets/kal-saree-spread.jpg'],
+          3: ['assets/kal-fish-close-2.jpg', 'assets/kal-folded-zari.jpg'],
+          5: ['assets/kal-saree-back.jpg'],
+          6: ['assets/kal-fish-close-2.jpg', 'assets/kal-folded-zari.jpg'],
+          7: ['assets/kal-sari-room-full.jpg', 'assets/kal-model-outdoor.jpg', 'assets/kal-saree-spread.jpg'],
+          8: ['assets/kal-hung-rod.jpg'],
+          9: ['assets/kal-drape-close.jpg', 'assets/kal-radha-krishna.jpg'],
+          10: makingGal,
+        },
+        stole: {
+          0: ['assets/kal-pen-bw.jpg', 'assets/kal-stole-blue.jpg'],
+          1: ['assets/kal-pen-bw.jpg', 'assets/kal-drape-close.jpg', 'assets/kal-fish-close.jpg'],
+          2: ['assets/kal-stole-blue.jpg', 'assets/kal-model-dupatta.jpg'],
+          3: ['assets/kal-pen-bw.jpg', 'assets/kal-drape-close.jpg'],
+          7: ['assets/kal-model-dupatta.jpg', 'assets/kal-runway.jpg'],
+          8: ['assets/kal-stole-blue.jpg'],
+          9: ['assets/kal-drape-close.jpg'],
+          10: makingGal,
+        },
+        panel: {
+          0: ['assets/kal-panel-tree.jpg', 'assets/kal-panel-fish.jpg'],
+          10: makingGal,
+          11: ['assets/kal-framed-sofa.jpg', 'assets/kal-framed-dining.jpg'],
+        },
+      };
+      const kalGals = kalGalsByProd[kalProd];
+      guideDefs.forEach((steps, i) => {
+        if (!kalGals[i]) return;
+        const galStep = steps.find(st => st.gal);
+        if (galStep) galStep.gal = kalGals[i];
+        else steps.push({ t: 'Good examples', s: 'Kalamkari, photographed well', gal: kalGals[i] });
+      });
+    }
+    const g = s.guide;
+    const gSteps = g ? guideDefs[g.shot] : null;
+    const gCur = gSteps ? gSteps[g.step] : null;
+    const panelFrames = [0, 11, 10];
+    const frameOpts = shotDefs.map(([name], i) => [name, i])
+      .filter(([, i]) => isPanel ? panelFrames.includes(i) : i !== 11)
+      .map(([name, i]) => {
+      const on = s.framePicks.includes(i);
+      return {
+        name, desc: frameDescs[i], img: frameImgs[i],
+        border: on ? accent : 'var(--color-neutral-400)',
+        boxBorder: on ? accent : ink, boxBg: on ? accent : 'transparent',
+        pick: () => this.set({ framePicks: on ? s.framePicks.filter(x => x !== i) : [...s.framePicks, i] }),
+      };
+    });
+    const pickedFrames = s.framePicks.length ? [...s.framePicks].sort((a, b) => a - b) : (isPanel ? panelFrames : [0, 1, 2, 3, 4]);
+    // framing quizzes per archetype of the picked frames
+    const archOf = { 0: 'thirds', 1: 'center', 2: 'diag', 3: 'detail', 4: 'detail', 5: 'thirds', 6: 'center', 7: 'thirds', 8: 'center', 9: 'diag', 10: 'thirds', 11: 'center' };
+    const archDefs = {
+      thirds: {
+        title: 'Where should your product sit?',
+        sub: 'Tap the best frame. The lines are the rule of thirds.',
+        grid: 'M40 0v64M80 0v64M0 21.3h120M0 42.6h120',
+        opts: [
+          ['M50 22h20v20h-20z', false, 'Dead centre feels flat. Try a crossing point.'],
+          ['M70 32.6h20v20h-20z', true, 'Yes — set it where the lines cross. The photo breathes.'],
+          ['M1 1h20v20h-20z', false, 'Too close to the edge — the product gets cut off.'],
+        ],
+      },
+      center: {
+        title: 'How close should you go?',
+        sub: 'Close-ups, flat lays and hung pieces sit centred — fill the middle box.',
+        grid: 'M40 12h40v40h-40zM60 0v12M60 52v64',
+        opts: [
+          ['M4 4h16v16H4z', false, 'Too far away — the detail is lost. Step in.'],
+          ['M42 14h36v36h-36z', true, 'Yes — fill the centre box, edges parallel to the frame.'],
+          ['M104 40h20v20h-20z', false, 'Half out of the frame — centre it before you shoot.'],
+        ],
+      },
+      diag: {
+        title: 'How should the fabric flow?',
+        sub: 'Drapes and macro shots move along the diagonal — let the cloth lead the eye.',
+        grid: 'M0 64L120 0M0 40L45 0',
+        opts: [
+          ['M18 24h16v16h-16zM52 24h16v16h-16zM86 24h16v16h-16z', false, 'A flat row has no movement. Let it fall along the line.'],
+          ['M18 42h16v16h-16zM52 25h16v16h-16zM86 8h16v16h-16z', true, 'Yes — the folds step down the diagonal and the eye follows.'],
+          ['M2 44h16v16H2zM14 30h16v16H14z', false, 'Bunched in a corner — the flow is gone.'],
+        ],
+      },
+      detail: {
+        title: 'How much border in the frame?',
+        sub: 'Border, motif and folded shots: fill the detail frame with the work itself.',
+        grid: 'M0 42h120M62 6h46v26h-46z',
+        opts: [
+          ['M0 56h120v6H0z', false, 'Too thin, too far — nobody can see the craft.'],
+          ['M0 44h120v20H0zM64 8h42v22H64z', true, 'Yes — the border fills the frame, close enough to count threads.'],
+          ['M50 22h20v20h-20z', false, 'A floating square shows neither border nor motif. Follow the band.'],
+        ],
+      },
+    };
+    const fqArchs = [...new Set(pickedFrames.map(i => archOf[i]))];
+    const fq = s.fq.i < fqArchs.length ? s.fq : { i: 0, pick: null };
+    const curArch = archDefs[fqArchs[fq.i]] || archDefs.thirds;
+    const fqRightIdx = curArch.opts.findIndex(o => o[1]);
+    const fqOpts = curArch.opts.map(([prod, ok], oi) => ({
+      prod,
+      border: fq.pick === oi ? (ok ? accent : 'var(--color-neutral-500)') : ink,
+      pick: () => {
+        if (ok) { this.set({ fq: { i: fq.i, pick: oi, miss: fq.miss || 0 } }); return; }
+        const miss = (fq.miss || 0) + 1;
+        // second miss: reveal the right answer and explain it
+        this.set({ fq: { i: fq.i, pick: miss >= 2 ? fqRightIdx : oi, miss, revealed: miss >= 2 } });
+      },
+    }));
+    const fqPicked = fq.pick !== null ? curArch.opts[fq.pick] : null;
+    const fqCorrect = !!fqPicked && fqPicked[1];
+    const fqMsgText = !fqPicked ? '' : (fq.revealed ? 'Here is the right one — ' + fqPicked[2] : fqPicked[2]);
+    const fqFrameNames = pickedFrames.filter(i => archOf[i] === fqArchs[fq.i]).map(i => shotDefs[i][0]).join(' · ');
+    const fiveShots = pickedFrames.map(i => [shotDefs[i], i]).map(([[name, tip], i]) => {
+      const on = s.shots.includes(i);
+      const expanded = s.expandedShot === i;
+      return {
+        name, tip, done: on, expanded,
+        boxBorder: on ? accent : ink, boxBg: on ? accent : 'transparent',
+        slotId: 'shot-' + i, ph: 'Drop your ' + name.toLowerCase() + ' shot here',
+        gridPath: gridPaths[i],
+        markLabel: on ? 'TICKED — UNDO' : 'MARK AS TAKEN',
+        toggle: () => this.set({ expandedShot: expanded ? null : i }),
+        how: (e) => { e.stopPropagation(); this.set({ guide: { shot: i, step: 0 } }); },
+        thumb: frameImgs[i],
+        mark: () => {
+          const shots = on ? s.shots.filter(x => x !== i) : [...s.shots, i];
+          const left = pickedFrames.filter(x => !shots.includes(x)).length;
+          this.set({ shots, toast: on ? null : (left === 0 ? 'ALL SHOTS SAVED' : 'SHOT SAVED — ' + left + ' LEFT') });
+          clearTimeout(this._tt); this._tt = setTimeout(() => this.setState({ toast: null }), 2000);
+        },
+      };
+    });
+    // profile
+    const uname = learnerName.toLowerCase().replace(/[^a-z]/g, '');
+    const userNames = [uname + '_weaves', uname + '.handloom', 'weaves_by_' + uname];
+    const userOpts = userNames.map(name => ({
+      name, bg: s.username === name ? selBg : offBg, color: s.username === name ? selColor : offColor,
+      pick: () => this.set({ username: name }),
+    }));
+    const bioLines = cluster.bio;
+    const bioOpts = bioLines.map(label => ({
+      label, bg: s.bio.includes(label) ? selBg : offBg, color: s.bio.includes(label) ? selColor : offColor,
+      pick: () => this.set({ bio: s.bio.includes(label) ? s.bio.filter(b => b !== label) : [...s.bio, label] }),
+    }));
+    const profileReady = !!s.username && s.bio.length >= 2;
+    // settings walkthrough (step 2): two menus, find the right row
+    const menu0 = [
+      { label: 'Notifications', sub: 'Likes, comments, messages', ok: false },
+      { label: 'Privacy', sub: 'Private account, blocked people', ok: false },
+      { label: 'Account type and tools', sub: 'Switch to a professional account', ok: true },
+      { label: 'Help', sub: 'Report a problem', ok: false },
+    ];
+    const menu1 = [
+      { label: 'Switch to professional account', sub: 'Free — for creators and businesses', ok: true },
+      { label: 'Delete account', sub: 'Remove your account', ok: false },
+      { label: 'Personal information', sub: 'Birthday, email', ok: false },
+    ];
+    const menu = s.settingsSub === 0 ? menu0 : menu1;
+    const settingsRows = menu.map((r, i) => ({
+      label: r.label, sub: r.sub,
+      bg: s.settingsWrong === i ? 'var(--color-neutral-200)' : 'transparent',
+      dot: r.ok ? accent : 'transparent',
+      pick: () => {
+        if (!r.ok) { this.set({ settingsWrong: i }); return; }
+        if (s.settingsSub === 0) this.set({ settingsSub: 1, settingsWrong: null });
+        else this.set({ profStep: 3, settingsWrong: null });
+      },
+    }));
+    const settingsMsg = s.settingsWrong !== null ? 'Not that one — follow the red dot.' : '';
+    const categoryNames = ['Artist', 'Shopping & retail', 'Local business', 'Entrepreneur'];
+    const categoryOpts = categoryNames.map(label => ({
+      label, bg: s.category === label ? selBg : offBg, color: s.category === label ? selColor : offColor,
+      pick: () => this.set({ category: label }),
+    }));
+    // content
+    const formats = ['POST', 'STORY', 'REEL'].map((label, i) => ({
+      label, bl: i === 0 ? 'none' : '2px solid var(--color-text)',
+      bg: s.format === label ? selBg : offBg, color: s.format === label ? selColor : offColor,
+      pick: () => this.set({ format: label }),
+    }));
+    const blockDefs = cluster.story;
+    const blocks = blockDefs.map(([kicker, text]) => {
+      const on = s.blocks.includes(kicker);
+      return {
+        kicker, text, bg: on ? selBg : offBg, color: on ? selColor : offColor,
+        kColor: on ? 'var(--color-accent-300)' : 'var(--color-accent)',
+        pick: () => this.set({ blocks: on ? s.blocks.filter(b => b !== kicker) : [...s.blocks, kicker] }),
+      };
+    });
+    const captionText = blockDefs.filter(([k]) => s.blocks.includes(k)).map(([, t]) => t).join(' ') || 'Tap story lines above to write your caption.';
+    const tagNames = cluster.tags;
+    const tagsFull = s.tags.length >= 5;
+    const tagOpts = tagNames.map(label => {
+      const on = s.tags.includes(label);
+      return {
+        label, bg: on ? selBg : offBg, color: on ? selColor : (tagsFull ? 'var(--color-neutral-400)' : offColor),
+        pick: () => this.set({ tags: on ? s.tags.filter(t => t !== label) : (s.tags.length < 5 ? [...s.tags, label] : s.tags) }),
+      };
+    });
+    const canPublish = s.blocks.length >= 1 && s.tags.length >= 3;
+    // strategy
+    const timeDefs = [
+      { id: 'm', label: '6–9 in the morning', icon: '◔' },
+      { id: 'e', label: '7–10 at night', icon: '●' },
+      { id: 'a', label: '2 in the afternoon', icon: '◑' },
+    ];
+    const timeOpts = timeDefs.map(d => ({
+      label: d.label, icon: d.icon,
+      border: s.time === d.id ? (d.id === 'e' ? accent : 'var(--color-neutral-500)') : ink,
+      pick: () => this.set({ time: d.id }),
+    }));
+    const timeCorrect = s.time === 'e';
+    const timeMsg = s.time === null ? '' : timeCorrect
+      ? 'Yes — evenings, when the day\u2019s work is done, is when people scroll and shop.'
+      : 'People are working then. Try when the day is done.';
+    const dayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const days = dayNames.map((label, i) => {
+      const on = s.days.includes(i);
+      return {
+        label, bg: on ? selBg : offBg, color: on ? selColor : offColor,
+        pick: () => this.set({ days: on ? s.days.filter(d => d !== i) : (s.days.length < 3 ? [...s.days, i] : s.days) }),
+      };
+    });
+    const planReady = timeCorrect && s.days.length === 3;
+    // analytics
+    const resultDefs = [
+      { id: 0, label: 'Photo only', reach: 42, w: '9%' },
+      { id: 1, label: 'Photo + story caption', reach: 210, w: '44%' },
+      { id: 2, label: 'Photo + story + hashtags', reach: 480, w: '100%' },
+    ];
+    const resultOpts = resultDefs.map(d => ({
+      label: d.label, reach: String(d.reach), w: d.w,
+      border: s.best === d.id ? (d.id === 2 ? accent : 'var(--color-neutral-500)') : ink,
+      pick: () => this.set({ best: d.id }),
+    }));
+    const bestCorrect = s.best === 2;
+    const bestMsg = s.best === null ? '' : bestCorrect
+      ? 'Right — a story plus hashtags reached 10× more people than the photo alone.'
+      : 'Look again — which bar is longest?';
+    const weekHeights = [15, 55, 20, 90, 25, 70, 30];
+    const weekBars = weekHeights.map((h, i) => ({
+      h: h + '%', label: dayNames[i],
+      fill: h >= 55 ? accent : 'var(--color-neutral-400)',
+    }));
+    // feed
+    const baseFeed = [
+      { user: 'maya_ikat', time: '2 d', caption: 'Double ikat, tied and dyed by hand before weaving.', tags: '#ikat #odishahandloom #handwoven', slot: 'feed-photo-1', placeholder: 'Drop a sample photo', avBg: 'var(--color-neutral-700)', likes: s.feedLikes[0], comments: [{ u: 'craft.lover', t: 'Stunning work!' }], idx: 0 },
+      { user: 'looms_of_naga', time: '5 d', caption: 'Loin loom shawl — every stripe carries a meaning.', tags: '#nagashawl #loinloom #handwoven', slot: 'feed-photo-2', placeholder: 'Drop a sample photo', avBg: 'var(--color-neutral-700)', likes: s.feedLikes[1], comments: [], idx: 1 },
+    ];
+    let feed = baseFeed;
+    if (s.published) {
+      const mine = {
+        user: s.published.user, time: 'Now', caption: s.published.caption, tags: s.published.tags,
+        slot: 'shot-0', placeholder: 'Your photo from the lessons', avBg: accent,
+        likes: s.mineLikes, comments: s.mineLikes > 0 ? [{ u: 'buyer_priya', t: 'Beautiful! Price please?' }] : [], idx: -1,
+      };
+      feed = [mine, ...baseFeed];
+    }
+    feed = feed.map(p => ({
+      ...p, initial: p.user[0].toUpperCase(), likes: String(p.likes),
+      likeColor: p.likes > (p.idx === -1 ? 0 : [34, 57][p.idx]) ? accent : ink,
+      heartFill: p.likes > (p.idx === -1 ? 0 : [34, 57][p.idx]) ? accent : 'none',
+      like: () => {
+        if (p.idx === -1) this.set({ mineLikes: s.mineLikes + 1 });
+        else this.set({ feedLikes: { ...s.feedLikes, [p.idx]: s.feedLikes[p.idx] + 1 } });
+      },
+    }));
+    // badges
+    const badgeDefs = [
+      ['photo', 'Photographer'], ['profile', 'Page Builder'], ['content', 'Storyteller'], ['strategy', 'Planner'], ['analytics', 'Analyst'],
+    ];
+    const badges = badgeDefs.map(([id, name]) => {
+      const earned = !!done[id];
+      return {
+        name, status: earned ? 'EARNED' : 'LOCKED',
+        border: earned ? ink : 'var(--color-neutral-300)',
+        bg: earned ? paper : 'transparent',
+        iconBg: earned ? accent : 'var(--color-neutral-300)',
+        iconColor: earned ? '#fff' : 'var(--color-neutral-500)',
+        tColor: earned ? ink : 'var(--color-neutral-500)',
+        sColor: earned ? 'var(--color-accent-700)' : 'var(--color-neutral-400)',
+      };
+    });
+    const okBg = 'var(--color-accent-100)', okColor = 'var(--color-accent-800)';
+    const noBg = 'var(--color-text)', noColor = '#fff';
+    return {
+      learnerName, doneCount: String(doneCount), progressPct: (doneCount / 5 * 100) + '%',
+      isLang: screen === 'lang', isHome: screen === 'home', isPhoto: screen === 'photo',
+      isProfile: screen === 'profile', isContent: screen === 'content', isStrategy: screen === 'strategy',
+      isAnalytics: screen === 'analytics', isGram: screen === 'gram', isProgress: screen === 'progress',
+      showNav: ['home', 'gram', 'progress'].includes(screen),
+      langs, lessons, startApp: () => this.set({ screen: 'home' }),
+      nameVal: s.name, nameInput: (e) => this.set({ name: e.target.value }),
+      obNotReady: !(s.name.trim() && s.cluster),
+      goHome: () => this.set({ screen: 'home' }),
+      navLearn: () => this.set({ screen: 'home' }),
+      navGram: () => this.set({ screen: 'gram' }),
+      navProgress: () => this.set({ screen: 'progress' }),
+      navLearnColor: screen === 'home' ? accent : ink,
+      navGramColor: screen === 'gram' ? accent : ink,
+      navProgressColor: screen === 'progress' ? accent : ink,
+      isPhoto0: s.photoStep === 0, isPhoto1: s.photoStep === 1, isPhoto2: s.photoStep === 2, isPhoto3: s.photoStep === 3,
+      isPhoto4: s.photoStep === 4, isPhoto5: s.photoStep === 5, isPhoto6: s.photoStep === 6, isPhoto7: s.photoStep === 7,
+      photoStepLabel: (() => {
+        const seq = isPanel ? [0, 4, 5, 6, 7] : [0, 1, 2, 4, 5, 6, 7];
+        const idx = seq.indexOf(s.photoStep);
+        return (idx < 0 ? 1 : idx + 1) + ' / ' + seq.length;
+      })(),
+      productOpts, materialOpts, techniqueOpts, frameOpts,
+      hasProduct: !!s.product, hasMaterial: !!s.material, hasTechnique: !!s.technique,
+      framesReady: s.framePicks.length >= 2,
+      pickedCount: String(pickedFrames.length),
+      clusterOpts, clusterPicked: !!s.cluster, clusterShort: cluster.short,
+      lightHeading,
+      lightPrompt: isPanel ? 'A painting on cloth reflects. Light it flat and soft.' : 'Pick the light that shows your ' + productWord + ' best.',
+      showPanelTips: isPanel,
+      fiveShots, capturedCount: String(s.shots.length),
+      guideOpen: !!g, guideClosed: !g,
+      guideShotName: g ? shotDefs[g.shot][0].toUpperCase() + ' — SHOT ' + (pickedFrames.indexOf(g.shot) + 1) + ' OF ' + pickedFrames.length : '',
+      guideTitle: gCur ? gCur.t : '', guideSub: gCur ? gCur.s : '',
+      guideCaption: gCur && gCur.cap ? gCur.cap : '',
+      gImg: gCur && gCur.img ? gCur.img : '',
+      gGallery: !!(gCur && gCur.gal),
+      gPhoto: gCur && gCur.d ? frameImgs[g.shot] : '',
+      gPhotoLabel: (s.product || cluster.short).toUpperCase() + ' · ' + cluster.place.split(',')[0].toUpperCase(),
+      gCols: gCur && gCur.d ? '1fr 1fr' : '1fr',
+      galleryImgs: gCur && gCur.gal ? gCur.gal.map(src => ({ src })) : [],
+      dHang: !!gCur && gCur.d === 'hang', dDrape: !!gCur && gCur.d === 'drape',
+      dDist: !!gCur && gCur.d === 'dist', dRake: !!gCur && gCur.d === 'rake',
+      dGrid: !!gCur && gCur.d === 'grid', dFoldMid: !!gCur && gCur.d === 'foldmid',
+      dFoldDiag: !!gCur && gCur.d === 'folddiag', dClose: !!gCur && gCur.d === 'close',
+      dBorder: !!gCur && gCur.d === 'border',
+      guideStepLabel: g ? (g.step + 1) + ' / ' + gSteps.length : '',
+      guideNextLabel: g && g.step === gSteps.length - 1 ? 'TAKE THE SHOT' : 'NEXT',
+      guideBack: () => this.set(g.step === 0 ? { guide: null } : { guide: { shot: g.shot, step: g.step - 1 } }),
+      guideNext: () => this.set(g.step === gSteps.length - 1 ? { guide: null, expandedShot: g.shot } : { guide: { shot: g.shot, step: g.step + 1 } }),
+      thirdsOpts, thirdsMsg, thirdsCorrect,
+      thirdsMsgBg: thirdsCorrect ? okBg : noBg, thirdsMsgColor: thirdsCorrect ? okColor : noColor,
+      fqPos: (fq.i + 1) + ' OF ' + fqArchs.length, fqFrames: fqFrameNames.toUpperCase(),
+      fqTitle: curArch.title, fqSub: curArch.sub, fqGrid: curArch.grid,
+      fqOpts, fqCorrect,
+      fqMsg: fqMsgText,
+      fqMsgBg: fqCorrect ? okBg : noBg, fqMsgColor: fqCorrect ? okColor : noColor,
+      fqNextLabel: fq.i < fqArchs.length - 1 ? 'NEXT FRAMING' : 'NEXT — LIGHT IT',
+      fqNext: () => {
+        if (fq.i < fqArchs.length - 1) this.set({ fq: { i: fq.i + 1, pick: null, miss: 0 } });
+        else { this.set({ fq: { i: 0, pick: null, miss: 0 }, photoStep: 6, light: null, lightMiss: 0 }); }
+      },
+      photoBack: () => {
+        if (s.photoStep === 5 && fq.i > 0) { this.set({ fq: { i: fq.i - 1, pick: null, miss: 0 } }); return; }
+        const seq = isPanel ? [0, 4, 5, 6, 7] : [0, 1, 2, 4, 5, 6, 7];
+        const idx = seq.indexOf(s.photoStep);
+        if (idx <= 0) this.set({ screen: 'home' });
+        else this.set({ photoStep: seq[idx - 1], guide: null });
+      },
+      photoNext: () => {
+        let next = s.photoStep + 1;
+        if (isPanel && next === 1) next = 4; // panel: no material, no technique
+        if (next === 3) next = 4; // cluster set once in onboarding
+        this.set({ photoStep: next, light: null });
+      },
+      lightOpts, lightMsg, lightCorrect,
+      lightMsgBg: lightCorrect ? okBg : noBg, lightMsgColor: lightCorrect ? okColor : noColor,
+      gridOn: s.gridOn, gridLabel: s.gridOn ? 'HIDE GRID' : 'SHOW GRID',
+      toggleGrid: () => this.set({ gridOn: !s.gridOn }),
+      completePhoto: () => this.complete('photo', 'PHOTOGRAPHER'),
+      avatarLetter: (s.username || learnerName)[0].toUpperCase(),
+      previewName: s.username || 'pick_a_name',
+      displayName: learnerName + ' · ' + cluster.short,
+      bioPicked: s.bio.map(t => ({ t })), bioEmpty: s.bio.length === 0,
+      userOpts, bioOpts, bioReady: s.bio.length >= 2, hasUsername: !!s.username,
+      isProf0: s.profStep === 0, isProf1: s.profStep === 1, isProf2: s.profStep === 2,
+      isProf3: s.profStep === 3, isProf4: s.profStep === 4,
+      profStepLabel: (s.profStep + 1) + ' / 5',
+      profNext: () => this.set({ profStep: s.profStep + 1, settingsWrong: null }),
+      settingsPrompt: s.settingsSub === 0 ? 'In the app, open Settings. Find the row that leads to a professional account — follow the red dot.' : 'Almost there — one more tap.',
+      settingsTitle: s.settingsSub === 0 ? 'Settings' : 'Account type and tools',
+      settingsRows, settingsMsg,
+      settingsMsgBg: noBg, settingsMsgColor: noColor,
+      categoryOpts, hasCategory: !!s.category,
+      categoryLabel: s.category || 'Artist',
+      profileNotReady: !profileReady,
+      completeProfile: () => this.complete('profile', 'PAGE BUILDER'),
+      formats, blocks, captionText,
+      captionColor: s.blocks.length ? ink : 'var(--color-neutral-500)',
+      tagOpts, tagCount: String(s.tags.length), tagLine: s.tags.join(' '),
+      tagCapNote: tagsFull ? '— five is enough' : '',
+      clusterName: cluster.place,
+      editProfile: () => this.set({ screen: 'lang' }),
+      resetAll: () => {
+        try { localStorage.removeItem(this.PERSIST_KEY); } catch (e) { /* ignore */ }
+        this.setState({ screen: 'lang', name: '', cluster: null, done: {}, shots: [], framePicks: [], product: null, material: null, technique: null, username: null, bio: [], category: null, published: null, photoStep: 0, profStep: 0 });
+      },
+      photoSegs: (isPanel ? [0, 4, 5, 6, 7] : [0, 1, 2, 4, 5, 6, 7]).map(st => ({ bg: st <= s.photoStep ? accent : 'var(--color-neutral-300)' })),
+      photoNotDone: pickedFrames.some(i => !s.shots.includes(i)),
+      photoLeftMsg: (() => { const n = pickedFrames.filter(i => !s.shots.includes(i)).length; return n ? (n + (n === 1 ? ' shot left' : ' shots left') + ' — take them all to earn the badge.') : ''; })(),
+      cannotPublish: !canPublish,
+      publish: () => {
+        this.setState({ published: { user: s.username || uname + '_weaves', caption: captionText, tags: s.tags.join(' ') } });
+        this.complete('content', 'STORYTELLER');
+      },
+      timeOpts, timeMsg, timeCorrect,
+      timeMsgBg: timeCorrect ? okBg : noBg, timeMsgColor: timeCorrect ? okColor : noColor,
+      days, planReady,
+      completeStrategy: () => this.complete('strategy', 'PLANNER'),
+      resultOpts, bestMsg, bestCorrect,
+      bestMsgBg: bestCorrect ? okBg : noBg, bestMsgColor: bestCorrect ? okColor : noColor,
+      weekBars,
+      completeAnalytics: () => this.complete('analytics', 'ANALYST'),
+      feed, badges, toast: s.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -10,6 +10,8 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../click_social_clusters.dart';
+import '../click_social_store.dart';
+import '../../../data/services/click_social_sync_service.dart';
 
 class ClickSocialHomePage extends ConsumerStatefulWidget {
   const ClickSocialHomePage({super.key});
@@ -45,6 +47,7 @@ class _ClickSocialHomePageState extends ConsumerState<ClickSocialHomePage> {
   void initState() {
     super.initState();
     _nameController.addListener(() => setState(() {}));
+    ClickSocialSync.pulled.addListener(_restore);
     _restore();
   }
 
@@ -83,6 +86,7 @@ class _ClickSocialHomePageState extends ConsumerState<ClickSocialHomePage> {
 
   @override
   void dispose() {
+    ClickSocialSync.pulled.removeListener(_restore);
     _nameController.dispose();
     super.dispose();
   }
@@ -116,6 +120,8 @@ class _ClickSocialHomePageState extends ConsumerState<ClickSocialHomePage> {
     await prefs.setString(_prefsName, name);
     await prefs.setString(_prefsClusterId, _selectedClusterId!);
     await prefs.setString(_prefsLanguage, _selectedLanguage.code);
+    await ClickSocialStore.touch(prefs);
+    ClickSocialSync.schedulePush();
     if (!mounted) return;
     setState(() => _onboarded = true);
   }

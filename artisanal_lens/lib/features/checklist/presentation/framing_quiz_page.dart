@@ -60,12 +60,33 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
     }
     final q = <String>[
       'category=${widget.categoryId}',
+      if (widget.frameIndexes.isNotEmpty)
+        'frames=${widget.frameIndexes.join(',')}',
       if (widget.materialId != null && widget.materialId!.isNotEmpty)
         'material=${widget.materialId}',
       if (widget.technique != null && widget.technique!.isNotEmpty)
         'technique=${widget.technique}',
     ].join('&');
     context.go('/product/${widget.setId}/light-quiz?$q');
+  }
+
+  void _goBack() {
+    if (_index > 0) {
+      setState(() {
+        _index -= 1;
+        _pick = null;
+      });
+      return;
+    }
+    // Opened via context.go from Pick frames — pop often has nowhere to go.
+    final q = <String>[
+      'category=${widget.categoryId}',
+      if (widget.materialId != null && widget.materialId!.isNotEmpty)
+        'material=${widget.materialId}',
+      if (widget.technique != null && widget.technique!.isNotEmpty)
+        'technique=${widget.technique}',
+    ].join('&');
+    context.go('/product/${widget.setId}/pick-frames?$q');
   }
 
   @override
@@ -82,18 +103,7 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
       body: SafeArea(
         child: Column(
           children: [
-            _LessonHeader(
-              onBack: () {
-                if (_index > 0) {
-                  setState(() {
-                    _index -= 1;
-                    _pick = null;
-                  });
-                } else {
-                  context.pop();
-                }
-              },
-            ),
+            _LessonHeader(onBack: _goBack),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),

@@ -23,6 +23,25 @@ Future<void> initializeSupabase() async {
     ),
   );
   debugPrint('Supabase: initialized.');
+  await ensureLearnerSession();
+}
+
+/// Gives the lesson flow a cloud identity without a settings password.
+///
+/// Anonymous sessions persist on the phone. Creating an account later upgrades
+/// that same user so badges and photos stay attached.
+Future<void> ensureLearnerSession() async {
+  final client = supabaseClient;
+  if (client == null || client.auth.currentSession != null) return;
+  try {
+    await client.auth.signInAnonymously();
+    debugPrint('Supabase: anonymous learner session ready.');
+  } catch (error) {
+    debugPrint(
+      'Supabase: anonymous session unavailable ($error). '
+      'Enable Anonymous sign-ins in Authentication → Providers.',
+    );
+  }
 }
 
 SupabaseClient? get supabaseClient =>

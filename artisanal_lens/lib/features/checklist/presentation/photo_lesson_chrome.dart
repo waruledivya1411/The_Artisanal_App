@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
@@ -28,6 +29,14 @@ class PhotoLessonChrome extends StatelessWidget {
   List<int> get _seq =>
       isPanel ? const [0, 4, 5, 6, 7] : const [0, 1, 2, 4, 5, 6, 7];
 
+  void _defaultBack(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.goNamed(AppRoute.home);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -50,7 +59,7 @@ class PhotoLessonChrome extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: onBack ?? () => context.pop(),
+                    onPressed: onBack ?? () => _defaultBack(context),
                     icon: const Icon(Icons.chevron_left, size: 28),
                     color: AppColors.textPrimary,
                   ),

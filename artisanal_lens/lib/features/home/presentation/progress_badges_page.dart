@@ -6,6 +6,8 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
+import '../click_social_store.dart';
+import '../../../data/services/click_social_sync_service.dart';
 
 /// PROGRESS tab — badges screen from Click & Social HTML.
 class ProgressBadgesPage extends StatefulWidget {
@@ -109,6 +111,8 @@ class _ProgressBadgesPageState extends State<ProgressBadgesPage> {
     await prefs.remove(_prefsUsername);
     await prefs.remove(_prefsBio);
     await prefs.remove(_prefsCategory);
+    await ClickSocialStore.touch(prefs);
+    ClickSocialSync.schedulePush();
     if (!mounted) return;
     context.goNamed(AppRoute.home);
   }

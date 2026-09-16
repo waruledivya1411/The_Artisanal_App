@@ -14,6 +14,8 @@ import '../../../shared/widgets/local_video_preview.dart';
 import '../../home/shot_sets_controller.dart';
 import '../click_social_clusters.dart';
 import '../click_social_lessons.dart';
+import '../click_social_store.dart';
+import '../../../data/services/click_social_sync_service.dart';
 
 /// Lesson 03 — Create a Post (matches Click & Social HTML).
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -157,6 +159,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefsPostMedia, stored);
       await prefs.setBool(_prefsPostMediaIsVideo, choice == 'video');
+      await ClickSocialStore.touch(prefs);
+      ClickSocialSync.schedulePush();
       if (!mounted) return;
       setState(() {
         _mediaPath = stored;

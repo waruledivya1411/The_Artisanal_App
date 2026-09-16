@@ -14,6 +14,7 @@ class LightQuizPage extends StatefulWidget {
     this.categoryId,
     this.materialId,
     this.technique,
+    this.frameIndexes = const [],
     super.key,
   });
 
@@ -21,6 +22,7 @@ class LightQuizPage extends StatefulWidget {
   final String? categoryId;
   final String? materialId;
   final String? technique;
+  final List<int> frameIndexes;
 
   @override
   State<LightQuizPage> createState() => _LightQuizPageState();
@@ -114,6 +116,23 @@ class _LightQuizPageState extends State<LightQuizPage> {
     context.go('/product/${widget.setId}/list');
   }
 
+  void _goBack() {
+    // Opened via context.go from framing quiz — pop often has nowhere to go.
+    final category = widget.categoryId ?? 'saree';
+    final frames = widget.frameIndexes.isNotEmpty
+        ? widget.frameIndexes.join(',')
+        : null;
+    final q = <String>[
+      'category=$category',
+      if (frames != null) 'frames=$frames',
+      if (widget.materialId != null && widget.materialId!.isNotEmpty)
+        'material=${widget.materialId}',
+      if (widget.technique != null && widget.technique!.isNotEmpty)
+        'technique=${widget.technique}',
+    ].join('&');
+    context.go('/product/${widget.setId}/framing-quiz?$q');
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -144,7 +163,7 @@ class _LightQuizPageState extends State<LightQuizPage> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () => context.pop(),
+                    onPressed: _goBack,
                     icon: const Icon(Icons.chevron_left, size: 28),
                     color: AppColors.textPrimary,
                   ),

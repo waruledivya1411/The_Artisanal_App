@@ -1,7 +1,7 @@
 /// Supabase project credentials.
 ///
-/// Backend is off for now — set [enabled] to `true` when cloud sync / auth
-/// should come back. Until then the app stays fully local (SQLite + prefs).
+/// Backend is off for UI-only runs (emulator / APK). Set [enabled] to `true`
+/// when cloud auth and lesson sync should come back.
 ///
 /// Override credentials at build time when re-enabling:
 ///

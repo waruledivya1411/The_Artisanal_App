@@ -18,10 +18,13 @@ abstract interface class PhotoStorage {
   Future<String> persist(String capturedPath, {required String setId});
 
   /// Writes downloaded cloud bytes into app storage.
+  ///
+  /// [extension] includes the dot (`.jpg`, `.mp4`). Defaults to `.jpg`.
   Future<String> persistBytes(
     Uint8List bytes, {
     required String setId,
     required String shotId,
+    String extension = '.jpg',
   });
 
   /// The image to render for [handle], or null when it can no longer be read.

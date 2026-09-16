@@ -12,6 +12,8 @@ import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
 import '../click_social_clusters.dart';
 import '../click_social_lessons.dart';
+import '../click_social_store.dart';
+import '../../../data/services/click_social_sync_service.dart';
 
 /// Lesson 02 — Set Up Your Page on Instagram (matches Click & Social HTML).
 class InstagramSetupPage extends ConsumerStatefulWidget {
@@ -76,6 +78,8 @@ class _InstagramSetupPageState extends ConsumerState<InstagramSetupPage> {
           );
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefsProfilePhoto, stored);
+      await ClickSocialStore.touch(prefs);
+      ClickSocialSync.schedulePush();
       if (!mounted) return;
       setState(() => _profilePhotoPath = stored);
     } catch (error) {

@@ -40,6 +40,7 @@ class WebPhotoStorage implements PhotoStorage {
     Uint8List bytes, {
     required String setId,
     required String shotId,
+    String extension = '.jpg',
   }) async {
     final handle = '$_scheme${setId}_$shotId';
     _photos[handle] = bytes;

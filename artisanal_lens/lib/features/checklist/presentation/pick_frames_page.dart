@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/common.dart';
 import '../click_social_frames.dart';
+import '../../home/click_social_store.dart';
+import '../../../data/services/click_social_sync_service.dart';
 import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 4 — Pick your frames (at least two).
@@ -16,6 +19,7 @@ class PickFramesPage extends StatefulWidget {
     required this.categoryId,
     this.materialId,
     this.technique,
+    this.productLabel,
     super.key,
   });
 
@@ -23,6 +27,7 @@ class PickFramesPage extends StatefulWidget {
   final String categoryId;
   final String? materialId;
   final String? technique;
+  final String? productLabel;
 
   @override
   State<PickFramesPage> createState() => _PickFramesPageState();
@@ -59,6 +64,29 @@ class _PickFramesPageState extends State<PickFramesPage> {
     setState(() => _clusterId = clusterId);
   }
 
+  void _goBack() {
+    // Technique/product use context.go into this page, so there is often
+    // nothing to pop — return to the previous lesson step explicitly.
+    if (_isPanel) {
+      context.goNamed(AppRoute.productSetup);
+      return;
+    }
+
+    final product = widget.productLabel;
+    context.goNamed(
+      AppRoute.technique,
+      queryParameters: {
+        'category': widget.categoryId,
+        if (widget.materialId != null && widget.materialId!.isNotEmpty)
+          'material': widget.materialId!,
+        if (product != null && product.isNotEmpty) ...{
+          'name': product,
+          'product': product,
+        },
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final frames = _frames;
@@ -67,6 +95,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
     return PhotoLessonChrome(
       stepIndex: 3,
       isPanel: _isPanel,
+      onBack: _goBack,
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
         children: [
@@ -220,6 +249,8 @@ class _PickFramesPageState extends State<PickFramesPage> {
       clickSocialTechniqueKey(widget.setId),
       widget.technique ?? '',
     );
+    await ClickSocialStore.touch(prefs);
+    ClickSocialSync.schedulePush();
     if (!mounted) return;
 
     final q = <String>[
