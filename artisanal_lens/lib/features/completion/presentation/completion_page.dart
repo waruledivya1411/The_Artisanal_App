@@ -7,6 +7,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/shot_sets_controller.dart';
 
@@ -77,10 +78,13 @@ class CompletionPage extends ConsumerWidget {
                       crossAxisSpacing: AppDimens.space12,
                       mainAxisSpacing: AppDimens.space12,
                     ),
-                    itemBuilder: (context, index) => PhotoThumb(
-                      path: set.shots[index].filePath,
-                      borderRadius:
-                          BorderRadius.circular(AppDimens.radiusLg),
+                    itemBuilder: (context, index) => FadeSlideIn.staggered(
+                      index: index,
+                      child: PhotoThumb(
+                        path: set.shots[index].filePath,
+                        borderRadius:
+                            BorderRadius.circular(AppDimens.radiusLg),
+                      ),
                     ),
                   ),
                 ],
@@ -90,26 +94,30 @@ class CompletionPage extends ConsumerWidget {
               padding: const EdgeInsets.all(AppDimens.pagePadding),
               child: Column(
                 children: [
-                  FilledButton(
-                    onPressed: () => context.pushReplacementNamed(
-                      AppRoute.productViewer,
-                      pathParameters: {'setId': setId},
+                  ActionWidth(
+                    child: FilledButton(
+                      onPressed: () => context.pushReplacementNamed(
+                        AppRoute.productViewer,
+                        pathParameters: {'setId': setId},
+                      ),
+                      child: Text(AppLocalizations.of(context).viewPhotoSet),
                     ),
-                    child: Text(AppLocalizations.of(context).viewPhotoSet),
                   ),
-                  const SizedBox(height: AppDimens.space12),
-                  OutlinedButton(
-                    onPressed: () {
-                      // Reset to home first so the new shoot has somewhere to
-                      // go back to — the completion screen replaced the stack.
-                      context.goNamed(AppRoute.home);
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        if (context.mounted) {
-                          context.pushNamed(AppRoute.productSetup);
-                        }
-                      });
-                    },
-                    child: Text(AppLocalizations.of(context).startNewProduct),
+                  const SizedBox(height: AppDimens.actionGap),
+                  ActionWidth(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        // Reset to home first so the new shoot has somewhere to
+                        // go back to — the completion screen replaced the stack.
+                        context.goNamed(AppRoute.home);
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (context.mounted) {
+                            context.pushNamed(AppRoute.productSetup);
+                          }
+                        });
+                      },
+                      child: Text(AppLocalizations.of(context).startNewProduct),
+                    ),
                   ),
                 ],
               ),

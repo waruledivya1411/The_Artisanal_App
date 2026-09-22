@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_dimens.dart';
 import '../../app/theme/app_typography.dart';
+import '../motion/motion.dart';
 import 'common.dart';
 
 /// One tappable image card in a 2-column catalog grid.
@@ -47,59 +48,73 @@ class ChoiceImageGrid extends StatelessWidget {
         final choice = choices[index];
         final isSelected = choice.id == selectedId;
 
-        return GestureDetector(
-          onTap: onSelected == null ? null : () => onSelected!(choice.id),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-                    border: Border.all(
-                      color: isSelected ? AppColors.primary : AppColors.border,
-                      width: isSelected ? 2 : 1,
-                    ),
-                  ),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(3),
-                        child: PhotoThumb(
-                          path: choice.thumbnailAsset,
+        return FadeSlideIn.staggered(
+          index: index,
+          child: Pressable(
+            enabled: onSelected != null,
+            borderRadius: BorderRadius.circular(AppDimens.radiusLg),
+            child: GestureDetector(
+              onTap: onSelected == null ? null : () => onSelected!(choice.id),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: AnimatedScale(
+                      scale: isSelected ? 1.02 : 1,
+                      duration: AppMotion.select,
+                      curve: AppMotion.curve,
+                      child: AnimatedContainer(
+                        duration: AppMotion.select,
+                        curve: AppMotion.curve,
+                        decoration: BoxDecoration(
                           borderRadius:
-                              BorderRadius.circular(AppDimens.radiusMd),
-                        ),
-                      ),
-                      if (isSelected)
-                        const Positioned(
-                          top: AppDimens.space8,
-                          right: AppDimens.space8,
-                          child: CircleAvatar(
-                            radius: 13,
-                            backgroundColor: AppColors.primary,
-                            child: Icon(
-                              Icons.check,
-                              size: 15,
-                              color: AppColors.white,
-                            ),
+                              BorderRadius.circular(AppDimens.radiusLg),
+                          border: Border.all(
+                            color: isSelected
+                                ? AppColors.primary
+                                : AppColors.border,
+                            width: isSelected ? 2 : 1,
                           ),
                         ),
-                    ],
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(3),
+                              child: PhotoThumb(
+                                path: choice.thumbnailAsset,
+                                borderRadius:
+                                    BorderRadius.circular(AppDimens.radiusMd),
+                              ),
+                            ),
+                            // Always mounted, scaled to nothing when unpicked,
+                            // so the tick grows in rather than blinking on.
+                            Positioned(
+                              top: AppDimens.space8,
+                              right: AppDimens.space8,
+                              child: AnimatedCheck(
+                                visible: isSelected,
+                                color: AppColors.white,
+                                background: AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: AppDimens.space8),
+                  if (choice.name.isNotEmpty)
+                    Text(
+                      choice.name,
+                      textAlign: TextAlign.center,
+                      style: AppTypography.labelLarge.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                ],
               ),
-              const SizedBox(height: AppDimens.space8),
-              if (choice.name.isNotEmpty)
-                Text(
-                  choice.name,
-                  textAlign: TextAlign.center,
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-            ],
+            ),
           ),
         );
       },

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/common.dart';
 import '../../../shared/widgets/local_video_preview.dart';
@@ -190,23 +191,28 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
             ),
             child: Row(
               children: [
-                Text.rich(
-                  TextSpan(
-                    style: AppTypography.labelLarge.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                    ),
-                    children: [
-                      TextSpan(text: l10n.csPracticeFeed),
-                      const TextSpan(
-                        text: '.',
-                        style: TextStyle(color: AppColors.primary),
+                // Expanded in place of a bare Text plus Spacer: it holds the
+                // badge against the right edge exactly as the Spacer did,
+                // while letting a longer translation wrap instead of
+                // overflowing the row.
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      style: AppTypography.labelLarge.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
                       ),
-                    ],
+                      children: [
+                        TextSpan(text: l10n.csPracticeFeed),
+                        const TextSpan(
+                          text: '.',
+                          style: TextStyle(color: AppColors.primary),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Spacer(),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -230,8 +236,11 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
         Expanded(
           child: ListView(
             children: [
-              for (final post in _posts(l10n))
-                _FeedCard(post: post, onLike: () => _like(post)),
+              for (final (i, post) in _posts(l10n).indexed)
+                FadeSlideIn.staggered(
+                  index: i,
+                  child: _FeedCard(post: post, onLike: () => _like(post)),
+                ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Text(
@@ -382,28 +391,44 @@ class _FeedCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: InkWell(
-                onTap: onLike,
-                child: SizedBox(
-                  height: 44,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        post.liked ? Icons.favorite : Icons.favorite_border,
-                        color: heartColor,
-                        size: 22,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        '${post.likes}',
-                        style: AppTypography.labelLarge.copyWith(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: heartColor,
+              child: Pressable(
+                elevate: false,
+                child: InkWell(
+                  onTap: onLike,
+                  child: SizedBox(
+                    height: 44,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // The outline swaps for a filled heart with a small
+                        // pop, which is the whole point of this screen.
+                        AnimatedSwitcher(
+                          duration: AppMotion.select,
+                          switchInCurve: AppMotion.curve,
+                          transitionBuilder: (child, animation) =>
+                              ScaleTransition(scale: animation, child: child),
+                          child: Icon(
+                            post.liked
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            key: ValueKey(post.liked),
+                            color: heartColor,
+                            size: 22,
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 6),
+                        AnimatedDefaultTextStyle(
+                          duration: AppMotion.select,
+                          curve: AppMotion.curve,
+                          style: AppTypography.labelLarge.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: heartColor,
+                          ),
+                          child: Text('${post.likes}'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

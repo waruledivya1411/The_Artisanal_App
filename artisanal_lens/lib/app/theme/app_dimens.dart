@@ -20,6 +20,21 @@ abstract final class AppDimens {
   /// Horizontal page padding used across the screens.
   static const double pagePadding = 20;
 
+  /// Widest a primary action is allowed to grow.
+  ///
+  /// On a phone the action still fills the column, but on a wide handset or a
+  /// browser window it stops here and centres, so it never stretches into a
+  /// banner. The CSS equivalent is `width: 100%; max-width: 360px; margin:
+  /// 0 auto`; `ActionWidth` in shared/widgets/common.dart applies it.
+  static const double maxActionWidth = 360;
+
+  /// Vertical gap between stacked actions.
+  static const double actionGap = 12;
+
+  /// Horizontal inset for the bottom navigation bar, so the outer tap targets
+  /// keep their distance from the screen edges.
+  static const double bottomNavPadding = 12;
+
   /// Height of the top app bar in the design.
   static const double appBarHeight = 56;
 

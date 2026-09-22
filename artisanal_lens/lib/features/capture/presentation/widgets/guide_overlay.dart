@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../domain/entities/technique_preset.dart';
+import '../../../../shared/motion/motion.dart';
 import '../../../../shared/painting/svg_path.dart';
 
 /// The ghost frame and grid drawn over the live camera preview.
@@ -37,39 +38,61 @@ class GuideOverlay extends StatelessWidget {
           return Stack(
             children: [
               Positioned.fill(
-                child: CustomPaint(
-                  painter: _GuidePainter(grid: grid, gridPath: gridPath),
-                ),
-              ),
-              if (caption.trim().isNotEmpty)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  // Clears the guidance card that sits above the shutter.
-                  bottom: constraints.maxHeight * 0.28,
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.cameraScrim,
-                        borderRadius: BorderRadius.circular(9999),
-                      ),
-                      child: Text(
-                        caption,
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 12,
-                          height: 16 / 12,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
+                // The grid fades up over the preview instead of being there
+                // the instant the camera opens, and fades again when a new
+                // frame brings its own composition grid. Keyed on the grid so
+                // the tween restarts only when the drawing actually changes —
+                // nothing here loops, so it never pulls at the eye while the
+                // artisan is framing a shot.
+                child: TweenAnimationBuilder<double>(
+                  key: ValueKey('$grid|$gridPath'),
+                  tween: Tween(begin: 0, end: 1),
+                  duration: AppMotion.screen,
+                  curve: AppMotion.curve,
+                  builder: (context, value, child) =>
+                      Opacity(opacity: value, child: child),
+                  child: CustomPaint(
+                    painter: _GuidePainter(grid: grid, gridPath: gridPath),
                   ),
                 ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                // Clears the guidance card that sits above the shutter.
+                bottom: constraints.maxHeight * 0.28,
+                child: Center(
+                  // One instruction crossfades into the next rather than
+                  // snapping, which matters here because the words change as
+                  // the artisan moves the camera.
+                  child: AnimatedSwitcher(
+                    duration: AppMotion.select,
+                    child: caption.trim().isEmpty
+                        ? const SizedBox.shrink()
+                        : Container(
+                            key: ValueKey(caption),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.cameraScrim,
+                              borderRadius: BorderRadius.circular(9999),
+                            ),
+                            child: Text(
+                              caption,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 12,
+                                height: 16 / 12,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
             ],
           );
         },

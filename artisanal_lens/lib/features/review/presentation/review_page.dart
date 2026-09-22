@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../domain/entities/shot_set.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
@@ -143,15 +144,26 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
                 Row(
                   children: [
                     Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: _isSaving ? null : _retake,
-                        icon: const Icon(Icons.refresh, size: 18),
-                        label: Text(AppLocalizations.of(context).retake),
+                      child: Pressable(
+                        enabled: !_isSaving,
+                        borderRadius: BorderRadius.circular(
+                          AppDimens.radiusPill,
+                        ),
+                        child: OutlinedButton.icon(
+                          onPressed: _isSaving ? null : _retake,
+                          icon: const Icon(Icons.refresh, size: 18),
+                          label: Text(AppLocalizations.of(context).retake),
+                        ),
                       ),
                     ),
                     const SizedBox(width: AppDimens.space12),
                     Expanded(
-                      child: FilledButton.icon(
+                      child: Pressable(
+                        enabled: !_isSaving,
+                        borderRadius: BorderRadius.circular(
+                          AppDimens.radiusPill,
+                        ),
+                        child: FilledButton.icon(
                         onPressed: _isSaving ? null : _accept,
                         icon: _isSaving
                             ? const SizedBox(
@@ -164,6 +176,7 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
                               )
                             : const Icon(Icons.check, size: 18),
                         label: Text(AppLocalizations.of(context).usePhoto),
+                        ),
                       ),
                     ),
                   ],

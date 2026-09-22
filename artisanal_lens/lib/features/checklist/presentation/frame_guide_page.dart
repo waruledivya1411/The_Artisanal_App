@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/click_social_clusters.dart';
 import '../click_social_frames.dart';
@@ -162,43 +163,53 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    step.title,
-                    style: AppTypography.displayMedium.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
+                  // Everything below the overline belongs to one step, so it
+                  // moves as a single block when the step changes.
+                  StepSwitcher(
+                    child: Column(
+                      key: ValueKey(_step),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          step.title,
+                          style: AppTypography.displayMedium.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          step.subtitle,
+                          style: AppTypography.labelSmall.copyWith(
+                            fontSize: 13,
+                            height: 1.4,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        _StepBody(
+                          step: step,
+                          framePhotoAsset: frame.thumbAssetFor(
+                            clusterId: _clusterId,
+                            categoryId: widget.categoryId,
+                            technique: widget.technique,
+                          ),
+                          photoLabel: _photoLabel(),
+                        ),
+                        if (step.caption != null) ...[
+                          const SizedBox(height: 10),
+                          Text(
+                            step.caption!,
+                            style: AppTypography.labelSmall.copyWith(
+                              fontSize: 12,
+                              height: 1.4,
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    step.subtitle,
-                    style: AppTypography.labelSmall.copyWith(
-                      fontSize: 13,
-                      height: 1.4,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  _StepBody(
-                    step: step,
-                    framePhotoAsset: frame.thumbAssetFor(
-                      clusterId: _clusterId,
-                      categoryId: widget.categoryId,
-                      technique: widget.technique,
-                    ),
-                    photoLabel: _photoLabel(),
-                  ),
-                  if (step.caption != null) ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      step.caption!,
-                      style: AppTypography.labelSmall.copyWith(
-                        fontSize: 12,
-                        height: 1.4,
-                        color: AppColors.textMuted,
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -363,7 +374,7 @@ class _GuideHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
       ),
@@ -429,34 +440,41 @@ class _GuideFooter extends StatelessWidget {
           SizedBox(
             width: 50,
             height: 50,
-            child: OutlinedButton(
+            child: Pressable(
+              child: OutlinedButton(
               onPressed: onBack,
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shape: const RoundedRectangleBorder(),
                 side: const BorderSide(color: AppColors.textPrimary, width: 2),
               ),
-              child: const Icon(
-                Icons.chevron_left,
-                size: 22,
-                color: AppColors.textPrimary,
+                child: const Icon(
+                  Icons.chevron_left,
+                  size: 22,
+                  color: AppColors.textPrimary,
+                ),
               ),
             ),
           ),
           Expanded(
-            child: Text(
-              stepLabel,
-              textAlign: TextAlign.center,
-              style: AppTypography.labelSmall.copyWith(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textMuted,
+            child: AnimatedSwitcher(
+              duration: AppMotion.select,
+              child: Text(
+                stepLabel,
+                key: ValueKey(stepLabel),
+                textAlign: TextAlign.center,
+                style: AppTypography.labelSmall.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textMuted,
+                ),
               ),
             ),
           ),
           SizedBox(
             height: 50,
-            child: ElevatedButton(
+            child: Pressable(
+              child: ElevatedButton(
               onPressed: onNext,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
@@ -470,6 +488,7 @@ class _GuideFooter extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                   color: AppColors.white,
                 ),
+              ),
               ),
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../l10n/app_localizations.dart';
 import '../click_social_lessons.dart';
 
@@ -236,7 +237,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(4, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
       ),
@@ -303,9 +304,19 @@ class _ResultButton extends StatelessWidget {
             ? AppColors.textMuted
             : AppColors.textPrimary;
 
-    return InkWell(
+    return ShakeOnChange(
+      trigger: wrong ? label : null,
+      child: Pressable(
+      elevate: false,
+      child: InkWell(
       onTap: onTap,
-      child: Container(
+      child: AnimatedScale(
+        scale: correct ? 1.02 : 1,
+        duration: AppMotion.select,
+        curve: AppMotion.curve,
+        child: AnimatedContainer(
+        duration: AppMotion.select,
+        curve: AppMotion.curve,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
@@ -333,6 +344,11 @@ class _ResultButton extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
+                AnimatedCheck(
+                  visible: correct,
+                  color: AppColors.primary,
+                  size: 16,
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -341,15 +357,24 @@ class _ResultButton extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(color: AppColors.surfaceMuted),
-                  FractionallySizedBox(
-                    widthFactor: widthFactor,
-                    child: Container(color: AppColors.primary),
+                  // The reach bar fills rather than appearing at length.
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: widthFactor),
+                    duration: AppMotion.progress,
+                    curve: AppMotion.curveInOut,
+                    builder: (context, value, _) => FractionallySizedBox(
+                      widthFactor: value,
+                      child: Container(color: AppColors.primary),
+                    ),
                   ),
                 ],
               ),
             ),
           ],
         ),
+        ),
+      ),
+      ),
       ),
     );
   }

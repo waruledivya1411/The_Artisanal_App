@@ -5,6 +5,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../app/user_profile_controller.dart';
+import '../../../shared/widgets/common.dart';
 
 /// Lets the artisan enter their name — stored locally on this device.
 class ProfileSettingsSection extends ConsumerStatefulWidget {
@@ -38,13 +39,15 @@ class _ProfileSettingsSectionState extends ConsumerState<ProfileSettingsSection>
             title: 'Your name',
             body: name,
           ),
-          const SizedBox(height: AppDimens.space12),
-          OutlinedButton(
-            onPressed: () {
-              _nameController.text = name;
-              setState(() => _editing = true);
-            },
-            child: const Text('Change name'),
+          const SizedBox(height: AppDimens.actionGap),
+          CompactAction(
+            child: OutlinedButton(
+              onPressed: () {
+                _nameController.text = name;
+                setState(() => _editing = true);
+              },
+              child: const Text('Change name'),
+            ),
           ),
         ],
       );
@@ -71,15 +74,19 @@ class _ProfileSettingsSectionState extends ConsumerState<ProfileSettingsSection>
           ),
         ),
         const SizedBox(height: AppDimens.space16),
-        FilledButton(
-          onPressed: _saveName,
-          child: Text(name == null ? 'Save' : 'Update'),
+        ActionWidth(
+          child: FilledButton(
+            onPressed: _saveName,
+            child: Text(name == null ? 'Save' : 'Update'),
+          ),
         ),
         if (name != null) ...[
-          const SizedBox(height: AppDimens.space8),
-          TextButton(
-            onPressed: () => setState(() => _editing = false),
-            child: const Text('Cancel'),
+          const SizedBox(height: AppDimens.actionGap),
+          CompactAction(
+            child: TextButton(
+              onPressed: () => setState(() => _editing = false),
+              child: const Text('Cancel'),
+            ),
           ),
         ],
       ],

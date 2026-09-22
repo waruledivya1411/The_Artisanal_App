@@ -11,6 +11,7 @@ import '../../../data/services/auth_service.dart';
 import '../../../domain/entities/shot_set.dart';
 import '../../../l10n/app_copy.dart';
 import '../../home/shot_sets_controller.dart';
+import '../../../shared/widgets/common.dart';
 
 /// Sign up, sign in, progress summary, and cloud backup for the artisan account.
 class AccountSettingsSection extends ConsumerStatefulWidget {
@@ -61,21 +62,25 @@ class _AccountSettingsSectionState extends ConsumerState<AccountSettingsSection>
           const SizedBox(height: AppDimens.space12),
           _ProgressCard(sets: sets),
           const SizedBox(height: AppDimens.space12),
-          OutlinedButton.icon(
-            onPressed: _busy ? null : _syncNow,
-            icon: _busy
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.cloud_sync_outlined, size: 18),
-            label: Text(l10n.syncNow),
+          ActionWidth(
+            child: OutlinedButton.icon(
+              onPressed: _busy ? null : _syncNow,
+              icon: _busy
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.cloud_sync_outlined, size: 18),
+              label: Text(l10n.syncNow),
+            ),
           ),
-          const SizedBox(height: AppDimens.space8),
-          TextButton(
-            onPressed: _busy ? null : _signOut,
-            child: Text(l10n.signOut),
+          const SizedBox(height: AppDimens.actionGap),
+          CompactAction(
+            child: TextButton(
+              onPressed: _busy ? null : _signOut,
+              child: Text(l10n.signOut),
+            ),
           ),
         ],
       );
@@ -111,17 +116,21 @@ class _AccountSettingsSectionState extends ConsumerState<AccountSettingsSection>
           ),
         ),
         const SizedBox(height: AppDimens.space16),
-        FilledButton(
-          onPressed: _busy ? null : _submit,
-          child: Text(_isCreateAccount ? l10n.createAccount : l10n.signIn),
+        ActionWidth(
+          child: FilledButton(
+            onPressed: _busy ? null : _submit,
+            child: Text(_isCreateAccount ? l10n.createAccount : l10n.signIn),
+          ),
         ),
-        const SizedBox(height: AppDimens.space8),
-        TextButton(
-          onPressed: _busy
-              ? null
-              : () => setState(() => _isCreateAccount = !_isCreateAccount),
-          child: Text(
-            _isCreateAccount ? l10n.alreadyHaveAccount : l10n.needAccount,
+        const SizedBox(height: AppDimens.actionGap),
+        CompactAction(
+          child: TextButton(
+            onPressed: _busy
+                ? null
+                : () => setState(() => _isCreateAccount = !_isCreateAccount),
+            child: Text(
+              _isCreateAccount ? l10n.alreadyHaveAccount : l10n.needAccount,
+            ),
           ),
         ),
       ],

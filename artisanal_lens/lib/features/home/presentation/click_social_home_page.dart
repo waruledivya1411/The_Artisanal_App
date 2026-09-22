@@ -9,6 +9,8 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
+import '../../../shared/motion/motion.dart';
+import '../../../shared/widgets/common.dart';
 import '../click_social_clusters.dart';
 import '../click_social_store.dart';
 import '../../../data/services/click_social_sync_service.dart';
@@ -227,11 +229,16 @@ class _OnboardingView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  l10n.csAntaranLearningTool,
-                  style: AppTypography.overline.copyWith(
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.w800,
+                // Expanded, not a bare Text: the overline is translated into
+                // four languages and has to give way to the badge beside it
+                // rather than push the row off the screen.
+                Expanded(
+                  child: Text(
+                    l10n.csAntaranLearningTool,
+                    style: AppTypography.overline.copyWith(
+                      color: AppColors.textMuted,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
                 Container(
@@ -328,26 +335,28 @@ class _OnboardingView extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 24),
-            FilledButton(
-              onPressed: canStart ? onStartLearning : null,
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(52),
-                shape: const RoundedRectangleBorder(),
-              ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 8),
-                  Text(
-                    l10n.csStartLearning,
-                    style: const TextStyle(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
+            ActionWidth(
+              child: FilledButton(
+                onPressed: canStart ? onStartLearning : null,
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size.fromHeight(52),
+                  shape: const RoundedRectangleBorder(),
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 8),
+                    Text(
+                      l10n.csStartLearning,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward, size: 20),
-                ],
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward, size: 20),
+                  ],
+                ),
               ),
             ),
           ],
@@ -512,7 +521,9 @@ class _LearningHomeView extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            InkWell(
+                            Pressable(
+                              elevate: false,
+                              child: InkWell(
                               onTap: onEditProfile,
                               child: Container(
                                 height: 32,
@@ -535,6 +546,7 @@ class _LearningHomeView extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              ),
                             ),
                           ],
                         ),
@@ -554,9 +566,17 @@ class _LearningHomeView extends StatelessWidget {
                           child: Stack(
                             children: [
                               Container(color: AppColors.surfaceMuted),
-                              FractionallySizedBox(
-                                widthFactor: progress,
-                                child: Container(color: AppColors.primary),
+                              // Grows to the new fraction instead of jumping,
+                              // so a finished lesson is visibly earned.
+                              TweenAnimationBuilder<double>(
+                                tween: Tween(begin: 0, end: progress),
+                                duration: AppMotion.progress,
+                                curve: AppMotion.curveInOut,
+                                builder: (context, value, _) =>
+                                    FractionallySizedBox(
+                                  widthFactor: value,
+                                  child: Container(color: AppColors.primary),
+                                ),
                               ),
                             ],
                           ),
@@ -564,7 +584,8 @@ class _LearningHomeView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  for (final lesson in lessons) _LessonTile(item: lesson),
+                  for (var i = 0; i < lessons.length; i++)
+                    _LessonTile(item: lessons[i], index: i),
                   const Divider(height: 2, thickness: 2),
                 ],
               ),
@@ -638,21 +659,33 @@ class _ChoiceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 46,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.textPrimary : AppColors.white,
-          border: Border.all(color: AppColors.textPrimary, width: 2),
-        ),
-        child: Text(
-          label,
-          style: AppTypography.labelLarge.copyWith(
-            color: selected ? AppColors.white : AppColors.textPrimary,
-            fontWeight: FontWeight.w700,
+    return Pressable(
+      elevate: false,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: selected ? 1.02 : 1,
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            height: 46,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selected ? AppColors.textPrimary : AppColors.white,
+              border: Border.all(color: AppColors.textPrimary, width: 2),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: AppMotion.select,
+              curve: AppMotion.curve,
+              style: AppTypography.labelLarge.copyWith(
+                color: selected ? AppColors.white : AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+              child: Text(label),
+            ),
           ),
         ),
       ),
@@ -675,39 +708,60 @@ class _ClusterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 50),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          border: Border.all(
-            color: selected ? AppColors.primary : AppColors.textPrimary,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                style: AppTypography.labelLarge.copyWith(
-                  color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w700,
+    return Pressable(
+      elevate: false,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: selected ? 1.02 : 1,
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            constraints: const BoxConstraints(minHeight: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              border: Border.all(
+                color: selected ? AppColors.primary : AppColors.textPrimary,
+                width: 2,
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    label,
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
-              ),
+                // The PICK / SELECTED label swaps with a crossfade rather
+                // than snapping to the new word.
+                AnimatedSwitcher(
+                  duration: AppMotion.select,
+                  child: Text(
+                    markLabel,
+                    key: ValueKey(markLabel),
+                    style: AppTypography.navLabel.copyWith(
+                      fontSize: 9,
+                      letterSpacing: 1.0,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                AnimatedCheck(
+                  visible: selected,
+                  color: AppColors.primary,
+                  size: 16,
+                ),
+              ],
             ),
-            Text(
-              markLabel,
-              style: AppTypography.navLabel.copyWith(
-                fontSize: 9,
-                letterSpacing: 1.0,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -731,13 +785,20 @@ class _LessonItem {
 }
 
 class _LessonTile extends StatelessWidget {
-  const _LessonTile({required this.item});
+  const _LessonTile({required this.item, this.index = 0});
 
   final _LessonItem item;
 
+  /// Position in the list, used only to stagger the entrance.
+  final int index;
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return FadeSlideIn.staggered(
+      index: index,
+      child: Pressable(
+      elevate: false,
+      child: InkWell(
       onTap: item.onTap,
       child: Container(
         constraints: const BoxConstraints(minHeight: 76),
@@ -749,13 +810,15 @@ class _LessonTile extends StatelessWidget {
           children: [
             SizedBox(
               width: 36,
-              child: Text(
-                item.number,
+              child: AnimatedDefaultTextStyle(
+                duration: AppMotion.select,
+                curve: AppMotion.curve,
                 style: AppTypography.displayMedium.copyWith(
                   fontSize: 22,
                   color: item.done ? AppColors.primary : AppColors.textMuted,
                   fontWeight: FontWeight.w800,
                 ),
+                child: Text(item.number),
               ),
             ),
             const SizedBox(width: 16),
@@ -783,25 +846,39 @@ class _LessonTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            item.done
-                ? Container(
-                    width: 26,
-                    height: 26,
-                    color: AppColors.primary,
-                    alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.check,
-                      color: AppColors.white,
-                      size: 16,
+            // Finishing a lesson swaps the chevron for a tick, and the tick
+            // scales in — the small reward for completing it.
+            AnimatedSwitcher(
+              duration: AppMotion.select,
+              switchInCurve: AppMotion.curve,
+              transitionBuilder: (child, animation) => ScaleTransition(
+                scale: animation,
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+              child: item.done
+                  ? Container(
+                      key: const ValueKey('done'),
+                      width: 26,
+                      height: 26,
+                      color: AppColors.primary,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.check,
+                        color: AppColors.white,
+                        size: 16,
+                      ),
+                    )
+                  : Icon(
+                      Icons.chevron_right,
+                      key: const ValueKey('next'),
+                      color: AppColors.textMuted.withValues(alpha: 0.9),
+                      size: 20,
                     ),
-                  )
-                : Icon(
-                    Icons.chevron_right,
-                    color: AppColors.textMuted.withValues(alpha: 0.9),
-                    size: 20,
-                  ),
+            ),
           ],
         ),
+      ),
+      ),
       ),
     );
   }

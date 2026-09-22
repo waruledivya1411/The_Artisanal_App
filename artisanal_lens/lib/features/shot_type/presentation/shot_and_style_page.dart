@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../domain/entities/fold_preset.dart';
 import '../../../domain/entities/photography_template.dart';
 import '../../../domain/entities/shot_type.dart';
@@ -166,13 +167,21 @@ class _StyleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Material(
+    return Pressable(
+      elevate: false,
+      child: AnimatedScale(
+      scale: isSelected ? 1.01 : 1,
+      duration: AppMotion.select,
+      curve: AppMotion.curve,
+      child: Material(
       color: isSelected ? AppColors.surfaceSelected : AppColors.surface,
       borderRadius: BorderRadius.circular(AppDimens.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppDimens.radiusLg),
         onTap: onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
           padding: const EdgeInsets.all(AppDimens.space12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppDimens.radiusLg),
@@ -256,6 +265,8 @@ class _StyleRow extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      ),
       ),
     );
   }

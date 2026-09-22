@@ -7,6 +7,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/common.dart';
+import '../../../shared/motion/motion.dart';
 import '../click_social_frames.dart';
 import '../../home/click_social_store.dart';
 import '../../../data/services/click_social_sync_service.dart';
@@ -128,7 +129,11 @@ class _PickFramesPageState extends State<PickFramesPage> {
             itemBuilder: (context, i) {
               final frame = frames[i];
               final on = _picks.contains(frame.index);
-              return InkWell(
+              return FadeSlideIn.staggered(
+                index: i,
+                child: Pressable(
+                borderRadius: BorderRadius.circular(8),
+                child: InkWell(
                 onTap: () => setState(() {
                   if (on) {
                     _picks.remove(frame.index);
@@ -136,13 +141,20 @@ class _PickFramesPageState extends State<PickFramesPage> {
                     _picks.add(frame.index);
                   }
                 }),
-                child: Container(
+                child: AnimatedScale(
+                  scale: on ? 1.02 : 1,
+                  duration: AppMotion.select,
+                  curve: AppMotion.curve,
+                  child: AnimatedContainer(
+                  duration: AppMotion.select,
+                  curve: AppMotion.curve,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: on ? AppColors.primary : AppColors.border,
+                      width: on ? 2 : 1,
                     ),
                   ),
                   child: Column(
@@ -188,9 +200,14 @@ class _PickFramesPageState extends State<PickFramesPage> {
                                 ],
                               ),
                             ),
-                            Container(
+                            // The tickbox fills in and the tick grows,
+                            // so picking a frame is acknowledged twice over.
+                            AnimatedContainer(
+                              duration: AppMotion.select,
+                              curve: AppMotion.curve,
                               width: 20,
                               height: 20,
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color:
                                     on ? AppColors.primary : Colors.transparent,
@@ -201,33 +218,43 @@ class _PickFramesPageState extends State<PickFramesPage> {
                                   width: 2,
                                 ),
                               ),
+                              child: AnimatedCheck(
+                                visible: on,
+                                color: AppColors.white,
+                                size: 14,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ],
                   ),
+                  ),
+                ),
+                ),
                 ),
               );
             },
           ),
           if (_ready) ...[
             const SizedBox(height: 16),
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _continue,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.white,
-                  shape: const RoundedRectangleBorder(),
-                ),
-                child: Text(
-                  l10n.csNextFrameIt,
-                  style: AppTypography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.white,
+            ActionWidth(
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _continue,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.white,
+                    shape: const RoundedRectangleBorder(),
+                  ),
+                  child: Text(
+                    l10n.csNextFrameIt,
+                    style: AppTypography.labelLarge.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               ),

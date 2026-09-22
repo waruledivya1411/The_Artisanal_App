@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../domain/entities/shot_set.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
@@ -112,21 +113,31 @@ class _GalleryPageState extends ConsumerState<GalleryPage> {
                         ),
                         const SizedBox(height: AppDimens.space20),
                         if (isFiltered)
-                          OutlinedButton.icon(
-                            onPressed: () =>
-                                setState(() => _categoryFilter = null),
-                            icon: const Icon(Icons.clear, size: 18),
-                            label: Text(l10n.showAll),
+                          Pressable(
+                            borderRadius: BorderRadius.circular(
+                              AppDimens.radiusPill,
+                            ),
+                            child: OutlinedButton.icon(
+                              onPressed: () =>
+                                  setState(() => _categoryFilter = null),
+                              icon: const Icon(Icons.clear, size: 18),
+                              label: Text(l10n.showAll),
+                            ),
                           )
                         else
-                          FilledButton.icon(
-                            onPressed: () =>
-                                context.pushNamed(AppRoute.productSetup),
-                            icon: const Icon(
-                              Icons.add_a_photo_outlined,
-                              size: 18,
+                          Pressable(
+                            borderRadius: BorderRadius.circular(
+                              AppDimens.radiusPill,
                             ),
-                            label: Text(l10n.newProduct),
+                            child: FilledButton.icon(
+                              onPressed: () =>
+                                  context.pushNamed(AppRoute.productSetup),
+                              icon: const Icon(
+                                Icons.add_a_photo_outlined,
+                                size: 18,
+                              ),
+                              label: Text(l10n.newProduct),
+                            ),
                           ),
                       ],
                     ),
@@ -170,9 +181,13 @@ class _FilterChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: AppDimens.space8),
-      child: GestureDetector(
+      child: Pressable(
+        elevate: false,
+        child: GestureDetector(
         onTap: onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(
             horizontal: AppDimens.space20,
@@ -193,6 +208,7 @@ class _FilterChip extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -204,7 +220,9 @@ class _GalleryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Pressable(
+      elevate: false,
+      child: GestureDetector(
       onTap: () => context.pushNamed(
         AppRoute.productViewer,
         pathParameters: {'setId': set.id},
@@ -261,6 +279,7 @@ class _GalleryCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

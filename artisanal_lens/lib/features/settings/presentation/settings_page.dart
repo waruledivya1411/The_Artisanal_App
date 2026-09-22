@@ -28,7 +28,7 @@ class SettingsPage extends ConsumerWidget {
           bottom: false,
           child: Container(
             height: AppDimens.appBarHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: AppDimens.space8),
             decoration: const BoxDecoration(
               color: AppColors.backgroundAlt,
               border: Border(bottom: BorderSide(color: AppColors.divider)),

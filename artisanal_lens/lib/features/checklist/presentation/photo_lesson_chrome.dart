@@ -5,6 +5,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
+import '../../../shared/motion/motion.dart';
 
 /// HTML photography lesson chrome: LESSON 01 header + 7 segment bar.
 ///
@@ -50,7 +51,7 @@ class PhotoLessonChrome extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+              padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: AppColors.divider, width: 2),
@@ -148,28 +149,42 @@ class PhotoChoiceChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        constraints: BoxConstraints(minHeight: minHeight),
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.textPrimary : AppColors.white,
-          border: Border.all(color: AppColors.textPrimary, width: 2),
-        ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: (useHeadingFont
-                  ? AppTypography.displayMedium
-                  : AppTypography.labelLarge)
-              .copyWith(
-            fontSize: fontSize,
-            fontWeight: fontWeight,
-            letterSpacing: letterSpacing,
-            color: selected ? AppColors.white : AppColors.textPrimary,
-            height: 1.15,
+    // elevate: false — these chips are flat by design, square with a 2px
+    // border, so the press reads through scale alone.
+    return Pressable(
+      elevate: false,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedScale(
+          // A hair larger once chosen, so the choice registers as picked up.
+          scale: selected ? 1.02 : 1,
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            constraints: BoxConstraints(minHeight: minHeight),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selected ? AppColors.textPrimary : AppColors.white,
+              border: Border.all(color: AppColors.textPrimary, width: 2),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: AppMotion.select,
+              curve: AppMotion.curve,
+              style: (useHeadingFont
+                      ? AppTypography.displayMedium
+                      : AppTypography.labelLarge)
+                  .copyWith(
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+                letterSpacing: letterSpacing,
+                color: selected ? AppColors.white : AppColors.textPrimary,
+                height: 1.15,
+              ),
+              child: Text(label, textAlign: TextAlign.center),
+            ),
           ),
         ),
       ),

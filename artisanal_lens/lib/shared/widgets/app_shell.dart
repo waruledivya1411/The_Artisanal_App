@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/router.dart';
 import '../../app/theme/app_colors.dart';
+import '../../app/theme/app_dimens.dart';
 import '../../app/theme/app_typography.dart';
 import '../../l10n/app_localizations.dart';
+import '../motion/motion.dart';
 
 /// Bottom navigation matching Click & Social HTML: LEARN · PRACTICE · PROGRESS.
 ///
@@ -48,27 +50,32 @@ class _BottomNav extends StatelessWidget {
         top: false,
         child: SizedBox(
           height: 58,
-          child: Row(
-            children: [
-              _NavItem(
-                icon: Icons.home_outlined,
-                label: l10n.csNavLearn,
-                isActive: location == '/home',
-                onTap: () => context.goNamed(AppRoute.home),
-              ),
-              _NavItem(
-                icon: Icons.photo_camera_outlined,
-                label: l10n.csNavPractice,
-                isActive: location == '/gallery',
-                onTap: () => context.goNamed(AppRoute.gallery),
-              ),
-              _NavItem(
-                icon: Icons.military_tech_outlined,
-                label: l10n.csNavProgress,
-                isActive: location == '/settings',
-                onTap: () => context.goNamed(AppRoute.settings),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimens.bottomNavPadding,
+            ),
+            child: Row(
+              children: [
+                _NavItem(
+                  icon: Icons.home_outlined,
+                  label: l10n.csNavLearn,
+                  isActive: location == '/home',
+                  onTap: () => context.goNamed(AppRoute.home),
+                ),
+                _NavItem(
+                  icon: Icons.photo_camera_outlined,
+                  label: l10n.csNavPractice,
+                  isActive: location == '/gallery',
+                  onTap: () => context.goNamed(AppRoute.gallery),
+                ),
+                _NavItem(
+                  icon: Icons.military_tech_outlined,
+                  label: l10n.csNavProgress,
+                  isActive: location == '/settings',
+                  onTap: () => context.goNamed(AppRoute.settings),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -94,23 +101,42 @@ class _NavItem extends StatelessWidget {
     final color = isActive ? AppColors.primary : AppColors.textPrimary;
 
     return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 22, color: color),
-            const SizedBox(height: 3),
-            Text(
-              label,
-              style: AppTypography.navLabel.copyWith(
-                fontSize: 9,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.0,
-                color: color,
+      child: Pressable(
+        elevate: false,
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // The active tab's icon sits fractionally larger and its colour
+              // eases across, so switching tabs reads as a move rather than a
+              // repaint.
+              AnimatedScale(
+                scale: isActive ? 1.1 : 1,
+                duration: AppMotion.select,
+                curve: AppMotion.curve,
+                child: TweenAnimationBuilder<Color?>(
+                  tween: ColorTween(end: color),
+                  duration: AppMotion.select,
+                  curve: AppMotion.curve,
+                  builder: (context, value, _) =>
+                      Icon(icon, size: 22, color: value ?? color),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 3),
+              AnimatedDefaultTextStyle(
+                duration: AppMotion.select,
+                curve: AppMotion.curve,
+                style: AppTypography.navLabel.copyWith(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.0,
+                  color: color,
+                ),
+                child: Text(label),
+              ),
+            ],
+          ),
         ),
       ),
     );

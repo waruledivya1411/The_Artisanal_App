@@ -14,6 +14,7 @@ import '../../../domain/entities/shot_set.dart';
 import '../../../domain/entities/shot_type.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/painting/svg_path.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/shot_sets_controller.dart';
 import '../../instruction/instruction_flow.dart';
@@ -234,23 +235,25 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
             ),
           ],
           const SizedBox(height: 12),
-          SizedBox(
-            height: 52,
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: allDone ? () => _finishPhotoLesson(l10n) : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                disabledBackgroundColor: AppColors.surfaceMuted,
-                foregroundColor: AppColors.white,
-                disabledForegroundColor: AppColors.textMuted,
-                shape: const RoundedRectangleBorder(),
-              ),
-              child: Text(
-                l10n.csFinishEarnBadge,
-                style: AppTypography.labelLarge.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: allDone ? AppColors.white : AppColors.textMuted,
+          ActionWidth(
+            child: SizedBox(
+              height: 52,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: allDone ? () => _finishPhotoLesson(l10n) : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  disabledBackgroundColor: AppColors.surfaceMuted,
+                  foregroundColor: AppColors.white,
+                  disabledForegroundColor: AppColors.textMuted,
+                  shape: const RoundedRectangleBorder(),
+                ),
+                child: Text(
+                  l10n.csFinishEarnBadge,
+                  style: AppTypography.labelLarge.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: allDone ? AppColors.white : AppColors.textMuted,
+                  ),
                 ),
               ),
             ),
@@ -624,7 +627,9 @@ class _FrameSlotCard extends StatelessWidget {
                 ),
                 SizedBox(
                   width: 64,
-                  child: TextButton(
+                  child: Pressable(
+                    elevate: false,
+                    child: TextButton(
                     onPressed: onOpenGuide,
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -640,12 +645,27 @@ class _FrameSlotCard extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                     ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          if (expanded) ...[
+          // AnimatedSize drives the height while the contents fade, so the
+          // card grows into place rather than snapping open.
+          AnimatedSize(
+            duration: AppMotion.expand,
+            curve: AppMotion.curveInOut,
+            alignment: Alignment.topCenter,
+            child: AnimatedOpacity(
+              opacity: expanded ? 1 : 0,
+              duration: AppMotion.expand,
+              curve: AppMotion.curve,
+              child: !expanded
+                  ? const SizedBox(width: double.infinity, height: 0)
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
             const Divider(height: 2, thickness: 2, color: AppColors.divider),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -714,7 +734,8 @@ class _FrameSlotCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   SizedBox(
                     height: 44,
-                    child: OutlinedButton(
+                    child: Pressable(
+                      child: OutlinedButton(
                       onPressed: onMark,
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.textPrimary,
@@ -735,12 +756,16 @@ class _FrameSlotCard extends StatelessWidget {
                           color: AppColors.textPrimary,
                         ),
                       ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ],
+                      ],
+                    ),
+            ),
+          ),
         ],
       ),
     );

@@ -9,6 +9,7 @@ import '../../../l10n/app_copy.dart';
 import '../../home/shot_sets_controller.dart';
 import '../click_social_frames.dart';
 import 'photo_lesson_chrome.dart';
+import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 2 — How is it made? (WOVEN / HAND-PAINTED).
 class TechniqueSelectionPage extends ConsumerStatefulWidget {
@@ -88,21 +89,23 @@ class _TechniqueSelectionPageState
           ),
           if (_technique != null) ...[
             const SizedBox(height: 16),
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _busy ? null : _continue,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.white,
-                  shape: const RoundedRectangleBorder(),
-                ),
-                child: Text(
-                  l10n.csNextPickYourFrames,
-                  style: AppTypography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.white,
+            ActionWidth(
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _busy ? null : _continue,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.white,
+                    shape: const RoundedRectangleBorder(),
+                  ),
+                  child: Text(
+                    l10n.csNextPickYourFrames,
+                    style: AppTypography.labelLarge.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               ),

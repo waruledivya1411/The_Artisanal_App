@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../l10n/app_localizations.dart';
 import '../click_social_lessons.dart';
 
@@ -208,7 +209,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(4, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
       ),
@@ -273,28 +274,47 @@ class _TimeButton extends StatelessWidget {
             ? AppColors.textMuted
             : AppColors.textPrimary;
 
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 52),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          border: Border.all(color: borderColor, width: 2),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                style: AppTypography.labelLarge.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
+    return ShakeOnChange(
+      trigger: wrongSelection ? label : null,
+      child: Pressable(
+        elevate: false,
+        child: InkWell(
+          onTap: onTap,
+          child: AnimatedScale(
+            scale: correctSelection ? 1.02 : 1,
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            child: AnimatedContainer(
+              duration: AppMotion.select,
+              curve: AppMotion.curve,
+              constraints: const BoxConstraints(minHeight: 52),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                border: Border.all(color: borderColor, width: 2),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: AppTypography.labelLarge.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  AnimatedCheck(
+                    visible: correctSelection,
+                    color: AppColors.primary,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(icon, style: const TextStyle(fontSize: 18)),
+                ],
               ),
             ),
-            Text(icon, style: const TextStyle(fontSize: 18)),
-          ],
+          ),
         ),
       ),
     );
@@ -314,21 +334,33 @@ class _DayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 52,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.textPrimary : AppColors.white,
-          border: Border.all(color: AppColors.textPrimary, width: 2),
-        ),
-        child: Text(
-          label,
-          style: AppTypography.labelLarge.copyWith(
-            fontSize: 12,
-            fontWeight: FontWeight.w800,
-            color: selected ? AppColors.white : AppColors.textPrimary,
+    return Pressable(
+      elevate: false,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: selected ? 1.03 : 1,
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            height: 52,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selected ? AppColors.textPrimary : AppColors.white,
+              border: Border.all(color: AppColors.textPrimary, width: 2),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: AppMotion.select,
+              curve: AppMotion.curve,
+              style: AppTypography.labelLarge.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: selected ? AppColors.white : AppColors.textPrimary,
+              ),
+              child: Text(label),
+            ),
           ),
         ),
       ),

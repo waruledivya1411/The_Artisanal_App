@@ -8,6 +8,7 @@ import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
 import '../../../shared/widgets/local_video_preview.dart';
@@ -230,7 +231,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   ),
                   Material(
                     color: AppColors.surfaceMuted,
-                    child: InkWell(
+                    child: Pressable(
+                      elevate: false,
+                      child: InkWell(
                       onTap: _pickMedia,
                       child: Container(
                         height: 190,
@@ -263,6 +266,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                   ),
                       ),
                     ),
+                  ),
                   ),
                   if (_displayIsVideo) ...[
                     const SizedBox(height: 8),
@@ -411,7 +415,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   const SizedBox(height: 16),
                   Opacity(
                     opacity: _canPublish ? 1 : 0.45,
-                    child: InkWell(
+                    child: Pressable(
+                      enabled: _canPublish,
+                      child: InkWell(
                       onTap: _canPublish ? () => _publish(l10n) : null,
                       child: Container(
                         height: 52,
@@ -426,6 +432,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         ),
                       ),
                     ),
+                  ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -463,7 +470,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(4, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
       ),
@@ -523,9 +530,13 @@ class _FormatTabs extends StatelessWidget {
         children: [
           for (var i = 0; i < _formats.length; i++)
             Expanded(
-              child: InkWell(
+              child: Pressable(
+                elevate: false,
+                child: InkWell(
                 onTap: () => onPick(_formats[i]),
-                child: Container(
+                child: AnimatedContainer(
+                  duration: AppMotion.select,
+                  curve: AppMotion.curve,
                   height: 46,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -554,6 +565,7 @@ class _FormatTabs extends StatelessWidget {
                   ),
                 ),
               ),
+              ),
             ),
         ],
       ),
@@ -576,9 +588,17 @@ class _StoryBlockButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Pressable(
+      elevate: false,
+      child: InkWell(
       onTap: onTap,
-      child: Container(
+      child: AnimatedScale(
+        scale: selected ? 1.01 : 1,
+        duration: AppMotion.select,
+        curve: AppMotion.curve,
+        child: AnimatedContainer(
+        duration: AppMotion.select,
+        curve: AppMotion.curve,
         constraints: const BoxConstraints(minHeight: 50),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
@@ -602,17 +622,26 @@ class _StoryBlockButton extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Text(
-                text,
+              child: AnimatedDefaultTextStyle(
+                duration: AppMotion.select,
+                curve: AppMotion.curve,
                 style: AppTypography.labelSmall.copyWith(
                   fontSize: 13,
                   height: 1.35,
                   color: selected ? AppColors.white : AppColors.textPrimary,
                 ),
+                child: Text(text),
               ),
+            ),
+            AnimatedCheck(
+              visible: selected,
+              color: AppColors.white,
+              size: 16,
             ),
           ],
         ),
+        ),
+      ),
       ),
     );
   }
@@ -635,9 +664,13 @@ class _TagChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Opacity(
       opacity: dimmed ? 0.45 : 1,
-      child: InkWell(
+      child: Pressable(
+        elevate: false,
+        child: InkWell(
         onTap: onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
           constraints: const BoxConstraints(minHeight: 40),
           padding: const EdgeInsets.symmetric(horizontal: 12),
           alignment: Alignment.center,
@@ -654,6 +687,7 @@ class _TagChip extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

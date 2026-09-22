@@ -9,6 +9,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../shared/widgets/common.dart';
 import '../click_social_clusters.dart';
 import '../click_social_lessons.dart';
@@ -271,7 +272,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(4, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
       ),
@@ -365,13 +366,18 @@ class _UsernameStep extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
-                Text(
-                  name,
-                  style: AppTypography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: selected == name
-                        ? AppColors.white
-                        : AppColors.textPrimary,
+                // The suggestions are built from the learner's own name, so a
+                // long one runs past the row on a narrow phone. Flexible lets
+                // it wrap instead of overflowing.
+                Flexible(
+                  child: Text(
+                    name,
+                    style: AppTypography.labelLarge.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: selected == name
+                          ? AppColors.white
+                          : AppColors.textPrimary,
+                    ),
                   ),
                 ),
               ],
@@ -443,7 +449,9 @@ class _EditProfileStep extends StatelessWidget {
               const SizedBox(height: 16),
               Material(
                 color: Colors.transparent,
-                child: InkWell(
+                child: Pressable(
+                  elevate: false,
+                  child: InkWell(
                   onTap: onPickPhoto,
                   customBorder: const CircleBorder(),
                   child: Ink(
@@ -466,8 +474,11 @@ class _EditProfileStep extends StatelessWidget {
                   ),
                 ),
               ),
+              ),
               const SizedBox(height: 4),
-              InkWell(
+              Pressable(
+                elevate: false,
+                child: InkWell(
                 onTap: onPickPhoto,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -481,6 +492,7 @@ class _EditProfileStep extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
               ),
               const SizedBox(height: 10),
               _ProfileRow(label: l10n.csFieldName, value: displayName),
@@ -659,9 +671,15 @@ class _SettingsWalkthroughStep extends StatelessWidget {
                 ),
               ),
               for (var i = 0; i < menu.length; i++)
-                InkWell(
+                ShakeOnChange(
+                  trigger: settingsWrong == i ? 'wrong-$i' : null,
+                  child: Pressable(
+                  elevate: false,
+                  child: InkWell(
                   onTap: () => onPick(menu[i].ok, i),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: AppMotion.select,
+                    curve: AppMotion.curve,
                     constraints: const BoxConstraints(minHeight: 52),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 14,
@@ -713,6 +731,8 @@ class _SettingsWalkthroughStep extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                ),
                   ),
                 ),
             ],
@@ -1062,17 +1082,36 @@ class _SelectRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 50),
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.textPrimary : AppColors.white,
-          border: Border.all(color: AppColors.textPrimary, width: 2),
+    return Pressable(
+      elevate: false,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: selected ? 1.01 : 1,
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            constraints: const BoxConstraints(minHeight: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: selected ? AppColors.textPrimary : AppColors.white,
+              border: Border.all(color: AppColors.textPrimary, width: 2),
+            ),
+            child: Row(
+              children: [
+                Expanded(child: child),
+                AnimatedCheck(
+                  visible: selected,
+                  color: AppColors.white,
+                  size: 16,
+                ),
+              ],
+            ),
+          ),
         ),
-        child: child,
       ),
     );
   }
@@ -1091,22 +1130,34 @@ class _ChipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 44),
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.textPrimary : AppColors.white,
-          border: Border.all(color: AppColors.textPrimary, width: 2),
-        ),
-        child: Text(
-          label,
-          style: AppTypography.labelLarge.copyWith(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: selected ? AppColors.white : AppColors.textPrimary,
+    return Pressable(
+      elevate: false,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: selected ? 1.02 : 1,
+          duration: AppMotion.select,
+          curve: AppMotion.curve,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            constraints: const BoxConstraints(minHeight: 44),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selected ? AppColors.textPrimary : AppColors.white,
+              border: Border.all(color: AppColors.textPrimary, width: 2),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: AppMotion.select,
+              curve: AppMotion.curve,
+              style: AppTypography.labelLarge.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: selected ? AppColors.white : AppColors.textPrimary,
+              ),
+              child: Text(label),
+            ),
           ),
         ),
       ),
@@ -1122,18 +1173,20 @@ class _PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 50,
-        alignment: Alignment.center,
-        color: AppColors.primary,
-        child: Text(
-          label,
-          style: AppTypography.labelLarge.copyWith(
-            color: AppColors.white,
-            fontWeight: FontWeight.w700,
-            fontSize: 14,
+    return ActionWidth(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 50,
+          alignment: Alignment.center,
+          color: AppColors.primary,
+          child: Text(
+            label,
+            style: AppTypography.labelLarge.copyWith(
+              color: AppColors.white,
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+            ),
           ),
         ),
       ),

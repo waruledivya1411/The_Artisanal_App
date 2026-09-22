@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../domain/entities/capture_feedback.dart';
 import '../../../domain/entities/photography_template.dart';
 import '../../../domain/entities/preset_capture_guidance.dart';
@@ -675,7 +676,12 @@ class _ShutterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    // elevate: false — the shutter is a circle, and a rectangular shadow
+    // behind it would show at the corners.
+    return Pressable(
+      enabled: onTap != null,
+      elevate: false,
+      child: GestureDetector(
       onTap: onTap == null ? null : () => onTap!(),
       child: Container(
         width: 76,
@@ -696,6 +702,7 @@ class _ShutterButton extends StatelessWidget {
                 ),
               )
             : null,
+      ),
       ),
     );
   }

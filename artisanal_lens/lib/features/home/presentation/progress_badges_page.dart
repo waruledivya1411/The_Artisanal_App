@@ -4,8 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
+import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../shared/motion/motion.dart';
+import '../../../shared/widgets/common.dart';
 import '../click_social_store.dart';
 import '../../../data/services/click_social_sync_service.dart';
 
@@ -187,9 +190,16 @@ class _ProgressBadgesPageState extends State<ProgressBadgesPage> {
                   child: Stack(
                     children: [
                       Container(color: AppColors.surfaceMuted),
-                      FractionallySizedBox(
-                        widthFactor: progress,
-                        child: Container(color: AppColors.primary),
+                      // Fills to the new fraction over half a second, so a
+                      // freshly earned badge is visibly counted.
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0, end: progress),
+                        duration: AppMotion.progress,
+                        curve: AppMotion.curveInOut,
+                        builder: (context, value, _) => FractionallySizedBox(
+                          widthFactor: value,
+                          child: Container(color: AppColors.primary),
+                        ),
                       ),
                     ],
                   ),
@@ -210,68 +220,78 @@ class _ProgressBadgesPageState extends State<ProgressBadgesPage> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  for (final badge in badges) _BadgeCard(badge: badge),
+                  for (var i = 0; i < badges.length; i++)
+                    FadeSlideIn.staggered(
+                      index: i,
+                      child: _BadgeCard(badge: badges[i]),
+                    ),
                 ],
               ),
-              const SizedBox(height: 8),
-              InkWell(
-                onTap: _editProfile,
-                child: Container(
-                  height: 46,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.textPrimary, width: 2),
-                    color: AppColors.white,
-                  ),
-                  child: Text(
-                    l10n.csEditNameLanguageCluster,
-                    style: AppTypography.labelLarge.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
+              const SizedBox(height: AppDimens.actionGap),
+              ActionWidth(
+                child: InkWell(
+                  onTap: _editProfile,
+                  child: Container(
+                    height: 46,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.textPrimary, width: 2),
+                      color: AppColors.white,
+                    ),
+                    child: Text(
+                      l10n.csEditNameLanguageCluster,
+                      style: AppTypography.labelLarge.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              InkWell(
-                onTap: () async {
-                  await context.pushNamed(AppRoute.account);
-                  if (mounted) await _restore();
-                },
-                child: Container(
-                  height: 46,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.border, width: 1.5),
-                    color: AppColors.white,
-                  ),
-                  child: Text(
-                    l10n.csAccountCloudBackup,
-                    style: AppTypography.labelLarge.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
+              const SizedBox(height: AppDimens.actionGap),
+              ActionWidth(
+                child: InkWell(
+                  onTap: () async {
+                    await context.pushNamed(AppRoute.account);
+                    if (mounted) await _restore();
+                  },
+                  child: Container(
+                    height: 46,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.border, width: 1.5),
+                      color: AppColors.white,
+                    ),
+                    child: Text(
+                      l10n.csAccountCloudBackup,
+                      style: AppTypography.labelLarge.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              InkWell(
-                onTap: _resetAll,
-                child: Container(
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: Text(
-                    l10n.csStartOverClearProgress,
-                    style: AppTypography.navLabel.copyWith(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+              const SizedBox(height: AppDimens.actionGap),
+              ActionWidth(
+                child: InkWell(
+                  onTap: _resetAll,
+                  child: Container(
+                    height: 44,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.border),
+                    ),
+                    child: Text(
+                      l10n.csStartOverClearProgress,
+                      style: AppTypography.navLabel.copyWith(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
                 ),

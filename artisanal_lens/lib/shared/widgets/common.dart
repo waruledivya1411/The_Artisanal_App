@@ -5,6 +5,7 @@ import '../../app/providers.dart';
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_dimens.dart';
 import '../../app/theme/app_typography.dart';
+import '../motion/motion.dart';
 
 /// Uppercase section header, e.g. "CONTINUE PHOTOGRAPHY".
 class SectionHeader extends StatelessWidget {
@@ -37,11 +38,18 @@ class AppProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppDimens.radiusPill),
-      child: LinearProgressIndicator(
-        value: value.clamp(0.0, 1.0),
-        minHeight: height,
-        backgroundColor: AppColors.surfaceMuted,
-        valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+      // Travels to the new value rather than jumping, so finishing a photo
+      // reads as progress being made.
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: value.clamp(0.0, 1.0)),
+        duration: AppMotion.progress,
+        curve: AppMotion.curveInOut,
+        builder: (context, animated, _) => LinearProgressIndicator(
+          value: animated,
+          minHeight: height,
+          backgroundColor: AppColors.surfaceMuted,
+          valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+        ),
       ),
     );
   }
@@ -93,6 +101,82 @@ class AppPill extends StatelessWidget {
   }
 }
 
+/// Caps how wide a primary action may grow and centres it in its column.
+///
+/// The actions here are laid out as `width: double.infinity` so they fill the
+/// content column on a phone. Left alone that also stretches them across a
+/// large handset or a browser window, where a button reads as a banner.
+/// Wrapping restores the intent of the design — `width: 100%; max-width:
+/// 360px; margin: 0 auto`.
+///
+/// The child keeps its own height, colour and label; this only bounds width.
+class ActionWidth extends StatelessWidget {
+  const ActionWidth({
+    required this.child,
+    this.maxWidth = AppDimens.maxActionWidth,
+    this.pressShape = BorderRadius.zero,
+    this.pressable = true,
+    super.key,
+  });
+
+  final Widget child;
+  final double maxWidth;
+
+  /// Shape of the press shadow, which has to match the shape the button
+  /// paints. Most actions here are square; the pill-shaped ones in
+  /// [BottomAction] pass a rounded value.
+  final BorderRadius pressShape;
+
+  /// Set false for something that is not tappable.
+  final bool pressable;
+
+  @override
+  Widget build(BuildContext context) {
+    // Every primary action goes through here, so this is also where the press
+    // feel is attached — one place, rather than repeated at each call site.
+    final action = pressable
+        ? Pressable(borderRadius: pressShape, child: child)
+        : child;
+
+    // heightFactor: 1 keeps the wrapper exactly as tall as the button, so
+    // dropping it around an existing action cannot shift anything vertically.
+    return Align(
+      heightFactor: 1,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        // Fills the capped width — without this the button would shrink to
+        // its label once the tight width constraint is relaxed.
+        child: SizedBox(width: double.infinity, child: action),
+      ),
+    );
+  }
+}
+
+/// Holds a secondary action at its natural width inside a stretched column.
+///
+/// `CrossAxisAlignment.stretch` is right for cards and text fields but drags
+/// small actions — CHANGE, EDIT, CANCEL — out to the full column width, where
+/// a bordered control reads as a primary button it is not.
+class CompactAction extends StatelessWidget {
+  const CompactAction({
+    required this.child,
+    this.alignment = Alignment.center,
+    super.key,
+  });
+
+  final Widget child;
+  final AlignmentGeometry alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: alignment,
+      heightFactor: 1,
+      child: Pressable(elevate: false, child: child),
+    );
+  }
+}
+
 /// Full-width primary action anchored to the bottom of a screen.
 class BottomAction extends StatelessWidget {
   const BottomAction({required this.child, super.key});
@@ -112,7 +196,13 @@ class BottomAction extends StatelessWidget {
         color: AppColors.background,
         border: Border(top: BorderSide(color: AppColors.divider)),
       ),
-      child: SafeArea(top: false, child: child),
+      child: SafeArea(
+        top: false,
+        child: ActionWidth(
+          pressShape: BorderRadius.circular(AppDimens.radiusPill),
+          child: child,
+        ),
+      ),
     );
   }
 }

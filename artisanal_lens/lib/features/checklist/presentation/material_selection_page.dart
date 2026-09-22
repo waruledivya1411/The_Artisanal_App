@@ -6,6 +6,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import 'photo_lesson_chrome.dart';
+import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 1 — What is it made of? (COTTON / SILK, text only).
 class MaterialSelectionPage extends StatefulWidget {
@@ -79,34 +80,36 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
           ),
           if (_selected != null) ...[
             const SizedBox(height: 16),
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(
-                    AppRoute.technique,
-                    queryParameters: {
-                      if (widget.categoryId != null)
-                        'category': widget.categoryId!,
-                      if (widget.productName != null)
-                        'name': widget.productName!,
-                      if (widget.productLabel != null)
-                        'product': widget.productLabel!,
-                      'material': _selected!,
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.white,
-                  shape: const RoundedRectangleBorder(),
-                ),
-                child: Text(
-                  l10n.csNextTechnique,
-                  style: AppTypography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.white,
+            ActionWidth(
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.pushNamed(
+                      AppRoute.technique,
+                      queryParameters: {
+                        if (widget.categoryId != null)
+                          'category': widget.categoryId!,
+                        if (widget.productName != null)
+                          'name': widget.productName!,
+                        if (widget.productLabel != null)
+                          'product': widget.productLabel!,
+                        'material': _selected!,
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.white,
+                    shape: const RoundedRectangleBorder(),
+                  ),
+                  child: Text(
+                    l10n.csNextTechnique,
+                    style: AppTypography.labelLarge.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               ),

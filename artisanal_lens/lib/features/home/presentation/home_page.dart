@@ -6,6 +6,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../domain/entities/shot_set.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
@@ -115,7 +116,9 @@ class _NewProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Pressable(
+      borderRadius: BorderRadius.circular(AppDimens.radiusLg),
+      child: Material(
       color: AppColors.primaryLight,
       borderRadius: BorderRadius.circular(AppDimens.radiusLg),
       child: InkWell(
@@ -145,6 +148,7 @@ class _NewProductCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }
@@ -198,12 +202,14 @@ class _ContinueCard extends StatelessWidget {
                 const SizedBox(height: AppDimens.space8),
                 AppProgressBar(value: set.completionRatio),
                 const SizedBox(height: AppDimens.space12),
-                OutlinedButton(
-                  onPressed: () => context.pushNamed(
-                    AppRoute.photoList,
-                    pathParameters: {'setId': set.id},
+                Pressable(
+                  child: OutlinedButton(
+                    onPressed: () => context.pushNamed(
+                      AppRoute.photoList,
+                      pathParameters: {'setId': set.id},
+                    ),
+                    child: Text(AppLocalizations.of(context).continueAction),
                   ),
-                  child: Text(AppLocalizations.of(context).continueAction),
                 ),
               ],
             ),
@@ -312,7 +318,9 @@ class _ProgressChip extends StatelessWidget {
           color: selected ? AppColors.successBorder : AppColors.borderLight,
         ),
       ),
-      child: InkWell(
+      child: Pressable(
+        elevate: false,
+        child: InkWell(
         onTap: onTap,
         customBorder: const StadiumBorder(),
         child: ConstrainedBox(
@@ -331,6 +339,7 @@ class _ProgressChip extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -347,7 +356,9 @@ class _PreviousSetCard extends StatelessWidget {
       elevation: 1,
       shadowColor: AppColors.textPrimary.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-      child: InkWell(
+      child: Pressable(
+        elevate: false,
+        child: InkWell(
         borderRadius: BorderRadius.circular(AppDimens.radiusLg),
         onTap: () => context.pushNamed(
           set.isFinished ? AppRoute.productViewer : AppRoute.photoList,
@@ -396,6 +407,7 @@ class _PreviousSetCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

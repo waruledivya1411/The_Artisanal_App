@@ -11,6 +11,7 @@ import '../../home/click_social_clusters.dart';
 import '../../home/shot_sets_controller.dart';
 import '../click_social_frames.dart';
 import 'photo_lesson_chrome.dart';
+import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 0 — What are you photographing?
 ///
@@ -118,23 +119,25 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
           ),
           if (_product != null) ...[
             const SizedBox(height: 16),
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _busy ? null : _continue,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.white,
-                  shape: const RoundedRectangleBorder(),
-                ),
-                child: Text(
-                  _product == 'Kalamkari panel'
-                      ? l10n.csNextPickYourFrames
-                      : l10n.csNextMaterial,
-                  style: AppTypography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.white,
+            ActionWidth(
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _busy ? null : _continue,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.white,
+                    shape: const RoundedRectangleBorder(),
+                  ),
+                  child: Text(
+                    _product == 'Kalamkari panel'
+                        ? l10n.csNextPickYourFrames
+                        : l10n.csNextMaterial,
+                    style: AppTypography.labelLarge.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               ),

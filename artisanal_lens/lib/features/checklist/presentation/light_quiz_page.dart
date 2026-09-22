@@ -6,6 +6,8 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../click_social_frames.dart';
+import '../../../shared/motion/motion.dart';
+import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 6 — light quiz. Then continues to the existing photo list.
 class LightQuizPage extends StatefulWidget {
@@ -37,6 +39,9 @@ class _LightQuizPageState extends State<LightQuizPage> {
   ];
 
   String? _light;
+
+  /// Bumped on every wrong choice so the shake replays on a repeat tap.
+  int _shake = 0;
 
   String _choiceLabel(AppLocalizations l10n, String id) => switch (id) {
         'side' => l10n.csLightSide,
@@ -93,7 +98,11 @@ class _LightQuizPageState extends State<LightQuizPage> {
   }
 
   void _pick(String id) {
-    setState(() => _light = id);
+    final wrong = id != _correctLight;
+    setState(() {
+      _light = id;
+      if (wrong) _shake += 1;
+    });
   }
 
   void _continue() async {
@@ -154,7 +163,7 @@ class _LightQuizPageState extends State<LightQuizPage> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+              padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: AppColors.divider, width: 2),
@@ -247,52 +256,83 @@ class _LightQuizPageState extends State<LightQuizPage> {
                   for (final choice in _choices) ...[
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: InkWell(
-                        onTap: () => _pick(choice.$1),
-                        child: Container(
-                          constraints: const BoxConstraints(minHeight: 56),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            border: Border.all(
-                              color: _light == choice.$1
-                                  ? (choice.$1 == _correctLight
-                                      ? AppColors.primary
-                                      : AppColors.textMuted)
-                                  : AppColors.textPrimary,
-                              width: 2,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              CustomPaint(
-                                size: const Size(30, 30),
-                                painter: _LightIconPainter(
-                                  sx: choice.$2,
-                                  sy: choice.$3,
+                      child: ShakeOnChange(
+                        trigger: _light == choice.$1 &&
+                                choice.$1 != _correctLight
+                            ? _shake
+                            : null,
+                        child: Pressable(
+                          elevate: false,
+                          child: InkWell(
+                            onTap: () => _pick(choice.$1),
+                            child: AnimatedScale(
+                              scale: _light == choice.$1 &&
+                                      choice.$1 == _correctLight
+                                  ? 1.02
+                                  : 1,
+                              duration: AppMotion.select,
+                              curve: AppMotion.curve,
+                              child: AnimatedContainer(
+                                duration: AppMotion.select,
+                                curve: AppMotion.curve,
+                                constraints:
+                                    const BoxConstraints(minHeight: 56),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 10,
                                 ),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Text(
-                                  _choiceLabel(l10n, choice.$1),
-                                  style: AppTypography.labelLarge.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border.all(
+                                    color: _light == choice.$1
+                                        ? (choice.$1 == _correctLight
+                                            ? AppColors.primary
+                                            : AppColors.textMuted)
+                                        : AppColors.textPrimary,
+                                    width: 2,
                                   ),
                                 ),
+                                child: Row(
+                                  children: [
+                                    CustomPaint(
+                                      size: const Size(30, 30),
+                                      painter: _LightIconPainter(
+                                        sx: choice.$2,
+                                        sy: choice.$3,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 14),
+                                    Expanded(
+                                      child: Text(
+                                        _choiceLabel(l10n, choice.$1),
+                                        style:
+                                            AppTypography.labelLarge.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    AnimatedCheck(
+                                      visible: _light == choice.$1 &&
+                                          choice.$1 == _correctLight,
+                                      color: AppColors.white,
+                                      background: AppColors.primary,
+                                      radius: 11,
+                                      size: 13,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ],
                   if (msg != null)
-                    Container(
+                    FadeSlideIn(
+                      key: ValueKey('msg-$_light'),
+                      child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 12,
@@ -310,26 +350,32 @@ class _LightQuizPageState extends State<LightQuizPage> {
                               : AppColors.white,
                         ),
                       ),
+                      ),
                     ),
                   if (correct) ...[
                     const SizedBox(height: 16),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _continue,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.white,
-                          shape: const RoundedRectangleBorder(),
-                        ),
-                        child: Text(
-                          l10n.csNextShootYours,
-                          style: AppTypography.labelLarge.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.white,
+                    FadeSlideIn(
+                      key: const ValueKey('light-next'),
+                      child: ActionWidth(
+                      child: SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _continue,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: AppColors.white,
+                            shape: const RoundedRectangleBorder(),
+                          ),
+                          child: Text(
+                            l10n.csNextShootYours,
+                            style: AppTypography.labelLarge.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.white,
+                            ),
                           ),
                         ),
+                      ),
                       ),
                     ),
                   ],

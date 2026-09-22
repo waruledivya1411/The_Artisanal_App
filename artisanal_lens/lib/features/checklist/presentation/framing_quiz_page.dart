@@ -5,7 +5,9 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../framing_quiz_data.dart';
+import '../../../shared/motion/motion.dart';
 import '../../../shared/painting/svg_path.dart';
+import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 5 — framing quizzes. Inserted before the existing photo list.
 class FramingQuizPage extends StatefulWidget {
@@ -32,6 +34,10 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
   int _index = 0;
   int? _pick;
 
+  /// Bumped on every wrong choice so the shake replays even when the learner
+  /// taps the same wrong option twice.
+  int _shake = 0;
+
   List<FrameArch> get _sequence => framingSequenceForPicks(
         categoryId: widget.categoryId,
         pickedIndexes: widget.frameIndexes,
@@ -47,7 +53,12 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
       );
 
   void _select(int oi) {
-    setState(() => _pick = oi);
+    final l10n = AppLocalizations.of(context);
+    final wrong = !localizedFramingArch(l10n, _arch).options[oi].correct;
+    setState(() {
+      _pick = oi;
+      if (wrong) _shake += 1;
+    });
   }
 
   void _next() {
@@ -146,26 +157,61 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                   for (var oi = 0; oi < def.options.length; oi++) ...[
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: InkWell(
-                        onTap: () => _select(oi),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            border: Border.all(
-                              color: _pick == oi
-                                  ? (def.options[oi].correct
-                                      ? AppColors.primary
-                                      : AppColors.textMuted)
-                                  : AppColors.textPrimary,
-                              width: 2,
-                            ),
-                          ),
-                          child: AspectRatio(
-                            aspectRatio: 120 / 64,
-                            child: CustomPaint(
-                              painter: _FramingPainter(
-                                gridPath: def.gridPath,
-                                option: def.options[oi],
+                      child: ShakeOnChange(
+                        // Only the option just chosen, and only when it is
+                        // wrong; a right answer stays perfectly still.
+                        trigger: _pick == oi && !def.options[oi].correct
+                            ? _shake
+                            : null,
+                        child: Pressable(
+                          elevate: false,
+                          child: InkWell(
+                            onTap: () => _select(oi),
+                            child: AnimatedScale(
+                              scale: _pick == oi && def.options[oi].correct
+                                  ? 1.02
+                                  : 1,
+                              duration: AppMotion.select,
+                              curve: AppMotion.curve,
+                              child: AnimatedContainer(
+                                duration: AppMotion.select,
+                                curve: AppMotion.curve,
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border.all(
+                                    color: _pick == oi
+                                        ? (def.options[oi].correct
+                                            ? AppColors.primary
+                                            : AppColors.textMuted)
+                                        : AppColors.textPrimary,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    AspectRatio(
+                                      aspectRatio: 120 / 64,
+                                      child: CustomPaint(
+                                        painter: _FramingPainter(
+                                          gridPath: def.gridPath,
+                                          option: def.options[oi],
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 8,
+                                      right: 8,
+                                      child: AnimatedCheck(
+                                        visible: _pick == oi &&
+                                            def.options[oi].correct,
+                                        color: AppColors.white,
+                                        background: AppColors.primary,
+                                        radius: 11,
+                                        size: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -174,7 +220,9 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                     ),
                   ],
                   if (msg != null)
-                    Container(
+                    FadeSlideIn(
+                      key: ValueKey('msg-$_index-$_pick'),
+                      child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 12,
@@ -192,28 +240,34 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                               : AppColors.white,
                         ),
                       ),
+                      ),
                     ),
                   if (correct) ...[
                     const SizedBox(height: 16),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _next,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.white,
-                          shape: const RoundedRectangleBorder(),
-                        ),
-                        child: Text(
-                          _index < _sequence.length - 1
-                              ? l10n.csNextFraming
-                              : l10n.csNextLightIt,
-                          style: AppTypography.labelLarge.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.white,
+                    FadeSlideIn(
+                      key: ValueKey('next-$_index'),
+                      child: ActionWidth(
+                      child: SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _next,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: AppColors.white,
+                            shape: const RoundedRectangleBorder(),
+                          ),
+                          child: Text(
+                            _index < _sequence.length - 1
+                                ? l10n.csNextFraming
+                                : l10n.csNextLightIt,
+                            style: AppTypography.labelLarge.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.white,
+                            ),
                           ),
                         ),
+                      ),
                       ),
                     ),
                   ],
@@ -236,7 +290,7 @@ class _LessonHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
       ),

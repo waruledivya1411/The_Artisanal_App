@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../shared/motion/page_transition.dart';
 import 'app_colors.dart';
 import 'app_dimens.dart';
 import 'app_typography.dart';
@@ -14,6 +15,8 @@ abstract final class AppTheme {
 
     return base.copyWith(
       scaffoldBackgroundColor: AppColors.background,
+      // One screen transition for every platform — see app_page_transition.
+      pageTransitionsTheme: appPageTransitionsTheme,
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
         onPrimary: AppColors.textOnPrimary,
