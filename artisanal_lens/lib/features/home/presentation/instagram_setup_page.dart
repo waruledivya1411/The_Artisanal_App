@@ -94,7 +94,18 @@ class _InstagramSetupPageState extends ConsumerState<InstagramSetupPage> {
   List<String> _usernameOptions(String learnerName) {
     final raw = learnerName.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
     final base = raw.isEmpty ? 'artisan' : raw;
-    return ['${base}_weaves', '$base.handloom', 'weaves_by_$base'];
+    // For each of the 3 original patterns, include 2 more variants.
+    return [
+      '${base}_weaves',
+      '$base.weaves',
+      'weaves_$base',
+      '$base.handloom',
+      '${base}_handloom',
+      'handloom_by_$base',
+      'weaves_by_$base',
+      'crafted_by_$base',
+      '${base}_studio',
+    ];
   }
 
   List<String> _bioOptions(AppLocalizations l10n) {
@@ -151,95 +162,110 @@ class _InstagramSetupPageState extends ConsumerState<InstagramSetupPage> {
     final learnerName = _learnerName ?? l10n.csLearnerFallback;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _Header(
-              stepLabel: l10n.csStepOfTotal(_step + 1, 5),
-              onBack: () {
-                if (_step == 0) {
-                  context.goNamed(AppRoute.home);
-                } else if (_step == 2 && _settingsSub == 1) {
-                  setState(() {
-                    _settingsSub = 0;
-                    _settingsWrong = null;
-                  });
-                } else {
-                  setState(() {
-                    _step -= 1;
-                    _settingsWrong = null;
-                  });
-                }
-              },
-            ),
-            Expanded(
-              child: switch (_step) {
-                0 => _UsernameStep(
-                    options: _usernameOptions(learnerName),
-                    selected: _username,
-                    onPick: (v) => setState(() => _username = v),
-                    onNext: () => setState(() => _step = 1),
-                  ),
-                1 => _EditProfileStep(
-                    displayName:
-                        '$learnerName · ${_localizedShortName(l10n)}',
-                    username: _username ?? l10n.csPickANameFallback,
-                    bioPicked: _bio.toList(),
-                    bioOptions: _bioOptions(l10n),
-                    photoPath: _profilePhotoPath,
-                    onPickPhoto: _pickProfilePhoto,
-                    onToggleBio: (line) {
-                      setState(() {
-                        if (_bio.contains(line)) {
-                          _bio.remove(line);
-                        } else {
-                          _bio.add(line);
+      backgroundColor: Colors.transparent,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF7FAFD),
+              Color(0xFFEEF5FB),
+              Color(0xFFFFFFFF),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              _Header(
+                step: _step,
+                totalSteps: 5,
+                onBack: () {
+                  if (_step == 0) {
+                    context.goNamed(AppRoute.home);
+                  } else if (_step == 2 && _settingsSub == 1) {
+                    setState(() {
+                      _settingsSub = 0;
+                      _settingsWrong = null;
+                    });
+                  } else {
+                    setState(() {
+                      _step -= 1;
+                      _settingsWrong = null;
+                    });
+                  }
+                },
+              ),
+              Expanded(
+                child: switch (_step) {
+                  0 => _UsernameStep(
+                      options: _usernameOptions(learnerName),
+                      selected: _username,
+                      onPick: (v) => setState(() => _username = v),
+                      onBack: () => context.goNamed(AppRoute.home),
+                      onNext: () => setState(() => _step = 1),
+                    ),
+                  1 => _EditProfileStep(
+                      displayName:
+                          '$learnerName · ${_localizedShortName(l10n)}',
+                      username: _username ?? l10n.csPickANameFallback,
+                      bioPicked: _bio.toList(),
+                      bioOptions: _bioOptions(l10n),
+                      photoPath: _profilePhotoPath,
+                      onPickPhoto: _pickProfilePhoto,
+                      onToggleBio: (line) {
+                        setState(() {
+                          if (_bio.contains(line)) {
+                            _bio.remove(line);
+                          } else {
+                            _bio.add(line);
+                          }
+                        });
+                      },
+                      onNext: () => setState(() => _step = 2),
+                    ),
+                  2 => _SettingsWalkthroughStep(
+                      settingsSub: _settingsSub,
+                      settingsWrong: _settingsWrong,
+                      onPick: (ok, index) {
+                        if (!ok) {
+                          setState(() => _settingsWrong = index);
+                          return;
                         }
-                      });
-                    },
-                    onNext: () => setState(() => _step = 2),
-                  ),
-                2 => _SettingsWalkthroughStep(
-                    settingsSub: _settingsSub,
-                    settingsWrong: _settingsWrong,
-                    onPick: (ok, index) {
-                      if (!ok) {
-                        setState(() => _settingsWrong = index);
-                        return;
-                      }
-                      if (_settingsSub == 0) {
-                        setState(() {
-                          _settingsSub = 1;
-                          _settingsWrong = null;
-                        });
-                      } else {
-                        setState(() {
-                          _step = 3;
-                          _settingsWrong = null;
-                        });
-                      }
-                    },
-                  ),
-                3 => _CategoryStep(
-                    selected: _category,
-                    onPick: (v) => setState(() => _category = v),
-                    onNext: () => setState(() => _step = 4),
-                  ),
-                _ => _PreviewStep(
-                    username: _username ?? l10n.csPickANameFallback,
-                    categoryKey: _category ?? _categoryKeys.first,
-                    bioPicked: _bio.toList(),
-                    avatarLetter: ((_username ?? learnerName).isEmpty
-                            ? 'A'
-                            : (_username ?? learnerName)[0])
-                        .toUpperCase(),
-                    photoPath: _profilePhotoPath,
-                    onFinish: _finish,
-                  ),
-              },
-            ),
-          ],
+                        if (_settingsSub == 0) {
+                          setState(() {
+                            _settingsSub = 1;
+                            _settingsWrong = null;
+                          });
+                        } else {
+                          setState(() {
+                            _step = 3;
+                            _settingsWrong = null;
+                          });
+                        }
+                      },
+                    ),
+                  3 => _CategoryStep(
+                      selected: _category,
+                      onPick: (v) => setState(() => _category = v),
+                      onNext: () => setState(() => _step = 4),
+                    ),
+                  _ => _PreviewStep(
+                      username: _username ?? l10n.csPickANameFallback,
+                      categoryKey: _category ?? _categoryKeys.first,
+                      bioPicked: _bio.toList(),
+                      avatarLetter: ((_username ?? learnerName).isEmpty
+                              ? 'A'
+                              : (_username ?? learnerName)[0])
+                          .toUpperCase(),
+                      photoPath: _profilePhotoPath,
+                      onFinish: _finish,
+                    ),
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -263,56 +289,108 @@ String _categoryLabel(AppLocalizations l10n, String key) => switch (key) {
     };
 
 class _Header extends StatelessWidget {
-  const _Header({required this.stepLabel, required this.onBack});
+  const _Header({
+    required this.step,
+    required this.totalSteps,
+    required this.onBack,
+  });
 
-  final String stepLabel;
+  final int step;
+  final int totalSteps;
   final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 8, 16, 4),
+      child: Column(
         children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.chevron_left, size: 28),
-            color: AppColors.textPrimary,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.csLesson02Overline,
-                  style: AppTypography.navLabel.copyWith(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
+          Row(
+            children: [
+              Material(
+                color: AppColors.white,
+                elevation: 2,
+                shadowColor: AppColors.primary.withValues(alpha: 0.12),
+                shape: const CircleBorder(),
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: onBack,
+                  child: const SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: Icon(
+                      Icons.chevron_left_rounded,
+                      size: 26,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.csLesson02Overline,
+                      style: AppTypography.navLabel.copyWith(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.0,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    Text(
+                      l10n.csLesson02Title,
+                      style: AppTypography.labelLarge.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceSelected,
+                  borderRadius: BorderRadius.circular(99),
+                ),
+                child: Text(
+                  '${step + 1} / $totalSteps',
+                  style: AppTypography.labelSmall.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                     color: AppColors.primary,
                   ),
                 ),
-                Text(
-                  l10n.csLesson02Title,
-                  style: AppTypography.labelLarge.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              for (var i = 0; i < totalSteps; i++) ...[
+                Expanded(
+                  child: AnimatedContainer(
+                    duration: AppMotion.select,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: i <= step
+                          ? AppColors.primary
+                          : AppColors.surfaceMuted,
+                      borderRadius: BorderRadius.circular(99),
+                    ),
                   ),
                 ),
+                if (i < totalSteps - 1) const SizedBox(width: 4),
               ],
-            ),
-          ),
-          Text(
-            stepLabel,
-            style: AppTypography.labelSmall.copyWith(
-              fontWeight: FontWeight.w600,
-              color: AppColors.textMuted,
-            ),
+            ],
           ),
         ],
       ),
@@ -325,71 +403,228 @@ class _UsernameStep extends StatelessWidget {
     required this.options,
     required this.selected,
     required this.onPick,
+    required this.onBack,
     required this.onNext,
   });
 
   final List<String> options;
   final String? selected;
   final ValueChanged<String> onPick;
+  final VoidCallback onBack;
   final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return ListView(
-      padding: const EdgeInsets.all(20),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.csPickYourUsername,
-          style: AppTypography.displayMedium.copyWith(fontSize: 20),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          l10n.csUsernameHint,
-          style: AppTypography.labelSmall.copyWith(
-            fontSize: 13,
-            color: AppColors.textSecondary,
-          ),
-        ),
-        const SizedBox(height: 16),
-        for (final name in options) ...[
-          _SelectRow(
-            selected: selected == name,
-            onTap: () => onPick(name),
-            child: Row(
-              children: [
-                const Text(
-                  '@',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                  ),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+            children: [
+              Text(
+                l10n.csPickYourUsername,
+                style: AppTypography.displayMedium.copyWith(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary,
                 ),
-                // The suggestions are built from the learner's own name, so a
-                // long one runs past the row on a narrow phone. Flexible lets
-                // it wrap instead of overflowing.
-                Flexible(
-                  child: Text(
-                    name,
-                    style: AppTypography.labelLarge.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: selected == name
-                          ? AppColors.white
-                          : AppColors.textPrimary,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                l10n.csUsernameHint,
+                style: AppTypography.labelSmall.copyWith(
+                  fontSize: 13,
+                  color: AppColors.textMuted,
+                  height: 1.35,
+                ),
+              ),
+              const SizedBox(height: 16),
+              for (final name in options) ...[
+                Align(
+                  alignment: Alignment.center,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.82,
+                    child: _UsernameCard(
+                      handle: name,
+                      selected: selected == name,
+                      onTap: () => onPick(name),
                     ),
                   ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+          child: Row(
+            children: [
+              Pressable(
+                elevate: true,
+                borderRadius: BorderRadius.circular(14),
+                child: Material(
+                  color: AppColors.white,
+                  elevation: 1,
+                  shadowColor: AppColors.primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(14),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: onBack,
+                    child: const SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: AppColors.textPrimary,
+                        size: 22,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Pressable(
+                  enabled: selected != null,
+                  elevate: true,
+                  borderRadius: BorderRadius.circular(28),
+                  child: AnimatedOpacity(
+                    duration: AppMotion.select,
+                    opacity: selected != null ? 1 : 0.45,
+                    child: Material(
+                      color: AppColors.primary,
+                      elevation: 4,
+                      shadowColor: AppColors.primary.withValues(alpha: 0.35),
+                      borderRadius: BorderRadius.circular(28),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(28),
+                        onTap: selected != null ? onNext : null,
+                        child: SizedBox(
+                          height: 48,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                l10n.continueAction.toUpperCase(),
+                                style: AppTypography.labelLarge.copyWith(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 13,
+                                  letterSpacing: 0.6,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              const Icon(
+                                Icons.arrow_forward_rounded,
+                                color: AppColors.white,
+                                size: 18,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _UsernameCard extends StatelessWidget {
+  const _UsernameCard({
+    required this.handle,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String handle;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      elevate: true,
+      borderRadius: BorderRadius.circular(16),
+      child: Material(
+        color: AppColors.white,
+        elevation: selected ? 3 : 1,
+        shadowColor: AppColors.primary.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: selected ? AppColors.primary : AppColors.borderLight,
+                width: selected ? 2 : 1.2,
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '@ ',
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.primaryLight,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextSpan(
+                          text: handle,
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: AppMotion.select,
+                  width: 26,
+                  height: 26,
+                  decoration: BoxDecoration(
+                    color: selected ? AppColors.primary : AppColors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: selected
+                          ? AppColors.primary
+                          : AppColors.borderLight,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: selected
+                      ? const Icon(
+                          Icons.check_rounded,
+                          size: 16,
+                          color: AppColors.white,
+                        )
+                      : null,
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 8),
-        ],
-        if (selected != null) ...[
-          const SizedBox(height: 8),
-          _PrimaryButton(label: l10n.csNextEditProfile, onTap: onNext),
-        ],
-      ],
+        ),
+      ),
     );
   }
 }
@@ -1064,54 +1299,6 @@ class _ProfileRow extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SelectRow extends StatelessWidget {
-  const _SelectRow({
-    required this.selected,
-    required this.onTap,
-    required this.child,
-  });
-
-  final bool selected;
-  final VoidCallback onTap;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Pressable(
-      elevate: false,
-      child: InkWell(
-        onTap: onTap,
-        child: AnimatedScale(
-          scale: selected ? 1.01 : 1,
-          duration: AppMotion.select,
-          curve: AppMotion.curve,
-          child: AnimatedContainer(
-            duration: AppMotion.select,
-            curve: AppMotion.curve,
-            constraints: const BoxConstraints(minHeight: 50),
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              color: selected ? AppColors.textPrimary : AppColors.white,
-              border: Border.all(color: AppColors.textPrimary, width: 2),
-            ),
-            child: Row(
-              children: [
-                Expanded(child: child),
-                AnimatedCheck(
-                  visible: selected,
-                  color: AppColors.white,
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

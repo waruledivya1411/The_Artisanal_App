@@ -4,17 +4,32 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Languages offered in the Click & Social lesson (HTML onboarding chips).
 enum AppLanguage {
-  english('en', 'English'),
-  assamese('as', 'অসমীয়া'),
-  odia('or', 'ଓଡ଼ିଆ'),
-  telugu('te', 'తెలుగు');
+  english('en', 'English', 'English', 'India', 'Aa'),
+  assamese('as', 'অসমীয়া', 'Assamese', 'Assam', 'অ'),
+  odia('or', 'ଓଡ଼ିଆ', 'Odia', 'Odisha', 'ଓ'),
+  telugu('te', 'తెలుగు', 'Telugu', 'Andhra', 'తె');
 
-  const AppLanguage(this.code, this.label);
+  const AppLanguage(
+    this.code,
+    this.label,
+    this.englishName,
+    this.region,
+    this.glyph,
+  );
 
   final String code;
 
   /// Native script label shown on language chips.
   final String label;
+
+  /// English name shown under the native label.
+  final String englishName;
+
+  /// Region chip shown next to the native label.
+  final String region;
+
+  /// Short glyph for the leading icon tile.
+  final String glyph;
 
   Locale get locale => Locale(code);
 

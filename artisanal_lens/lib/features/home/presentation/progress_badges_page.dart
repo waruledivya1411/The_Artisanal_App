@@ -4,11 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
-import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/motion/motion.dart';
-import '../../../shared/widgets/common.dart';
 import '../click_social_store.dart';
 import '../../../data/services/click_social_sync_service.dart';
 
@@ -137,61 +135,118 @@ class _ProgressBadgesPageState extends State<ProgressBadgesPage> {
     final doneCount = badges.where((b) => b.earned).length;
     final progress = doneCount / 5.0;
 
-    return Column(
-      children: [
-        SafeArea(
-          bottom: false,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: AppColors.divider, width: 2),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.csYourProgress,
-                  style: AppTypography.navLabel.copyWith(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Text(
-                      '$doneCount',
-                      style: AppTypography.displayLarge.copyWith(
-                        fontSize: 56,
-                        height: 1,
-                        fontWeight: FontWeight.w800,
+    return ColoredBox(
+      color: const Color(0xFFF7FAFD),
+      child: SafeArea(
+        bottom: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+          children: [
+            FadeSlideIn(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        style: AppTypography.labelLarge.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
+                          letterSpacing: -0.2,
+                        ),
+                        children: [
+                          TextSpan(text: l10n.csClickAndSocialInline),
+                          const TextSpan(text: '.'),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.csBadgesOfFive,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceSelected,
+                      borderRadius: BorderRadius.circular(99),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: AppColors.primary,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Antaran Tool',
+                          style: AppTypography.navLabel.copyWith(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 22),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 40),
+              child: Text(
+                l10n.csYourProgress.toUpperCase(),
+                style: AppTypography.navLabel.copyWith(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.0,
+                  color: AppColors.textMuted,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 60),
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$doneCount',
+                      style: AppTypography.displayLarge.copyWith(
+                        fontSize: 48,
+                        height: 1,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' ${l10n.csBadgesOfFive}',
                       style: AppTypography.displayMedium.copyWith(
                         fontSize: 22,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.textMuted,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                SizedBox(
+              ),
+            ),
+            const SizedBox(height: 14),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 80),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(99),
+                child: SizedBox(
                   height: 8,
                   child: Stack(
                     children: [
                       Container(color: AppColors.surfaceMuted),
-                      // Fills to the new fraction over half a second, so a
-                      // freshly earned badge is visibly counted.
                       TweenAnimationBuilder<double>(
                         tween: Tween(begin: 0, end: progress),
                         duration: AppMotion.progress,
@@ -204,102 +259,57 @@ class _ProgressBadgesPageState extends State<ProgressBadgesPage> {
                     ],
                   ),
                 ),
+              ),
+            ),
+            const SizedBox(height: 22),
+            GridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 1.05,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                for (var i = 0; i < badges.length; i++)
+                  FadeSlideIn.staggered(
+                    index: i,
+                    child: _BadgeCard(badge: badges[i]),
+                  ),
               ],
             ),
-          ),
+            const SizedBox(height: 20),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 160),
+              child: _ActionButton(
+                label: l10n.csEditNameLanguageCluster,
+                onTap: _editProfile,
+                filled: false,
+              ),
+            ),
+            const SizedBox(height: 10),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 180),
+              child: _ActionButton(
+                label: l10n.csAccountCloudBackup,
+                onTap: () async {
+                  await context.pushNamed(AppRoute.account);
+                  if (mounted) await _restore();
+                },
+                filled: false,
+              ),
+            ),
+            const SizedBox(height: 10),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 200),
+              child: _ActionButton(
+                label: l10n.csStartOverClearProgress,
+                onTap: _resetAll,
+                muted: true,
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            children: [
-              GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1.05,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  for (var i = 0; i < badges.length; i++)
-                    FadeSlideIn.staggered(
-                      index: i,
-                      child: _BadgeCard(badge: badges[i]),
-                    ),
-                ],
-              ),
-              const SizedBox(height: AppDimens.actionGap),
-              ActionWidth(
-                child: InkWell(
-                  onTap: _editProfile,
-                  child: Container(
-                    height: 46,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.textPrimary, width: 2),
-                      color: AppColors.white,
-                    ),
-                    child: Text(
-                      l10n.csEditNameLanguageCluster,
-                      style: AppTypography.labelLarge.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppDimens.actionGap),
-              ActionWidth(
-                child: InkWell(
-                  onTap: () async {
-                    await context.pushNamed(AppRoute.account);
-                    if (mounted) await _restore();
-                  },
-                  child: Container(
-                    height: 46,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.border, width: 1.5),
-                      color: AppColors.white,
-                    ),
-                    child: Text(
-                      l10n.csAccountCloudBackup,
-                      style: AppTypography.labelLarge.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppDimens.actionGap),
-              ActionWidth(
-                child: InkWell(
-                  onTap: _resetAll,
-                  child: Container(
-                    height: 44,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColors.border),
-                    ),
-                    child: Text(
-                      l10n.csStartOverClearProgress,
-                      style: AppTypography.navLabel.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.8,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -319,49 +329,130 @@ class _BadgeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final earned = badge.earned;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
-      decoration: BoxDecoration(
-        color: earned ? AppColors.white : Colors.transparent,
-        border: Border.all(
-          color: earned ? AppColors.textPrimary : AppColors.surfaceMuted,
-          width: 2,
+    return Opacity(
+      opacity: earned ? 1 : 0.72,
+      child: Material(
+        color: AppColors.white,
+        elevation: earned ? 2 : 0,
+        shadowColor: AppColors.primary.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: earned ? AppColors.borderLight : AppColors.divider,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: earned ? AppColors.primary : AppColors.surfaceMuted,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.military_tech_rounded,
+                  size: 22,
+                  color: earned ? AppColors.white : AppColors.textMuted,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                badge.name,
+                style: AppTypography.labelLarge.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                  color: earned ? AppColors.textPrimary : AppColors.textMuted,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  if (!earned) ...[
+                    Icon(
+                      Icons.lock_rounded,
+                      size: 12,
+                      color: AppColors.textMuted.withValues(alpha: 0.8),
+                    ),
+                    const SizedBox(width: 4),
+                  ],
+                  Text(
+                    earned ? l10n.csBadgeEarned : l10n.csBadgeLocked,
+                    style: AppTypography.navLabel.copyWith(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.0,
+                      color: earned ? AppColors.primary : AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            color: earned ? AppColors.primary : AppColors.surfaceMuted,
-            child: Icon(
-              Icons.workspace_premium_outlined,
-              size: 22,
-              color: earned ? AppColors.white : AppColors.textMuted,
-            ),
+    );
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    required this.label,
+    required this.onTap,
+    this.filled = false,
+    this.muted = false,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+  final bool filled;
+  final bool muted;
+
+  @override
+  Widget build(BuildContext context) {
+    final bg = muted
+        ? AppColors.backgroundAlt
+        : filled
+            ? AppColors.primary
+            : AppColors.white;
+    final fg = muted
+        ? AppColors.textMuted
+        : filled
+            ? AppColors.white
+            : AppColors.textPrimary;
+
+    return Material(
+      color: bg,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: onTap,
+        child: Container(
+          width: double.infinity,
+          height: 48,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: muted
+                ? null
+                : Border.all(color: AppColors.borderLight, width: 1.2),
           ),
-          const SizedBox(height: 12),
-          Text(
-            badge.name,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
             style: AppTypography.labelLarge.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: earned ? AppColors.textPrimary : AppColors.textMuted,
+              fontWeight: FontWeight.w700,
+              fontSize: muted ? 11 : 12,
+              letterSpacing: muted ? 0.4 : 0.2,
+              color: fg,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            earned ? l10n.csBadgeEarned : l10n.csBadgeLocked,
-            style: AppTypography.navLabel.copyWith(
-              fontSize: 9,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.2,
-              color: earned ? AppColors.primary : AppColors.textMuted,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

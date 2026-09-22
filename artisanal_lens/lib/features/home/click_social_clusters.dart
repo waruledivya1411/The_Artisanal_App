@@ -223,29 +223,21 @@ ClickSocialCluster? clusterById(String? id) {
   return null;
 }
 
-/// HTML `clusterProducts` — product chips on photoStep 0.
-List<String> productsForCluster(String? clusterId) => switch (clusterId) {
-      'assam' => const [
-          'Mekhela sador',
-          'Sari',
-          'Stole / Dupatta',
-          'Accessories',
-        ],
-      'srikalahasti' => const [
-          'Kalamkari panel',
-          'Sari',
-          'Stole / Dupatta',
-          'Table runner',
-          'Bedcover',
-          'Pillow cover',
-          'Bags',
-          'Accessories',
-        ],
-      'venkatgiri' => const ['Sari', 'Stole / Dupatta'],
-      'maniabandha' => const ['Sari', 'Stole / Dupatta', 'Table runner'],
-      'gopalpur' => const ['Sari', 'Stole / Dupatta', 'Accessories'],
-      'nagaland' => const ['Mekhela sador', 'Shawl', 'Bags', 'Accessories'],
-      _ => const ['Sari', 'Stole / Dupatta'],
+/// Products shown on photo lesson step 0 (fixed 2×2 catalog).
+List<String> productsForCluster(String? clusterId) => const [
+      'Mekhela sador',
+      'Sari',
+      'Stole / Dupatta',
+      'Accessories',
+    ];
+
+/// Asset path for a photo-step product card image.
+String? productImageAsset(String productLabel) => switch (productLabel) {
+      'Mekhela sador' => 'assets/images/products/mekhela.png',
+      'Sari' => 'assets/images/products/sari.png',
+      'Stole / Dupatta' => 'assets/images/products/stole.png',
+      'Accessories' => 'assets/images/products/accessories.png',
+      _ => null,
     };
 
 /// Map an HTML product label onto the nearest capture category id.

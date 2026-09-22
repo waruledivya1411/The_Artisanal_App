@@ -86,11 +86,13 @@ flutter:
   assets:
     - assets/images/
     - assets/images/categories/
+    - assets/images/products/
     - assets/images/presets/
     - assets/images/steps/
     - assets/images/templates/
     - assets/images/guides/
     - assets/images/materials/
+    - assets/images/materials/by_product/
     - assets/images/silk_types/
     - assets/images/cotton_types/
     - assets/images/wool_types/

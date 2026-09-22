@@ -8,14 +8,12 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../../home/click_social_clusters.dart';
-import '../../home/shot_sets_controller.dart';
 import '../click_social_frames.dart';
 import 'photo_lesson_chrome.dart';
-import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 0 — What are you photographing?
 ///
-/// Cluster-specific product chips (text only, no images), matching the HTML.
+/// Fixed 2×2 image cards: Mekhela sador, Sari, Stole / Dupatta, Accessories.
 class ProductSetupPage extends ConsumerStatefulWidget {
   const ProductSetupPage({
     this.setId,
@@ -34,7 +32,6 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
   String? _clusterId;
   String? _product;
   bool _loading = true;
-  bool _busy = false;
 
   @override
   void initState() {
@@ -73,118 +70,98 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
       );
     }
 
+    final l10n = AppLocalizations.of(context);
+
     return PhotoLessonChrome(
       stepIndex: 0,
-      isPanel: _product == 'Kalamkari panel',
-      child: Builder(
-        builder: (context) {
-          final l10n = AppLocalizations.of(context);
-          return ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
-        children: [
-          Text(
-            l10n.csWhatArePhotographing,
-            style: AppTypography.displayMedium.copyWith(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
+      isPanel: false,
+      footer: PhotoContinueBar(
+        enabled: _product != null,
+        label: l10n.continueAction,
+        onBack: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.goNamed(AppRoute.home);
+          }
+        },
+        onContinue: _continue,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.csWhatArePhotographing,
+              style: AppTypography.displayMedium.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: AppColors.primary,
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.csPickYourProduct,
-            style: AppTypography.labelSmall.copyWith(
-              fontSize: 13,
-              color: AppColors.textSecondary,
+            const SizedBox(height: 4),
+            Text(
+              l10n.csPickYourProduct,
+              style: AppTypography.labelSmall.copyWith(
+                fontSize: 12,
+                color: AppColors.textMuted,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _products.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              childAspectRatio: 1.55,
-            ),
-            itemBuilder: (context, i) {
-              final label = _products[i];
-              return PhotoChoiceChip(
-                label: label,
-                selected: _product == label,
-                onTap: () => setState(() => _product = label),
-              );
-            },
-          ),
-          if (_product != null) ...[
-            const SizedBox(height: 16),
-            ActionWidth(
-              child: SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _busy ? null : _continue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.white,
-                    shape: const RoundedRectangleBorder(),
-                  ),
-                  child: Text(
-                    _product == 'Kalamkari panel'
-                        ? l10n.csNextPickYourFrames
-                        : l10n.csNextMaterial,
-                    style: AppTypography.labelLarge.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.white,
+            const SizedBox(height: 10),
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        for (var i = 0; i < 2; i++) ...[
+                          if (i > 0) const SizedBox(width: 10),
+                          Expanded(
+                            child: PhotoImageCard(
+                              label: _products[i],
+                              imageAsset: productImageAsset(_products[i]),
+                              selected: _product == _products[i],
+                              onTap: () =>
+                                  setState(() => _product = _products[i]),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        for (var i = 2; i < 4; i++) ...[
+                          if (i > 2) const SizedBox(width: 10),
+                          Expanded(
+                            child: PhotoImageCard(
+                              label: _products[i],
+                              imageAsset: productImageAsset(_products[i]),
+                              selected: _product == _products[i],
+                              onTap: () =>
+                                  setState(() => _product = _products[i]),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
-        ],
-      );
-        },
+        ),
       ),
     );
   }
 
   Future<void> _continue() async {
     final product = _product;
-    if (product == null || _busy) return;
+    if (product == null) return;
     final categoryId = categoryIdForProduct(product);
-
-    // HTML: Kalamkari panel skips material + technique → pick frames.
-    if (product == 'Kalamkari panel') {
-      setState(() => _busy = true);
-      try {
-        final created = await ref.read(shotSetsProvider.notifier).createSet(
-              productName: product,
-              categoryId: categoryId,
-            );
-        if (!mounted) return;
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(
-          'click_social_technique_${created.id}',
-          'HAND-PAINTED',
-        );
-        if (!mounted) return;
-        context.go(
-          '/product/${created.id}/pick-frames'
-          '?category=$categoryId&technique=HAND-PAINTED&product=${Uri.encodeComponent(product)}',
-        );
-      } catch (error, stack) {
-        debugPrint('Panel continue failed: $error\n$stack');
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not continue: $error')),
-        );
-      } finally {
-        if (mounted) setState(() => _busy = false);
-      }
-      return;
-    }
 
     context.pushNamed(
       AppRoute.material,
