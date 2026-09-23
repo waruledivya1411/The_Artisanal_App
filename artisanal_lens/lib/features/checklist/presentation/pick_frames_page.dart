@@ -14,6 +14,9 @@ import '../../../data/services/click_social_sync_service.dart';
 import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 4 — Pick your frames (at least two).
+///
+/// Both reference mock screens (core 4 + extra shots) live on this one
+/// scrollable page.
 class PickFramesPage extends StatefulWidget {
   const PickFramesPage({
     required this.setId,
@@ -88,6 +91,16 @@ class _PickFramesPageState extends State<PickFramesPage> {
     );
   }
 
+  void _toggle(int index) {
+    setState(() {
+      if (_picks.contains(index)) {
+        _picks.remove(index);
+      } else {
+        _picks.add(index);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final frames = _frames;
@@ -97,175 +110,68 @@ class _PickFramesPageState extends State<PickFramesPage> {
       stepIndex: 3,
       isPanel: _isPanel,
       onBack: _goBack,
+      footer: PhotoContinueBar(
+        enabled: _ready,
+        label: l10n.continueAction,
+        onBack: _goBack,
+        onContinue: _continue,
+      ),
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
         children: [
           Text(
             l10n.csPickYourFrames,
             style: AppTypography.displayMedium.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.w800,
+              color: AppColors.primary,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Text(
             l10n.csPickFramesSub,
             style: AppTypography.labelSmall.copyWith(
-              fontSize: 13,
-              color: AppColors.textSecondary,
+              fontSize: 12,
+              color: AppColors.textMuted,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: frames.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: 0.78,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 0.72,
             ),
             itemBuilder: (context, i) {
               final frame = frames[i];
               final on = _picks.contains(frame.index);
               return FadeSlideIn.staggered(
                 index: i,
-                child: Pressable(
-                borderRadius: BorderRadius.circular(8),
-                child: InkWell(
-                onTap: () => setState(() {
-                  if (on) {
-                    _picks.remove(frame.index);
-                  } else {
-                    _picks.add(frame.index);
-                  }
-                }),
-                child: AnimatedScale(
-                  scale: on ? 1.02 : 1,
-                  duration: AppMotion.select,
-                  curve: AppMotion.curve,
-                  child: AnimatedContainer(
-                  duration: AppMotion.select,
-                  curve: AppMotion.curve,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: on ? AppColors.primary : AppColors.border,
-                      width: on ? 2 : 1,
-                    ),
+                child: _FramePickCard(
+                  name: frame.name,
+                  content: frame.content,
+                  selected: on,
+                  imageAsset: frame.thumbAssetFor(
+                    clusterId: _clusterId,
+                    categoryId: widget.categoryId,
+                    technique: widget.technique,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: GuideImage(
-                          asset: frame.thumbAssetFor(
-                            clusterId: _clusterId,
-                            categoryId: widget.categoryId,
-                            technique: widget.technique,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    frame.name,
-                                    style: AppTypography.labelLarge.copyWith(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      height: 1.2,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    frame.content,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppTypography.labelSmall.copyWith(
-                                      fontSize: 10.5,
-                                      color: AppColors.textMuted,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // The tickbox fills in and the tick grows,
-                            // so picking a frame is acknowledged twice over.
-                            AnimatedContainer(
-                              duration: AppMotion.select,
-                              curve: AppMotion.curve,
-                              width: 20,
-                              height: 20,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color:
-                                    on ? AppColors.primary : Colors.transparent,
-                                border: Border.all(
-                                  color: on
-                                      ? AppColors.primary
-                                      : AppColors.textPrimary,
-                                  width: 2,
-                                ),
-                              ),
-                              child: AnimatedCheck(
-                                visible: on,
-                                color: AppColors.white,
-                                size: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  ),
-                ),
-                ),
+                  onTap: () => _toggle(frame.index),
                 ),
               );
             },
           ),
-          if (_ready) ...[
-            const SizedBox(height: 16),
-            ActionWidth(
-              child: SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _continue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.white,
-                    shape: const RoundedRectangleBorder(),
-                  ),
-                  child: Text(
-                    l10n.csNextFrameIt,
-                    style: AppTypography.labelLarge.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
         ],
       ),
     );
   }
 
   Future<void> _continue() async {
+    if (!_ready) return;
     final picks = _picks.toList()..sort();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
@@ -287,7 +193,162 @@ class _PickFramesPageState extends State<PickFramesPage> {
         'material=${widget.materialId}',
       if (widget.technique != null && widget.technique!.isNotEmpty)
         'technique=${widget.technique}',
+      if (widget.productLabel != null && widget.productLabel!.isNotEmpty)
+        'product=${Uri.encodeComponent(widget.productLabel!)}',
     ].join('&');
     context.go('/product/${widget.setId}/framing-quiz?$q');
+  }
+}
+
+class _FramePickCard extends StatelessWidget {
+  const _FramePickCard({
+    required this.name,
+    required this.content,
+    required this.selected,
+    required this.imageAsset,
+    required this.onTap,
+  });
+
+  final String name;
+  final String content;
+  final bool selected;
+  final String imageAsset;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      elevate: true,
+      borderRadius: BorderRadius.circular(16),
+      child: Material(
+        color: AppColors.white,
+        elevation: selected ? 3 : 1,
+        shadowColor: AppColors.primary.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: selected ? AppColors.primary : AppColors.borderLight,
+                width: selected ? 2 : 1.2,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(14),
+                        ),
+                        child: GuideImage(
+                          asset: imageAsset,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      if (selected)
+                        Positioned(
+                          top: 8,
+                          left: 8,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              'Selected',
+                              style: AppTypography.navLabel.copyWith(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.2,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 8, 8, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.labelLarge.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                height: 1.2,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              content,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.labelSmall.copyWith(
+                                fontSize: 10.5,
+                                height: 1.25,
+                                color: AppColors.textMuted,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      AnimatedContainer(
+                        duration: AppMotion.select,
+                        curve: AppMotion.curve,
+                        width: 20,
+                        height: 20,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? AppColors.primary
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(
+                            color: selected
+                                ? AppColors.primary
+                                : AppColors.border,
+                            width: 1.6,
+                          ),
+                        ),
+                        child: AnimatedCheck(
+                          visible: selected,
+                          color: AppColors.white,
+                          size: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

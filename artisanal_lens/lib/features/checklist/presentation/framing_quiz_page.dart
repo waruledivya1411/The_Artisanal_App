@@ -17,6 +17,7 @@ class FramingQuizPage extends StatefulWidget {
     required this.frameIndexes,
     this.materialId,
     this.technique,
+    this.productLabel,
     super.key,
   });
 
@@ -25,6 +26,7 @@ class FramingQuizPage extends StatefulWidget {
   final List<int> frameIndexes;
   final String? materialId;
   final String? technique;
+  final String? productLabel;
 
   @override
   State<FramingQuizPage> createState() => _FramingQuizPageState();
@@ -52,6 +54,12 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
         arch: _arch,
       );
 
+  String get _productAsset => framingProductAsset(
+        productLabel: widget.productLabel,
+        categoryId: widget.categoryId,
+        materialId: widget.materialId,
+      );
+
   void _select(int oi) {
     final l10n = AppLocalizations.of(context);
     final wrong = !localizedFramingArch(l10n, _arch).options[oi].correct;
@@ -77,6 +85,8 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
         'material=${widget.materialId}',
       if (widget.technique != null && widget.technique!.isNotEmpty)
         'technique=${widget.technique}',
+      if (widget.productLabel != null && widget.productLabel!.isNotEmpty)
+        'product=${Uri.encodeComponent(widget.productLabel!)}',
     ].join('&');
     context.go('/product/${widget.setId}/light-quiz?$q');
   }
@@ -96,6 +106,8 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
         'material=${widget.materialId}',
       if (widget.technique != null && widget.technique!.isNotEmpty)
         'technique=${widget.technique}',
+      if (widget.productLabel != null && widget.productLabel!.isNotEmpty)
+        'product=${Uri.encodeComponent(widget.productLabel!)}',
     ].join('&');
     context.go('/product/${widget.setId}/pick-frames?$q');
   }
@@ -108,174 +120,326 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
     final correct = picked?.correct == true;
     final msg = picked != null ? def.messageAt(_pick!) : null;
     final names = _frameNames(l10n);
+    final productAsset = _productAsset;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _LessonHeader(onBack: _goBack),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
-                children: [
-                  Text(
-                    names.isEmpty
-                        ? l10n.csFramingProgress(
-                            _index + 1,
-                            _sequence.length,
-                          )
-                        : l10n.csFramingProgressNamed(
-                            _index + 1,
-                            _sequence.length,
-                            names,
-                          ),
-                    style: AppTypography.navLabel.copyWith(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                      color: AppColors.primary,
+      backgroundColor: Colors.transparent,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF7FAFD),
+              Color(0xFFEEF5FB),
+              Color(0xFFFFFFFF),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              _LessonHeader(onBack: _goBack),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+                  children: [
+                    Text(
+                      names.isEmpty
+                          ? l10n.csFramingProgress(
+                              _index + 1,
+                              _sequence.length,
+                            )
+                          : l10n.csFramingProgressNamed(
+                              _index + 1,
+                              _sequence.length,
+                              names,
+                            ),
+                      style: AppTypography.navLabel.copyWith(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    def.title,
-                    style: AppTypography.displayMedium.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
+                    const SizedBox(height: 4),
+                    Text(
+                      def.title,
+                      style: AppTypography.displayMedium.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    def.sub,
-                    style: AppTypography.labelSmall.copyWith(
-                      fontSize: 13,
-                      color: AppColors.textSecondary,
+                    const SizedBox(height: 6),
+                    Text(
+                      def.sub,
+                      style: AppTypography.labelSmall.copyWith(
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  for (var oi = 0; oi < def.options.length; oi++) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: ShakeOnChange(
-                        // Only the option just chosen, and only when it is
-                        // wrong; a right answer stays perfectly still.
-                        trigger: _pick == oi && !def.options[oi].correct
-                            ? _shake
-                            : null,
-                        child: Pressable(
-                          elevate: false,
-                          child: InkWell(
-                            onTap: () => _select(oi),
-                            child: AnimatedScale(
-                              scale: _pick == oi && def.options[oi].correct
-                                  ? 1.02
-                                  : 1,
-                              duration: AppMotion.select,
-                              curve: AppMotion.curve,
-                              child: AnimatedContainer(
-                                duration: AppMotion.select,
-                                curve: AppMotion.curve,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  border: Border.all(
-                                    color: _pick == oi
-                                        ? (def.options[oi].correct
-                                            ? AppColors.primary
-                                            : AppColors.textMuted)
-                                        : AppColors.textPrimary,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    AspectRatio(
-                                      aspectRatio: 120 / 64,
-                                      child: CustomPaint(
-                                        painter: _FramingPainter(
-                                          gridPath: def.gridPath,
-                                          option: def.options[oi],
+                    const SizedBox(height: 16),
+                    for (var oi = 0; oi < def.options.length; oi++) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: ShakeOnChange(
+                          trigger: _pick == oi && !def.options[oi].correct
+                              ? _shake
+                              : null,
+                          child: Pressable(
+                            elevate: true,
+                            borderRadius: BorderRadius.circular(16),
+                            child: Material(
+                              color: AppColors.white,
+                              elevation: _pick == oi ? 3 : 1,
+                              shadowColor:
+                                  AppColors.primary.withValues(alpha: 0.14),
+                              borderRadius: BorderRadius.circular(16),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(16),
+                                onTap: () => _select(oi),
+                                child: AnimatedScale(
+                                  scale: _pick == oi &&
+                                          def.options[oi].correct
+                                      ? 1.02
+                                      : 1,
+                                  duration: AppMotion.select,
+                                  curve: AppMotion.curve,
+                                  child: AnimatedContainer(
+                                    duration: AppMotion.select,
+                                    curve: AppMotion.curve,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: _pick == oi
+                                            ? (def.options[oi].correct
+                                                ? AppColors.primary
+                                                : AppColors.textMuted)
+                                            : AppColors.borderLight,
+                                        width: _pick == oi ? 2.2 : 1.2,
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        AspectRatio(
+                                          aspectRatio: 4 / 3,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(14.5),
+                                            child: _FramingOptionPreview(
+                                              gridPath: def.gridPath,
+                                              option: def.options[oi],
+                                              productAsset: productAsset,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        Positioned(
+                                          top: 8,
+                                          right: 8,
+                                          child: AnimatedCheck(
+                                            visible: _pick == oi &&
+                                                def.options[oi].correct,
+                                            color: AppColors.white,
+                                            background: AppColors.primary,
+                                            radius: 11,
+                                            size: 13,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Positioned(
-                                      top: 8,
-                                      right: 8,
-                                      child: AnimatedCheck(
-                                        visible: _pick == oi &&
-                                            def.options[oi].correct,
-                                        color: AppColors.white,
-                                        background: AppColors.primary,
-                                        radius: 11,
-                                        size: 13,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                  if (msg != null)
-                    FadeSlideIn(
-                      key: ValueKey('msg-$_index-$_pick'),
-                      child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 12,
-                      ),
-                      color: correct
-                          ? const Color(0xFFEBF8FF)
-                          : AppColors.textPrimary,
-                      child: Text(
-                        msg,
-                        style: AppTypography.labelLarge.copyWith(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: correct
-                              ? const Color(0xFF2A4365)
-                              : AppColors.white,
-                        ),
-                      ),
-                      ),
-                    ),
-                  if (correct) ...[
-                    const SizedBox(height: 16),
-                    FadeSlideIn(
-                      key: ValueKey('next-$_index'),
-                      child: ActionWidth(
-                      child: SizedBox(
-                        height: 50,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _next,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.white,
-                            shape: const RoundedRectangleBorder(),
+                    ],
+                    if (msg != null)
+                      FadeSlideIn(
+                        key: ValueKey('msg-$_index-$_pick'),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: correct
+                                ? const Color(0xFFEBF8FF)
+                                : AppColors.textPrimary,
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            _index < _sequence.length - 1
-                                ? l10n.csNextFraming
-                                : l10n.csNextLightIt,
+                            msg,
                             style: AppTypography.labelLarge.copyWith(
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: correct
+                                  ? const Color(0xFF2A4365)
+                                  : AppColors.white,
                             ),
                           ),
                         ),
                       ),
+                    if (correct) ...[
+                      const SizedBox(height: 16),
+                      FadeSlideIn(
+                        key: ValueKey('next-$_index'),
+                        child: ActionWidth(
+                          child: SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _next,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: AppColors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(28),
+                                ),
+                              ),
+                              child: Text(
+                                _index < _sequence.length - 1
+                                    ? l10n.csNextFraming
+                                    : l10n.csNextLightIt,
+                                style: AppTypography.labelLarge.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Clear product photo filling the camera viewfinder.
+String framingProductAsset({
+  required String? productLabel,
+  required String categoryId,
+  String? materialId,
+}) {
+  final productKey = switch ((productLabel ?? '').trim()) {
+    'Mekhela sador' => 'mekhela',
+    'Sari' => 'sari',
+    'Stole / Dupatta' => 'stole',
+    'Accessories' => 'accessories',
+    _ => switch (categoryId) {
+        'stole' || 'shawl' => 'stole',
+        'cushion_cover' => 'accessories',
+        _ => 'sari',
+      },
+  };
+  final material =
+      (materialId ?? 'cotton').toLowerCase() == 'silk' ? 'silk' : 'cotton';
+  return 'assets/images/materials/by_product/${productKey}_$material.png';
+}
+
+/// Camera viewfinder: scene + product placed in-frame (clearly different per option).
+class _FramingOptionPreview extends StatelessWidget {
+  const _FramingOptionPreview({
+    required this.gridPath,
+    required this.option,
+    required this.productAsset,
+  });
+
+  final String gridPath;
+  final FramingOption option;
+  final String productAsset;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: Stack(
+      fit: StackFit.expand,
+      children: [
+        // Neutral shooting surface (table / wall) — not another product
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFD8DEE6),
+                Color(0xFFC5CDD8),
+                Color(0xFFB7C0CC),
+              ],
+              stops: [0.0, 0.55, 1.0],
+            ),
+          ),
+        ),
+        // Soft table horizon
+        Align(
+          alignment: const Alignment(0, 0.35),
+          child: Container(
+            height: 1.2,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            color: Colors.black.withValues(alpha: 0.08),
+          ),
+        ),
+        // Product sitting in the frame — size + position = the quiz
+        Align(
+          alignment: option.alignment,
+          child: FractionallySizedBox(
+            widthFactor: option.sizeFactor,
+            heightFactor: option.sizeFactor,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.28),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
                 ],
               ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.asset(
+                  productAsset,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => ColoredBox(
+                    color: AppColors.primaryLight,
+                    child: Icon(
+                      Icons.checkroom_rounded,
+                      color: AppColors.white.withValues(alpha: 0.9),
+                      size: 28,
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ],
+          ),
         ),
+        // Soft vignette — lens feel
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment.center,
+              radius: 1.05,
+              colors: [
+                Colors.transparent,
+                Colors.black.withValues(alpha: 0.2),
+              ],
+              stops: const [0.5, 1],
+            ),
+          ),
+        ),
+        CustomPaint(painter: _GridPainter(gridPath: gridPath)),
+        const CustomPaint(painter: _ViewfinderCornersPainter()),
+      ],
       ),
     );
   }
@@ -289,18 +453,30 @@ class _LessonHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
-      ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 8, 16, 8),
       child: Row(
         children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.chevron_left, size: 28),
-            color: AppColors.textPrimary,
+          Material(
+            color: AppColors.white,
+            elevation: 2,
+            shadowColor: AppColors.primary.withValues(alpha: 0.12),
+            shape: const CircleBorder(),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: onBack,
+              child: const SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  Icons.chevron_left_rounded,
+                  size: 26,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
           ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,6 +495,7 @@ class _LessonHeader extends StatelessWidget {
                   style: AppTypography.labelLarge.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
+                    color: AppColors.primary,
                   ),
                 ),
               ],
@@ -330,26 +507,30 @@ class _LessonHeader extends StatelessWidget {
   }
 }
 
-class _FramingPainter extends CustomPainter {
-  _FramingPainter({required this.gridPath, required this.option});
+class _GridPainter extends CustomPainter {
+  _GridPainter({required this.gridPath});
 
   final String gridPath;
-  final FramingOption option;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final sx = size.width / 120;
-    final sy = size.height / 64;
-    canvas.drawRect(
-      Offset.zero & size,
-      Paint()..color = AppColors.surfaceMuted,
-    );
-
-    // HTML: dashed archetype grid matching the frames that share this quiz.
-    final grid = Paint()
-      ..color = AppColors.border
+    // Dark halo so the grid stays readable on light or dark fabric.
+    final halo = Paint()
+      ..color = Colors.black.withValues(alpha: 0.35)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1
+      ..strokeWidth = 2.4
+      ..strokeCap = StrokeCap.square;
+    paintSvgPath(
+      canvas,
+      size,
+      gridPath,
+      halo,
+      viewBox: const Size(120, 64),
+    );
+    final grid = Paint()
+      ..color = Colors.white.withValues(alpha: 0.88)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.15
       ..strokeCap = StrokeCap.square;
     paintSvgPath(
       canvas,
@@ -358,17 +539,54 @@ class _FramingPainter extends CustomPainter {
       grid,
       viewBox: const Size(120, 64),
     );
+  }
 
-    final fill = Paint()..color = AppColors.textPrimary;
-    for (final r in option.rects) {
-      canvas.drawRect(
-        Rect.fromLTWH(r.left * sx, r.top * sy, r.width * sx, r.height * sy),
-        fill,
-      );
+  @override
+  bool shouldRepaint(covariant _GridPainter oldDelegate) =>
+      oldDelegate.gridPath != gridPath;
+}
+
+/// Camera viewfinder corner brackets.
+class _ViewfinderCornersPainter extends CustomPainter {
+  const _ViewfinderCornersPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.9)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.2
+      ..strokeCap = StrokeCap.square;
+
+    const inset = 10.0;
+    const arm = 16.0;
+    final corners = <List<Offset>>[
+      [const Offset(inset, inset + arm), const Offset(inset, inset), const Offset(inset + arm, inset)],
+      [
+        Offset(size.width - inset - arm, inset),
+        Offset(size.width - inset, inset),
+        Offset(size.width - inset, inset + arm),
+      ],
+      [
+        Offset(inset, size.height - inset - arm),
+        Offset(inset, size.height - inset),
+        Offset(inset + arm, size.height - inset),
+      ],
+      [
+        Offset(size.width - inset - arm, size.height - inset),
+        Offset(size.width - inset, size.height - inset),
+        Offset(size.width - inset, size.height - inset - arm),
+      ],
+    ];
+    for (final pts in corners) {
+      final path = Path()
+        ..moveTo(pts[0].dx, pts[0].dy)
+        ..lineTo(pts[1].dx, pts[1].dy)
+        ..lineTo(pts[2].dx, pts[2].dy);
+      canvas.drawPath(path, paint);
     }
   }
 
   @override
-  bool shouldRepaint(covariant _FramingPainter oldDelegate) =>
-      oldDelegate.option != option || oldDelegate.gridPath != gridPath;
+  bool shouldRepaint(covariant _ViewfinderCornersPainter oldDelegate) => false;
 }

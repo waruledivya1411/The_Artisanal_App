@@ -193,6 +193,8 @@ GoRouter createRouter() {
             frameIndexes: frames,
             materialId: state.uri.queryParameters['material'],
             technique: state.uri.queryParameters['technique'],
+            productLabel: state.uri.queryParameters['product'] ??
+                state.uri.queryParameters['name'],
           );
         },
       ),

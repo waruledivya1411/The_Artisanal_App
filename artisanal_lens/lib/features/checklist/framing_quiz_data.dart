@@ -6,12 +6,23 @@ import 'click_social_frames.dart';
 
 export 'click_social_frames.dart' show FrameArch;
 
-/// One quiz answer. Geometry only — the copy lives in [LocalizedFramingArch].
+/// One quiz answer — where the product sits in the camera viewfinder.
+///
+/// Same product photo in every option; only [alignment] + [sizeFactor] change
+/// so the learner can see wrong vs right framing at a glance.
 class FramingOption {
-  const FramingOption({required this.rects, required this.correct});
+  const FramingOption({
+    required this.alignment,
+    required this.sizeFactor,
+    required this.correct,
+  });
 
-  /// Rects in a 120×64 coordinate space.
-  final List<Rect> rects;
+  /// Where the product sits inside the frame (−1..1).
+  final Alignment alignment;
+
+  /// How much of the viewfinder the product fills (0.3 = small, 0.95 = almost full).
+  final double sizeFactor;
+
   final bool correct;
 }
 
@@ -28,16 +39,22 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
   FrameArch.thirds: FramingArchDef(
     gridPath: 'M40 0v64M80 0v64M0 21.3h120M0 42.6h120',
     options: [
+      // Dead centre — common mistake
       FramingOption(
-        rects: [Rect.fromLTWH(50, 22, 20, 20)],
+        alignment: Alignment.center,
+        sizeFactor: 0.58,
         correct: false,
       ),
+      // On the lower-right thirds intersection
       FramingOption(
-        rects: [Rect.fromLTWH(70, 32.6, 20, 20)],
+        alignment: Alignment(0.55, 0.4),
+        sizeFactor: 0.52,
         correct: true,
       ),
+      // Cramped in the top-left corner
       FramingOption(
-        rects: [Rect.fromLTWH(1, 1, 20, 20)],
+        alignment: Alignment(-0.85, -0.8),
+        sizeFactor: 0.38,
         correct: false,
       ),
     ],
@@ -45,16 +62,22 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
   FrameArch.center: FramingArchDef(
     gridPath: 'M40 12h40v40h-40zM60 0v12M60 52v64',
     options: [
+      // Too small / far in a corner
       FramingOption(
-        rects: [Rect.fromLTWH(4, 4, 16, 16)],
+        alignment: Alignment(-0.85, -0.75),
+        sizeFactor: 0.32,
         correct: false,
       ),
+      // Fills the centre box
       FramingOption(
-        rects: [Rect.fromLTWH(42, 14, 36, 36)],
+        alignment: Alignment.center,
+        sizeFactor: 0.62,
         correct: true,
       ),
+      // Half cut off at the edge
       FramingOption(
-        rects: [Rect.fromLTWH(104, 40, 20, 20)],
+        alignment: Alignment(1.05, 0.55),
+        sizeFactor: 0.55,
         correct: false,
       ),
     ],
@@ -62,27 +85,22 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
   FrameArch.diag: FramingArchDef(
     gridPath: 'M0 64L120 0M0 40L45 0',
     options: [
+      // Flat / centred — no leading line
       FramingOption(
-        rects: [
-          Rect.fromLTWH(18, 24, 16, 16),
-          Rect.fromLTWH(52, 24, 16, 16),
-          Rect.fromLTWH(86, 24, 16, 16),
-        ],
+        alignment: Alignment.center,
+        sizeFactor: 0.7,
         correct: false,
       ),
+      // Angled through the frame along the diagonal
       FramingOption(
-        rects: [
-          Rect.fromLTWH(18, 42, 16, 16),
-          Rect.fromLTWH(52, 25, 16, 16),
-          Rect.fromLTWH(86, 8, 16, 16),
-        ],
+        alignment: Alignment(0.15, -0.1),
+        sizeFactor: 0.55,
         correct: true,
       ),
+      // Crowded into one corner
       FramingOption(
-        rects: [
-          Rect.fromLTWH(2, 44, 16, 16),
-          Rect.fromLTWH(14, 30, 16, 16),
-        ],
+        alignment: Alignment(-0.9, 0.75),
+        sizeFactor: 0.4,
         correct: false,
       ),
     ],
@@ -90,19 +108,22 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
   FrameArch.detail: FramingArchDef(
     gridPath: 'M0 42h120M62 6h46v26h-46z',
     options: [
+      // Only a thin strip at the bottom
       FramingOption(
-        rects: [Rect.fromLTWH(0, 56, 120, 6)],
+        alignment: Alignment(0, 0.95),
+        sizeFactor: 0.28,
         correct: false,
       ),
+      // Detail sits in the focus box with room around it
       FramingOption(
-        rects: [
-          Rect.fromLTWH(0, 44, 120, 20),
-          Rect.fromLTWH(64, 8, 42, 22),
-        ],
+        alignment: Alignment(0.45, -0.15),
+        sizeFactor: 0.48,
         correct: true,
       ),
+      // Random mid blob — neither border nor story
       FramingOption(
-        rects: [Rect.fromLTWH(50, 22, 20, 20)],
+        alignment: Alignment.center,
+        sizeFactor: 0.42,
         correct: false,
       ),
     ],
