@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
-import '../click_social_frames.dart';
 import '../../../shared/motion/motion.dart';
-import '../../../shared/widgets/common.dart';
+import '../click_social_frames.dart';
+import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 6 — light quiz. Then continues to the existing photo list.
 class LightQuizPage extends StatefulWidget {
@@ -157,233 +157,313 @@ class _LightQuizPageState extends State<LightQuizPage> {
       }
     }
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: AppColors.divider, width: 2),
+    return PhotoLessonChrome(
+      stepIndex: _isPanel ? 3 : 5,
+      isPanel: _isPanel,
+      onBack: _goBack,
+      footer: correct
+          ? Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+              child: FadeSlideIn(
+                key: const ValueKey('light-next'),
+                child: Pressable(
+                  elevate: true,
+                  borderRadius: BorderRadius.circular(28),
+                  child: Material(
+                    color: AppColors.primary,
+                    elevation: 4,
+                    shadowColor: AppColors.primary.withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(28),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(28),
+                      onTap: _continue,
+                      child: SizedBox(
+                        height: 52,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              l10n.csNextShootYours,
+                              style: AppTypography.labelLarge.copyWith(
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 13,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            const Icon(
+                              Icons.arrow_forward_rounded,
+                              color: AppColors.white,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : null,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 16),
+        children: [
+          Text(
+            _heading(l10n),
+            style: AppTypography.displayMedium.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textPrimary,
+              height: 1.25,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            _prompt(l10n),
+            style: AppTypography.labelSmall.copyWith(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          if (_isPanel) ...[
+            const SizedBox(height: 14),
+            _PanelTip(
+              badge: l10n.csLightTipDoThisBadge,
+              badgeColor: AppColors.primary,
+              borderColor: AppColors.primary,
+              body: l10n.csLightTipDoThisBody,
+            ),
+            const SizedBox(height: 10),
+            _PanelTip(
+              badge: l10n.csLightTipNeverFlashBadge,
+              badgeColor: AppColors.textSecondary,
+              borderColor: AppColors.border,
+              body: l10n.csLightTipNeverFlashBody,
+            ),
+            const SizedBox(height: 10),
+            _PanelTip(
+              badge: l10n.csLightTipAvoidSideBadge,
+              badgeColor: AppColors.textSecondary,
+              borderColor: AppColors.border,
+              body: l10n.csLightTipAvoidSideBody,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              l10n.csLightNowPick,
+              style: AppTypography.labelSmall.copyWith(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+          const SizedBox(height: 16),
+          for (final choice in _choices) ...[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: ShakeOnChange(
+                trigger: _light == choice.$1 && choice.$1 != _correctLight
+                    ? _shake
+                    : null,
+                child: _LightChoiceCard(
+                  label: _choiceLabel(l10n, choice.$1),
+                  sx: choice.$2,
+                  sy: choice.$3,
+                  selected: _light == choice.$1,
+                  isCorrect: choice.$1 == _correctLight,
+                  onTap: () => _pick(choice.$1),
+                ),
+              ),
+            ),
+          ],
+          if (msg != null)
+            FadeSlideIn(
+              key: ValueKey('msg-$_light'),
+              child: _FeedbackBanner(
+                message: msg,
+                correct: correct,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LightChoiceCard extends StatelessWidget {
+  const _LightChoiceCard({
+    required this.label,
+    required this.sx,
+    required this.sy,
+    required this.selected,
+    required this.isCorrect,
+    required this.onTap,
+  });
+
+  final String label;
+  final double sx;
+  final double sy;
+  final bool selected;
+  final bool isCorrect;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final showCorrect = selected && isCorrect;
+    final showWrong = selected && !isCorrect;
+
+    return Pressable(
+      elevate: true,
+      borderRadius: BorderRadius.circular(16),
+      child: Material(
+        color: showCorrect ? AppColors.surfaceSelected : AppColors.white,
+        elevation: selected ? 3 : 1,
+        shadowColor: AppColors.primary.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: AnimatedScale(
+            scale: showCorrect ? 1.02 : 1,
+            duration: AppMotion.select,
+            curve: AppMotion.curve,
+            child: AnimatedContainer(
+              duration: AppMotion.select,
+              curve: AppMotion.curve,
+              constraints: const BoxConstraints(minHeight: 64),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: showCorrect
+                      ? AppColors.primary
+                      : showWrong
+                          ? AppColors.textMuted
+                          : AppColors.borderLight,
+                  width: selected ? 2.2 : 1.2,
                 ),
               ),
               child: Row(
                 children: [
-                  IconButton(
-                    onPressed: _goBack,
-                    icon: const Icon(Icons.chevron_left, size: 28),
-                    color: AppColors.textPrimary,
+                  CustomPaint(
+                    size: const Size(30, 30),
+                    painter: _LightIconPainter(sx: sx, sy: sy),
                   ),
+                  const SizedBox(width: 14),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Text(
+                      label,
+                      style: AppTypography.labelLarge.copyWith(
+                        fontSize: 14,
+                        fontWeight: showCorrect ? FontWeight.w700 : FontWeight.w600,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  if (showCorrect)
+                    AnimatedCheck(
+                      visible: true,
+                      color: AppColors.white,
+                      background: AppColors.primary,
+                      radius: 12,
+                      size: 14,
+                    )
+                  else
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.border,
+                          width: 1.6,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FeedbackBanner extends StatelessWidget {
+  const _FeedbackBanner({
+    required this.message,
+    required this.correct,
+  });
+
+  final String message;
+  final bool correct;
+
+  @override
+  Widget build(BuildContext context) {
+    // Correct copy is "Right — …" (localized prefix). Bold the leading word.
+    final parts = message.split(' — ');
+    final splitCorrect = correct && parts.length >= 2;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: correct ? const Color(0xFFEBF8FF) : AppColors.textPrimary,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (correct) ...[
+            const Padding(
+              padding: EdgeInsets.only(top: 1),
+              child: Icon(
+                Icons.check_circle_rounded,
+                size: 20,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(width: 10),
+          ],
+          Expanded(
+            child: splitCorrect
+                ? Text.rich(
+                    TextSpan(
                       children: [
-                        Text(
-                          l10n.csLesson01Overline,
-                          style: AppTypography.navLabel.copyWith(
-                            fontSize: 9,
+                        TextSpan(
+                          text: parts.first,
+                          style: AppTypography.labelLarge.copyWith(
+                            fontSize: 13,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: 1.2,
                             color: AppColors.primary,
                           ),
                         ),
-                        Text(
-                          l10n.csLesson01Title,
+                        TextSpan(
+                          text: ' — ${parts.skip(1).join(' — ')}',
                           style: AppTypography.labelLarge.copyWith(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w800,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF2A4365),
+                            height: 1.35,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
-                children: [
-                  Text(
-                    _heading(l10n),
-                    style: AppTypography.displayMedium.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    _prompt(l10n),
-                    style: AppTypography.labelSmall.copyWith(
+                  )
+                : Text(
+                    message,
+                    style: AppTypography.labelLarge.copyWith(
                       fontSize: 13,
-                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.w600,
+                      color: correct
+                          ? const Color(0xFF2A4365)
+                          : AppColors.white,
+                      height: 1.35,
                     ),
                   ),
-                  if (_isPanel) ...[
-                    const SizedBox(height: 14),
-                    _PanelTip(
-                      badge: l10n.csLightTipDoThisBadge,
-                      badgeColor: AppColors.primary,
-                      borderColor: AppColors.primary,
-                      body: l10n.csLightTipDoThisBody,
-                    ),
-                    const SizedBox(height: 10),
-                    _PanelTip(
-                      badge: l10n.csLightTipNeverFlashBadge,
-                      badgeColor: AppColors.textSecondary,
-                      borderColor: AppColors.border,
-                      body: l10n.csLightTipNeverFlashBody,
-                    ),
-                    const SizedBox(height: 10),
-                    _PanelTip(
-                      badge: l10n.csLightTipAvoidSideBadge,
-                      badgeColor: AppColors.textSecondary,
-                      borderColor: AppColors.border,
-                      body: l10n.csLightTipAvoidSideBody,
-                    ),
-                    const SizedBox(height: 14),
-                    Text(
-                      l10n.csLightNowPick,
-                      style: AppTypography.labelSmall.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 14),
-                  for (final choice in _choices) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: ShakeOnChange(
-                        trigger: _light == choice.$1 &&
-                                choice.$1 != _correctLight
-                            ? _shake
-                            : null,
-                        child: Pressable(
-                          elevate: false,
-                          child: InkWell(
-                            onTap: () => _pick(choice.$1),
-                            child: AnimatedScale(
-                              scale: _light == choice.$1 &&
-                                      choice.$1 == _correctLight
-                                  ? 1.02
-                                  : 1,
-                              duration: AppMotion.select,
-                              curve: AppMotion.curve,
-                              child: AnimatedContainer(
-                                duration: AppMotion.select,
-                                curve: AppMotion.curve,
-                                constraints:
-                                    const BoxConstraints(minHeight: 56),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  border: Border.all(
-                                    color: _light == choice.$1
-                                        ? (choice.$1 == _correctLight
-                                            ? AppColors.primary
-                                            : AppColors.textMuted)
-                                        : AppColors.textPrimary,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    CustomPaint(
-                                      size: const Size(30, 30),
-                                      painter: _LightIconPainter(
-                                        sx: choice.$2,
-                                        sy: choice.$3,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 14),
-                                    Expanded(
-                                      child: Text(
-                                        _choiceLabel(l10n, choice.$1),
-                                        style:
-                                            AppTypography.labelLarge.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    AnimatedCheck(
-                                      visible: _light == choice.$1 &&
-                                          choice.$1 == _correctLight,
-                                      color: AppColors.white,
-                                      background: AppColors.primary,
-                                      radius: 11,
-                                      size: 13,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                  if (msg != null)
-                    FadeSlideIn(
-                      key: ValueKey('msg-$_light'),
-                      child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 12,
-                      ),
-                      color: correct
-                          ? const Color(0xFFEBF8FF)
-                          : AppColors.textPrimary,
-                      child: Text(
-                        msg,
-                        style: AppTypography.labelLarge.copyWith(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: correct
-                              ? const Color(0xFF2A4365)
-                              : AppColors.white,
-                        ),
-                      ),
-                      ),
-                    ),
-                  if (correct) ...[
-                    const SizedBox(height: 16),
-                    FadeSlideIn(
-                      key: const ValueKey('light-next'),
-                      child: ActionWidth(
-                      child: SizedBox(
-                        height: 50,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _continue,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.white,
-                            shape: const RoundedRectangleBorder(),
-                          ),
-                          child: Text(
-                            l10n.csNextShootYours,
-                            style: AppTypography.labelLarge.copyWith(
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -433,7 +513,7 @@ class _PanelTip extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: borderColor),
       ),
       child: Column(
