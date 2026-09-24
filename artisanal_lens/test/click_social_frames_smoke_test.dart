@@ -9,6 +9,8 @@ Set<String> _assetsFor({
   required String? clusterId,
   required String? categoryId,
   required String? technique,
+  String? productLabel,
+  String? materialId,
 }) {
   final assets = <String>{};
   for (final frame in clickSocialFrames) {
@@ -17,13 +19,15 @@ Set<String> _assetsFor({
         clusterId: clusterId,
         categoryId: categoryId,
         technique: technique,
+        productLabel: productLabel,
+        materialId: materialId,
       ),
     );
     final steps = frame.guideSteps(
       isAssam: clickSocialIsAssam(clusterId),
       isKal: clickSocialIsKal(clusterId: clusterId, technique: technique),
       clusterId: clusterId,
-      productLabel: categoryId,
+      productLabel: productLabel ?? categoryId,
       technique: technique,
     );
     for (final step in steps) {
@@ -40,17 +44,111 @@ void main() {
     for (final cluster in clickSocialClusters) {
       for (final technique in [null, 'WOVEN', 'HAND-PAINTED']) {
         for (final category in ['saree', 'stole', 'shawl', 'cushion_cover']) {
-          for (final asset in _assetsFor(
-            clusterId: cluster.id,
-            categoryId: category,
-            technique: technique,
-          )) {
-            if (!File(asset).existsSync()) missing.add(asset);
+          for (final product in [
+            null,
+            'Mekhela sador',
+            'Sari',
+            'Stole / Dupatta',
+            'Accessories',
+          ]) {
+            for (final material in [null, 'silk', 'cotton']) {
+              for (final asset in _assetsFor(
+                clusterId: cluster.id,
+                categoryId: category,
+                technique: technique,
+                productLabel: product,
+                materialId: material,
+              )) {
+                if (!File(asset).existsSync()) missing.add(asset);
+              }
+            }
           }
         }
       }
     }
-    expect(missing, isEmpty);
+    expect(missing, isEmpty, reason: missing.join('\n'));
+  });
+
+  test('Assam mekhela thumbs match product + frame name', () {
+    final full = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'silk',
+    );
+    final stack = clickSocialFrames[4].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'silk',
+    );
+    final stoleFull = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Stole / Dupatta',
+      materialId: 'silk',
+    );
+    final sariClose = clickSocialFrames[1].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'silk',
+    );
+    expect(full, contains('mekhela_silk_woven'));
+    expect(stack, contains('mekhela_silk'));
+    expect(stoleFull, contains('mekhela_silk'));
+    expect(sariClose, contains('muga'));
+    expect(full, isNot(contains('templates/')));
+    expect(stoleFull, isNot(contains('templates/')));
+  });
+
+  test('Assam hand-painted does not fall back to Kalamkari thumbs', () {
+    final thumb = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Mekhela sador',
+      materialId: 'silk',
+    );
+    expect(thumb, isNot(contains('kal-')));
+    expect(thumb, contains('mekhela'));
+  });
+
+  test('Assam thumbs never use Banarasi or kilim stock', () {
+    for (final product in ['Mekhela sador', 'Sari', 'Stole / Dupatta']) {
+      for (final frame in clickSocialFrames) {
+        final thumb = frame.thumbAssetFor(
+          clusterId: 'assam',
+          categoryId: 'saree',
+          technique: 'WOVEN',
+          productLabel: product,
+          materialId: 'silk',
+        );
+        expect(thumb, isNot(contains('templates/')));
+        expect(thumb, isNot(contains('presets/')));
+        expect(thumb, isNot(contains('stole-flatlay')));
+        expect(thumb, isNot(contains('stole-hung')));
+      }
+    }
+  });
+
+  test('product key prefers mekhela for Assam saree-class', () {
+    expect(
+      clickSocialFrameProductKey(clusterId: 'assam', categoryId: 'saree'),
+      'mekhela',
+    );
+    expect(
+      clickSocialFrameProductKey(
+        productLabel: 'Stole / Dupatta',
+        categoryId: 'saree',
+        clusterId: 'assam',
+      ),
+      'stole',
+    );
   });
 
   test('every frame has at least one guide step', () {

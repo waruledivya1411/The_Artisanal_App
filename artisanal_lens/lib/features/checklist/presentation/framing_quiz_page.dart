@@ -7,7 +7,6 @@ import '../../../l10n/app_copy.dart';
 import '../framing_quiz_data.dart';
 import '../../../shared/motion/motion.dart';
 import '../../../shared/painting/svg_path.dart';
-import '../../../shared/widgets/common.dart';
 
 /// HTML photoStep 5 — framing quizzes. Inserted before the existing photo list.
 class FramingQuizPage extends StatefulWidget {
@@ -142,7 +141,7 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
               _LessonHeader(onBack: _goBack),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
                   children: [
                     Text(
                       names.isEmpty
@@ -282,41 +281,84 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                           ),
                         ),
                       ),
-                    if (correct) ...[
-                      const SizedBox(height: 16),
-                      FadeSlideIn(
-                        key: ValueKey('next-$_index'),
-                        child: ActionWidth(
-                          child: SizedBox(
-                            height: 50,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: _next,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                foregroundColor: AppColors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
-                              ),
-                              child: Text(
-                                _index < _sequence.length - 1
-                                    ? l10n.csNextFraming
-                                    : l10n.csNextLightIt,
-                                style: AppTypography.labelLarge.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
+              _FramingContinueBar(
+                enabled: correct,
+                label: _index < _sequence.length - 1
+                    ? l10n.csNextFraming
+                    : l10n.csNextLightIt,
+                onContinue: _next,
+              ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Sticky bottom CTA — grey until the correct frame is picked, then primary.
+class _FramingContinueBar extends StatelessWidget {
+  const _FramingContinueBar({
+    required this.enabled,
+    required this.label,
+    required this.onContinue,
+  });
+
+  final bool enabled;
+  final String label;
+  final VoidCallback onContinue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+      child: Pressable(
+        enabled: enabled,
+        elevate: enabled,
+        borderRadius: BorderRadius.circular(28),
+        child: AnimatedOpacity(
+          duration: AppMotion.select,
+          opacity: enabled ? 1 : 0.55,
+          child: Material(
+            color: enabled ? AppColors.primary : AppColors.surfaceMuted,
+            elevation: enabled ? 4 : 0,
+            shadowColor: AppColors.primary.withValues(alpha: 0.35),
+            borderRadius: BorderRadius.circular(28),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(28),
+              onTap: enabled ? onContinue : null,
+              child: SizedBox(
+                height: 52,
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      label,
+                      style: AppTypography.labelLarge.copyWith(
+                        color: enabled
+                            ? AppColors.white
+                            : AppColors.textMuted,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                        letterSpacing: 0.6,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: enabled
+                          ? AppColors.white
+                          : AppColors.textMuted,
+                      size: 18,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
