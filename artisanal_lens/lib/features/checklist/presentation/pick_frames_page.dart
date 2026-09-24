@@ -48,18 +48,21 @@ class _PickFramesPageState extends State<PickFramesPage> {
 
   List<ClickSocialFrame> get _frames => framesForSelection(isPanel: _isPanel);
 
-  /// HTML core shots (0–3) — shown at the bottom of the pick page.
+  /// Core shots (0–3) stay last in the grid — same list, no separate section.
   static const _coreIndexes = {0, 1, 2, 3};
 
-  List<ClickSocialFrame> get _extraFrames => [
-        for (final frame in _frames)
-          if (!_coreIndexes.contains(frame.index)) frame,
-      ];
-
-  List<ClickSocialFrame> get _coreFrames => [
-        for (final frame in _frames)
-          if (_coreIndexes.contains(frame.index)) frame,
-      ];
+  List<ClickSocialFrame> get _orderedFrames {
+    final extras = <ClickSocialFrame>[];
+    final core = <ClickSocialFrame>[];
+    for (final frame in _frames) {
+      if (_coreIndexes.contains(frame.index)) {
+        core.add(frame);
+      } else {
+        extras.add(frame);
+      }
+    }
+    return [...extras, ...core];
+  }
 
   bool get _ready => _picks.length >= 2;
 
@@ -147,40 +150,16 @@ class _PickFramesPageState extends State<PickFramesPage> {
               color: AppColors.textMuted,
             ),
           ),
-          if (_extraFrames.isNotEmpty) ...[
-            const SizedBox(height: 14),
-            _FramePickGrid(
-              frames: _extraFrames,
-              picks: _picks,
-              clusterId: _clusterId,
-              categoryId: widget.categoryId,
-              technique: widget.technique,
-              onToggle: _toggle,
-              staggerOffset: 0,
-            ),
-          ],
-          if (_coreFrames.isNotEmpty) ...[
-            const SizedBox(height: 18),
-            Text(
-              'Core shots',
-              style: AppTypography.navLabel.copyWith(
-                fontSize: 10,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.1,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: 8),
-            _FramePickGrid(
-              frames: _coreFrames,
-              picks: _picks,
-              clusterId: _clusterId,
-              categoryId: widget.categoryId,
-              technique: widget.technique,
-              onToggle: _toggle,
-              staggerOffset: _extraFrames.length,
-            ),
-          ],
+          const SizedBox(height: 14),
+          _FramePickGrid(
+            frames: _orderedFrames,
+            picks: _picks,
+            clusterId: _clusterId,
+            categoryId: widget.categoryId,
+            technique: widget.technique,
+            onToggle: _toggle,
+            staggerOffset: 0,
+          ),
         ],
       ),
     );
