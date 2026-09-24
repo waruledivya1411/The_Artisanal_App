@@ -20,7 +20,8 @@ class FramingOption {
   /// Where the product sits inside the frame (−1..1).
   final Alignment alignment;
 
-  /// How much of the viewfinder the product fills (0.3 = small, 0.95 = almost full).
+  /// How much of the viewfinder the product object fills (~0.3–0.5).
+  /// Keep it under ~half the frame so grid placement is readable.
   final double sizeFactor;
 
   final bool correct;
@@ -42,19 +43,19 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
       // Dead centre — common mistake
       FramingOption(
         alignment: Alignment.center,
-        sizeFactor: 0.58,
+        sizeFactor: 0.62,
         correct: false,
       ),
       // On the lower-right thirds intersection
       FramingOption(
-        alignment: Alignment(0.55, 0.4),
-        sizeFactor: 0.52,
+        alignment: Alignment(0.52, 0.4),
+        sizeFactor: 0.58,
         correct: true,
       ),
       // Cramped in the top-left corner
       FramingOption(
-        alignment: Alignment(-0.85, -0.8),
-        sizeFactor: 0.38,
+        alignment: Alignment(-0.82, -0.78),
+        sizeFactor: 0.4,
         correct: false,
       ),
     ],
@@ -64,19 +65,19 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
     options: [
       // Too small / far in a corner
       FramingOption(
-        alignment: Alignment(-0.85, -0.75),
-        sizeFactor: 0.32,
+        alignment: Alignment(-0.82, -0.75),
+        sizeFactor: 0.36,
         correct: false,
       ),
       // Fills the centre box
       FramingOption(
         alignment: Alignment.center,
-        sizeFactor: 0.62,
+        sizeFactor: 0.68,
         correct: true,
       ),
       // Half cut off at the edge
       FramingOption(
-        alignment: Alignment(1.05, 0.55),
+        alignment: Alignment(1.0, 0.35),
         sizeFactor: 0.55,
         correct: false,
       ),
@@ -88,19 +89,19 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
       // Flat / centred — no leading line
       FramingOption(
         alignment: Alignment.center,
-        sizeFactor: 0.7,
+        sizeFactor: 0.6,
         correct: false,
       ),
       // Angled through the frame along the diagonal
       FramingOption(
-        alignment: Alignment(0.15, -0.1),
-        sizeFactor: 0.55,
+        alignment: Alignment(0.18, -0.12),
+        sizeFactor: 0.56,
         correct: true,
       ),
       // Crowded into one corner
       FramingOption(
-        alignment: Alignment(-0.9, 0.75),
-        sizeFactor: 0.4,
+        alignment: Alignment(-0.82, 0.75),
+        sizeFactor: 0.38,
         correct: false,
       ),
     ],
@@ -110,20 +111,20 @@ const framingArchDefs = <FrameArch, FramingArchDef>{
     options: [
       // Only a thin strip at the bottom
       FramingOption(
-        alignment: Alignment(0, 0.95),
-        sizeFactor: 0.28,
+        alignment: Alignment(0, 0.92),
+        sizeFactor: 0.36,
         correct: false,
       ),
       // Detail sits in the focus box with room around it
       FramingOption(
-        alignment: Alignment(0.45, -0.15),
-        sizeFactor: 0.48,
+        alignment: Alignment(0.48, -0.22),
+        sizeFactor: 0.52,
         correct: true,
       ),
       // Random mid blob — neither border nor story
       FramingOption(
         alignment: Alignment.center,
-        sizeFactor: 0.42,
+        sizeFactor: 0.45,
         correct: false,
       ),
     ],

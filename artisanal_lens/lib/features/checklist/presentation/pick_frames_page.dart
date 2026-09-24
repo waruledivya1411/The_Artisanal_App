@@ -48,6 +48,19 @@ class _PickFramesPageState extends State<PickFramesPage> {
 
   List<ClickSocialFrame> get _frames => framesForSelection(isPanel: _isPanel);
 
+  /// HTML core shots (0–3) — shown at the bottom of the pick page.
+  static const _coreIndexes = {0, 1, 2, 3};
+
+  List<ClickSocialFrame> get _extraFrames => [
+        for (final frame in _frames)
+          if (!_coreIndexes.contains(frame.index)) frame,
+      ];
+
+  List<ClickSocialFrame> get _coreFrames => [
+        for (final frame in _frames)
+          if (_coreIndexes.contains(frame.index)) frame,
+      ];
+
   bool get _ready => _picks.length >= 2;
 
   @override
@@ -103,7 +116,6 @@ class _PickFramesPageState extends State<PickFramesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final frames = _frames;
     final l10n = AppLocalizations.of(context);
 
     return PhotoLessonChrome(
@@ -135,36 +147,40 @@ class _PickFramesPageState extends State<PickFramesPage> {
               color: AppColors.textMuted,
             ),
           ),
-          const SizedBox(height: 14),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: frames.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 0.72,
+          if (_extraFrames.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            _FramePickGrid(
+              frames: _extraFrames,
+              picks: _picks,
+              clusterId: _clusterId,
+              categoryId: widget.categoryId,
+              technique: widget.technique,
+              onToggle: _toggle,
+              staggerOffset: 0,
             ),
-            itemBuilder: (context, i) {
-              final frame = frames[i];
-              final on = _picks.contains(frame.index);
-              return FadeSlideIn.staggered(
-                index: i,
-                child: _FramePickCard(
-                  name: frame.name,
-                  content: frame.content,
-                  selected: on,
-                  imageAsset: frame.thumbAssetFor(
-                    clusterId: _clusterId,
-                    categoryId: widget.categoryId,
-                    technique: widget.technique,
-                  ),
-                  onTap: () => _toggle(frame.index),
-                ),
-              );
-            },
-          ),
+          ],
+          if (_coreFrames.isNotEmpty) ...[
+            const SizedBox(height: 18),
+            Text(
+              'Core shots',
+              style: AppTypography.navLabel.copyWith(
+                fontSize: 10,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.1,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            _FramePickGrid(
+              frames: _coreFrames,
+              picks: _picks,
+              clusterId: _clusterId,
+              categoryId: widget.categoryId,
+              technique: widget.technique,
+              onToggle: _toggle,
+              staggerOffset: _extraFrames.length,
+            ),
+          ],
         ],
       ),
     );
@@ -197,6 +213,59 @@ class _PickFramesPageState extends State<PickFramesPage> {
         'product=${Uri.encodeComponent(widget.productLabel!)}',
     ].join('&');
     context.go('/product/${widget.setId}/framing-quiz?$q');
+  }
+}
+
+class _FramePickGrid extends StatelessWidget {
+  const _FramePickGrid({
+    required this.frames,
+    required this.picks,
+    required this.clusterId,
+    required this.categoryId,
+    required this.technique,
+    required this.onToggle,
+    required this.staggerOffset,
+  });
+
+  final List<ClickSocialFrame> frames;
+  final Set<int> picks;
+  final String? clusterId;
+  final String categoryId;
+  final String? technique;
+  final void Function(int index) onToggle;
+  final int staggerOffset;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: frames.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 0.72,
+      ),
+      itemBuilder: (context, i) {
+        final frame = frames[i];
+        final on = picks.contains(frame.index);
+        return FadeSlideIn.staggered(
+          index: staggerOffset + i,
+          child: _FramePickCard(
+            name: frame.name,
+            content: frame.content,
+            selected: on,
+            imageAsset: frame.thumbAssetFor(
+              clusterId: clusterId,
+              categoryId: categoryId,
+              technique: technique,
+            ),
+            onTap: () => onToggle(frame.index),
+          ),
+        );
+      },
+    );
   }
 }
 

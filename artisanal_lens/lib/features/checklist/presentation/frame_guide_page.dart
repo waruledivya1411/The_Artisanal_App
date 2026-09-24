@@ -9,6 +9,7 @@ import '../../../shared/motion/motion.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/click_social_clusters.dart';
 import '../click_social_frames.dart';
+import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 7 GUIDE — one frame, taught a page at a time.
 ///
@@ -21,6 +22,7 @@ class FrameGuidePage extends ConsumerStatefulWidget {
     this.clusterId,
     this.categoryId,
     this.technique,
+    this.productLabel,
     super.key,
   });
 
@@ -29,6 +31,7 @@ class FrameGuidePage extends ConsumerStatefulWidget {
   final String? clusterId;
   final String? categoryId;
   final String? technique;
+  final String? productLabel;
 
   @override
   ConsumerState<FrameGuidePage> createState() => _FrameGuidePageState();
@@ -90,7 +93,7 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
         technique: widget.technique,
       ),
       clusterId: _clusterId,
-      productLabel: widget.categoryId,
+      productLabel: widget.productLabel ?? widget.categoryId,
       technique: widget.technique,
     );
   }
@@ -133,10 +136,27 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
 
     if (frame == null || steps.isEmpty) {
       return Scaffold(
-        backgroundColor: AppColors.background,
-        appBar: AppBar(title: Text(l10n.csLesson01Title)),
-        body: Center(
-          child: Text(l10n.productUnavailable, style: AppTypography.bodyMedium),
+        backgroundColor: Colors.transparent,
+        body: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFF7FAFD),
+                Color(0xFFEEF5FB),
+                Color(0xFFFFFFFF),
+              ],
+            ),
+          ),
+          child: SafeArea(
+            child: Center(
+              child: Text(
+                l10n.productUnavailable,
+                style: AppTypography.bodyMedium,
+              ),
+            ),
+          ),
         ),
       );
     }
@@ -144,91 +164,108 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
     final step = steps[_step.clamp(0, steps.length - 1)];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _GuideHeader(onBack: () => Navigator.of(context).pop()),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-                children: [
-                  Text(
-                    _overline(frame),
-                    style: AppTypography.navLabel.copyWith(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                      color: AppColors.primary,
+      backgroundColor: Colors.transparent,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF7FAFD),
+              Color(0xFFEEF5FB),
+              Color(0xFFFFFFFF),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              _GuideHeader(
+                onBack: () => Navigator.of(context).pop(),
+                stepLabel: '${_step + 1} / ${steps.length}',
+              ),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  children: [
+                    Text(
+                      _overline(frame),
+                      style: AppTypography.navLabel.copyWith(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  // Everything below the overline belongs to one step, so it
-                  // moves as a single block when the step changes.
-                  StepSwitcher(
-                    child: Column(
-                      key: ValueKey(_step),
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          step.title,
-                          style: AppTypography.displayMedium.copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          step.subtitle,
-                          style: AppTypography.labelSmall.copyWith(
-                            fontSize: 13,
-                            height: 1.4,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        const SizedBox(height: 14),
-                        _StepBody(
-                          step: step,
-                          framePhotoAsset: frame.thumbAssetFor(
-                            clusterId: _clusterId,
-                            categoryId: widget.categoryId,
-                            technique: widget.technique,
-                          ),
-                          photoLabel: _photoLabel(),
-                        ),
-                        if (step.caption != null) ...[
-                          const SizedBox(height: 10),
+                    const SizedBox(height: 6),
+                    StepSwitcher(
+                      child: Column(
+                        key: ValueKey(_step),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            step.caption!,
+                            step.title,
+                            style: AppTypography.displayMedium.copyWith(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            step.subtitle,
                             style: AppTypography.labelSmall.copyWith(
-                              fontSize: 12,
+                              fontSize: 13,
                               height: 1.4,
                               color: AppColors.textMuted,
                             ),
                           ),
+                          const SizedBox(height: 16),
+                          _StepBody(
+                            step: step,
+                            // Only pair a photo when the step names one that
+                            // matches the instruction — never fall back to a
+                            // random shot thumb (that caused the mismatches).
+                            framePhotoAsset: step.referenceAsset,
+                            photoLabel: _photoLabel(),
+                          ),
+                          if (step.caption != null) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              step.caption!,
+                              style: AppTypography.labelSmall.copyWith(
+                                fontSize: 12.5,
+                                height: 1.4,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            _GuideFooter(
-              stepLabel: '${_step + 1} / ${steps.length}',
-              nextLabel: _step == steps.length - 1 ? 'TAKE THE SHOT' : 'NEXT',
-              onBack: _back,
-              onNext: () => _next(steps),
-            ),
-          ],
+              PhotoContinueBar(
+                enabled: true,
+                label:
+                    _step == steps.length - 1 ? 'TAKE THE SHOT' : 'NEXT',
+                onBack: _back,
+                onContinue: () => _next(steps),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  /// HTML `gPhotoLabel` — product and place, over the reference photograph.
+  /// Label over the reference photograph — selected product + place.
   String _photoLabel() {
     final cluster = clusterById(_clusterId);
-    final product = cluster?.shortName ?? 'handloom';
+    final product = (widget.productLabel ?? '').trim().isNotEmpty
+        ? widget.productLabel!.trim()
+        : (cluster?.shortName ?? 'handloom');
     final place = (cluster?.place ?? '').split(',').first;
     if (place.isEmpty) return product.toUpperCase();
     return '${product.toUpperCase()} · ${place.toUpperCase()}';
@@ -244,109 +281,107 @@ class _StepBody extends StatelessWidget {
   });
 
   final GuideStep step;
-  final String framePhotoAsset;
+  /// Matched example photo, or null for diagram-only instructional steps.
+  final String? framePhotoAsset;
   final String photoLabel;
 
   @override
   Widget build(BuildContext context) {
-    final box = BoxDecoration(
-      color: AppColors.surfaceMuted,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: AppColors.border),
-    );
-
     if (step.imageAsset != null) {
-      return Container(
-        height: 340,
-        clipBehavior: Clip.antiAlias,
-        decoration: box,
-        child: GuideImage(asset: step.imageAsset!),
-      );
-    }
-
-    if (step.hasGallery) {
-      return Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: box,
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            for (final asset in step.gallery!)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Container(
-                  height: 240,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceMuted,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: GuideImage(asset: asset),
-                ),
-              ),
-          ],
+      return _GuideCard(
+        child: SizedBox(
+          height: 340,
+          width: double.infinity,
+          child: GuideImage(asset: step.imageAsset!),
         ),
       );
     }
 
-    // HTML `gCols: '1fr 1fr'` — the diagram sits beside the reference photo.
-    // The height follows the diagram's 200×140 source box so it is not
-    // stretched, with a floor so the photograph still reads on a narrow phone.
+    if (step.hasGallery) {
+      return Column(
+        children: [
+          for (var i = 0; i < step.gallery!.length; i++) ...[
+            if (i > 0) const SizedBox(height: 12),
+            _GuideCard(
+              child: SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: GuideImage(asset: step.gallery![i]),
+              ),
+            ),
+          ],
+        ],
+      );
+    }
+
+    final diagram = step.diagram ?? 'grid';
+    final photo = framePhotoAsset;
+
+    // Instructional step with no matching photo yet — diagram only.
+    if (photo == null) {
+      return _GuideCard(
+        child: SizedBox(
+          height: 220,
+          width: double.infinity,
+          child: ColoredBox(
+            color: AppColors.white,
+            child: CustomPaint(
+              painter: GuideDiagramPainter(diagram),
+              child: const SizedBox.expand(),
+            ),
+          ),
+        ),
+      );
+    }
+
+    // Diagram beside the matching reference photo.
     return LayoutBuilder(
       builder: (context, constraints) {
         final height = (constraints.maxWidth / 2) * 140 / 200;
-        return Container(
-          height: height.clamp(180.0, 280.0),
-          clipBehavior: Clip.antiAlias,
-          decoration: box,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                // CustomPaint with no child prefers Size.zero; without expand it
-                // collapses under Row's loose height and only the muted panel shows.
-                child: ColoredBox(
-                  color: AppColors.surface,
-                  child: CustomPaint(
-                    painter: GuideDiagramPainter(step.diagram ?? 'grid'),
-                    child: const SizedBox.expand(),
+        return _GuideCard(
+          child: SizedBox(
+            height: height.clamp(190.0, 280.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ColoredBox(
+                    color: AppColors.white,
+                    child: CustomPaint(
+                      painter: GuideDiagramPainter(diagram),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: DecoratedBox(
-                  decoration: const BoxDecoration(
-                    color: AppColors.white,
-                    border: Border(left: BorderSide(color: AppColors.border)),
-                  ),
+                Container(width: 1, color: AppColors.borderLight),
+                Expanded(
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      GuideImage(asset: framePhotoAsset),
+                      GuideImage(asset: photo),
                       Positioned(
-                        left: 6,
-                        bottom: 6,
-                        right: 6,
+                        left: 8,
+                        bottom: 8,
+                        right: 8,
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 3,
+                              horizontal: 8,
+                              vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.textPrimary,
-                              borderRadius: BorderRadius.circular(4),
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(99),
                             ),
                             child: Text(
                               photoLabel,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTypography.navLabel.copyWith(
-                                fontSize: 8,
+                                fontSize: 9,
                                 fontWeight: FontWeight.w800,
-                                letterSpacing: 0.8,
+                                letterSpacing: 0.6,
                                 color: AppColors.white,
                               ),
                             ),
@@ -356,8 +391,8 @@ class _StepBody extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -365,26 +400,68 @@ class _StepBody extends StatelessWidget {
   }
 }
 
+class _GuideCard extends StatelessWidget {
+  const _GuideCard({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.white,
+      elevation: 2,
+      shadowColor: AppColors.primary.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(16),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.borderLight, width: 1.2),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
 class _GuideHeader extends StatelessWidget {
-  const _GuideHeader({required this.onBack});
+  const _GuideHeader({
+    required this.onBack,
+    required this.stepLabel,
+  });
 
   final VoidCallback onBack;
+  final String stepLabel;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.divider, width: 2)),
-      ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 6, 16, 4),
       child: Row(
         children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.chevron_left, size: 28),
-            color: AppColors.textPrimary,
+          Material(
+            color: AppColors.white,
+            elevation: 2,
+            shadowColor: AppColors.primary.withValues(alpha: 0.12),
+            shape: const CircleBorder(),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: onBack,
+              child: const SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  Icons.chevron_left_rounded,
+                  size: 26,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
           ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,92 +480,24 @@ class _GuideHeader extends StatelessWidget {
                   style: AppTypography.labelLarge.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
+                    color: AppColors.primary,
                   ),
                 ),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _GuideFooter extends StatelessWidget {
-  const _GuideFooter({
-    required this.stepLabel,
-    required this.nextLabel,
-    required this.onBack,
-    required this.onNext,
-  });
-
-  final String stepLabel;
-  final String nextLabel;
-  final VoidCallback onBack;
-  final VoidCallback onNext;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        border: Border(top: BorderSide(color: AppColors.divider, width: 2)),
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 50,
-            height: 50,
-            child: Pressable(
-              child: OutlinedButton(
-              onPressed: onBack,
-              style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.zero,
-                shape: const RoundedRectangleBorder(),
-                side: const BorderSide(color: AppColors.textPrimary, width: 2),
-              ),
-                child: const Icon(
-                  Icons.chevron_left,
-                  size: 22,
-                  color: AppColors.textPrimary,
-                ),
-              ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceSelected,
+              borderRadius: BorderRadius.circular(99),
             ),
-          ),
-          Expanded(
-            child: AnimatedSwitcher(
-              duration: AppMotion.select,
-              child: Text(
-                stepLabel,
-                key: ValueKey(stepLabel),
-                textAlign: TextAlign.center,
-                style: AppTypography.labelSmall.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textMuted,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 50,
-            child: Pressable(
-              child: ElevatedButton(
-              onPressed: onNext,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.white,
-                shape: const RoundedRectangleBorder(),
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-              ),
-              child: Text(
-                nextLabel,
-                style: AppTypography.labelLarge.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.white,
-                ),
-              ),
+            child: Text(
+              stepLabel,
+              style: AppTypography.labelSmall.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -523,6 +532,16 @@ class GuideDiagramPainter extends CustomPainter {
         _drape(canvas);
       case 'grid':
         _grid(canvas);
+      case 'gridmotif':
+        _gridMotif(canvas);
+      case 'scale':
+        _scale(canvas);
+      case 'gridthirds':
+        _gridThirds(canvas);
+      case 'flatprops':
+        _flatProps(canvas);
+      case 'diagline':
+        _diagLine(canvas);
       case 'foldmid':
         _foldMid(canvas);
       case 'folddiag':
@@ -666,9 +685,56 @@ class GuideDiagramPainter extends CustomPainter {
     );
   }
 
+  /// Phone + thirds grid with the piece edges sitting on the grid lines.
   void _grid(Canvas canvas) {
+    _phoneShell(canvas);
+    _thirdsGrid(canvas);
+    // Piece fills the centre cell — left/right on vertical thirds, top/bottom
+    // on horizontal thirds so "align with the gridlines" is literal.
+    _rect(canvas, 89, 47, 22, 33, fill: _line, stroke: _ink, strokeWidth: 1.5);
+    _rect(canvas, 89, 72, 22, 8, fill: _ink);
+  }
+
+  /// Motif (dark square) sits on a grid crossing — not centred.
+  void _gridMotif(Canvas canvas) {
+    _phoneShell(canvas);
+    _thirdsGrid(canvas);
+    _rect(canvas, 78, 28, 44, 72, fill: _line, stroke: _ink, strokeWidth: 1.5);
+    // Lower-left thirds intersection (89, 80).
+    _rect(canvas, 82, 73, 14, 14, fill: _ink);
+    canvas.drawCircle(const Offset(89, 80), 2.5, _fill(_accent));
+  }
+
+  /// Familiar object (coin / bangle) beside the piece for scale.
+  void _scale(Canvas canvas) {
+    _phoneShell(canvas);
+    _thirdsGrid(canvas);
+    _rect(canvas, 78, 28, 36, 72, fill: _line, stroke: _ink, strokeWidth: 1.5);
+    _rect(canvas, 78, 88, 36, 12, fill: _ink);
+    // Coin
+    canvas.drawCircle(const Offset(126, 92), 8, _fill(_accent));
+    canvas.drawCircle(const Offset(126, 92), 5, _stroke(AppColors.white, 1.5));
+    // Bangle
+    canvas.drawCircle(const Offset(126, 58), 10, _stroke(_accent, 2.5));
+  }
+
+  /// Piece fills the frame; reference object sits on a thirds crossing.
+  void _gridThirds(Canvas canvas) {
+    _phoneShell(canvas);
+    _thirdsGrid(canvas);
+    _rect(canvas, 74, 22, 52, 86, fill: _line, stroke: _ink, strokeWidth: 1.5);
+    // Object on lower-right crossing (111, 80).
+    canvas.drawCircle(const Offset(111, 80), 7, _fill(_accent));
+    canvas.drawCircle(const Offset(111, 80), 4, _stroke(AppColors.white, 1.5));
+  }
+
+  void _phoneShell(Canvas canvas) {
     _rect(canvas, 62, 4, 76, 132, fill: _ink);
     _rect(canvas, 68, 14, 64, 98, fill: _pale);
+    canvas.drawCircle(const Offset(100, 124), 6, _fill(AppColors.white));
+  }
+
+  void _thirdsGrid(Canvas canvas) {
     _dashed(
       canvas,
       Path()
@@ -685,9 +751,52 @@ class GuideDiagramPainter extends CustomPainter {
       on: 3,
       off: 3,
     );
-    _rect(canvas, 89, 24, 22, 70, fill: _line, stroke: _ink, strokeWidth: 1.5);
-    _rect(canvas, 89, 83, 22, 11, fill: _ink);
-    canvas.drawCircle(const Offset(100, 124), 6, _fill(AppColors.white));
+  }
+
+  /// Flat piece with 1–2 small props beside it.
+  void _flatProps(Canvas canvas) {
+    _rect(canvas, 24, 36, 110, 72, fill: _pale, stroke: _ink);
+    _rect(canvas, 24, 36, 110, 10, fill: _ink);
+    _rect(canvas, 24, 98, 110, 10, fill: _ink);
+    // Cup / prop
+    _rect(canvas, 148, 48, 22, 28, fill: _line, stroke: _ink, strokeWidth: 1.5);
+    _rect(canvas, 152, 44, 14, 6, fill: _mid);
+    // Flower / thread ball
+    canvas.drawCircle(const Offset(159, 100), 10, _fill(_accent));
+    canvas.drawCircle(const Offset(159, 100), 4, _fill(AppColors.white));
+  }
+
+  /// Fringe / border band running on the leading diagonal.
+  void _diagLine(Canvas canvas) {
+    _phoneShell(canvas);
+    // Diagonal guide
+    _dashed(
+      canvas,
+      Path()
+        ..moveTo(68, 112)
+        ..lineTo(132, 14),
+      _accent,
+      width: 1.5,
+      on: 4,
+      off: 3,
+    );
+    // Fabric strip along the diagonal
+    final strip = Path()
+      ..moveTo(72, 100)
+      ..lineTo(118, 28)
+      ..lineTo(128, 34)
+      ..lineTo(82, 106)
+      ..close();
+    canvas.drawPath(strip, _fill(_line));
+    canvas.drawPath(strip, _stroke(_ink, 1.5));
+    // Fringe ticks at the lower end
+    for (final o in const [0.0, 6.0, 12.0, 18.0]) {
+      canvas.drawLine(
+        Offset(74 + o * 0.55, 102 + o * 0.35),
+        Offset(70 + o * 0.55, 112 + o * 0.2),
+        _stroke(_ink, 1.5),
+      );
+    }
   }
 
   void _foldMid(Canvas canvas) {

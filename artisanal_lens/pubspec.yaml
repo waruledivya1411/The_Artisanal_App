@@ -93,6 +93,7 @@ flutter:
     - assets/images/guides/
     - assets/images/materials/
     - assets/images/materials/by_product/
+    - assets/images/framing/
     - assets/images/techniques/
     - assets/images/techniques/by_product/
     - assets/images/silk_types/

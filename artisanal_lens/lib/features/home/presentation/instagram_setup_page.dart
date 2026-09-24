@@ -1529,7 +1529,7 @@ class _ProfessionalSwitchStep extends StatelessWidget {
                       borderRadius: BorderRadius.circular(99),
                     ),
                     child: Text(
-                      '4 / 5',
+                      '3 / 5',
                       style: AppTypography.labelSmall.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -1561,7 +1561,7 @@ class _ProfessionalSwitchStep extends StatelessWidget {
                       child: Container(
                         height: 5,
                         decoration: BoxDecoration(
-                          color: i < 4
+                          color: i < 3
                               ? AppColors.primary
                               : AppColors.surfaceMuted,
                           borderRadius: BorderRadius.circular(99),
@@ -1583,7 +1583,7 @@ class _ProfessionalSwitchStep extends StatelessWidget {
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      'Step 4: Instagram In-App Action',
+                      'Step 3: Instagram In-App Action',
                       style: AppTypography.labelSmall.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -2145,7 +2145,7 @@ class _CategoryStepState extends State<_CategoryStep> {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    'STEP 3 OF 5  •  Business Identity',
+                    'STEP 4 OF 5  •  Business Identity',
                     style: AppTypography.navLabel.copyWith(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,

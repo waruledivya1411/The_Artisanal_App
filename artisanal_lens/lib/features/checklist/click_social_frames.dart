@@ -22,6 +22,9 @@ enum FrameArch { thirds, center, diag, detail }
 ///
 /// A step draws either a [diagram], a single [imageAsset], or a [gallery] —
 /// never more than one — and may add a [caption] underneath.
+///
+/// When [diagram] is set, [referenceAsset] is the real photo shown beside it
+/// and must match the instruction (hang → hung on a rod, fold → folded stack…).
 class GuideStep {
   const GuideStep({
     required this.title,
@@ -30,6 +33,7 @@ class GuideStep {
     this.imageAsset,
     this.gallery,
     this.caption,
+    this.referenceAsset,
   });
 
   /// HTML `t`.
@@ -38,7 +42,8 @@ class GuideStep {
   /// HTML `s`.
   final String subtitle;
 
-  /// HTML `d`: hang, drape, grid, dist, rake, close, border, foldmid, folddiag.
+  /// HTML `d`: hang, drape, grid, gridmotif, scale, gridthirds, flatprops,
+  /// diagline, dist, rake, close, border, foldmid, folddiag.
   final String? diagram;
 
   /// HTML `img`.
@@ -49,6 +54,9 @@ class GuideStep {
 
   /// HTML `cap`.
   final String? caption;
+
+  /// Real photograph shown beside [diagram] — must match the instruction.
+  final String? referenceAsset;
 
   bool get hasGallery => gallery != null && gallery!.isNotEmpty;
 }
@@ -165,6 +173,7 @@ class ClickSocialFrame {
         subtitle: existing.subtitle,
         gallery: gallery,
         caption: existing.caption,
+        referenceAsset: existing.referenceAsset,
       );
     }
     return steps;
@@ -579,6 +588,10 @@ const _kalGalleries = <String, Map<int, List<String>>>{
 };
 
 /// HTML `guideDefs[i]` before the Kalamkari gallery swap.
+///
+/// Every diagram step either pairs a [GuideStep.referenceAsset] that matches
+/// the instruction, or leaves it null (diagram-only) when no process photo
+/// exists — never a random shot thumb.
 List<GuideStep> _baseGuideSteps(
   int index, {
   required bool isAssam,
@@ -590,13 +603,14 @@ List<GuideStep> _baseGuideSteps(
       return [
         const GuideStep(
           title: 'Hang the whole piece',
-          subtitle: 'Bamboo rod or dress form · plain wall behind',
+          subtitle: 'Bamboo rod · plain wall behind',
           diagram: 'hang',
+          referenceAsset: '$_guides/kal-hung-rod.jpg',
         ),
         if (isAssam)
           const GuideStep(
             title: 'Three ways to style it',
-            subtitle: 'Pick one look and keep it for every product',
+            subtitle: 'Dress form · pick one look and keep it for every product',
             imageAsset: '$_guides/mekhela-drapes.png',
             caption:
                 'Mekhela sador on a dress form — full display, three drape '
@@ -606,6 +620,8 @@ List<GuideStep> _baseGuideSteps(
           title: 'Align with the gridlines',
           subtitle: 'Edges along the lines · borders straight',
           diagram: 'grid',
+          // Straight hang — edges parallel; not a tilted dress-form shot.
+          referenceAsset: '$_guides/kal-hung-rod.jpg',
         ),
         const GuideStep(
           title: 'Good examples',
@@ -624,12 +640,14 @@ List<GuideStep> _baseGuideSteps(
           subtitle: 'Hold the phone 15–30 cm above the fabric — close enough '
               'to count threads',
           diagram: 'dist',
+          referenceAsset: '$_guides/stole-flatlay.png',
         ),
         GuideStep(
           title: 'Rake the light across',
           subtitle: 'Light from one side, low at about 30° — the tiny shadows '
               'make the weave stand up',
           diagram: 'rake',
+          referenceAsset: '$_guides/stole-flatlay.png',
         ),
         GuideStep(
           title: 'Like this — window light',
@@ -642,6 +660,7 @@ List<GuideStep> _baseGuideSteps(
           title: 'Frame the detail',
           subtitle: 'Fill the centre box · edges parallel',
           diagram: 'close',
+          referenceAsset: '$_guides/ex-close-motif.jpg',
         ),
         GuideStep(
           title: 'Good examples',
@@ -656,8 +675,10 @@ List<GuideStep> _baseGuideSteps(
       return [
         const GuideStep(
           title: 'Throw one end over',
-          subtitle: 'Let it fall in natural folds',
+          subtitle: 'Over a chair or rod · let it fall in natural folds',
           diagram: 'drape',
+          // Chair drape = literally thrown over — not a floor-pleat close-up.
+          referenceAsset: '$_guides/ex-drape-chair.jpg',
         ),
         if (isAssam)
           const GuideStep(
@@ -682,11 +703,13 @@ List<GuideStep> _baseGuideSteps(
           title: 'Find the border',
           subtitle: detailTip,
           diagram: 'border',
+          referenceAsset: '$_guides/ex-border-folds.jpg',
         ),
         const GuideStep(
           title: 'Motif on a crossing point',
           subtitle: 'Use the grid — motif where lines cross',
-          diagram: 'grid',
+          diagram: 'gridmotif',
+          referenceAsset: '$_guides/ex-close-motif.jpg',
         ),
         const GuideStep(
           title: 'Good examples',
@@ -699,6 +722,7 @@ List<GuideStep> _baseGuideSteps(
       ];
     case 4:
       return const [
+        // No mid-fold process photo — teach with the diagram only.
         GuideStep(
           title: 'Fold from the middle',
           subtitle: 'Flat on the floor · fold in half',
@@ -708,6 +732,8 @@ List<GuideStep> _baseGuideSteps(
           title: 'Fold a corner back',
           subtitle: 'The folded edge shows the thickness',
           diagram: 'folddiag',
+          // Layers + turned edge — matches the corner-back diagram.
+          referenceAsset: '$_guides/ex-folded-layers.jpg',
         ),
         GuideStep(
           title: 'Good examples',
@@ -722,13 +748,16 @@ List<GuideStep> _baseGuideSteps(
       return const [
         GuideStep(
           title: 'Add a familiar object',
-          subtitle: 'A bangle, coin or pen beside the piece shows true size',
-          diagram: 'grid',
+          subtitle: 'A basket, coin or pen beside the piece shows true size',
+          diagram: 'scale',
+          // Basket is a clear size reference — pink chair drape has none.
+          referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
         GuideStep(
           title: 'Object on a crossing point',
           subtitle: 'Piece fills the frame · reference on a thirds line',
-          diagram: 'grid',
+          diagram: 'gridthirds',
+          referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
       ];
     case 6:
@@ -736,19 +765,22 @@ List<GuideStep> _baseGuideSteps(
         GuideStep(
           title: 'Lay it flat, style around it',
           subtitle: 'Fold neatly · add 1–2 props: flowers, a cup, thread',
-          diagram: 'foldmid',
+          diagram: 'flatprops',
+          // Basket + flowers = folded piece with props (not a vertical drape).
+          referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
         GuideStep(
           title: 'Shoot from directly above',
           subtitle: 'Keep the piece centred and edges parallel to the frame',
           diagram: 'grid',
+          referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
         GuideStep(
           title: 'Good example',
-          subtitle: 'Flat lay in window light',
+          subtitle: 'Flat lay with a prop in window light',
           gallery: [
-            '$_guides/stole-flatlay.png',
             '$_guides/ex-folded-basket.jpg',
+            '$_guides/stole-flatlay.png',
           ],
         ),
       ];
@@ -758,11 +790,13 @@ List<GuideStep> _baseGuideSteps(
           title: 'Show it in use',
           subtitle: 'Worn, on a bed, on a table — where it lives',
           diagram: 'drape',
+          referenceAsset: '$_guides/ex-drape-chair.jpg',
         ),
         GuideStep(
           title: 'Eye level, thirds grid',
           subtitle: 'Camera at eye height · subject on a thirds line',
-          diagram: 'grid',
+          diagram: 'gridthirds',
+          referenceAsset: '$_guides/ex-drape-chair.jpg',
         ),
         GuideStep(
           title: 'Good examples',
@@ -779,11 +813,13 @@ List<GuideStep> _baseGuideSteps(
           title: 'Hang it dead centre',
           subtitle: 'Rod or hanger · piece on the center vertical axis',
           diagram: 'hang',
+          referenceAsset: '$_guides/kal-hung-rod.jpg',
         ),
         GuideStep(
           title: 'Let the fringe hang free',
           subtitle: 'Straighten the tassels · keep both edges symmetric',
           diagram: 'drape',
+          referenceAsset: '$_guides/stole-hung.webp',
         ),
       ];
     case 9:
@@ -792,18 +828,22 @@ List<GuideStep> _baseGuideSteps(
           title: 'Go macro on the fringe',
           subtitle: 'As close as your phone will focus · tassels and knots',
           diagram: 'close',
+          // Tassels in frame — not a flat horizontal border band.
+          referenceAsset: '$_guides/kal-drape-close.jpg',
         ),
         GuideStep(
           title: 'Use the diagonal',
           subtitle: 'Run the fringe along the diagonal line',
-          diagram: 'folddiag',
+          diagram: 'diagline',
+          // Fabric + fringe laid on a diagonal.
+          referenceAsset: '$_guides/kal-pen-bw.jpg',
         ),
         GuideStep(
           title: 'Good example',
           subtitle: 'Border and finishing, thread-close',
           gallery: [
-            '$_guides/ex-border-flat.jpg',
-            '$_guides/ex-close-motif.jpg',
+            '$_guides/kal-drape-close.jpg',
+            '$_guides/kal-pen-bw.jpg',
           ],
         ),
       ];
@@ -814,6 +854,7 @@ List<GuideStep> _baseGuideSteps(
           subtitle: 'Kalam, brush or shuttle in motion · window light on the '
               'work',
           diagram: 'close',
+          referenceAsset: '$_guides/making-assam.jpg',
         ),
         GuideStep(
           title: 'Buyers pay for the story',
@@ -829,12 +870,14 @@ List<GuideStep> _baseGuideSteps(
           subtitle: 'On a plain wall · daylight from the side of the room, '
               'never flash',
           diagram: 'hang',
+          referenceAsset: '$_guides/kal-scroll-hang.jpg',
         ),
         GuideStep(
           title: 'Shoot square-on',
           subtitle: 'Phone parallel to the wall · panel edges parallel to the '
               'frame lines',
           diagram: 'grid',
+          referenceAsset: '$_guides/kal-panel-tree.jpg',
         ),
         GuideStep(
           title: 'Show it in a room',

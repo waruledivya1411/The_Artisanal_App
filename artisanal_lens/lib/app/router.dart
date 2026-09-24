@@ -209,6 +209,7 @@ GoRouter createRouter() {
           clusterId: state.uri.queryParameters['cluster'],
           categoryId: state.uri.queryParameters['category'],
           technique: state.uri.queryParameters['technique'],
+          productLabel: state.uri.queryParameters['product'],
         ),
       ),
       GoRoute(

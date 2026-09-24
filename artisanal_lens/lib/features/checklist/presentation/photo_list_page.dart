@@ -374,6 +374,7 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
         'cluster': ?_clusterId,
         if (_technique != null && _technique!.isNotEmpty)
           'technique': _technique!,
+        if (set.productName.trim().isNotEmpty) 'product': set.productName,
       },
     );
     if (!mounted) return;

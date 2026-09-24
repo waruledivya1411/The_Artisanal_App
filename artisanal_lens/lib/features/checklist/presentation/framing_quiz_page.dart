@@ -255,35 +255,39 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                         ),
                       ),
                     ],
-                    if (msg != null)
-                      FadeSlideIn(
-                        key: ValueKey('msg-$_index-$_pick'),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: correct
-                                ? const Color(0xFFEBF8FF)
-                                : AppColors.textPrimary,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            msg,
-                            style: AppTypography.labelLarge.copyWith(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: correct
-                                  ? const Color(0xFF2A4365)
-                                  : AppColors.white,
-                            ),
-                          ),
-                        ),
-                      ),
                   ],
                 ),
               ),
+              if (msg != null)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
+                  child: FadeSlideIn(
+                    key: ValueKey('msg-$_index-$_pick'),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: correct
+                            ? const Color(0xFFEBF8FF)
+                            : AppColors.textPrimary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        msg,
+                        style: AppTypography.labelLarge.copyWith(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: correct
+                              ? const Color(0xFF2A4365)
+                              : AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               _FramingContinueBar(
                 enabled: correct,
                 label: _index < _sequence.length - 1
@@ -366,17 +370,18 @@ class _FramingContinueBar extends StatelessWidget {
   }
 }
 
-/// Clear product photo filling the camera viewfinder.
+/// Clear product cutout for the framing quiz (no table in the image).
 String framingProductAsset({
   required String? productLabel,
   required String categoryId,
   String? materialId,
 }) {
-  final productKey = switch ((productLabel ?? '').trim()) {
-    'Mekhela sador' => 'mekhela',
-    'Sari' => 'sari',
-    'Stole / Dupatta' => 'stole',
-    'Accessories' => 'accessories',
+  final label = (productLabel ?? '').trim().toLowerCase();
+  final productKey = switch (label) {
+    'mekhela sador' || 'mekhela' => 'mekhela',
+    'sari' || 'saree' => 'sari',
+    'stole / dupatta' || 'stole' || 'dupatta' || 'shawl' => 'stole',
+    'accessories' => 'accessories',
     _ => switch (categoryId) {
         'stole' || 'shawl' => 'stole',
         'cushion_cover' => 'accessories',
@@ -385,10 +390,34 @@ String framingProductAsset({
   };
   final material =
       (materialId ?? 'cotton').toLowerCase() == 'silk' ? 'silk' : 'cotton';
-  return 'assets/images/materials/by_product/${productKey}_$material.png';
+
+  // Prefer dedicated framing cutouts (product only). Fall back sensibly.
+  const cutouts = {
+    'sari_cotton',
+    'sari_silk',
+    'stole_cotton',
+    'mekhela_silk',
+    'accessories_cotton',
+  };
+  final key = '${productKey}_$material';
+  if (cutouts.contains(key)) {
+    return 'assets/images/framing/$key.png';
+  }
+  // Closest cutout when exact material file is missing.
+  final fallback = switch (productKey) {
+    'sari' => 'sari_cotton',
+    'stole' => 'stole_cotton',
+    'mekhela' => 'mekhela_silk',
+    _ => 'accessories_cotton',
+  };
+  return 'assets/images/framing/$fallback.png';
 }
 
-/// Camera viewfinder: scene + product placed in-frame (clearly different per option).
+/// Full-bleed wood table that covers the entire framing viewfinder.
+const framingTableAsset = 'assets/images/framing/table.png';
+
+/// Camera viewfinder: real table covers all grids; product cutout sits
+/// in the required cell (centre / thirds / corner / etc.).
 class _FramingOptionPreview extends StatelessWidget {
   const _FramingOptionPreview({
     required this.gridPath,
@@ -402,89 +431,135 @@ class _FramingOptionPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Large enough to read as a saree, still inside ~2–4 grid cells.
+    final w = option.sizeFactor.clamp(0.36, 0.72);
+    final h = (option.sizeFactor * 0.92).clamp(0.32, 0.66);
+
     return ClipRect(
       child: Stack(
-      fit: StackFit.expand,
-      children: [
-        // Neutral shooting surface (table / wall) — not another product
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFD8DEE6),
-                Color(0xFFC5CDD8),
-                Color(0xFFB7C0CC),
-              ],
-              stops: [0.0, 0.55, 1.0],
-            ),
+        fit: StackFit.expand,
+        children: [
+          // Separate table image — fills every grid cell.
+          Image.asset(
+            framingTableAsset,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (context, error, stackTrace) =>
+                const _WoodTableBackground(),
           ),
-        ),
-        // Soft table horizon
-        Align(
-          alignment: const Alignment(0, 0.35),
-          child: Container(
-            height: 1.2,
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            color: Colors.black.withValues(alpha: 0.08),
-          ),
-        ),
-        // Product sitting in the frame — size + position = the quiz
-        Align(
-          alignment: option.alignment,
-          child: FractionallySizedBox(
-            widthFactor: option.sizeFactor,
-            heightFactor: option.sizeFactor,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.28),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.asset(
-                  productAsset,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => ColoredBox(
-                    color: AppColors.primaryLight,
-                    child: Icon(
-                      Icons.checkroom_rounded,
-                      color: AppColors.white.withValues(alpha: 0.9),
-                      size: 28,
-                    ),
+          // Selected product (saree / stole / …) in the required frame spot.
+          Align(
+            alignment: option.alignment,
+            child: FractionallySizedBox(
+              widthFactor: w,
+              heightFactor: h,
+              child: Image.asset(
+                productAsset,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.high,
+                errorBuilder: (context, error, stackTrace) => ColoredBox(
+                  color: AppColors.primaryLight,
+                  child: Icon(
+                    Icons.checkroom_rounded,
+                    color: AppColors.white.withValues(alpha: 0.9),
+                    size: 28,
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        // Soft vignette — lens feel
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment.center,
-              radius: 1.05,
-              colors: [
-                Colors.transparent,
-                Colors.black.withValues(alpha: 0.2),
-              ],
-              stops: const [0.5, 1],
+          // Soft vignette — lens feel
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment.center,
+                radius: 1.05,
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.16),
+                ],
+                stops: const [0.55, 1],
+              ),
             ),
           ),
-        ),
-        CustomPaint(painter: _GridPainter(gridPath: gridPath)),
-        const CustomPaint(painter: _ViewfinderCornersPainter()),
-      ],
+          CustomPaint(painter: _GridPainter(gridPath: gridPath)),
+          const CustomPaint(painter: _ViewfinderCornersPainter()),
+        ],
       ),
     );
   }
+}
+
+/// Fallback painted table if [framingTableAsset] fails to load.
+class _WoodTableBackground extends StatelessWidget {
+  const _WoodTableBackground();
+
+  @override
+  Widget build(BuildContext context) {
+    return const DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFC4A484),
+            Color(0xFFB08968),
+            Color(0xFF9C7A55),
+            Color(0xFF8B6B4A),
+          ],
+          stops: [0.0, 0.35, 0.7, 1.0],
+        ),
+      ),
+      child: CustomPaint(
+        painter: _WoodGrainPainter(),
+        child: SizedBox.expand(),
+      ),
+    );
+  }
+}
+
+class _WoodGrainPainter extends CustomPainter {
+  const _WoodGrainPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final grain = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.1
+      ..color = const Color(0xFF6F4E37).withValues(alpha: 0.12);
+    final highlight = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.8
+      ..color = const Color(0xFFE8D5B7).withValues(alpha: 0.1);
+
+    for (var i = 0; i < 14; i++) {
+      final y = size.height * (0.04 + i * 0.07);
+      final path = Path()
+        ..moveTo(0, y)
+        ..quadraticBezierTo(
+          size.width * 0.35,
+          y + (i.isEven ? 4 : -3),
+          size.width * 0.7,
+          y + (i.isEven ? -2 : 3),
+        )
+        ..quadraticBezierTo(
+          size.width * 0.88,
+          y + (i.isEven ? 2 : -2),
+          size.width,
+          y,
+        );
+      canvas.drawPath(path, i.isEven ? grain : highlight);
+    }
+
+    canvas.drawRect(
+      Rect.fromLTWH(0, size.height * 0.78, size.width, size.height * 0.22),
+      Paint()..color = Colors.black.withValues(alpha: 0.06),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _WoodGrainPainter oldDelegate) => false;
 }
 
 class _LessonHeader extends StatelessWidget {
