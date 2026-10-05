@@ -3154,75 +3154,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csFramingThirdsSub =>
-      'Tap the best frame. The lines are the rule of thirds.';
+      'Same 3×3 grid on every card. Put the piece on a crossing.';
 
   @override
   String get csFramingThirdsMsg0 =>
-      'Dead centre feels flat. Try a crossing point.';
+      'Dead centre feels flat. Sit it on a grid crossing.';
 
   @override
   String get csFramingThirdsMsg1 =>
-      'Yes — set it where the lines cross. The photo breathes.';
+      'Yes — the product sits where the grid lines cross.';
 
   @override
   String get csFramingThirdsMsg2 =>
-      'Too close to the edge — the product gets cut off.';
+      'Packed into a corner — it gets cut off the grid.';
 
   @override
-  String get csFramingCenterTitle => 'How close should you go?';
+  String get csFramingCenterTitle => 'How much of the grid should it fill?';
 
   @override
   String get csFramingCenterSub =>
-      'Close-ups, flat lays and hung pieces sit centred — fill the middle box.';
+      'For a close-up, fill the middle of the grid — not a tiny corner.';
 
   @override
-  String get csFramingCenterMsg0 =>
-      'Too far away — the detail is lost. Step in.';
+  String get csFramingCenterMsg0 => 'Too small, stuck in one cell — step in.';
 
   @override
   String get csFramingCenterMsg1 =>
-      'Yes — fill the centre box, edges parallel to the frame.';
+      'Yes — the piece fills the centre of the grid.';
 
   @override
   String get csFramingCenterMsg2 =>
-      'Half out of the frame — centre it before you shoot.';
+      'Half off the grid — keep it inside the lines.';
 
   @override
-  String get csFramingDiagTitle => 'How should the fabric flow?';
+  String get csFramingDiagTitle => 'Where does a drape sit on the grid?';
 
   @override
   String get csFramingDiagSub =>
-      'Drapes and macro shots move along the diagonal — let the cloth lead the eye.';
+      'Let the cloth rest on the lower third so it still has room to fall.';
 
   @override
   String get csFramingDiagMsg0 =>
-      'A flat row has no movement. Let it fall along the line.';
+      'Parked in the exact middle — no fall, no story.';
 
   @override
   String get csFramingDiagMsg1 =>
-      'Yes — the folds step down the diagonal and the eye follows.';
+      'Yes — it sits on the lower-left crossing of the grid.';
 
   @override
-  String get csFramingDiagMsg2 => 'Bunched in a corner — the flow is gone.';
+  String get csFramingDiagMsg2 =>
+      'Crammed in a corner — the grid cannot read the drape.';
 
   @override
-  String get csFramingDetailTitle => 'How much border in the frame?';
+  String get csFramingDetailTitle => 'Which grid cell holds the border?';
 
   @override
   String get csFramingDetailSub =>
-      'Border, motif and folded shots: fill the detail frame with the work itself.';
+      'Put the embroidery in the top-right cell of the same 3×3 grid.';
 
   @override
   String get csFramingDetailMsg0 =>
-      'Too thin, too far — nobody can see the craft.';
+      'Too low — that cell is empty table, not the border.';
 
   @override
-  String get csFramingDetailMsg1 =>
-      'Yes — the border fills the frame, close enough to count threads.';
+  String get csFramingDetailMsg1 => 'Yes — the motif fills the top-right cell.';
 
   @override
   String get csFramingDetailMsg2 =>
-      'A floating square shows neither border nor motif. Follow the band.';
+      'Centre cell shows cloth, not the border work.';
 
   @override
   String get csNextFraming => 'NEXT FRAMING';

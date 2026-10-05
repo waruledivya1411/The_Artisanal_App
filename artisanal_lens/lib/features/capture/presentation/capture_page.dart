@@ -9,7 +9,7 @@ import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../shared/motion/motion.dart';
 import '../../../domain/entities/capture_feedback.dart';
-import '../../../domain/entities/photography_template.dart';
+import '../../../domain/entities/placement_kind.dart';
 import '../../../domain/entities/preset_capture_guidance.dart';
 import '../../../domain/entities/shot_type.dart';
 import '../../../l10n/app_copy.dart';
@@ -59,35 +59,17 @@ class _CapturePageState extends ConsumerState<CapturePage> {
 
     final technique = captureGuidance.technique;
     final l10n = AppLocalizations.of(context);
-    final template = (session.shotType != null &&
-            session.shotType!.isPhotography &&
-            session.slotIndex != null)
-        ? PhotographyTemplates.byIndex(
-            set?.categoryId ?? '',
-            session.slotIndex!,
-          )
-        : null;
-    final slotLabel = session.shotType == null
-        ? ''
-        : AppCopy.slotLabel(
-            l10n,
-            session.shotType!,
-            session.slotIndex ?? 0,
-            template: template,
-          );
+    final placement = PlacementKind.resolve(
+      session.template?.id ?? guidance.templateId,
+      technique.grid,
+    );
     final overlayCaption = camera.feedback.hasVisiblePrompt
-        ? ''
+        ? placement.hint
         : (AppCopy.overlayCaptionForTemplate(
               l10n,
               guidance.templateId ?? guidance.templateName,
             ) ??
-            (slotLabel.isEmpty
-                ? ''
-                : l10n.fillFrameWith(
-                    l10n.localeName == 'en'
-                        ? slotLabel.toLowerCase()
-                        : slotLabel,
-                  )));
+            placement.hint);
 
     return Scaffold(
       backgroundColor: AppColors.textPrimary,
@@ -98,16 +80,18 @@ class _CapturePageState extends ConsumerState<CapturePage> {
           if (camera.isReady)
             GuideOverlay(
               grid: technique.grid,
+              placement: placement,
               gridPath: session.template?.gridPath,
-              // Live analysis already names the one thing to change. The
-              // catalog caption is a static setup line and fights it.
               caption: overlayCaption,
+              feedback: camera.feedback,
             ),
           _TopBar(
             productName: set?.productName ?? '',
-            shotTypeLabel: session.shotType == null
-                ? ''
-                : AppCopy.shotTypeLabel(l10n, session.shotType!).toUpperCase(),
+            shotTypeLabel: session.template?.name.toUpperCase() ??
+                (session.shotType == null
+                    ? ''
+                    : AppCopy.shotTypeLabel(l10n, session.shotType!)
+                        .toUpperCase()),
             progress: '${(set?.completedCount ?? 0) + 1}'
                 '/${set?.requiredCount ?? ShotType.totalRequired}',
           ),

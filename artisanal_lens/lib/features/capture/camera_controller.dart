@@ -7,6 +7,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../app/providers.dart';
 import '../../domain/entities/capture_feedback.dart';
+import '../../domain/entities/placement_kind.dart';
 import '../../domain/entities/preset_capture_guidance.dart';
 import '../../domain/services/capture_guidance_service.dart';
 import '../../domain/services/frame_analyzer.dart';
@@ -291,14 +292,18 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
       // it is passed straight through — copying it every frame would allocate
       // megabytes per second on the low-end handsets this app targets.
       final plane = image.planes.first;
+      final placement = PlacementKind.resolve(
+        guidance.templateId,
+        guidance.technique.grid,
+      );
       final raw = ref.read(frameAnalyzerProvider).analyseLumaPlane(
             luma: plane.bytes,
             width: image.width,
             height: image.height,
             bytesPerRow: plane.bytesPerRow,
-            // Measure the same rectangle the artisan can see drawn.
-            insetX: guidance.technique.grid.ghostInsetX,
-            insetY: guidance.technique.grid.ghostInsetY,
+            // Same rectangle the artisan sees as the placement marking.
+            insetX: placement.ghostInsetX,
+            insetY: placement.ghostInsetY,
           );
 
       // The first frames after the shutter opens are often black. Feeding

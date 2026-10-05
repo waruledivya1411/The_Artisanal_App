@@ -5769,115 +5769,115 @@ abstract class AppLocalizations {
   /// No description provided for @csFramingThirdsSub.
   ///
   /// In en, this message translates to:
-  /// **'Tap the best frame. The lines are the rule of thirds.'**
+  /// **'Same 3×3 grid on every card. Put the piece on a crossing.'**
   String get csFramingThirdsSub;
 
   /// No description provided for @csFramingThirdsMsg0.
   ///
   /// In en, this message translates to:
-  /// **'Dead centre feels flat. Try a crossing point.'**
+  /// **'Dead centre feels flat. Sit it on a grid crossing.'**
   String get csFramingThirdsMsg0;
 
   /// No description provided for @csFramingThirdsMsg1.
   ///
   /// In en, this message translates to:
-  /// **'Yes — set it where the lines cross. The photo breathes.'**
+  /// **'Yes — the product sits where the grid lines cross.'**
   String get csFramingThirdsMsg1;
 
   /// No description provided for @csFramingThirdsMsg2.
   ///
   /// In en, this message translates to:
-  /// **'Too close to the edge — the product gets cut off.'**
+  /// **'Packed into a corner — it gets cut off the grid.'**
   String get csFramingThirdsMsg2;
 
   /// No description provided for @csFramingCenterTitle.
   ///
   /// In en, this message translates to:
-  /// **'How close should you go?'**
+  /// **'How much of the grid should it fill?'**
   String get csFramingCenterTitle;
 
   /// No description provided for @csFramingCenterSub.
   ///
   /// In en, this message translates to:
-  /// **'Close-ups, flat lays and hung pieces sit centred — fill the middle box.'**
+  /// **'For a close-up, fill the middle of the grid — not a tiny corner.'**
   String get csFramingCenterSub;
 
   /// No description provided for @csFramingCenterMsg0.
   ///
   /// In en, this message translates to:
-  /// **'Too far away — the detail is lost. Step in.'**
+  /// **'Too small, stuck in one cell — step in.'**
   String get csFramingCenterMsg0;
 
   /// No description provided for @csFramingCenterMsg1.
   ///
   /// In en, this message translates to:
-  /// **'Yes — fill the centre box, edges parallel to the frame.'**
+  /// **'Yes — the piece fills the centre of the grid.'**
   String get csFramingCenterMsg1;
 
   /// No description provided for @csFramingCenterMsg2.
   ///
   /// In en, this message translates to:
-  /// **'Half out of the frame — centre it before you shoot.'**
+  /// **'Half off the grid — keep it inside the lines.'**
   String get csFramingCenterMsg2;
 
   /// No description provided for @csFramingDiagTitle.
   ///
   /// In en, this message translates to:
-  /// **'How should the fabric flow?'**
+  /// **'Where does a drape sit on the grid?'**
   String get csFramingDiagTitle;
 
   /// No description provided for @csFramingDiagSub.
   ///
   /// In en, this message translates to:
-  /// **'Drapes and macro shots move along the diagonal — let the cloth lead the eye.'**
+  /// **'Let the cloth rest on the lower third so it still has room to fall.'**
   String get csFramingDiagSub;
 
   /// No description provided for @csFramingDiagMsg0.
   ///
   /// In en, this message translates to:
-  /// **'A flat row has no movement. Let it fall along the line.'**
+  /// **'Parked in the exact middle — no fall, no story.'**
   String get csFramingDiagMsg0;
 
   /// No description provided for @csFramingDiagMsg1.
   ///
   /// In en, this message translates to:
-  /// **'Yes — the folds step down the diagonal and the eye follows.'**
+  /// **'Yes — it sits on the lower-left crossing of the grid.'**
   String get csFramingDiagMsg1;
 
   /// No description provided for @csFramingDiagMsg2.
   ///
   /// In en, this message translates to:
-  /// **'Bunched in a corner — the flow is gone.'**
+  /// **'Crammed in a corner — the grid cannot read the drape.'**
   String get csFramingDiagMsg2;
 
   /// No description provided for @csFramingDetailTitle.
   ///
   /// In en, this message translates to:
-  /// **'How much border in the frame?'**
+  /// **'Which grid cell holds the border?'**
   String get csFramingDetailTitle;
 
   /// No description provided for @csFramingDetailSub.
   ///
   /// In en, this message translates to:
-  /// **'Border, motif and folded shots: fill the detail frame with the work itself.'**
+  /// **'Put the embroidery in the top-right cell of the same 3×3 grid.'**
   String get csFramingDetailSub;
 
   /// No description provided for @csFramingDetailMsg0.
   ///
   /// In en, this message translates to:
-  /// **'Too thin, too far — nobody can see the craft.'**
+  /// **'Too low — that cell is empty table, not the border.'**
   String get csFramingDetailMsg0;
 
   /// No description provided for @csFramingDetailMsg1.
   ///
   /// In en, this message translates to:
-  /// **'Yes — the border fills the frame, close enough to count threads.'**
+  /// **'Yes — the motif fills the top-right cell.'**
   String get csFramingDetailMsg1;
 
   /// No description provided for @csFramingDetailMsg2.
   ///
   /// In en, this message translates to:
-  /// **'A floating square shows neither border nor motif. Follow the band.'**
+  /// **'Centre cell shows cloth, not the border work.'**
   String get csFramingDetailMsg2;
 
   /// No description provided for @csNextFraming.

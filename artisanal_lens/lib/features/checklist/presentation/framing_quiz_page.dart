@@ -6,7 +6,6 @@ import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../framing_quiz_data.dart';
 import '../../../shared/motion/motion.dart';
-import '../../../shared/painting/svg_path.dart';
 
 /// HTML photoStep 5 — framing quizzes. Inserted before the existing photo list.
 class FramingQuizPage extends StatefulWidget {
@@ -39,19 +38,20 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
   /// taps the same wrong option twice.
   int _shake = 0;
 
-  List<FrameArch> get _sequence => framingSequenceForPicks(
+  List<int> get _sequence => framingSequenceForPicks(
         categoryId: widget.categoryId,
         pickedIndexes: widget.frameIndexes,
       );
 
-  FrameArch get _arch => _sequence[_index.clamp(0, _sequence.length - 1)];
+  int get _frameIndex =>
+      _sequence[_index.clamp(0, _sequence.length - 1)];
 
-  String _frameNames(AppLocalizations l10n) => frameNamesForArch(
-        l10n: l10n,
-        categoryId: widget.categoryId,
-        pickedIndexes: widget.frameIndexes,
-        arch: _arch,
-      );
+  String get _frameName {
+    final frame = frameByIndex(_frameIndex);
+    return (frame?.name ?? '').toUpperCase();
+  }
+
+  FramingArchDef get _quiz => framingQuizForFrame(_frameIndex);
 
   String get _productAsset => framingProductAsset(
         productLabel: widget.productLabel,
@@ -60,8 +60,7 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
       );
 
   void _select(int oi) {
-    final l10n = AppLocalizations.of(context);
-    final wrong = !localizedFramingArch(l10n, _arch).options[oi].correct;
+    final wrong = !_quiz.options[oi].correct;
     setState(() {
       _pick = oi;
       if (wrong) _shake += 1;
@@ -114,11 +113,11 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final def = localizedFramingArch(l10n, _arch);
+    final def = _quiz;
     final picked = _pick != null ? def.options[_pick!] : null;
     final correct = picked?.correct == true;
     final msg = picked != null ? def.messageAt(_pick!) : null;
-    final names = _frameNames(l10n);
+    final names = _frameName;
     final productAsset = _productAsset;
 
     return Scaffold(
@@ -227,7 +226,6 @@ class _FramingQuizPageState extends State<FramingQuizPage> {
                                             borderRadius:
                                                 BorderRadius.circular(14.5),
                                             child: _FramingOptionPreview(
-                                              gridPath: def.gridPath,
                                               option: def.options[oi],
                                               productAsset: productAsset,
                                             ),
@@ -420,18 +418,15 @@ const framingTableAsset = 'assets/images/framing/table.png';
 /// in the required cell (centre / thirds / corner / etc.).
 class _FramingOptionPreview extends StatelessWidget {
   const _FramingOptionPreview({
-    required this.gridPath,
     required this.option,
     required this.productAsset,
   });
 
-  final String gridPath;
   final FramingOption option;
   final String productAsset;
 
   @override
   Widget build(BuildContext context) {
-    // Large enough to read as a saree, still inside ~2–4 grid cells.
     final w = option.sizeFactor.clamp(0.36, 0.72);
     final h = (option.sizeFactor * 0.92).clamp(0.32, 0.66);
 
@@ -439,7 +434,6 @@ class _FramingOptionPreview extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Separate table image — fills every grid cell.
           Image.asset(
             framingTableAsset,
             fit: BoxFit.cover,
@@ -448,7 +442,6 @@ class _FramingOptionPreview extends StatelessWidget {
             errorBuilder: (context, error, stackTrace) =>
                 const _WoodTableBackground(),
           ),
-          // Selected product (saree / stole / …) in the required frame spot.
           Align(
             alignment: option.alignment,
             child: FractionallySizedBox(
@@ -469,7 +462,6 @@ class _FramingOptionPreview extends StatelessWidget {
               ),
             ),
           ),
-          // Soft vignette — lens feel
           DecoratedBox(
             decoration: BoxDecoration(
               gradient: RadialGradient(
@@ -483,7 +475,7 @@ class _FramingOptionPreview extends StatelessWidget {
               ),
             ),
           ),
-          CustomPaint(painter: _GridPainter(gridPath: gridPath)),
+          CustomPaint(painter: _GridPainter()),
           const CustomPaint(painter: _ViewfinderCornersPainter()),
         ],
       ),
@@ -625,42 +617,36 @@ class _LessonHeader extends StatelessWidget {
 }
 
 class _GridPainter extends CustomPainter {
-  _GridPainter({required this.gridPath});
-
-  final String gridPath;
+  const _GridPainter();
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Dark halo so the grid stays readable on light or dark fabric.
     final halo = Paint()
       ..color = Colors.black.withValues(alpha: 0.35)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.4
+      ..strokeWidth = 2.6
       ..strokeCap = StrokeCap.square;
-    paintSvgPath(
-      canvas,
-      size,
-      gridPath,
-      halo,
-      viewBox: const Size(120, 64),
-    );
     final grid = Paint()
-      ..color = Colors.white.withValues(alpha: 0.88)
+      ..color = Colors.white.withValues(alpha: 0.95)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.15
+      ..strokeWidth = 1.4
       ..strokeCap = StrokeCap.square;
-    paintSvgPath(
-      canvas,
-      size,
-      gridPath,
-      grid,
-      viewBox: const Size(120, 64),
-    );
+
+    void lines(Paint paint) {
+      for (var i = 1; i < 3; i++) {
+        final x = size.width * i / 3;
+        final y = size.height * i / 3;
+        canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+        canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+      }
+    }
+
+    lines(halo);
+    lines(grid);
   }
 
   @override
-  bool shouldRepaint(covariant _GridPainter oldDelegate) =>
-      oldDelegate.gridPath != gridPath;
+  bool shouldRepaint(covariant _GridPainter oldDelegate) => false;
 }
 
 /// Camera viewfinder corner brackets.
@@ -678,7 +664,11 @@ class _ViewfinderCornersPainter extends CustomPainter {
     const inset = 10.0;
     const arm = 16.0;
     final corners = <List<Offset>>[
-      [const Offset(inset, inset + arm), const Offset(inset, inset), const Offset(inset + arm, inset)],
+      [
+        const Offset(inset, inset + arm),
+        const Offset(inset, inset),
+        const Offset(inset + arm, inset),
+      ],
       [
         Offset(size.width - inset - arm, inset),
         Offset(size.width - inset, inset),

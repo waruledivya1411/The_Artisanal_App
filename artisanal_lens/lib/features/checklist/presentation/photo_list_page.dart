@@ -212,7 +212,8 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
                 _expandedShot = _expandedShot == id ? null : id;
               }),
               onOpenGuide: () => _openGuide(set, frames[i].index),
-              onDropZone: () => _pickAndSaveShot(slots[i]),
+              onCapture: () => _openCamera(slots[i]),
+              onGallery: () => _pickAndSaveShot(slots[i]),
               onMark: () => _markFrame(slots[i]),
             ),
             if (i != slots.length - 1) const SizedBox(height: 8),
@@ -273,7 +274,18 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
     );
   }
 
-  /// HTML `image-slot`: pick a photo from the library (no in-app camera).
+  /// Opens the guided camera for this frame (placement box + live tips).
+  void _openCamera(ShotSlot slot) {
+    if (slot.isFilled) return;
+    beginCaptureForSlot(
+      context,
+      ref,
+      setId: widget.setId,
+      slot: slot,
+    );
+  }
+
+  /// HTML `image-slot`: pick a photo from the library.
   Future<void> _pickAndSaveShot(ShotSlot slot) async {
     if (slot.isFilled) return;
 
@@ -378,9 +390,18 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
       },
     );
     if (!mounted) return;
-    // HTML TAKE THE SHOT closes the guide and expands that shot's drop zone.
+    // TAKE THE SHOT: expand that slot and open the guided camera.
     if (result != null) {
       setState(() => _expandedShot = result);
+      final frames = _frames;
+      if (frames == null) return;
+      final slots = _frameSlots(set, frames);
+      for (final slot in slots) {
+        if (slot.index == result) {
+          _openCamera(slot);
+          break;
+        }
+      }
     }
   }
 
@@ -517,7 +538,8 @@ class _FrameSlotCard extends StatelessWidget {
     required this.expanded,
     required this.onToggle,
     required this.onOpenGuide,
-    required this.onDropZone,
+    required this.onCapture,
+    required this.onGallery,
     required this.onMark,
   });
 
@@ -527,7 +549,8 @@ class _FrameSlotCard extends StatelessWidget {
   final bool expanded;
   final VoidCallback onToggle;
   final VoidCallback onOpenGuide;
-  final VoidCallback onDropZone;
+  final VoidCallback onCapture;
+  final VoidCallback onGallery;
   final VoidCallback onMark;
 
   @override
@@ -574,19 +597,22 @@ class _FrameSlotCard extends StatelessWidget {
                                 : null,
                           ),
                           const SizedBox(width: 10),
-                          SizedBox(
-                            width: 48,
-                            height: 44,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: filled
-                                  ? PhotoThumb(path: slot.shot!.filePath)
-                                  : GuideImage(
-                                      asset:
-                                          slot.template!.referenceImageAsset!,
-                                      fit: BoxFit.cover,
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
+                          GestureDetector(
+                            onTap: filled ? null : onCapture,
+                            child: SizedBox(
+                              width: 48,
+                              height: 44,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: filled
+                                    ? PhotoThumb(path: slot.shot!.filePath)
+                                    : GuideImage(
+                                        asset:
+                                            slot.template!.referenceImageAsset!,
+                                        fit: BoxFit.cover,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -676,7 +702,7 @@ class _FrameSlotCard extends StatelessWidget {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: onDropZone,
+                      onTap: filled ? null : onCapture,
                       child: SizedBox(
                         height: 150,
                         child: Stack(
@@ -695,7 +721,7 @@ class _FrameSlotCard extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
-                                        Icons.image_outlined,
+                                        Icons.photo_camera_outlined,
                                         size: 28,
                                         color: AppColors.textMuted
                                             .withValues(alpha: 0.7),
@@ -718,6 +744,17 @@ class _FrameSlotCard extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Tap to open camera',
+                                        textAlign: TextAlign.center,
+                                        style: AppTypography.labelSmall
+                                            .copyWith(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -732,6 +769,64 @@ class _FrameSlotCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (!filled) ...[
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 44,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Pressable(
+                              child: FilledButton(
+                                onPressed: onCapture,
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  foregroundColor: AppColors.white,
+                                  shape: const RoundedRectangleBorder(),
+                                ),
+                                child: Text(
+                                  'CAPTURE',
+                                  style: AppTypography.labelLarge.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.4,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Pressable(
+                              child: OutlinedButton(
+                                onPressed: onGallery,
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: AppColors.textPrimary,
+                                  side: const BorderSide(
+                                    color: AppColors.border,
+                                    width: 1.5,
+                                  ),
+                                  shape: const RoundedRectangleBorder(),
+                                ),
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .gallery
+                                      .toUpperCase(),
+                                  style: AppTypography.labelLarge.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.4,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 8),
                   SizedBox(
                     height: 44,
