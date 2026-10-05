@@ -15,6 +15,17 @@ import '../home/click_social_clusters.dart';
 /// Where the extracted HTML reference photographs live.
 const String _guides = 'assets/images/guides';
 
+/// Listing-frame filenames shared by Kamrup, Maniabandha, and Srikalahasti.
+/// Filenames match [ClickSocialFrame.name]; photos match that pose.
+const _clusterListingFrameImgs = <int, String>{
+  0: 'full_display.jpg', // Full display
+  1: 'close-up_texture.jpg', // Close-up texture
+  2: 'draped_look.jpg', // Draped look
+  3: 'embroidery_and_border.jpg', // Embroidery & border
+  4: 'folded_stack.jpg', // Folded stack
+  8: 'hanging_display.jpg', // Hanging display
+};
+
 /// Framing-quiz archetypes from Click & Social HTML (`archOf`).
 enum FrameArch { thirds, center, diag, detail }
 
@@ -121,7 +132,24 @@ class ClickSocialFrame {
     String? clusterId,
     String? categoryId,
     String? technique,
+    String? productLabel,
+    String? materialId,
   }) {
+    // Cluster listing folders first — even HAND-PAINTED Srikalahasti uses these six frames.
+    final listing = _clusterListingFrameImgs[index];
+    final clusterDir = clickSocialListingClusterDir(clusterId);
+    if (listing != null && clusterDir != null) {
+      final product = kamrupProductKey(
+        productLabel: productLabel,
+        categoryId: categoryId,
+      );
+      final material =
+          (materialId ?? '').toLowerCase() == 'silk' ? 'silk' : 'cotton';
+      final tech = (technique ?? '').toUpperCase() == 'HAND-PAINTED'
+          ? 'handpainted'
+          : 'woven';
+      return 'assets/images/clusters/$clusterDir/$product/$material/$tech/$listing';
+    }
     if (clickSocialIsKal(clusterId: clusterId, technique: technique)) {
       final set = _kalFrameImgs[_kalProduct(categoryId, technique)]!;
       return '$_guides/${set[index]}';
@@ -298,22 +326,19 @@ const clickSocialFrames = <ClickSocialFrame>[
   ),
 ];
 
-/// HTML `panelFrames` — a Kalamkari panel only offers these three.
-const clickSocialPanelFrames = <int>[0, 11, 10];
+/// Listing frames shown on Pick your frames (the six we keep).
+const clickSocialOfferedFrames = <int>[0, 1, 2, 3, 4, 8];
 
-/// HTML fallback when the learner picked nothing at the checklist.
-const clickSocialDefaultFrames = <int>[0, 1, 2, 3, 4];
+/// Kept for older panel/light-quiz call sites — same six as everyone else.
+const clickSocialPanelFrames = clickSocialOfferedFrames;
 
-/// Frames offered on Pick your frames.
-///
-/// HTML: a panel is limited to [clickSocialPanelFrames]; everything else hides
-/// frame 11, which only makes sense for a wall-hung painting.
+/// Fallback when the learner picked nothing at the checklist.
+const clickSocialDefaultFrames = clickSocialOfferedFrames;
+
+/// Frames offered on Pick your frames — only the six listing shots.
 List<ClickSocialFrame> framesForSelection({required bool isPanel}) => [
       for (final frame in clickSocialFrames)
-        if (isPanel
-            ? clickSocialPanelFrames.contains(frame.index)
-            : frame.index != 11)
-          frame,
+        if (clickSocialOfferedFrames.contains(frame.index)) frame,
     ];
 
 ClickSocialFrame? frameByIndex(int i) {
@@ -329,13 +354,10 @@ FrameArch archForFrameIndex(int i) =>
 
 /// The frames actually shot for a set: the learner's picks, or the HTML default.
 List<int> resolveFramePicks(List<int> picks, {required bool isPanel}) {
-  if (picks.isEmpty) {
-    return isPanel ? clickSocialPanelFrames : clickSocialDefaultFrames;
-  }
-  final sorted = picks.where((i) => frameByIndex(i) != null).toList()..sort();
-  if (sorted.isEmpty) {
-    return isPanel ? clickSocialPanelFrames : clickSocialDefaultFrames;
-  }
+  if (picks.isEmpty) return List<int>.from(clickSocialOfferedFrames);
+  final sorted = picks.where(clickSocialOfferedFrames.contains).toList()
+    ..sort();
+  if (sorted.isEmpty) return List<int>.from(clickSocialOfferedFrames);
   return sorted;
 }
 
@@ -367,6 +389,41 @@ bool clickSocialIsKal({String? clusterId, String? technique}) =>
     clusterId == 'srikalahasti';
 
 bool clickSocialIsAssam(String? clusterId) => clusterId == 'assam';
+
+bool clickSocialIsManiabandha(String? clusterId) => clusterId == 'maniabandha';
+
+/// Asset folder under `assets/images/clusters/` for listing-frame thumbs.
+String? clickSocialListingClusterDir(String? clusterId) => switch (clusterId) {
+      'assam' => 'kamrup',
+      'maniabandha' => 'maniabandha',
+      'srikalahasti' => 'srikalahasti',
+      _ => null,
+    };
+
+/// Kamrup folder: mekhela / sari / stole. Mekhela shares category `saree`, so
+/// the product label must win.
+String kamrupProductKey({String? productLabel, String? categoryId}) {
+  final p = (productLabel ?? '').toLowerCase();
+  if (p.contains('mekhela')) return 'mekhela';
+  if (p.contains('stole') || p.contains('dupatta')) return 'stole';
+  if (p.contains('sari') || p.contains('saree')) return 'sari';
+  final c = (categoryId ?? '').toLowerCase();
+  if (c == 'stole' || c == 'shawl') return 'stole';
+  return 'sari';
+}
+
+String clickSocialFrameProductKey({
+  String? clusterId,
+  String? productLabel,
+  String? categoryId,
+}) {
+  if (clickSocialIsAssam(clusterId) &&
+      (productLabel == null || productLabel.trim().isEmpty) &&
+      (categoryId ?? '') == 'saree') {
+    return 'mekhela';
+  }
+  return kamrupProductKey(productLabel: productLabel, categoryId: categoryId);
+}
 
 /// HTML `cluster.detailTip`, with the Assam wording as the fallback.
 String clickSocialDetailTip(String? clusterId) =>

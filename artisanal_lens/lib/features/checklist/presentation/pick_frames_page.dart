@@ -15,8 +15,7 @@ import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 4 — Pick your frames (at least two).
 ///
-/// Both reference mock screens (core 4 + extra shots) live on this one
-/// scrollable page.
+/// Only the six listing frames are offered.
 class PickFramesPage extends StatefulWidget {
   const PickFramesPage({
     required this.setId,
@@ -47,22 +46,6 @@ class _PickFramesPageState extends State<PickFramesPage> {
       );
 
   List<ClickSocialFrame> get _frames => framesForSelection(isPanel: _isPanel);
-
-  /// Core shots (0–3) stay last in the grid — same list, no separate section.
-  static const _coreIndexes = {0, 1, 2, 3};
-
-  List<ClickSocialFrame> get _orderedFrames {
-    final extras = <ClickSocialFrame>[];
-    final core = <ClickSocialFrame>[];
-    for (final frame in _frames) {
-      if (_coreIndexes.contains(frame.index)) {
-        core.add(frame);
-      } else {
-        extras.add(frame);
-      }
-    }
-    return [...extras, ...core];
-  }
 
   bool get _ready => _picks.length >= 2;
 
@@ -152,11 +135,13 @@ class _PickFramesPageState extends State<PickFramesPage> {
           ),
           const SizedBox(height: 14),
           _FramePickGrid(
-            frames: _orderedFrames,
+            frames: _frames,
             picks: _picks,
             clusterId: _clusterId,
             categoryId: widget.categoryId,
             technique: widget.technique,
+            productLabel: widget.productLabel,
+            materialId: widget.materialId,
             onToggle: _toggle,
             staggerOffset: 0,
           ),
@@ -202,6 +187,8 @@ class _FramePickGrid extends StatelessWidget {
     required this.clusterId,
     required this.categoryId,
     required this.technique,
+    required this.productLabel,
+    required this.materialId,
     required this.onToggle,
     required this.staggerOffset,
   });
@@ -211,6 +198,8 @@ class _FramePickGrid extends StatelessWidget {
   final String? clusterId;
   final String categoryId;
   final String? technique;
+  final String? productLabel;
+  final String? materialId;
   final void Function(int index) onToggle;
   final int staggerOffset;
 
@@ -239,6 +228,8 @@ class _FramePickGrid extends StatelessWidget {
               clusterId: clusterId,
               categoryId: categoryId,
               technique: technique,
+              productLabel: productLabel,
+              materialId: materialId,
             ),
             onTap: () => onToggle(frame.index),
           ),

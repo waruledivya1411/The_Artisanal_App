@@ -223,12 +223,11 @@ ClickSocialCluster? clusterById(String? id) {
   return null;
 }
 
-/// Products shown on photo lesson step 0 (fixed 2×2 catalog).
+/// Products shown on photo lesson step 0.
 List<String> productsForCluster(String? clusterId) => const [
       'Mekhela sador',
       'Sari',
       'Stole / Dupatta',
-      'Accessories',
     ];
 
 /// Asset path for a photo-step product card image.

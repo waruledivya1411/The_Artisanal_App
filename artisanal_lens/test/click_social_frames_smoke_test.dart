@@ -49,7 +49,6 @@ void main() {
             'Mekhela sador',
             'Sari',
             'Stole / Dupatta',
-            'Accessories',
           ]) {
             for (final material in [null, 'silk', 'cotton']) {
               for (final asset in _assetsFor(
@@ -98,12 +97,68 @@ void main() {
       productLabel: 'Sari',
       materialId: 'silk',
     );
-    expect(full, contains('mekhela_silk_woven'));
-    expect(stack, contains('mekhela_silk'));
-    expect(stoleFull, contains('mekhela_silk'));
-    expect(sariClose, contains('muga'));
+    expect(full, contains('clusters/kamrup/mekhela/silk/woven/full_display'));
+    expect(stack, contains('clusters/kamrup/mekhela/silk/woven/folded_stack'));
+    expect(stoleFull, contains('clusters/kamrup/stole/silk/woven/full_display'));
+    expect(sariClose, contains('clusters/kamrup/sari/silk/woven/close-up_texture'));
     expect(full, isNot(contains('templates/')));
     expect(stoleFull, isNot(contains('templates/')));
+  });
+
+  test('Maniabandha thumbs match product + frame name', () {
+    final sariFull = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'maniabandha',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'cotton',
+    );
+    final stoleDrape = clickSocialFrames[2].thumbAssetFor(
+      clusterId: 'maniabandha',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Stole / Dupatta',
+      materialId: 'silk',
+    );
+    final hp = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'maniabandha',
+      categoryId: 'saree',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Sari',
+      materialId: 'silk',
+    );
+    expect(sariFull, contains('clusters/maniabandha/sari/cotton/woven/full_display'));
+    expect(stoleDrape, contains('clusters/maniabandha/stole/silk/woven/draped_look'));
+    expect(hp, contains('clusters/maniabandha/sari/silk/handpainted/full_display'));
+    expect(hp, isNot(contains('kal-')));
+  });
+
+  test('Srikalahasti listing thumbs match product + do not use kal- files', () {
+    final sariHang = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'srikalahasti',
+      categoryId: 'saree',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Sari',
+      materialId: 'cotton',
+    );
+    final stoleClose = clickSocialFrames[1].thumbAssetFor(
+      clusterId: 'srikalahasti',
+      categoryId: 'stole',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Stole / Dupatta',
+      materialId: 'cotton',
+    );
+    final woven = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'srikalahasti',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'silk',
+    );
+    expect(sariHang, contains('clusters/srikalahasti/sari/cotton/handpainted/hanging_display'));
+    expect(stoleClose, contains('clusters/srikalahasti/stole/cotton/handpainted/close-up_texture'));
+    expect(woven, contains('clusters/srikalahasti/sari/silk/woven/full_display'));
+    expect(sariHang, isNot(contains('kal-')));
   });
 
   test('Assam hand-painted does not fall back to Kalamkari thumbs', () {
@@ -210,21 +265,27 @@ void main() {
     );
   });
 
-  test('a panel is offered only its three frames', () {
-    expect(
-      framesForSelection(isPanel: true).map((f) => f.index).toSet(),
-      clickSocialPanelFrames.toSet(),
-    );
+  test('only the six listing frames are offered', () {
     expect(
       framesForSelection(isPanel: false).map((f) => f.index),
-      isNot(contains(11)),
+      clickSocialOfferedFrames,
+    );
+    expect(
+      framesForSelection(isPanel: true).map((f) => f.index),
+      clickSocialOfferedFrames,
     );
   });
 
-  test('an empty pick list falls back to the HTML defaults', () {
-    expect(resolveFramePicks(const [], isPanel: false), [0, 1, 2, 3, 4]);
-    expect(resolveFramePicks(const [], isPanel: true), clickSocialPanelFrames);
-    expect(resolveFramePicks(const [7, 2, 99], isPanel: false), [2, 7]);
+  test('an empty pick list falls back to the six listing frames', () {
+    expect(
+      resolveFramePicks(const [], isPanel: false),
+      clickSocialOfferedFrames,
+    );
+    expect(
+      resolveFramePicks(const [], isPanel: true),
+      clickSocialOfferedFrames,
+    );
+    expect(resolveFramePicks(const [7, 2, 99], isPanel: false), [2]);
   });
 
   test('a picked frame becomes a template that skips the fold step', () {

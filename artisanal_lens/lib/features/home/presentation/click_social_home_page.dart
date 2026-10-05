@@ -1164,6 +1164,26 @@ class _LearningHomeView extends StatelessWidget {
               FadeSlideIn(
                 child: Row(
                   children: [
+                    Material(
+                      color: AppColors.white,
+                      elevation: 2,
+                      shadowColor: AppColors.primary.withValues(alpha: 0.12),
+                      shape: const CircleBorder(),
+                      child: InkWell(
+                        customBorder: const CircleBorder(),
+                        onTap: onEditProfile,
+                        child: const SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: Icon(
+                            Icons.chevron_left_rounded,
+                            size: 26,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
                     Container(
                       width: 7,
                       height: 7,

@@ -110,6 +110,8 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
               clusterId: _clusterId,
               categoryId: set.categoryId,
               technique: _technique,
+              productLabel: set.productName,
+              materialId: set.materialId,
             ),
           ),
         ),

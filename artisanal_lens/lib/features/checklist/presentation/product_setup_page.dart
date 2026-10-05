@@ -13,7 +13,7 @@ import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 0 — What are you photographing?
 ///
-/// Fixed 2×2 image cards: Mekhela sador, Sari, Stole / Dupatta, Accessories.
+/// Image cards: Mekhela sador, Sari, Stole / Dupatta.
 class ProductSetupPage extends ConsumerStatefulWidget {
   const ProductSetupPage({
     this.setId,
@@ -134,18 +134,17 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
                   Expanded(
                     child: Row(
                       children: [
-                        for (var i = 2; i < 4; i++) ...[
-                          if (i > 2) const SizedBox(width: 10),
-                          Expanded(
-                            child: PhotoImageCard(
-                              label: _products[i],
-                              imageAsset: productImageAsset(_products[i]),
-                              selected: _product == _products[i],
-                              onTap: () =>
-                                  setState(() => _product = _products[i]),
-                            ),
+                        Expanded(
+                          child: PhotoImageCard(
+                            label: _products[2],
+                            imageAsset: productImageAsset(_products[2]),
+                            selected: _product == _products[2],
+                            onTap: () =>
+                                setState(() => _product = _products[2]),
                           ),
-                        ],
+                        ),
+                        const SizedBox(width: 10),
+                        const Expanded(child: SizedBox.shrink()),
                       ],
                     ),
                   ),

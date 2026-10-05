@@ -94,6 +94,45 @@ flutter:
     - assets/images/materials/
     - assets/images/materials/by_product/
     - assets/images/framing/
+    - assets/images/clusters/kamrup/
+    - assets/images/clusters/kamrup/mekhela/cotton/woven/
+    - assets/images/clusters/kamrup/mekhela/cotton/handpainted/
+    - assets/images/clusters/kamrup/mekhela/silk/woven/
+    - assets/images/clusters/kamrup/mekhela/silk/handpainted/
+    - assets/images/clusters/kamrup/sari/cotton/woven/
+    - assets/images/clusters/kamrup/sari/cotton/handpainted/
+    - assets/images/clusters/kamrup/sari/silk/woven/
+    - assets/images/clusters/kamrup/sari/silk/handpainted/
+    - assets/images/clusters/kamrup/stole/cotton/woven/
+    - assets/images/clusters/kamrup/stole/cotton/handpainted/
+    - assets/images/clusters/kamrup/stole/silk/woven/
+    - assets/images/clusters/kamrup/stole/silk/handpainted/
+    - assets/images/clusters/maniabandha/
+    - assets/images/clusters/maniabandha/mekhela/cotton/woven/
+    - assets/images/clusters/maniabandha/mekhela/cotton/handpainted/
+    - assets/images/clusters/maniabandha/mekhela/silk/woven/
+    - assets/images/clusters/maniabandha/mekhela/silk/handpainted/
+    - assets/images/clusters/maniabandha/sari/cotton/woven/
+    - assets/images/clusters/maniabandha/sari/cotton/handpainted/
+    - assets/images/clusters/maniabandha/sari/silk/woven/
+    - assets/images/clusters/maniabandha/sari/silk/handpainted/
+    - assets/images/clusters/maniabandha/stole/cotton/woven/
+    - assets/images/clusters/maniabandha/stole/cotton/handpainted/
+    - assets/images/clusters/maniabandha/stole/silk/woven/
+    - assets/images/clusters/maniabandha/stole/silk/handpainted/
+    - assets/images/clusters/srikalahasti/
+    - assets/images/clusters/srikalahasti/mekhela/cotton/woven/
+    - assets/images/clusters/srikalahasti/mekhela/cotton/handpainted/
+    - assets/images/clusters/srikalahasti/mekhela/silk/woven/
+    - assets/images/clusters/srikalahasti/mekhela/silk/handpainted/
+    - assets/images/clusters/srikalahasti/sari/cotton/woven/
+    - assets/images/clusters/srikalahasti/sari/cotton/handpainted/
+    - assets/images/clusters/srikalahasti/sari/silk/woven/
+    - assets/images/clusters/srikalahasti/sari/silk/handpainted/
+    - assets/images/clusters/srikalahasti/stole/cotton/woven/
+    - assets/images/clusters/srikalahasti/stole/cotton/handpainted/
+    - assets/images/clusters/srikalahasti/stole/silk/woven/
+    - assets/images/clusters/srikalahasti/stole/silk/handpainted/
     - assets/images/techniques/
     - assets/images/techniques/by_product/
     - assets/images/silk_types/
