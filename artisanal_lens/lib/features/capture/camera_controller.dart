@@ -13,6 +13,7 @@ import '../../domain/services/capture_guidance_service.dart';
 import '../../domain/services/frame_analyzer.dart';
 import '../../domain/services/frame_metrics_smoother.dart';
 import '../../domain/services/live_guidance_stabiliser.dart';
+import 'preview_frame_grabber.dart';
 
 /// Lifecycle state of the guided camera.
 enum CameraStatus { idle, initialising, ready, permissionDenied, unavailable }
@@ -89,10 +90,16 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
   StreamSubscription<AccelerometerEvent>? _accelerometerSub;
   List<CameraDescription> _cameras = const [];
   double _pitchDegrees = 0;
+
+  /// Set by the first accelerometer reading that actually arrives. A laptop
+  /// browser never delivers one, and the angle check is skipped there.
+  bool _hasTilt = false;
   FrameMetrics _metrics = const FrameMetrics.empty();
   PresetCaptureGuidance? _guidance;
   final LiveGuidanceStabiliser _stabiliser = LiveGuidanceStabiliser();
   final FrameMetricsSmoother _metricsSmoother = FrameMetricsSmoother();
+  final PreviewFrameGrabber _frameGrabber = PreviewFrameGrabber();
+  Timer? _previewSampler;
   bool _isAnalysing = false;
   DateTime _lastAnalysis = DateTime.fromMillisecondsSinceEpoch(0);
   DateTime? _openedAt;
@@ -101,6 +108,11 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
   /// Frames are analysed at most this often — enough to feel live without
   /// pinning the CPU on the low-end handsets this app targets.
   static const Duration _analysisInterval = Duration(milliseconds: 200);
+
+  /// The browser sampler ticks faster than that and lets the throttle in
+  /// [_claimAnalysisSlot] set the real rate; on a tick exactly one interval
+  /// long, timer jitter would drop every other frame and halve it.
+  static const Duration _samplerInterval = Duration(milliseconds: 100);
 
   /// Auto-exposure is still hunting. Showing those black frames as "too dark"
   /// or "move in" is what made opening the camera look broken.
@@ -184,13 +196,51 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
       canSwitchCamera: _lensDirections.length > 1,
     );
 
-    // camera_web has no image stream, so the live light/angle/framing analysis
-    // simply does not run in a browser. The camera and shutter still work; the
-    // guidance chips are hidden rather than left showing a stale verdict.
-    if (isGuidanceSupported) {
+    // camera_web has no image stream. Rather than drop the live guidance in a
+    // browser, frames are read off the preview element and fed to the same
+    // analyser the streamed ones go through.
+    if (_streamsFrames) {
       await controller.startImageStream(_onFrame);
+    } else if (_frameGrabber.isSupported) {
+      _startPreviewSampling();
     }
     _markOpened();
+  }
+
+  /// Whether the camera plugin hands frames over by itself.
+  static bool get _streamsFrames => !kIsWeb;
+
+  void _startPreviewSampling() {
+    _previewSampler ??= Timer.periodic(
+      _samplerInterval,
+      (_) => _samplePreview(),
+    );
+  }
+
+  void _stopPreviewSampling() {
+    _previewSampler?.cancel();
+    _previewSampler = null;
+  }
+
+  /// Reads one frame off the preview element, where the plugin streams none.
+  void _samplePreview() {
+    if (!_claimAnalysisSlot()) return;
+    try {
+      final frame = _frameGrabber.grab();
+      // Null simply means the preview has not painted yet; the next tick
+      // tries again.
+      if (frame == null) return;
+      _analyseLuma(
+        luma: frame.luma,
+        width: frame.width,
+        height: frame.height,
+        bytesPerRow: frame.bytesPerRow,
+      );
+    } catch (error) {
+      debugPrint('Preview sampling skipped: $error');
+    } finally {
+      _isAnalysing = false;
+    }
   }
 
   /// Fresh lens: wait for auto-exposure before trusting a verdict.
@@ -204,7 +254,11 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
   }
 
   /// Whether this platform can deliver preview frames for analysis.
-  static bool get isGuidanceSupported => !kIsWeb;
+  ///
+  /// Android and iOS stream them from the plugin; a browser has them read off
+  /// the preview element instead.
+  static bool get isGuidanceSupported =>
+      _streamsFrames || supportsPreviewFrameGrabbing;
 
   Set<CameraLensDirection> get _lensDirections =>
       _cameras.map((camera) => camera.lensDirection).toSet();
@@ -263,71 +317,65 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
   }
 
   void _listenToTilt() {
-    _accelerometerSub ??= accelerometerEventStream().listen((event) {
-      _pitchDegrees = CaptureGuidanceService.pitchFromAccelerometer(
-        x: event.x,
-        y: event.y,
-        z: event.z,
+    if (_accelerometerSub != null) return;
+    // A laptop browser has no accelerometer and reports it by throwing or by
+    // erroring the stream. Neither may take the camera down: the preview, the
+    // light reading and the shutter all still work without tilt.
+    try {
+      _accelerometerSub = accelerometerEventStream().listen(
+        (event) {
+          _hasTilt = true;
+          _pitchDegrees = CaptureGuidanceService.pitchFromAccelerometer(
+            x: event.x,
+            y: event.y,
+            z: event.z,
+          );
+        },
+        onError: (Object error) {
+          _hasTilt = false;
+          debugPrint('Tilt sensor unavailable: $error');
+        },
+        cancelOnError: true,
       );
-    });
+    } catch (error) {
+      _hasTilt = false;
+      debugPrint('Tilt sensor unavailable: $error');
+    }
   }
 
-  void _onFrame(CameraImage image) {
-    // Throttle, and never queue a second analysis behind the first.
+  /// Throttles analysis, claiming the slot when one may start now.
+  ///
+  /// Keeps a second analysis from queueing behind the first, and holds every
+  /// verdict back until auto-exposure has had [_warmup] to settle.
+  bool _claimAnalysisSlot() {
     final now = DateTime.now();
     if (_openedAt != null && now.difference(_openedAt!) < _warmup) {
-      return;
+      return false;
     }
     if (_isAnalysing || now.difference(_lastAnalysis) < _analysisInterval) {
-      return;
+      return false;
     }
     _isAnalysing = true;
     _lastAnalysis = now;
+    return true;
+  }
+
+  void _onFrame(CameraImage image) {
+    if (!_claimAnalysisSlot()) return;
 
     try {
-      final guidance = _guidance;
-      if (guidance == null || image.planes.isEmpty) return;
+      if (image.planes.isEmpty) return;
 
       // plane.bytes is already a Uint8List and the analyser only reads it, so
       // it is passed straight through — copying it every frame would allocate
       // megabytes per second on the low-end handsets this app targets.
       final plane = image.planes.first;
-      final placement = PlacementKind.resolve(
-        guidance.templateId,
-        guidance.technique.grid,
+      _analyseLuma(
+        luma: plane.bytes,
+        width: image.width,
+        height: image.height,
+        bytesPerRow: plane.bytesPerRow,
       );
-      final raw = ref.read(frameAnalyzerProvider).analyseLumaPlane(
-            luma: plane.bytes,
-            width: image.width,
-            height: image.height,
-            bytesPerRow: plane.bytesPerRow,
-            // Same rectangle the artisan sees as the placement marking.
-            insetX: placement.ghostInsetX,
-            insetY: placement.ghostInsetY,
-          );
-
-      // The first frames after the shutter opens are often black. Feeding
-      // them to the evaluator locked the chips on Too dark / Move in.
-      if (_unexposedSkips < _maxUnexposedSkips && raw.isUnexposedPreview) {
-        _unexposedSkips++;
-        return;
-      }
-
-      _metrics = _metricsSmoother.accept(raw);
-
-      final measured = ref.read(captureGuidanceServiceProvider).evaluate(
-            metrics: _metrics,
-            technique: guidance.technique,
-            pitchDegrees: _pitchDegrees,
-            profile: guidance.cameraGuidance,
-            previousDistance: state.feedback.distanceQuality,
-            previousCentre: state.feedback.centreQuality,
-          );
-
-      final feedback = _stabiliser.accept(measured);
-      if (feedback != state.feedback) {
-        state = state.copyWith(feedback: feedback);
-      }
     } catch (error) {
       // A malformed frame must never take the camera down; the next frame is
       // analysed as normal.
@@ -335,6 +383,68 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
     } finally {
       _isAnalysing = false;
     }
+  }
+
+  /// Measures one luma plane and publishes the verdict.
+  ///
+  /// Both sources land here — the streamed frames on a phone and the ones
+  /// sampled off the preview in a browser — so the two platforms cannot drift
+  /// apart on what counts as too dark.
+  void _analyseLuma({
+    required Uint8List luma,
+    required int width,
+    required int height,
+    required int bytesPerRow,
+  }) {
+    final guidance = _guidance;
+    if (guidance == null) return;
+
+    final placement = PlacementKind.resolve(
+      guidance.templateId,
+      guidance.technique.grid,
+    );
+    final raw = ref.read(frameAnalyzerProvider).analyseLumaPlane(
+          luma: luma,
+          width: width,
+          height: height,
+          bytesPerRow: bytesPerRow,
+          // Same rectangle the artisan sees as the placement marking.
+          insetX: placement.ghostInsetX,
+          insetY: placement.ghostInsetY,
+        );
+
+    // The first frames after the shutter opens are often black. Feeding
+    // them to the evaluator locked the chips on Too dark / Move in.
+    if (_unexposedSkips < _maxUnexposedSkips && raw.isUnexposedPreview) {
+      _unexposedSkips++;
+      return;
+    }
+
+    _metrics = _metricsSmoother.accept(raw);
+
+    final measured = ref.read(captureGuidanceServiceProvider).evaluate(
+          metrics: _metrics,
+          technique: guidance.technique,
+          pitchDegrees: _pitchDegrees,
+          profile: _measurableProfile(guidance.cameraGuidance),
+          previousDistance: state.feedback.distanceQuality,
+          previousCentre: state.feedback.centreQuality,
+        );
+
+    final feedback = _stabiliser.accept(measured);
+    if (feedback != state.feedback) {
+      state = state.copyWith(feedback: feedback);
+    }
+  }
+
+  /// Drops the checks this device cannot actually take a reading for.
+  ///
+  /// Everything else in the profile is measured from the frame itself and
+  /// works wherever a frame does. The angle is the exception: it needs the
+  /// accelerometer, which a laptop browser does not have.
+  CameraGuidanceProfile _measurableProfile(CameraGuidanceProfile profile) {
+    if (_hasTilt) return profile;
+    return profile.withoutAngleCheck();
   }
 
   Future<void> toggleFlash() async {
@@ -367,6 +477,7 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
       if (controller.value.isStreamingImages) {
         await controller.stopImageStream();
       }
+      _stopPreviewSampling();
       final file = await controller.takePicture();
       return file.path;
     } on CameraException catch (error) {
@@ -381,14 +492,20 @@ class GuidedCameraController extends AutoDisposeNotifier<GuidedCameraState> {
   Future<void> resumePreview() async {
     final controller = state.controller;
     if (controller == null || !controller.value.isInitialized) return;
-    if (isGuidanceSupported && !controller.value.isStreamingImages) {
-      await controller.startImageStream(_onFrame);
+    if (_streamsFrames) {
+      if (!controller.value.isStreamingImages) {
+        await controller.startImageStream(_onFrame);
+      }
+    } else if (_frameGrabber.isSupported) {
+      _startPreviewSampling();
     }
   }
 
   void _disposeResources() {
     _accelerometerSub?.cancel();
     _accelerometerSub = null;
+    _stopPreviewSampling();
+    _frameGrabber.dispose();
 
     final controller = state.controller;
     if (controller != null) {
