@@ -32,36 +32,26 @@ flutter test        # unit tests
 ## The flow
 
 ```
-Opening sequence  (tap to skip)
-  └─ Home  (New Product · Continue · Previous sets)
-        └─ New Product
-              Material → fibre type → category + name
-                └─ Photo list
-                     Saree: five BTP photography templates
-                     Others: seven Figma shots
-                       └─ How should it look?  (skipped for Process and Detail)
-                            └─ Lighting → Tutorial → Camera (live guidance)
-                                 └─ Review
+Sutra splash  (tap to skip)
+  └─ Learn
+        Lesson 01 Photography
+          Product → Material → Technique → Pick frames
+            → Framing quiz (one 3×3 question per pick)
+            → Light quiz → Photo list (GUIDE / CAPTURE / GALLERY)
+            → Camera with placement marks → Review
+        Lesson 02 Instagram · 03 Create a Post · 04 Posting Plan · 05 Numbers
+  Practice  (feed)
+  Progress  (badges)
 ```
 
-New Product does not jump straight to Saree. Every material opens a type
-screen; Cotton, Wool and Jute show empty boxes until varieties are documented.
-
-The root [`README.md`](../README.md) has the full flow, Saree template list,
-and fold names.
+The root [`README.md`](../README.md) has the full lesson list, frame names, and
+how live guidance works.
 
 ## The opening sequence
 
-`features/onboarding/` paints a 4.2-second sequence on every launch: an empty
-warm workspace, a folded saree dropping in, opening into a drape, the capture
-guide drawing itself over it with light/angle/frame chips, a focus lock and
-shutter, then a handoff into Home. Tapping anywhere skips it.
-
-It is drawn rather than played from a video, so it costs a few kilobytes, scales
-to any screen and uses the real palette. The cloth is thirty vertical panels
-shaded by a sine running across the width — fabric reads as light catching
-successive folds — with width opening ahead of height so it falls open the way
-folded cloth does rather than scaling like a rectangle.
+`features/onboarding/` shows the **Sutra** mark (`assets/images/sutra_logo.png`)
+on the photography gradient for about 2.8 seconds. Tap anywhere to skip to
+Learn. It is not the old drawn saree animation.
 
 ## Architecture
 
@@ -198,7 +188,6 @@ replace one.
   embroidery quality and correct folding need a model that is not on the
   device. Each preset lists these in `undetectableConditions` rather than
   guessing at them.
-- **Localisation polish** — Settings switches the UI between Assamese, Hindi
-  and English (`lib/l10n/`, `LocaleController`). Catalog transcript lines and
-  a few long setup sentences are still English; a native speaker should
-  review the translations.
+- **Localisation polish** — UI switches between Assamese, Odia, Telugu and
+  English (`lib/l10n/`). Catalog transcript lines and a few long setup
+  sentences are still English; a native speaker should review the translations.

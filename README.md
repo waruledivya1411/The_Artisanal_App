@@ -2,13 +2,11 @@
 
 A guided photography app for Indian handloom artisans, built in Flutter.
 
-Handloom weavers struggle to sell online when product photographs do not show
-what the cloth is actually like — texture, drape, weight, sheen. This app
-closes that gap without asking the artisan to learn photography: it tells them
-which photographs a listing needs, how to arrange the cloth, and then checks
-light, angle and framing live through the camera before the shutter is pressed.
+The Click & Social path (Lesson 01–05) teaches which product photos to take,
+how to frame them, and how to post. Live capture checks light, distance and
+placement on device — not a cloud vision API.
 
-> Before you take the photo, The Artisanal Lens prepares the saree and shows
+> Before you take the photo, The Artisanal Lens prepares the piece and shows
 > you what a good photograph should look like.
 
 Flutter app: [`artisanal_lens/`](artisanal_lens/). Package id:
@@ -97,40 +95,71 @@ Full backend setup (migrations, tutorial uploads): [`supabase/SUPABASE_SETUP.md`
 
 ## The flow
 
+The learner path is **Click & Social** (Lesson 01–05). Bottom tabs are
+**Learn · Practice · Progress**.
+
 ```
-Opening sequence  (tap to skip)
-  └─ Home  (New Product · Continue · Previous sets)
+Sutra splash  (tap to skip)
+  └─ Learn (home)
         │
-        ├─ New Product
-        │     Material (Silk, Cotton, Wool, Jute)
-        │       └─ Fibre type
-        │            Silk   → Mulberry, Eri, Tasar, Muga
-        │            Cotton → Khadi, Muslin, Handloom, Jamdani
-        │            Wool   → Pashmina, Angora, Merino, Handspun
-        │            Jute   → Golden, Tossa, Hessian, Blended
-        │              └─ Category (Saree, Cushion Cover, Shawl, Stole) + name
-        │                   └─ Photo list  (five photography templates)
-        │                        └─ How should it look?  (fold / style; skipped for close-ups)
-        │                             └─ Lighting → Tutorial → Camera (live guidance)
-        │                                  └─ Review (Use photo / Retake)
+        ├─ Lesson 01  Photography
+        │     Product (Mekhela / Sari / Stole / Accessories)
+        │       └─ Material → Technique
+        │            └─ Pick your frames  (up to 12 shared shots)
+        │                 └─ Framing quiz  (one 3×3-grid question per picked frame)
+        │                      └─ Light quiz
+        │                           └─ Photo list
+        │                                GUIDE → per-frame steps
+        │                                CAPTURE → live camera (placement marks + light/distance)
+        │                                GALLERY → upload from the library
+        │                                     └─ Review (Use photo / Retake)
         │
-        ├─ Previous sets  (All / Finished / Pending)
-        └─ Gallery → Product viewer
+        ├─ Lesson 02  Set Up Your Page on Instagram
+        ├─ Lesson 03  Create a Post  (+ practice feed)
+        ├─ Lesson 04  Posting Plan
+        └─ Lesson 05  Read the Numbers
+  Practice  — practice feed of posts
+  Progress  — badges; Account & backup from here
 ```
 
-Finished sets open the product viewer. Pending sets return to the photo list.
-Empty slots in the viewer re-enter capture for that one photograph.
+Lesson 01 photo list opens the **guided camera** for that frame (same placement
+box the analyser measures). Gallery upload stays as a second option.
 
-Each material and fibre type has its own thumbnail image in
-`assets/images/materials/`, `silk_types/`, `cotton_types/`, `wool_types/`
-and `jute_types/`.
+### Pick your frames
 
-### Photography templates — all four categories
+The twelve frames (same list for every product; guides change by cluster):
 
-Every category follows the Product Photography Guide with **five templates**
-each, not the old seven-shot Figma checklist. List thumbnails live in
-`assets/images/templates/`. **How should it look?** cards use one matching
-product per category in the pose each fold needs.
+Full display · Close-up texture · Draped look · Embroidery & border ·
+Folded stack · Scale reference · Styled flat lay · In-context lifestyle ·
+Hanging display · Macro fringe detail · The making · Framed display
+(framed is offered for wall panels).
+
+Thumbs live in `artisanal_lens/assets/images/guides/`. Core shots sit at the
+**bottom** of Pick frames as one grid — not a separate section.
+
+### Framing quiz
+
+Every picked frame gets its **own** quiz card set. Layout is always a full
+**3×3 grid**; the product cutout moves to the right cell for that shot
+(crossing, centre fill, top-right border cell, and so on).
+
+### Live capture
+
+On Android the camera reads preview frames and shows light, distance, and a
+placement marking per shot (`PlacementKind` in
+`artisanal_lens/lib/domain/entities/placement_kind.dart`). This is
+**rule-based luma analysis**, not ML. How it works:
+[`docs/live-camera-guidance.md`](docs/live-camera-guidance.md).
+
+On Chrome there is a preview but **no** live light/distance stream (`camera_web`).
+
+---
+
+## Photography templates (non-lesson sets)
+
+Sets that are **not** started from Lesson 01 can still use the Product
+Photography Guide templates (five per category). Thumbnails:
+`assets/images/templates/`. Close-up templates skip **How should it look?**
 
 | Category | Templates |
 |---|---|
@@ -139,53 +168,35 @@ product per category in the pose each fold needs.
 | **Shawl** | Full Design Display · Texture & Weave · Draped on Shoulder · Border & Corner · Folded Stack |
 | **Stole** | Full Length Display · Texture & Weave · Neck Wrap · Edge Thickness · Softness Knot |
 
-Close-up templates (texture, border, corner, and so on) skip **How should it
-look?** — there is no fold to choose.
-
-After a template is chosen, the app offers the four documented folds for that
-category. Saree: Pallu drape, Box / flat fold, Worn drape, Roll display.
-Cushion: Flat lay, Stacked pair, Propped, Corner tuck. Shawl and Stole have
-their own four-fold lists in the same pattern.
+Each material and fibre type has thumbnails in
+`assets/images/materials/`, `silk_types/`, `cotton_types/`, `wool_types/`
+and `jute_types/`.
 
 ---
 
 ## Live capture guidance
 
-In `artisanal_lens/lib/domain/services/`. This is real image analysis, not a
-scripted animation.
+In `artisanal_lens/lib/domain/services/` plus the capture overlay. This is real
+image analysis, not a scripted animation and not a cloud vision API.
 
-There is no setup slideshow and nothing to press through. The camera opens,
-reads frames four times a second, and says one thing about the cloth actually
-in front of the lens. What it says changes as the cloth or the phone moves.
+There is no setup slideshow. The camera opens, reads frames, and says one
+thing about the cloth in front of the lens. Click & Social frames skip Lighting
+& setup and go **photo list → shutter**, with a dashed placement box per shot.
 
-**`FrameAnalyzer`** reads the luma (Y) plane of each YUV420 preview frame in a
-single pass and measures: brightness and clipped highlights, texture, a coarse
-map of where the product is (its bounding box, how much of the ghost frame it
-fills, how much of the frame edge it runs over), fine-versus-coarse detail for
-focus, and the dominant direction the fabric runs in.
+**`FrameAnalyzer`** reads the luma (Y) plane of each YUV420 preview frame and
+measures brightness, texture, and where the product sits relative to the ghost
+inset (`PlacementKind.ghostInsetX/Y`).
 
-**`FrameMetricsSmoother`** low-pass filters those readings so small hand
-movements do not flicker the verdict.
+**`CaptureGuidanceService`** turns those readings plus device pitch into light
+and distance chips and one prompt. Guidance advises; the shutter stays enabled.
 
-**`CaptureGuidanceService`** turns those plus device pitch into one prompt, in
-triage order: nothing in view → product outside the guide or off the edge →
-too small or too large → fabric direction against the grid → light → blur →
-angle and centring → ready. Only the top complaint is shown, and prompts name
-the product ("Center the saree", "Place the cushion cover in view").
+**`LiveGuidanceStabiliser`** holds a message until a new verdict repeats so
+chips do not flicker.
 
-Each preset supplies its own profile: its ghost frame, how much of it to fill,
-and whether its grid asks for a direction the analyser can measure. Only two
-do — folds parallel to the horizontal guides, and fabric along the diagonals.
-Fabric type, sheen, transparency, embroidery quality and whether a human
-folded something correctly are not measurable here and are never claimed;
-they are listed per preset in `CameraGuidanceProfile.undetectableConditions`.
+`camera_web` has no image stream, so live chips run on **Android** only.
 
-**`LiveGuidanceStabiliser`** holds a message on screen until a new verdict
-repeats, and makes "Ready to capture" earn an extra frame, so the pill does
-not strobe. Guidance advises but never blocks — the shutter stays live
-whatever it says. `camera_web` has no image stream, so this runs on Android
-only; on the web the pill shows the preset's composition rule and never
-claims the shot is ready.
+Write-up of the current behaviour (not a roadmap):
+[`docs/live-camera-guidance.md`](docs/live-camera-guidance.md).
 
 ---
 
@@ -199,7 +210,7 @@ artisanal_lens/lib/
 ├── app/                  MaterialApp, router, DI, locale, theme tokens
 ├── domain/
 │   ├── entities/         ShotSet, ShotType, FoldPreset, PhotographyTemplate,
-│   │                     FabricMaterial, CottonVariety, WoolVariety, JuteVariety, …
+│   │                     PlacementKind, FabricMaterial, …
 │   ├── repositories/     abstract interfaces
 │   └── services/         FrameAnalyzer, FrameMetricsSmoother,
 │                         CaptureGuidanceService, LiveGuidanceStabiliser
@@ -221,7 +232,7 @@ the shell so the bottom bar is hidden mid-shoot.
 mid-set. Photographs are copied into app storage and, on Android, into the
 device gallery album *The Artisanal Lens*.
 
-**Languages** — Assamese, Hindi and English. Switch in Settings
+**Languages** — Assamese, Odia, Telugu and English. Switch in Account / backup
 (`lib/l10n/`).
 
 ---
@@ -261,9 +272,9 @@ Photography templates live in
 - **Step illustrations in the app bundle.** How-to cards for **Saree roll display**
   (5 steps) are bundled. Other folds still have source art in
   [`tutorial-videos-images/`](tutorial-videos-images/) that is not yet copied into `assets/images/steps/`.
-- **Localisation polish.** Settings switches the UI between Assamese, Hindi
-  and English. Catalog transcript lines and a few long setup sentences are
-  still English; a native speaker should review the Assamese and Hindi copy.
+- **Localisation polish.** UI switches between Assamese, Odia, Telugu and
+  English. Catalog transcript lines and a few long setup sentences are still
+  English; a native speaker should review the translations.
 
 ---
 
@@ -275,7 +286,7 @@ Photography templates live in
 │   └── assets/images/  presets, templates, materials, fibre types, steps
 ├── supabase/           SQL migrations, tutorial video bucket, setup guide
 ├── tutorial-videos-images/  how-to step card source art for tutorial videos
-├── docs/               audit notes (BTP report / solution deck used as sources)
+├── docs/               live-camera-guidance.md, audit notes, source PDFs
 └── README.md
 ```
 
