@@ -13,7 +13,7 @@ import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 0 — What are you photographing?
 ///
-/// Fixed 2×2 image cards: Mekhela sador, Sari, Stole / Dupatta, Accessories.
+/// Image cards, two to a row: Mekhela sador, Sari, Stole / Dupatta.
 class ProductSetupPage extends ConsumerStatefulWidget {
   const ProductSetupPage({
     this.setId,
@@ -109,46 +109,39 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
               ),
             ),
             const SizedBox(height: 10),
+            // Two cards to a row, however many the catalog lists. An odd
+            // last row keeps its empty half rather than stretching the final
+            // card across the width of two.
             Expanded(
               child: Column(
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        for (var i = 0; i < 2; i++) ...[
-                          if (i > 0) const SizedBox(width: 10),
-                          Expanded(
-                            child: PhotoImageCard(
-                              label: _products[i],
-                              imageAsset: productImageAsset(_products[i]),
-                              selected: _product == _products[i],
-                              onTap: () =>
-                                  setState(() => _product = _products[i]),
+                  for (var start = 0;
+                      start < _products.length;
+                      start += 2) ...[
+                    if (start > 0) const SizedBox(height: 10),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          for (var i = start; i < start + 2; i++) ...[
+                            if (i > start) const SizedBox(width: 10),
+                            Expanded(
+                              child: i < _products.length
+                                  ? PhotoImageCard(
+                                      label: _products[i],
+                                      imageAsset:
+                                          productImageAsset(_products[i]),
+                                      selected: _product == _products[i],
+                                      onTap: () => setState(
+                                        () => _product = _products[i],
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
                             ),
-                          ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        for (var i = 2; i < 4; i++) ...[
-                          if (i > 2) const SizedBox(width: 10),
-                          Expanded(
-                            child: PhotoImageCard(
-                              label: _products[i],
-                              imageAsset: productImageAsset(_products[i]),
-                              selected: _product == _products[i],
-                              onTap: () =>
-                                  setState(() => _product = _products[i]),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
+                  ],
                 ],
               ),
             ),

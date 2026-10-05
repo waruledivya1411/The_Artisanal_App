@@ -223,12 +223,11 @@ ClickSocialCluster? clusterById(String? id) {
   return null;
 }
 
-/// Products shown on photo lesson step 0 (fixed 2×2 catalog).
+/// Products shown on photo lesson step 0.
 List<String> productsForCluster(String? clusterId) => const [
       'Mekhela sador',
       'Sari',
       'Stole / Dupatta',
-      'Accessories',
     ];
 
 /// Asset path for a photo-step product card image.
@@ -236,7 +235,6 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
       'Mekhela sador' => 'assets/images/products/mekhela.png',
       'Sari' => 'assets/images/products/sari.png',
       'Stole / Dupatta' => 'assets/images/products/stole.png',
-      'Accessories' => 'assets/images/products/accessories.png',
       _ => null,
     };
 
@@ -244,11 +242,7 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
 String categoryIdForProduct(String productLabel) => switch (productLabel) {
       'Kalamkari panel' || 'Pillow cover' || 'Bedcover' => 'cushion_cover',
       'Shawl' => 'shawl',
-      'Stole / Dupatta' ||
-      'Table runner' ||
-      'Bags' ||
-      'Accessories' =>
-        'stole',
+      'Stole / Dupatta' || 'Table runner' || 'Bags' => 'stole',
       _ => 'saree', // Mekhela sador, Sari, …
     };
 

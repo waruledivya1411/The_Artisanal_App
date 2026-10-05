@@ -49,7 +49,6 @@ void main() {
             'Mekhela sador',
             'Sari',
             'Stole / Dupatta',
-            'Accessories',
           ]) {
             for (final material in [null, 'silk', 'cotton']) {
               for (final asset in _assetsFor(

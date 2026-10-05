@@ -39,7 +39,6 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
       'Mekhela sador' => 'mekhela',
       'Sari' => 'sari',
       'Stole / Dupatta' => 'stole',
-      'Accessories' => 'accessories',
       _ => 'sari',
     };
   }
@@ -48,7 +47,6 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
         'mekhela' => 'mekhela',
         'sari' => 'sari',
         'stole' => 'stole',
-        'accessories' => 'accessories',
         _ => 'product',
       };
 

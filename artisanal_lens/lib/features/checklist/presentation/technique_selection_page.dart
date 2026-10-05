@@ -47,7 +47,6 @@ class _TechniqueSelectionPageState
       'Mekhela sador' => 'mekhela',
       'Sari' => 'sari',
       'Stole / Dupatta' => 'stole',
-      'Accessories' => 'accessories',
       _ => 'sari',
     };
   }
@@ -61,7 +60,6 @@ class _TechniqueSelectionPageState
         'mekhela' => 'mekhela',
         'sari' => 'sari',
         'stole' => 'stole',
-        'accessories' => 'accessories',
         _ => 'product',
       };
 
@@ -73,14 +71,12 @@ class _TechniqueSelectionPageState
         techniqueId == 'HAND-PAINTED' ? 'handpainted' : 'woven';
     final base =
         'assets/images/techniques/by_product/${_productKey}_${_materialKey}_$tech';
-    // Woven silk/stole/accessories assets are png; others are jpg.
+    // Woven silk/stole assets are png; others are jpg.
     const pngKeys = {
       'mekhela_silk_woven',
       'sari_silk_woven',
       'stole_cotton_woven',
       'stole_silk_woven',
-      'accessories_cotton_woven',
-      'accessories_silk_woven',
     };
     final key = '${_productKey}_${_materialKey}_$tech';
     return pngKeys.contains(key) ? '$base.png' : '$base.jpg';
