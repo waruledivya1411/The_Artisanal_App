@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
 import '../../../shared/motion/motion.dart';
 import '../click_social_frames.dart';
@@ -216,13 +216,14 @@ class _FramePickGrid extends StatelessWidget {
         childAspectRatio: 0.72,
       ),
       itemBuilder: (context, i) {
+        final l10n = AppLocalizations.of(context);
         final frame = frames[i];
         final on = picks.contains(frame.index);
         return FadeSlideIn.staggered(
           index: staggerOffset + i,
           child: _FramePickCard(
-            name: frame.name,
-            content: frame.content,
+            name: AppCopy.csFrameName(l10n, frame.index),
+            content: AppCopy.csFrameContent(l10n, frame.index),
             selected: on,
             imageAsset: frame.thumbAssetFor(
               clusterId: clusterId,

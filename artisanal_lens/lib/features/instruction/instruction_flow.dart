@@ -13,9 +13,9 @@ import '../capture/capture_session_controller.dart';
 /// inserted when the photograph needs a fold. Close-ups skip it and go
 /// Lighting → Camera.
 ///
-/// Click & Social frames (`cs_frame_*`) skip Lighting & setup entirely —
-/// the lesson already taught light in the light quiz, so the guide goes
-/// straight to the camera (HTML photo checklist → shutter).
+/// Click & Social frames (`cs_frame_*`) skip Lighting & setup — the lesson
+/// already taught light — and open a camera-layout reference first, then
+/// the live shutter (HTML photo checklist → place it like this → shutter).
 ///
 /// Set [closeCurrentPage] when the caller is itself a page the artisan should
 /// not come back to — the Click & Social frame guide ends on "Take the shot".
@@ -45,7 +45,7 @@ void beginCaptureForSlot(
 
   if (isClickSocial) {
     router.pushNamed(
-      AppRoute.capture,
+      AppRoute.captureReference,
       pathParameters: {'setId': setId},
     );
     return;

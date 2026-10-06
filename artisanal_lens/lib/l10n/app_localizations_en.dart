@@ -3401,4 +3401,133 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csVideoSelected => 'Video selected — tap to change';
+
+  @override
+  String get csPlaceItLikeThis => 'PLACE IT LIKE THIS';
+
+  @override
+  String get csOpenCameraCta => 'OPEN CAMERA';
+
+  @override
+  String get csFrameFallback => 'Frame';
+
+  @override
+  String get csProductMekhela => 'Mekhela sador';
+
+  @override
+  String get csProductSari => 'Sari';
+
+  @override
+  String get csProductStole => 'Stole / Dupatta';
+
+  @override
+  String get csFrame0Name => 'Full display';
+
+  @override
+  String get csFrame1Name => 'Close-up texture';
+
+  @override
+  String get csFrame2Name => 'Draped look';
+
+  @override
+  String get csFrame3Name => 'Embroidery & border';
+
+  @override
+  String get csFrame4Name => 'Folded stack';
+
+  @override
+  String get csFrame8Name => 'Hanging display';
+
+  @override
+  String get csFrame0Content => 'Colour, pattern, material';
+
+  @override
+  String get csFrame1Content => 'Texture, thickness, material';
+
+  @override
+  String get csFrame2Content => 'Flimsiness, sheen, flow, weight';
+
+  @override
+  String get csFrame3Content => 'Embroidery and quality';
+
+  @override
+  String get csFrame4Content => 'Thickness and material';
+
+  @override
+  String get csFrame8Content => 'Drape, symmetry, fringe';
+
+  @override
+  String get csCam0a => 'Whole piece inside the dashed box';
+
+  @override
+  String get csCam0b => 'Spread it on the floor or a table — do not hang it';
+
+  @override
+  String get csCam0c => 'Keep edges parallel to the grid';
+
+  @override
+  String get csCam1a => 'Fill the centre box with the weave';
+
+  @override
+  String get csCam1b => 'Keep the motif in the middle';
+
+  @override
+  String get csCam1c => 'Hold the phone 15–30 cm away';
+
+  @override
+  String get csCam2a => 'Let the folds follow the diagonal';
+
+  @override
+  String get csCam2b => 'One end hangs free';
+
+  @override
+  String get csCam2c => 'Chair sits in the lower half';
+
+  @override
+  String get csCam3a => 'Put the motif in the small window';
+
+  @override
+  String get csCam3b => 'Border fills the rest of the frame';
+
+  @override
+  String get csCam3c => 'A slight fold gives the border depth';
+
+  @override
+  String get csCam4a => 'Stack sits inside the dashed box';
+
+  @override
+  String get csCam4b => 'Layers rest on the horizontal lines';
+
+  @override
+  String get csCam4c => 'Folded edge faces the camera';
+
+  @override
+  String get csCam8a => 'Hang on the centre vertical line';
+
+  @override
+  String get csCam8b => 'Rod at the top of the box';
+
+  @override
+  String get csCam8c => 'Fringes even at the bottom';
+
+  @override
+  String get csCamFallback => 'Keep the product inside the dashed box';
+
+  @override
+  String get csHintFullDisplay => 'Place the whole piece inside this frame';
+
+  @override
+  String get csHintCloseUp => 'Fill this box with the weave';
+
+  @override
+  String get csHintDrape => 'Let the cloth fall along the diagonal';
+
+  @override
+  String get csHintBorder => 'Put the border / motif in this window';
+
+  @override
+  String get csHintFolded => 'Lay the folded stack in this box';
+
+  @override
+  String get csHintHanging => 'Hang the piece in the centre, under the rod';
 }

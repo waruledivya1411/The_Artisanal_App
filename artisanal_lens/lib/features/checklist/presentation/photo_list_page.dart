@@ -207,7 +207,7 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
             _FrameSlotCard(
               slot: slots[i],
               frame: frames[i],
-              tip: frames[i].tipFor(clusterId: _clusterId),
+              tip: AppCopy.csFrameContent(l10n, frames[i].index),
               expanded: _expandedShot == frames[i].index,
               onToggle: () => setState(() {
                 final id = frames[i].index;
@@ -557,6 +557,8 @@ class _FrameSlotCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final frameName = AppCopy.csFrameName(l10n, frame.index);
     final filled = slot.isFilled;
     final boxBorder = filled ? AppColors.primary : AppColors.textPrimary;
     final boxBg = filled ? AppColors.primary : Colors.transparent;
@@ -624,7 +626,7 @@ class _FrameSlotCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  frame.name,
+                                  frameName,
                                   style: AppTypography.bodyLarge.copyWith(
                                     fontSize: 13.5,
                                     fontWeight: FontWeight.w700,
@@ -736,7 +738,7 @@ class _FrameSlotCard extends StatelessWidget {
                                         child: Text(
                                           AppLocalizations.of(context)
                                               .csDropYourShotHere(
-                                            frame.name.toLowerCase(),
+                                            frameName.toLowerCase(),
                                           ),
                                           textAlign: TextAlign.center,
                                           style: AppTypography.labelSmall

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/capture/presentation/capture_page.dart';
+import '../features/capture/presentation/capture_reference_page.dart';
 import '../features/checklist/presentation/frame_guide_page.dart';
 import '../features/checklist/presentation/framing_quiz_page.dart';
 import '../features/checklist/presentation/light_quiz_page.dart';
@@ -50,6 +51,7 @@ abstract final class AppRoute {
   static const String shotAndStyle = 'shotAndStyle';
   static const String lightingSetup = 'lightingSetup';
   static const String tutorial = 'tutorial';
+  static const String captureReference = 'captureReference';
   static const String capture = 'capture';
   static const String review = 'review';
   static const String completion = 'completion';
@@ -266,6 +268,14 @@ GoRouter createRouter() {
       ),
       // Alignment is no longer a screen of its own: the grid, the alignment
       // instruction and the live checks all live on the camera.
+      GoRoute(
+        path: '/product/:setId/capture-ref',
+        name: AppRoute.captureReference,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => CaptureReferencePage(
+          setId: state.pathParameters['setId']!,
+        ),
+      ),
       GoRoute(
         path: '/product/:setId/capture',
         name: AppRoute.capture,

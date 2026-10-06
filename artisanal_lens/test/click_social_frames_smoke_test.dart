@@ -296,4 +296,13 @@ void main() {
     expect(template.needsStyleStep, isFalse);
     expect(template.guidance, isNotEmpty);
   });
+
+  test('each listing frame has a camera-layout reference photo', () {
+    for (final index in clickSocialOfferedFrames) {
+      final asset = clickSocialCameraRefAsset(index);
+      expect(File(asset).existsSync(), isTrue, reason: asset);
+      expect(asTemplate(frameByIndex(index)!).referenceImageAsset, asset);
+      expect(clickSocialCameraPlacementLines(index), isNotEmpty);
+    }
+  });
 }

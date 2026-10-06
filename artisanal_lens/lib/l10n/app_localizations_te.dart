@@ -3411,4 +3411,133 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get csVideoSelected => 'వీడియో ఎంచుకోబడింది — మార్చడానికి నొక్కండి';
+
+  @override
+  String get csPlaceItLikeThis => 'ఇలా ఉంచండి';
+
+  @override
+  String get csOpenCameraCta => 'కెమెరా తెరవండి';
+
+  @override
+  String get csFrameFallback => 'ఫ్రేమ్';
+
+  @override
+  String get csProductMekhela => 'మేఖల చాదర్';
+
+  @override
+  String get csProductSari => 'చీర';
+
+  @override
+  String get csProductStole => 'స్టోల్ / దుప్పట్టా';
+
+  @override
+  String get csFrame0Name => 'పూర్తి ప్రదర్శన';
+
+  @override
+  String get csFrame1Name => 'దగ్గరి టెక్స్చర్';
+
+  @override
+  String get csFrame2Name => 'డ్రేప్డ్ లుక్';
+
+  @override
+  String get csFrame3Name => 'ఎంబ్రాయిడరీ & బోర్డర్';
+
+  @override
+  String get csFrame4Name => 'మడతల స్టాక్';
+
+  @override
+  String get csFrame8Name => 'వేలాడదీసిన ప్రదర్శన';
+
+  @override
+  String get csFrame0Content => 'రంగు, నమూనా, పదార్థం';
+
+  @override
+  String get csFrame1Content => 'టెక్స్చర్, మందం, పదార్థం';
+
+  @override
+  String get csFrame2Content => 'సన్నదనం, మెరుపు, ప్రవాహం, బరువు';
+
+  @override
+  String get csFrame3Content => 'ఎంబ్రాయిడరీ మరియు నాణ్యత';
+
+  @override
+  String get csFrame4Content => 'మందం మరియు పదార్థం';
+
+  @override
+  String get csFrame8Content => 'డ్రేప్, సమానత, ఫ్రింజ్';
+
+  @override
+  String get csCam0a => 'మొత్తం వస్త్రం డాష్ బాక్స్ లోపల';
+
+  @override
+  String get csCam0b => 'నేల లేదా టేబుల్‌పై విప్పండి — వేలాడదీయవద్దు';
+
+  @override
+  String get csCam0c => 'అంచులు గ్రిడ్‌కు సమాంతరంగా ఉంచండి';
+
+  @override
+  String get csCam1a => 'మధ్య బాక్స్‌ను నేసిన వస్త్రంతో నింపండి';
+
+  @override
+  String get csCam1b => 'మోటిఫ్‌ను మధ్యలో ఉంచండి';
+
+  @override
+  String get csCam1c => 'ఫోన్‌ను 15–30 సెం.మీ. దూరంలో పట్టుకోండి';
+
+  @override
+  String get csCam2a => 'మడతలు వికర్ణం వెంబడి పడనివ్వండి';
+
+  @override
+  String get csCam2b => 'ఒక చివర స్వేచ్ఛగా వేలాడనివ్వండి';
+
+  @override
+  String get csCam2c => 'కుర్చీ దిగువ సగంలో ఉండాలి';
+
+  @override
+  String get csCam3a => 'మోటిఫ్‌ను చిన్న కిటికీలో ఉంచండి';
+
+  @override
+  String get csCam3b => 'బోర్డర్ మిగిలిన ఫ్రేమ్‌ను నింపాలి';
+
+  @override
+  String get csCam3c => 'కొద్ది మడత బోర్డర్‌కు లోతు ఇస్తుంది';
+
+  @override
+  String get csCam4a => 'స్టాక్ డాష్ బాక్స్ లోపల ఉండాలి';
+
+  @override
+  String get csCam4b => 'పొరలు అడ్డు రేఖలపై ఉండాలి';
+
+  @override
+  String get csCam4c => 'మడత అంచు కెమెరా వైపు';
+
+  @override
+  String get csCam8a => 'మధ్య నిలువు రేఖపై వేలాడదీయండి';
+
+  @override
+  String get csCam8b => 'రాడ్ బాక్స్ పైభాగంలో';
+
+  @override
+  String get csCam8c => 'కింద ఫ్రింజ్‌లు సమానంగా';
+
+  @override
+  String get csCamFallback => 'ఉత్పత్తిని డాష్ బాక్స్ లోపల ఉంచండి';
+
+  @override
+  String get csHintFullDisplay => 'మొత్తం వస్త్రాన్ని ఈ ఫ్రేమ్‌లో ఉంచండి';
+
+  @override
+  String get csHintCloseUp => 'ఈ బాక్స్‌ను నేసిన వస్త్రంతో నింపండి';
+
+  @override
+  String get csHintDrape => 'వస్త్రం వికర్ణం వెంబడి పడనివ్వండి';
+
+  @override
+  String get csHintBorder => 'బోర్డర్ / మోటిఫ్ ఈ కిటికీలో ఉంచండి';
+
+  @override
+  String get csHintFolded => 'మడతల స్టాక్‌ను ఈ బాక్స్‌లో ఉంచండి';
+
+  @override
+  String get csHintHanging => 'వస్త్రాన్ని మధ్యలో, రాడ్ కింద వేలాడదీయండి';
 }

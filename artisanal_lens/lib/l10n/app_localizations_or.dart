@@ -3407,4 +3407,133 @@ class AppLocalizationsOr extends AppLocalizations {
   @override
   String get csVideoSelected =>
       'ଭିଡିଓ ମନୋନୀତ - ପରିବର୍ତ୍ତନ କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ |';
+
+  @override
+  String get csPlaceItLikeThis => 'ଏହିପରି ରଖନ୍ତୁ';
+
+  @override
+  String get csOpenCameraCta => 'କ୍ୟାମେରା ଖୋଲନ୍ତୁ';
+
+  @override
+  String get csFrameFallback => 'ଫ୍ରେମ୍';
+
+  @override
+  String get csProductMekhela => 'ମେଖେଲା ସାଦୋର';
+
+  @override
+  String get csProductSari => 'ସାଢ଼ୀ';
+
+  @override
+  String get csProductStole => 'ଷ୍ଟୋଲ / ଦୁପଟ୍ଟା';
+
+  @override
+  String get csFrame0Name => 'ସମ୍ପୂର୍ଣ୍ଣ ପ୍ରଦର୍ଶନ';
+
+  @override
+  String get csFrame1Name => 'ନିକଟ ଟେକ୍ସଚର୍';
+
+  @override
+  String get csFrame2Name => 'ଡ୍ରେପ୍ ଲୁକ୍';
+
+  @override
+  String get csFrame3Name => 'ଏମ୍ବ୍ରଏଡରୀ ଓ ବର୍ଡର୍';
+
+  @override
+  String get csFrame4Name => 'ମଡ଼ା ଗଦ';
+
+  @override
+  String get csFrame8Name => 'ଝୁଲାଇ ପ୍ରଦର୍ଶନ';
+
+  @override
+  String get csFrame0Content => 'ରଙ୍ଗ, ନମୁନା, ସାମଗ୍ରୀ';
+
+  @override
+  String get csFrame1Content => 'ଟେକ୍ସଚର୍, ମୋଟା, ସାମଗ୍ରୀ';
+
+  @override
+  String get csFrame2Content => 'ପତଳାପଣ, ଚିକ୍‌ମିକ୍, ପ୍ରବାହ, ଓଜନ';
+
+  @override
+  String get csFrame3Content => 'ଏମ୍ବ୍ରଏଡରୀ ଓ ଗୁଣ';
+
+  @override
+  String get csFrame4Content => 'ମୋଟା ଓ ସାମଗ୍ରୀ';
+
+  @override
+  String get csFrame8Content => 'ଡ୍ରେପ୍, ସମତା, ଫ୍ରିଞ୍ଜ';
+
+  @override
+  String get csCam0a => 'ସମ୍ପୂର୍ଣ୍ଣ କପଡ଼ା ଡ୍ୟାସ୍ ବାକ୍ସ ଭିତରେ';
+
+  @override
+  String get csCam0b => 'ଚଟାଣ କିମ୍ବା ଟେବୁଲରେ ମେଲାନ୍ତୁ — ଝୁଲାନ୍ତୁ ନାହିଁ';
+
+  @override
+  String get csCam0c => 'ଧାରଗୁଡ଼ିକ ଗ୍ରିଡ୍ ସହ ସମାନ୍ତରାଳ ରଖନ୍ତୁ';
+
+  @override
+  String get csCam1a => 'ମଝି ବାକ୍ସକୁ ବୁଣା କପଡ଼ାରେ ଭରନ୍ତୁ';
+
+  @override
+  String get csCam1b => 'ମୋଟିଫ୍ ମଝିରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csCam1c => 'ଫୋନ୍ ୧୫–୩୦ ସେ.ମି. ଦୂରରେ ଧରନ୍ତୁ';
+
+  @override
+  String get csCam2a => 'ମଡ଼ାଗୁଡ଼ିକୁ ତିର୍ଯକ ରେଖାରେ ପଡ଼ିବାକୁ ଦିଅନ୍ତୁ';
+
+  @override
+  String get csCam2b => 'ଗୋଟିଏ ମୁଣ୍ଡ ଖୋଲାରେ ଝୁଲୁଥାଉ';
+
+  @override
+  String get csCam2c => 'ଚୌକି ତଳ ଅଧାରେ ରହୁ';
+
+  @override
+  String get csCam3a => 'ମୋଟିଫ୍ ଛୋଟ ଝରକାରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csCam3b => 'ବର୍ଡର୍ ବାକି ଫ୍ରେମ୍ ଭରୁ';
+
+  @override
+  String get csCam3c => 'ସାମାନ୍ୟ ମଡ଼ା ବର୍ଡରକୁ ଗଭୀରତା ଦିଏ';
+
+  @override
+  String get csCam4a => 'ଗଦ ଡ୍ୟାସ୍ ବାକ୍ସ ଭିତରେ ରହୁ';
+
+  @override
+  String get csCam4b => 'ସ୍ତରଗୁଡ଼ିକ ଭୂସମାନ୍ତରାଳ ରେଖାରେ ରହନ୍ତୁ';
+
+  @override
+  String get csCam4c => 'ମଡ଼ା ଧାର କ୍ୟାମେରା ଆଡ଼କୁ';
+
+  @override
+  String get csCam8a => 'ମଝି ଭୂଲମ୍ବ ରେଖାରେ ଝୁଲାନ୍ତୁ';
+
+  @override
+  String get csCam8b => 'ରଡ୍ ବାକ୍ସର ଉପରେ';
+
+  @override
+  String get csCam8c => 'ତଳେ ଫ୍ରିଞ୍ଜ ସମାନ';
+
+  @override
+  String get csCamFallback => 'ସାମଗ୍ରୀ ଡ୍ୟାସ୍ ବାକ୍ସ ଭିତରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csHintFullDisplay => 'ସମ୍ପୂର୍ଣ୍ଣ କପଡ଼ା ଏହି ଫ୍ରେମ୍ ଭିତରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csHintCloseUp => 'ଏହି ବାକ୍ସକୁ ବୁଣା କପଡ଼ାରେ ଭରନ୍ତୁ';
+
+  @override
+  String get csHintDrape => 'କପଡ଼ା ତିର୍ଯକ ରେଖାରେ ପଡ଼ିବାକୁ ଦିଅନ୍ତୁ';
+
+  @override
+  String get csHintBorder => 'ବର୍ଡର୍ / ମୋଟିଫ୍ ଏହି ଝରକାରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csHintFolded => 'ମଡ଼ା ଗଦ ଏହି ବାକ୍ସରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csHintHanging => 'କପଡ଼ା ମଝିରେ, ରଡ୍ ତଳେ ଝୁଲାନ୍ତୁ';
 }

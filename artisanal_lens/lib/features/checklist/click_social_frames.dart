@@ -329,6 +329,47 @@ const clickSocialFrames = <ClickSocialFrame>[
 /// Listing frames shown on Pick your frames (the six we keep).
 const clickSocialOfferedFrames = <int>[0, 1, 2, 3, 4, 8];
 
+/// Camera-layout reference shown after Capture, before the live shutter.
+String clickSocialCameraRefAsset(int index) =>
+    '$_guides/cs_cam_ref_$index.jpg';
+
+/// Where each part of the product sits on that camera grid.
+List<String> clickSocialCameraPlacementLines(int index) => switch (index) {
+      0 => const [
+          'Whole piece inside the dashed box',
+          'Spread it on the floor or a table — do not hang it',
+          'Keep edges parallel to the grid',
+        ],
+      1 => const [
+          'Fill the centre box with the weave',
+          'Keep the motif in the middle',
+          'Hold the phone 15–30 cm away',
+        ],
+      2 => const [
+          'Let the folds follow the diagonal',
+          'One end hangs free',
+          'Chair sits in the lower half',
+        ],
+      3 => const [
+          'Put the motif in the small window',
+          'Border fills the rest of the frame',
+          'A slight fold gives the border depth',
+        ],
+      4 => const [
+          'Stack sits inside the dashed box',
+          'Layers rest on the horizontal lines',
+          'Folded edge faces the camera',
+        ],
+      8 => const [
+          'Hang on the centre vertical line',
+          'Rod at the top of the box',
+          'Fringes even at the bottom',
+        ],
+      _ => const [
+          'Keep the product inside the dashed box',
+        ],
+    };
+
 /// Kept for older panel/light-quiz call sites — same six as everyone else.
 const clickSocialPanelFrames = clickSocialOfferedFrames;
 
@@ -456,7 +497,7 @@ List<String> clickSocialMakingGallery(String? clusterId) {
 /// The camera, lighting screen and grid overlay all read a
 /// [PhotographyTemplate], so a picked frame has to become one. [skipsStyleStep]
 /// is always true: the Click & Social guide replaces the fold step, so
-/// `beginCaptureForSlot` goes straight from here to Lighting, then the camera.
+/// `beginCaptureForSlot` opens the camera-layout reference, then the shutter.
 PhotographyTemplate asTemplate(ClickSocialFrame f, {String? thumbAsset}) {
   final steps = _baseGuideSteps(
     f.index,
@@ -492,7 +533,9 @@ PhotographyTemplate asTemplate(ClickSocialFrame f, {String? thumbAsset}) {
     placement: steps.isEmpty ? f.content : steps.first.subtitle,
     guidance: setup,
     overlayCaption: steps.isEmpty ? f.name : steps.first.title,
-    referenceImageAsset: thumbAsset ?? f.thumbAsset,
+    referenceImageAsset: clickSocialOfferedFrames.contains(f.index)
+        ? clickSocialCameraRefAsset(f.index)
+        : (thumbAsset ?? f.thumbAsset),
     skipsStyleStep: true,
     highlightedProperties: switch (f.arch) {
       FrameArch.thirds => const [

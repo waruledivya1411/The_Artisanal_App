@@ -64,12 +64,12 @@ class _CapturePageState extends ConsumerState<CapturePage> {
       technique.grid,
     );
     final overlayCaption = camera.feedback.hasVisiblePrompt
-        ? placement.hint
+        ? AppCopy.csPlacementHint(l10n, placement)
         : (AppCopy.overlayCaptionForTemplate(
               l10n,
               guidance.templateId ?? guidance.templateName,
             ) ??
-            placement.hint);
+            AppCopy.csPlacementHint(l10n, placement));
 
     return Scaffold(
       backgroundColor: AppColors.textPrimary,

@@ -165,27 +165,29 @@ class _LogoCard extends StatelessWidget {
   final String asset;
   final double progress;
 
+  static const double _width = 156;
+  static const double _height = 182;
+
   @override
   Widget build(BuildContext context) {
-    final scale = 0.92 + (0.08 * progress);
+    final dpr = MediaQuery.devicePixelRatioOf(context);
     return Opacity(
       opacity: progress,
-      child: Transform.scale(
-        scale: scale,
-        child: Material(
-          color: AppColors.white,
-          elevation: 5 * progress,
-          shadowColor: AppColors.primary.withValues(alpha: 0.16),
-          borderRadius: BorderRadius.circular(22),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(18, 16, 18, 14),
-            child: Image.asset(
-              asset,
-              width: 118,
-              height: 138,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
-            ),
+      child: Material(
+        color: AppColors.white,
+        elevation: 5 * progress,
+        shadowColor: AppColors.primary.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(22),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(22, 20, 22, 16),
+          child: Image.asset(
+            asset,
+            width: _width,
+            height: _height,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.high,
+            isAntiAlias: true,
+            cacheWidth: (_width * dpr).round(),
           ),
         ),
       ),

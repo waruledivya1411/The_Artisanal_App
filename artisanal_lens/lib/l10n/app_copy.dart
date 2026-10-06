@@ -7,6 +7,7 @@ import '../domain/entities/fold_preset.dart';
 import '../domain/entities/lighting_advisory.dart';
 import '../domain/entities/photography_guideline.dart';
 import '../domain/entities/photography_template.dart';
+import '../domain/entities/placement_kind.dart';
 import '../domain/entities/shot_set.dart';
 import '../domain/entities/shot_type.dart';
 import '../domain/entities/technique_preset.dart';
@@ -1173,4 +1174,57 @@ abstract final class AppCopy {
         ],
         _ => const [],
       };
+
+  static String csFrameName(AppLocalizations l10n, int index) => switch (index) {
+        0 => l10n.csFrame0Name,
+        1 => l10n.csFrame1Name,
+        2 => l10n.csFrame2Name,
+        3 => l10n.csFrame3Name,
+        4 => l10n.csFrame4Name,
+        8 => l10n.csFrame8Name,
+        _ => l10n.csFrameFallback,
+      };
+
+  static String csFrameContent(AppLocalizations l10n, int index) =>
+      switch (index) {
+        0 => l10n.csFrame0Content,
+        1 => l10n.csFrame1Content,
+        2 => l10n.csFrame2Content,
+        3 => l10n.csFrame3Content,
+        4 => l10n.csFrame4Content,
+        8 => l10n.csFrame8Content,
+        _ => '',
+      };
+
+  static List<String> csCameraLines(AppLocalizations l10n, int index) =>
+      switch (index) {
+        0 => [l10n.csCam0a, l10n.csCam0b, l10n.csCam0c],
+        1 => [l10n.csCam1a, l10n.csCam1b, l10n.csCam1c],
+        2 => [l10n.csCam2a, l10n.csCam2b, l10n.csCam2c],
+        3 => [l10n.csCam3a, l10n.csCam3b, l10n.csCam3c],
+        4 => [l10n.csCam4a, l10n.csCam4b, l10n.csCam4c],
+        8 => [l10n.csCam8a, l10n.csCam8b, l10n.csCam8c],
+        _ => [l10n.csCamFallback],
+      };
+
+  static String csPlacementHint(AppLocalizations l10n, PlacementKind kind) =>
+      switch (kind) {
+        PlacementKind.fullDisplay => l10n.csHintFullDisplay,
+        PlacementKind.closeUp => l10n.csHintCloseUp,
+        PlacementKind.drape => l10n.csHintDrape,
+        PlacementKind.border => l10n.csHintBorder,
+        PlacementKind.folded => l10n.csHintFolded,
+        PlacementKind.hanging => l10n.csHintHanging,
+        _ => kind.hint,
+      };
+
+  static String csProductLabel(AppLocalizations l10n, String? name) {
+    final n = (name ?? '').toLowerCase();
+    if (n.contains('mekhela')) return l10n.csProductMekhela;
+    if (n.contains('stole') || n.contains('dupatta')) {
+      return l10n.csProductStole;
+    }
+    if (n.contains('sari') || n.contains('saree')) return l10n.csProductSari;
+    return name ?? '';
+  }
 }

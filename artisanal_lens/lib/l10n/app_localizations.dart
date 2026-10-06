@@ -6191,6 +6191,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Video selected — tap to change'**
   String get csVideoSelected;
+
+  /// No description provided for @csPlaceItLikeThis.
+  ///
+  /// In en, this message translates to:
+  /// **'PLACE IT LIKE THIS'**
+  String get csPlaceItLikeThis;
+
+  /// No description provided for @csOpenCameraCta.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN CAMERA'**
+  String get csOpenCameraCta;
+
+  /// No description provided for @csFrameFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame'**
+  String get csFrameFallback;
+
+  /// No description provided for @csProductMekhela.
+  ///
+  /// In en, this message translates to:
+  /// **'Mekhela sador'**
+  String get csProductMekhela;
+
+  /// No description provided for @csProductSari.
+  ///
+  /// In en, this message translates to:
+  /// **'Sari'**
+  String get csProductSari;
+
+  /// No description provided for @csProductStole.
+  ///
+  /// In en, this message translates to:
+  /// **'Stole / Dupatta'**
+  String get csProductStole;
+
+  /// No description provided for @csFrame0Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Full display'**
+  String get csFrame0Name;
+
+  /// No description provided for @csFrame1Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Close-up texture'**
+  String get csFrame1Name;
+
+  /// No description provided for @csFrame2Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Draped look'**
+  String get csFrame2Name;
+
+  /// No description provided for @csFrame3Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Embroidery & border'**
+  String get csFrame3Name;
+
+  /// No description provided for @csFrame4Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Folded stack'**
+  String get csFrame4Name;
+
+  /// No description provided for @csFrame8Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Hanging display'**
+  String get csFrame8Name;
+
+  /// No description provided for @csFrame0Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour, pattern, material'**
+  String get csFrame0Content;
+
+  /// No description provided for @csFrame1Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Texture, thickness, material'**
+  String get csFrame1Content;
+
+  /// No description provided for @csFrame2Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Flimsiness, sheen, flow, weight'**
+  String get csFrame2Content;
+
+  /// No description provided for @csFrame3Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Embroidery and quality'**
+  String get csFrame3Content;
+
+  /// No description provided for @csFrame4Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Thickness and material'**
+  String get csFrame4Content;
+
+  /// No description provided for @csFrame8Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Drape, symmetry, fringe'**
+  String get csFrame8Content;
+
+  /// No description provided for @csCam0a.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole piece inside the dashed box'**
+  String get csCam0a;
+
+  /// No description provided for @csCam0b.
+  ///
+  /// In en, this message translates to:
+  /// **'Spread it on the floor or a table — do not hang it'**
+  String get csCam0b;
+
+  /// No description provided for @csCam0c.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep edges parallel to the grid'**
+  String get csCam0c;
+
+  /// No description provided for @csCam1a.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the centre box with the weave'**
+  String get csCam1a;
+
+  /// No description provided for @csCam1b.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the motif in the middle'**
+  String get csCam1b;
+
+  /// No description provided for @csCam1c.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the phone 15–30 cm away'**
+  String get csCam1c;
+
+  /// No description provided for @csCam2a.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the folds follow the diagonal'**
+  String get csCam2a;
+
+  /// No description provided for @csCam2b.
+  ///
+  /// In en, this message translates to:
+  /// **'One end hangs free'**
+  String get csCam2b;
+
+  /// No description provided for @csCam2c.
+  ///
+  /// In en, this message translates to:
+  /// **'Chair sits in the lower half'**
+  String get csCam2c;
+
+  /// No description provided for @csCam3a.
+  ///
+  /// In en, this message translates to:
+  /// **'Put the motif in the small window'**
+  String get csCam3a;
+
+  /// No description provided for @csCam3b.
+  ///
+  /// In en, this message translates to:
+  /// **'Border fills the rest of the frame'**
+  String get csCam3b;
+
+  /// No description provided for @csCam3c.
+  ///
+  /// In en, this message translates to:
+  /// **'A slight fold gives the border depth'**
+  String get csCam3c;
+
+  /// No description provided for @csCam4a.
+  ///
+  /// In en, this message translates to:
+  /// **'Stack sits inside the dashed box'**
+  String get csCam4a;
+
+  /// No description provided for @csCam4b.
+  ///
+  /// In en, this message translates to:
+  /// **'Layers rest on the horizontal lines'**
+  String get csCam4b;
+
+  /// No description provided for @csCam4c.
+  ///
+  /// In en, this message translates to:
+  /// **'Folded edge faces the camera'**
+  String get csCam4c;
+
+  /// No description provided for @csCam8a.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang on the centre vertical line'**
+  String get csCam8a;
+
+  /// No description provided for @csCam8b.
+  ///
+  /// In en, this message translates to:
+  /// **'Rod at the top of the box'**
+  String get csCam8b;
+
+  /// No description provided for @csCam8c.
+  ///
+  /// In en, this message translates to:
+  /// **'Fringes even at the bottom'**
+  String get csCam8c;
+
+  /// No description provided for @csCamFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the product inside the dashed box'**
+  String get csCamFallback;
+
+  /// No description provided for @csHintFullDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the whole piece inside this frame'**
+  String get csHintFullDisplay;
+
+  /// No description provided for @csHintCloseUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill this box with the weave'**
+  String get csHintCloseUp;
+
+  /// No description provided for @csHintDrape.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the cloth fall along the diagonal'**
+  String get csHintDrape;
+
+  /// No description provided for @csHintBorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Put the border / motif in this window'**
+  String get csHintBorder;
+
+  /// No description provided for @csHintFolded.
+  ///
+  /// In en, this message translates to:
+  /// **'Lay the folded stack in this box'**
+  String get csHintFolded;
+
+  /// No description provided for @csHintHanging.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang the piece in the centre, under the rod'**
+  String get csHintHanging;
 }
 
 class _AppLocalizationsDelegate

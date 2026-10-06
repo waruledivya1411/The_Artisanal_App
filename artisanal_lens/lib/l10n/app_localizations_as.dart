@@ -3349,4 +3349,133 @@ class AppLocalizationsAs extends AppLocalizations {
   @override
   String get csVideoSelected =>
       'ভিডিঅ\' নিৰ্বাচিত কৰা হৈছে — সলনি কৰিবলৈ টেপ কৰক';
+
+  @override
+  String get csPlaceItLikeThis => 'এনেদৰে ৰাখক';
+
+  @override
+  String get csOpenCameraCta => 'কেমেৰা খোলক';
+
+  @override
+  String get csFrameFallback => 'ফ্ৰেম';
+
+  @override
+  String get csProductMekhela => 'মেখেলা চাদৰ';
+
+  @override
+  String get csProductSari => 'শাড়ী';
+
+  @override
+  String get csProductStole => 'ষ্ট\'ল / দুপাট্টা';
+
+  @override
+  String get csFrame0Name => 'সম্পূৰ্ণ প্ৰদৰ্শন';
+
+  @override
+  String get csFrame1Name => 'ওচৰৰ টেক্সচাৰ';
+
+  @override
+  String get csFrame2Name => 'ড্ৰেপ লুক';
+
+  @override
+  String get csFrame3Name => 'এমব্ৰয়ডাৰী আৰু বৰ্ডাৰ';
+
+  @override
+  String get csFrame4Name => 'ভাঁজ কৰা স্তূপ';
+
+  @override
+  String get csFrame8Name => 'ওলোমাই ৰখা প্ৰদৰ্শন';
+
+  @override
+  String get csFrame0Content => 'ৰং, আৰ্হি, সামগ্ৰী';
+
+  @override
+  String get csFrame1Content => 'টেক্সচাৰ, ডাঠ, সামগ্ৰী';
+
+  @override
+  String get csFrame2Content => 'পাতলতা, চিকমিকনি, প্ৰবাহ, ওজন';
+
+  @override
+  String get csFrame3Content => 'এমব্ৰয়ডাৰী আৰু গুণ';
+
+  @override
+  String get csFrame4Content => 'ডাঠ আৰু সামগ্ৰী';
+
+  @override
+  String get csFrame8Content => 'ড্ৰেপ, সমতা, ফ্ৰিঞ্জ';
+
+  @override
+  String get csCam0a => 'গোটেই কাপোৰখন ডেশ্ব বাকচৰ ভিতৰত';
+
+  @override
+  String get csCam0b => 'মজিয়া বা মেজত মেলি ৰাখক — ওলোমাই নিদিব';
+
+  @override
+  String get csCam0c => 'কাষবোৰ গ্ৰিডৰ সৈতে সমান্তৰাল ৰাখক';
+
+  @override
+  String get csCam1a => 'মাজৰ বাকচখন বোৱা কাপোৰেৰে ভৰাওক';
+
+  @override
+  String get csCam1b => 'মটিফটো মাজত ৰাখক';
+
+  @override
+  String get csCam1c => 'ফোনখন ১৫–৩০ ছে.মি. দূৰত ধৰক';
+
+  @override
+  String get csCam2a => 'ভাঁজবোৰ তিৰ্যক ৰেখাৰে যাবলৈ দিয়ক';
+
+  @override
+  String get csCam2b => 'এটা মূৰ মুকলিকৈ ওলমি থাকক';
+
+  @override
+  String get csCam2c => 'চকীখন তলৰ আধাত থাকক';
+
+  @override
+  String get csCam3a => 'মটিফটো সৰু খিৰিকীত ৰাখক';
+
+  @override
+  String get csCam3b => 'বৰ্ডাৰে বাকী ফ্ৰেম ভৰাওক';
+
+  @override
+  String get csCam3c => 'সামান্য ভাঁজে বৰ্ডাৰক গভীৰতা দিয়ে';
+
+  @override
+  String get csCam4a => 'স্তূপটো ডেশ্ব বাকচৰ ভিতৰত থাকক';
+
+  @override
+  String get csCam4b => 'স্তৰবোৰ অনুভূমিক ৰেখাত থাকক';
+
+  @override
+  String get csCam4c => 'ভাঁজৰ কাষ কেমেৰাৰ ফালে';
+
+  @override
+  String get csCam8a => 'মাজৰ উলম্ব ৰেখাত ওলোমাই ৰাখক';
+
+  @override
+  String get csCam8b => 'ৰডডাল বাকচৰ ওপৰত';
+
+  @override
+  String get csCam8c => 'তলত ফ্ৰিঞ্জ সমান';
+
+  @override
+  String get csCamFallback => 'সামগ্ৰী ডেশ্ব বাকচৰ ভিতৰত ৰাখক';
+
+  @override
+  String get csHintFullDisplay => 'গোটেই কাপোৰখন এই ফ্ৰেমৰ ভিতৰত ৰাখক';
+
+  @override
+  String get csHintCloseUp => 'এই বাকচখন বোৱা কাপোৰেৰে ভৰাওক';
+
+  @override
+  String get csHintDrape => 'কাপোৰখন তিৰ্যক ৰেখাৰে পৰিবলৈ দিয়ক';
+
+  @override
+  String get csHintBorder => 'বৰ্ডাৰ / মটিফ এই খিৰিকীত ৰাখক';
+
+  @override
+  String get csHintFolded => 'ভাঁজ কৰা স্তূপ এই বাকচত ৰাখক';
+
+  @override
+  String get csHintHanging => 'কাপোৰখন মাজত, ৰডৰ তলত ওলোমাই ৰাখক';
 }
