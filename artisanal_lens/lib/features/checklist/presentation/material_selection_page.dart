@@ -89,10 +89,8 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
   }
 
   String _assetFor(String materialId) => switch (materialId) {
-        'cotton' =>
-          'assets/images/clusters/kamrup/sari/cotton/woven/close-up_texture.jpg',
-        'silk' =>
-          'assets/images/clusters/kamrup/sari/silk/woven/close-up_texture.jpg',
+        'cotton' => 'assets/images/materials/cotton.jpg',
+        'silk' => 'assets/images/materials/silk.jpg',
         'mulberry' => 'assets/images/materials/mulberry.jpg',
         'zari' => 'assets/images/materials/zari.jpg',
         'eri' => 'assets/images/materials/eri.jpg',

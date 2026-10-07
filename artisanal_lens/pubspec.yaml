@@ -99,14 +99,94 @@ flutter:
     - assets/images/clusters/kamrup/mekhela/cotton/handpainted/
     - assets/images/clusters/kamrup/mekhela/silk/woven/
     - assets/images/clusters/kamrup/mekhela/silk/handpainted/
+    - assets/images/clusters/kamrup/mekhela/mulberry/woven/
+    - assets/images/clusters/kamrup/mekhela/mulberry/handpainted/
+    - assets/images/clusters/kamrup/mekhela/zari/woven/
+    - assets/images/clusters/kamrup/mekhela/zari/handpainted/
+    - assets/images/clusters/kamrup/mekhela/eri/woven/
+    - assets/images/clusters/kamrup/mekhela/eri/handpainted/
+    - assets/images/clusters/kamrup/mekhela/tussar/woven/
+    - assets/images/clusters/kamrup/mekhela/tussar/handpainted/
+    - assets/images/clusters/kamrup/mekhela/tussar-gheecha/woven/
+    - assets/images/clusters/kamrup/mekhela/tussar-gheecha/handpainted/
+    - assets/images/clusters/kamrup/mekhela/muga/woven/
+    - assets/images/clusters/kamrup/mekhela/muga/handpainted/
+    - assets/images/clusters/kamrup/mekhela/muga-gheecha/woven/
+    - assets/images/clusters/kamrup/mekhela/muga-gheecha/handpainted/
+    - assets/images/clusters/kamrup/mekhela/spun-silk/woven/
+    - assets/images/clusters/kamrup/mekhela/spun-silk/handpainted/
+    - assets/images/clusters/kamrup/mekhela/spun-tussar/woven/
+    - assets/images/clusters/kamrup/mekhela/spun-tussar/handpainted/
     - assets/images/clusters/kamrup/sari/cotton/woven/
     - assets/images/clusters/kamrup/sari/cotton/handpainted/
     - assets/images/clusters/kamrup/sari/silk/woven/
     - assets/images/clusters/kamrup/sari/silk/handpainted/
+    - assets/images/clusters/kamrup/sari/mulberry/woven/
+    - assets/images/clusters/kamrup/sari/mulberry/handpainted/
+    - assets/images/clusters/kamrup/sari/zari/woven/
+    - assets/images/clusters/kamrup/sari/zari/handpainted/
+    - assets/images/clusters/kamrup/sari/eri/woven/
+    - assets/images/clusters/kamrup/sari/eri/handpainted/
+    - assets/images/clusters/kamrup/sari/tussar/woven/
+    - assets/images/clusters/kamrup/sari/tussar/handpainted/
+    - assets/images/clusters/kamrup/sari/tussar-gheecha/woven/
+    - assets/images/clusters/kamrup/sari/tussar-gheecha/handpainted/
+    - assets/images/clusters/kamrup/sari/muga/woven/
+    - assets/images/clusters/kamrup/sari/muga/handpainted/
+    - assets/images/clusters/kamrup/sari/muga-gheecha/woven/
+    - assets/images/clusters/kamrup/sari/muga-gheecha/handpainted/
+    - assets/images/clusters/kamrup/sari/spun-silk/woven/
+    - assets/images/clusters/kamrup/sari/spun-silk/handpainted/
+    - assets/images/clusters/kamrup/sari/spun-tussar/woven/
+    - assets/images/clusters/kamrup/sari/spun-tussar/handpainted/
     - assets/images/clusters/kamrup/stole/cotton/woven/
     - assets/images/clusters/kamrup/stole/cotton/handpainted/
     - assets/images/clusters/kamrup/stole/silk/woven/
     - assets/images/clusters/kamrup/stole/silk/handpainted/
+    - assets/images/clusters/kamrup/shawl/cotton/woven/
+    - assets/images/clusters/kamrup/shawl/cotton/handpainted/
+    - assets/images/clusters/kamrup/shawl/silk/woven/
+    - assets/images/clusters/kamrup/shawl/silk/handpainted/
+    - assets/images/clusters/kamrup/shawl/mulberry/woven/
+    - assets/images/clusters/kamrup/shawl/mulberry/handpainted/
+    - assets/images/clusters/kamrup/shawl/zari/woven/
+    - assets/images/clusters/kamrup/shawl/zari/handpainted/
+    - assets/images/clusters/kamrup/shawl/eri/woven/
+    - assets/images/clusters/kamrup/shawl/eri/handpainted/
+    - assets/images/clusters/kamrup/shawl/tussar/woven/
+    - assets/images/clusters/kamrup/shawl/tussar/handpainted/
+    - assets/images/clusters/kamrup/shawl/tussar-gheecha/woven/
+    - assets/images/clusters/kamrup/shawl/tussar-gheecha/handpainted/
+    - assets/images/clusters/kamrup/shawl/muga/woven/
+    - assets/images/clusters/kamrup/shawl/muga/handpainted/
+    - assets/images/clusters/kamrup/shawl/muga-gheecha/woven/
+    - assets/images/clusters/kamrup/shawl/muga-gheecha/handpainted/
+    - assets/images/clusters/kamrup/shawl/spun-silk/woven/
+    - assets/images/clusters/kamrup/shawl/spun-silk/handpainted/
+    - assets/images/clusters/kamrup/shawl/spun-tussar/woven/
+    - assets/images/clusters/kamrup/shawl/spun-tussar/handpainted/
+    - assets/images/clusters/kamrup/gamusa/cotton/woven/
+    - assets/images/clusters/kamrup/gamusa/cotton/handpainted/
+    - assets/images/clusters/kamrup/gamusa/silk/woven/
+    - assets/images/clusters/kamrup/gamusa/silk/handpainted/
+    - assets/images/clusters/kamrup/gamusa/mulberry/woven/
+    - assets/images/clusters/kamrup/gamusa/mulberry/handpainted/
+    - assets/images/clusters/kamrup/gamusa/zari/woven/
+    - assets/images/clusters/kamrup/gamusa/zari/handpainted/
+    - assets/images/clusters/kamrup/gamusa/eri/woven/
+    - assets/images/clusters/kamrup/gamusa/eri/handpainted/
+    - assets/images/clusters/kamrup/gamusa/tussar/woven/
+    - assets/images/clusters/kamrup/gamusa/tussar/handpainted/
+    - assets/images/clusters/kamrup/gamusa/tussar-gheecha/woven/
+    - assets/images/clusters/kamrup/gamusa/tussar-gheecha/handpainted/
+    - assets/images/clusters/kamrup/gamusa/muga/woven/
+    - assets/images/clusters/kamrup/gamusa/muga/handpainted/
+    - assets/images/clusters/kamrup/gamusa/muga-gheecha/woven/
+    - assets/images/clusters/kamrup/gamusa/muga-gheecha/handpainted/
+    - assets/images/clusters/kamrup/gamusa/spun-silk/woven/
+    - assets/images/clusters/kamrup/gamusa/spun-silk/handpainted/
+    - assets/images/clusters/kamrup/gamusa/spun-tussar/woven/
+    - assets/images/clusters/kamrup/gamusa/spun-tussar/handpainted/
     - assets/images/clusters/maniabandha/
     - assets/images/clusters/maniabandha/mekhela/cotton/woven/
     - assets/images/clusters/maniabandha/mekhela/cotton/handpainted/
@@ -133,6 +213,19 @@ flutter:
     - assets/images/clusters/srikalahasti/stole/cotton/handpainted/
     - assets/images/clusters/srikalahasti/stole/silk/woven/
     - assets/images/clusters/srikalahasti/stole/silk/handpainted/
+    - assets/images/clusters/venkatgiri/
+    - assets/images/clusters/venkatgiri/sari/cotton/woven/
+    - assets/images/clusters/venkatgiri/sari/cotton/handpainted/
+    - assets/images/clusters/venkatgiri/sari/silk/woven/
+    - assets/images/clusters/venkatgiri/sari/silk/handpainted/
+    - assets/images/clusters/venkatgiri/mekhela/cotton/woven/
+    - assets/images/clusters/venkatgiri/mekhela/cotton/handpainted/
+    - assets/images/clusters/venkatgiri/mekhela/silk/woven/
+    - assets/images/clusters/venkatgiri/mekhela/silk/handpainted/
+    - assets/images/clusters/venkatgiri/stole/cotton/woven/
+    - assets/images/clusters/venkatgiri/stole/cotton/handpainted/
+    - assets/images/clusters/venkatgiri/stole/silk/woven/
+    - assets/images/clusters/venkatgiri/stole/silk/handpainted/
     - assets/images/techniques/
     - assets/images/techniques/by_product/
     - assets/images/silk_types/

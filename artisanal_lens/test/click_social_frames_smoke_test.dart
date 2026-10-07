@@ -105,6 +105,220 @@ void main() {
     expect(stoleFull, isNot(contains('templates/')));
   });
 
+  test('Assam shawl thumbs match cotton/silk and stay off stole folders', () {
+    final cottonFull = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'cotton',
+    );
+    final silkHang = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'silk',
+    );
+    expect(
+      cottonFull,
+      contains('clusters/kamrup/shawl/cotton/woven/full_display'),
+    );
+    expect(
+      silkHang,
+      contains('clusters/kamrup/shawl/silk/woven/hanging_display'),
+    );
+    expect(cottonFull, isNot(contains('/stole/')));
+  });
+
+  test('Assam shawl thumbs use mulberry and zari folders', () {
+    final mulberry = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'mulberry',
+    );
+    final zari = clickSocialFrames[3].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'zari',
+    );
+    final stoleMulberry = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Stole',
+      materialId: 'mulberry',
+    );
+    expect(
+      mulberry,
+      contains('clusters/kamrup/shawl/mulberry/woven/full_display'),
+    );
+    expect(
+      zari,
+      contains('clusters/kamrup/shawl/zari/woven/embroidery_and_border'),
+    );
+    expect(stoleMulberry, contains('clusters/kamrup/stole/silk/woven/'));
+  });
+
+  test('Assam gamusa thumbs match materials and stay off stole folders', () {
+    final cotton = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Gamusa',
+      materialId: 'cotton',
+    );
+    final muga = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Gamusa',
+      materialId: 'muga',
+    );
+    final gheecha = clickSocialFrames[4].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Gamusa',
+      materialId: 'tussar-gheecha',
+    );
+    expect(cotton, contains('clusters/kamrup/gamusa/cotton/woven/full_display'));
+    expect(muga, contains('clusters/kamrup/gamusa/muga/woven/hanging_display'));
+    expect(
+      gheecha,
+      contains('clusters/kamrup/gamusa/tussar-gheecha/woven/folded_stack'),
+    );
+    expect(cotton, isNot(contains('/stole/')));
+    expect(cotton, isNot(contains('/shawl/')));
+  });
+
+  test('Assam sari thumbs match materials and stay on sari folders', () {
+    final cotton = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'cotton',
+    );
+    final muga = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'muga',
+    );
+    final zari = clickSocialFrames[3].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'zari',
+    );
+    expect(cotton, contains('clusters/kamrup/sari/cotton/woven/full_display'));
+    expect(muga, contains('clusters/kamrup/sari/muga/woven/hanging_display'));
+    expect(zari, contains('clusters/kamrup/sari/zari/woven/embroidery_and_border'));
+    expect(cotton, isNot(contains('/shawl/')));
+    expect(cotton, isNot(contains('/gamusa/')));
+  });
+
+  test('Assam mekhela thumbs match named fibres', () {
+    final muga = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'muga',
+    );
+    final eri = clickSocialFrames[2].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'eri',
+    );
+    expect(muga, contains('clusters/kamrup/mekhela/muga/woven/full_display'));
+    expect(eri, contains('clusters/kamrup/mekhela/eri/woven/draped_look'));
+    expect(muga, isNot(contains('/sari/')));
+  });
+
+  test('Assam shawl thumbs use eri, tussar, tussar-gheecha and muga folders', () {
+    final eri = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'eri',
+    );
+    final tussar = clickSocialFrames[1].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'tussar',
+    );
+    final gheecha = clickSocialFrames[4].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'tussar-gheecha',
+    );
+    final muga = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'muga',
+    );
+    expect(eri, contains('clusters/kamrup/shawl/eri/woven/full_display'));
+    expect(tussar, contains('clusters/kamrup/shawl/tussar/woven/close-up_texture'));
+    expect(
+      gheecha,
+      contains('clusters/kamrup/shawl/tussar-gheecha/woven/folded_stack'),
+    );
+    expect(muga, contains('clusters/kamrup/shawl/muga/woven/hanging_display'));
+  });
+
+  test('Assam shawl thumbs use muga-gheecha, spun-silk and spun-tussar folders', () {
+    final mugaGheecha = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'muga-gheecha',
+    );
+    final spunSilk = clickSocialFrames[2].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'spun-silk',
+    );
+    final spunTussar = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'shawl',
+      technique: 'WOVEN',
+      productLabel: 'Shawl',
+      materialId: 'spun-tussar',
+    );
+    expect(
+      mugaGheecha,
+      contains('clusters/kamrup/shawl/muga-gheecha/woven/full_display'),
+    );
+    expect(
+      spunSilk,
+      contains('clusters/kamrup/shawl/spun-silk/woven/draped_look'),
+    );
+    expect(
+      spunTussar,
+      contains('clusters/kamrup/shawl/spun-tussar/woven/hanging_display'),
+    );
+  });
+
   test('Maniabandha thumbs match product + frame name', () {
     final sariFull = clickSocialFrames[0].thumbAssetFor(
       clusterId: 'maniabandha',
@@ -161,6 +375,92 @@ void main() {
     expect(sariHang, isNot(contains('kal-')));
   });
 
+  test('Venkatgiri sari thumbs match cotton/silk and woven/hand-painted', () {
+    final cottonWoven = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'cotton',
+    );
+    final silkPainted = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'saree',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Sari',
+      materialId: 'silk',
+    );
+    final stoleFallback = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Stole / Dupatta',
+      materialId: 'cotton',
+    );
+    expect(
+      cottonWoven,
+      contains('clusters/venkatgiri/sari/cotton/woven/full_display'),
+    );
+    expect(
+      silkPainted,
+      contains('clusters/venkatgiri/sari/silk/handpainted/hanging_display'),
+    );
+    expect(
+      stoleFallback,
+      contains('clusters/venkatgiri/stole/cotton/woven/full_display'),
+    );
+  });
+
+  test('Venkatgiri stole thumbs match cotton/silk and woven/hand-painted', () {
+    final cottonWoven = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'stole',
+      technique: 'WOVEN',
+      productLabel: 'Stole / Dupatta',
+      materialId: 'cotton',
+    );
+    final silkPainted = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'stole',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Stole / Dupatta',
+      materialId: 'silk',
+    );
+    expect(
+      cottonWoven,
+      contains('clusters/venkatgiri/stole/cotton/woven/full_display'),
+    );
+    expect(
+      silkPainted,
+      contains('clusters/venkatgiri/stole/silk/handpainted/hanging_display'),
+    );
+  });
+
+  test('Venkatgiri mekhela thumbs match cotton/silk and woven/hand-painted', () {
+    final cottonWoven = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'cotton',
+    );
+    final silkPainted = clickSocialFrames[2].thumbAssetFor(
+      clusterId: 'venkatgiri',
+      categoryId: 'saree',
+      technique: 'HAND-PAINTED',
+      productLabel: 'Mekhela sador',
+      materialId: 'silk',
+    );
+    expect(
+      cottonWoven,
+      contains('clusters/venkatgiri/mekhela/cotton/woven/full_display'),
+    );
+    expect(
+      silkPainted,
+      contains('clusters/venkatgiri/mekhela/silk/handpainted/draped_look'),
+    );
+  });
+
   test('Assam hand-painted does not fall back to Kalamkari thumbs', () {
     final thumb = clickSocialFrames[0].thumbAssetFor(
       clusterId: 'assam',
@@ -195,9 +495,9 @@ void main() {
     expect(productsForCluster('assam'), [
       'Mekhela sador',
       'Sari',
-      'Stole',
-      'Shawl',
       'Gamusa',
+      'Shawl',
+      'Stole',
       'Jod Kapur',
       'Yardages',
       'Home Furnishing',

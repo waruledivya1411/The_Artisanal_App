@@ -15,7 +15,7 @@ import '../home/click_social_clusters.dart';
 /// Where the extracted HTML reference photographs live.
 const String _guides = 'assets/images/guides';
 
-/// Listing-frame filenames shared by Kamrup, Maniabandha, and Srikalahasti.
+/// Listing-frame filenames shared by Kamrup, Maniabandha, Srikalahasti, and Venkatgiri sari/mekhela.
 /// Filenames match [ClickSocialFrame.name]; photos match that pose.
 const _clusterListingFrameImgs = <int, String>{
   0: 'full_display.jpg', // Full display
@@ -143,7 +143,10 @@ class ClickSocialFrame {
         productLabel: productLabel,
         categoryId: categoryId,
       );
-      final material = clickSocialMaterialFolder(materialId);
+      final material = clickSocialMaterialFolder(
+        materialId,
+        product: product,
+      );
       final tech = (technique ?? '').toUpperCase() == 'HAND-PAINTED'
           ? 'handpainted'
           : 'woven';
@@ -435,8 +438,29 @@ const clickSocialSilkMaterials = {
 bool clickSocialMaterialIsSilk(String? materialId) =>
     clickSocialSilkMaterials.contains((materialId ?? '').trim().toLowerCase());
 
-String clickSocialMaterialFolder(String? materialId) =>
-    clickSocialMaterialIsSilk(materialId) ? 'silk' : 'cotton';
+const _kamrupNamedFibreFolders = {
+  'mulberry',
+  'zari',
+  'eri',
+  'tussar',
+  'tussar-gheecha',
+  'muga',
+  'muga-gheecha',
+  'spun-silk',
+  'spun-tussar',
+};
+
+String clickSocialMaterialFolder(String? materialId, {String? product}) {
+  final id = (materialId ?? '').trim().toLowerCase();
+  if ((product == 'shawl' ||
+          product == 'gamusa' ||
+          product == 'sari' ||
+          product == 'mekhela') &&
+      _kamrupNamedFibreFolders.contains(id)) {
+    return id;
+  }
+  return clickSocialMaterialIsSilk(materialId) ? 'silk' : 'cotton';
+}
 
 /// HTML `isPanel` — a hand-painted Kalamkari panel.
 bool clickSocialIsPanel({String? categoryId, String? technique}) =>
@@ -457,20 +481,20 @@ String? clickSocialListingClusterDir(String? clusterId) => switch (clusterId) {
       'assam' => 'kamrup',
       'maniabandha' => 'maniabandha',
       'srikalahasti' => 'srikalahasti',
+      'venkatgiri' => 'venkatgiri',
       _ => null,
     };
 
-/// Kamrup folder: mekhela / sari / stole. Mekhela shares category `saree`, so
-/// the product label must win.
+/// Kamrup folder: mekhela / sari / stole / shawl / gamusa. Mekhela shares category
+/// `saree`, so the product label must win.
 String kamrupProductKey({String? productLabel, String? categoryId}) {
   final p = (productLabel ?? '').toLowerCase();
   if (p.contains('mekhela') || p.contains('jod') || p.contains('wrap')) {
     return 'mekhela';
   }
-  if (p.contains('gamusa') ||
-      p.contains('gamosa') ||
-      p.contains('furnish') ||
-      p.contains('shawl') ||
+  if (p.contains('shawl')) return 'shawl';
+  if (p.contains('gamusa') || p.contains('gamosa')) return 'gamusa';
+  if (p.contains('furnish') ||
       p.contains('cushion') ||
       p.contains('runner') ||
       p.contains('mat') ||

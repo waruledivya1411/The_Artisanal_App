@@ -229,9 +229,9 @@ const _sharedProducts = ['Mekhela sador', 'Sari', 'Stole'];
 const _kamrupProducts = [
   'Mekhela sador',
   'Sari',
-  'Stole',
-  'Shawl',
   'Gamusa',
+  'Shawl',
+  'Stole',
   'Jod Kapur',
   'Yardages',
   'Home Furnishing',
@@ -313,9 +313,9 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
       'Sari' => 'assets/images/products/sari.png',
       'Stole' || 'Stole / Dupatta' => 'assets/images/products/stole.png',
       'Shawl' =>
-        'assets/images/clusters/kamrup/stole/silk/woven/draped_look.jpg',
+        'assets/images/clusters/kamrup/shawl/silk/woven/draped_look.jpg',
       'Gamusa' =>
-        'assets/images/clusters/kamrup/stole/cotton/woven/hanging_display.jpg',
+        'assets/images/clusters/kamrup/gamusa/cotton/woven/hanging_display.jpg',
       'Jod Kapur' =>
         'assets/images/clusters/kamrup/mekhela/silk/woven/full_display.jpg',
       'Yardages' || 'Yardage' =>
