@@ -5733,7 +5733,7 @@ abstract class AppLocalizations {
   /// No description provided for @csPickFramesSub.
   ///
   /// In en, this message translates to:
-  /// **'Which shots will you take? Choose at least two.'**
+  /// **'Which shots will you take? Choose at least one.'**
   String get csPickFramesSub;
 
   /// No description provided for @csNoTemplatesYet.
@@ -6225,7 +6225,7 @@ abstract class AppLocalizations {
   /// No description provided for @csProductStole.
   ///
   /// In en, this message translates to:
-  /// **'Stole / Dupatta'**
+  /// **'Stole'**
   String get csProductStole;
 
   /// No description provided for @csFrame0Name.

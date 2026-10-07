@@ -223,31 +223,170 @@ ClickSocialCluster? clusterById(String? id) {
   return null;
 }
 
+const _sharedProducts = ['Mekhela sador', 'Sari', 'Stole'];
+
+/// Extra products offered only for Kamrup & Nalbari (cluster id `assam`).
+const _kamrupProducts = [
+  'Mekhela sador',
+  'Sari',
+  'Stole',
+  'Shawl',
+  'Gamusa',
+  'Jod Kapur',
+  'Yardages',
+  'Home Furnishing',
+];
+
+/// Maniabandha keeps the shared garments and adds local pieces.
+const _maniabandhaProducts = [
+  'Mekhela sador',
+  'Sari',
+  'Stole',
+  'Yardage',
+  'Chadar',
+  'Dhoti',
+  'Jodo',
+  'Muffler',
+];
+
+/// Srikalahasti keeps the shared garments and adds dupattas and yardage.
+const _srikalahastiProducts = [
+  'Mekhela sador',
+  'Sari',
+  'Stole',
+  'Dupattas',
+  'Yardages',
+];
+
+/// Venkatgiri keeps the shared garments and adds court pieces.
+const _venkatgiriProducts = [
+  'Mekhela sador',
+  'Sari',
+  'Stole',
+  'Dupatta',
+  'Angvastram set',
+  'Yardage',
+];
+
+/// Nagaland products from the cluster sheet.
+const _nagalandProducts = [
+  'Mufflers',
+  'Mekhela Chador',
+  'Table Cloth',
+  'Naga Sling Bags',
+  'Table Runners',
+  'Naga Shawl',
+  'Naga Wraparound',
+];
+
+/// Gopalpur tussar pieces. Stole is already in the shared list.
+const _gopalpurProducts = [
+  'Mekhela sador',
+  'Sari',
+  'Stole',
+  'Jodo',
+  'Dupatta',
+  'Uttaraya',
+  'Muffler',
+  'Handkerchief',
+  'Dhoti',
+  'Chadar',
+];
+
+/// Choices shown after Home Furnishing is selected.
+const homeFurnishingOptions = ['Cushion', 'Runners', 'Mats'];
+
 /// Products shown on photo lesson step 0.
-List<String> productsForCluster(String? clusterId) => const [
-      'Mekhela sador',
-      'Sari',
-      'Stole / Dupatta',
-    ];
+List<String> productsForCluster(String? clusterId) => switch (clusterId) {
+      'assam' => _kamrupProducts,
+      'srikalahasti' => _srikalahastiProducts,
+      'maniabandha' => _maniabandhaProducts,
+      'venkatgiri' => _venkatgiriProducts,
+      'gopalpur' => _gopalpurProducts,
+      'nagaland' => _nagalandProducts,
+      _ => _sharedProducts,
+    };
 
 /// Asset path for a photo-step product card image.
 String? productImageAsset(String productLabel) => switch (productLabel) {
       'Mekhela sador' => 'assets/images/products/mekhela.png',
       'Sari' => 'assets/images/products/sari.png',
-      'Stole / Dupatta' => 'assets/images/products/stole.png',
+      'Stole' || 'Stole / Dupatta' => 'assets/images/products/stole.png',
+      'Shawl' =>
+        'assets/images/clusters/kamrup/stole/silk/woven/draped_look.jpg',
+      'Gamusa' =>
+        'assets/images/clusters/kamrup/stole/cotton/woven/hanging_display.jpg',
+      'Jod Kapur' =>
+        'assets/images/clusters/kamrup/mekhela/silk/woven/full_display.jpg',
+      'Yardages' || 'Yardage' =>
+        'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.jpg',
+      'Chadar' =>
+        'assets/images/clusters/maniabandha/sari/silk/woven/draped_look.jpg',
+      'Dhoti' =>
+        'assets/images/clusters/maniabandha/mekhela/cotton/woven/full_display.jpg',
+      'Jodo' =>
+        'assets/images/clusters/maniabandha/mekhela/silk/woven/full_display.jpg',
+      'Muffler' =>
+        'assets/images/clusters/maniabandha/stole/silk/woven/hanging_display.jpg',
+      'Dupatta' =>
+        'assets/images/clusters/maniabandha/stole/cotton/woven/draped_look.jpg',
+      'Dupattas' =>
+        'assets/images/clusters/srikalahasti/stole/cotton/handpainted/draped_look.jpg',
+      'Angvastram set' =>
+        'assets/images/clusters/kamrup/sari/silk/woven/embroidery_and_border.jpg',
+      'Uttaraya' =>
+        'assets/images/clusters/kamrup/stole/silk/woven/embroidery_and_border.jpg',
+      'Handkerchief' =>
+        'assets/images/clusters/kamrup/stole/cotton/woven/folded_stack.jpg',
+      'Mufflers' =>
+        'assets/images/clusters/maniabandha/stole/silk/woven/hanging_display.jpg',
+      'Mekhela Chador' => 'assets/images/products/mekhela.png',
+      'Table Cloth' =>
+        'assets/images/clusters/kamrup/sari/cotton/woven/hanging_display.jpg',
+      'Naga Sling Bags' =>
+        'assets/images/clusters/kamrup/mekhela/cotton/woven/close-up_texture.jpg',
+      'Table Runners' => 'assets/images/products/runner.jpg',
+      'Naga Shawl' =>
+        'assets/images/clusters/kamrup/stole/silk/woven/draped_look.jpg',
+      'Naga Wraparound' =>
+        'assets/images/clusters/kamrup/mekhela/silk/woven/draped_look.jpg',
+      'Home Furnishing' => 'assets/images/products/home_furnishing.jpg',
+      'Cushion' => 'assets/images/products/cushion.jpg',
+      'Runners' => 'assets/images/products/runner.jpg',
+      'Mats' => 'assets/images/products/mat.jpg',
       'Accessories' => 'assets/images/products/accessories.png',
       _ => null,
     };
 
 /// Map an HTML product label onto the nearest capture category id.
 String categoryIdForProduct(String productLabel) => switch (productLabel) {
-      'Kalamkari panel' || 'Pillow cover' || 'Bedcover' => 'cushion_cover',
-      'Shawl' => 'shawl',
+      'Kalamkari panel' ||
+      'Pillow cover' ||
+      'Bedcover' ||
+      'Cushion' =>
+        'cushion_cover',
+      'Shawl' || 'Naga Shawl' => 'shawl',
+      'Stole' ||
       'Stole / Dupatta' ||
+      'Dupatta' ||
+      'Dupattas' ||
+      'Gamusa' ||
+      'Muffler' ||
+      'Handkerchief' ||
+      'Uttaraya' ||
+      'Angvastram set' ||
+      'Chadar' ||
+      'Mufflers' ||
+      'Table Cloth' ||
+      'Naga Sling Bags' ||
+      'Table Runners' ||
+      'Home Furnishing' ||
+      'Runners' ||
+      'Mats' ||
       'Table runner' ||
       'Bags' ||
       'Accessories' =>
         'stole',
-      _ => 'saree', // Mekhela sador, Sari, …
+      _ => 'saree', // Mekhela sador, Sari, Jod Kapur, Jodo, Yardage, Dhoti, …
     };
 

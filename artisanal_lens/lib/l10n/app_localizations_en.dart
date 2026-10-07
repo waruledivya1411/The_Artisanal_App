@@ -3131,7 +3131,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csPickFramesSub =>
-      'Which shots will you take? Choose at least two.';
+      'Which shots will you take? Choose at least one.';
 
   @override
   String get csNoTemplatesYet => 'No templates for this product yet.';
@@ -3418,7 +3418,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csProductSari => 'Sari';
 
   @override
-  String get csProductStole => 'Stole / Dupatta';
+  String get csProductStole => 'Stole';
 
   @override
   String get csFrame0Name => 'Full display';

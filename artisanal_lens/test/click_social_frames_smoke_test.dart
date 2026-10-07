@@ -191,6 +191,80 @@ void main() {
     }
   });
 
+  test('Kamrup and Nalbari list extra products and stole without dupatta', () {
+    expect(productsForCluster('assam'), [
+      'Mekhela sador',
+      'Sari',
+      'Stole',
+      'Shawl',
+      'Gamusa',
+      'Jod Kapur',
+      'Yardages',
+      'Home Furnishing',
+    ]);
+    expect(productsForCluster('maniabandha'), [
+      'Mekhela sador',
+      'Sari',
+      'Stole',
+      'Yardage',
+      'Chadar',
+      'Dhoti',
+      'Jodo',
+      'Muffler',
+    ]);
+    expect(productsForCluster('venkatgiri'), [
+      'Mekhela sador',
+      'Sari',
+      'Stole',
+      'Dupatta',
+      'Angvastram set',
+      'Yardage',
+    ]);
+    expect(productsForCluster('gopalpur'), [
+      'Mekhela sador',
+      'Sari',
+      'Stole',
+      'Jodo',
+      'Dupatta',
+      'Uttaraya',
+      'Muffler',
+      'Handkerchief',
+      'Dhoti',
+      'Chadar',
+    ]);
+    expect(productsForCluster('srikalahasti'), [
+      'Mekhela sador',
+      'Sari',
+      'Stole',
+      'Dupattas',
+      'Yardages',
+    ]);
+    expect(productsForCluster('nagaland'), [
+      'Mufflers',
+      'Mekhela Chador',
+      'Table Cloth',
+      'Naga Sling Bags',
+      'Table Runners',
+      'Naga Shawl',
+      'Naga Wraparound',
+    ]);
+    expect(productsForCluster('assam').join(), isNot(contains('Dupatta')));
+    expect(
+      clickSocialFrameProductKey(
+        productLabel: 'Gamusa',
+        clusterId: 'assam',
+      ),
+      'stole',
+    );
+    expect(
+      clickSocialFrameProductKey(
+        productLabel: 'Jod Kapur',
+        clusterId: 'assam',
+      ),
+      'mekhela',
+    );
+  });
+
   test('product key prefers mekhela for Assam saree-class', () {
     expect(
       clickSocialFrameProductKey(clusterId: 'assam', categoryId: 'saree'),

@@ -166,7 +166,7 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
     );
 
     return PhotoLessonChrome(
-      stepIndex: isPanel ? 4 : 6,
+      stepIndex: isPanel ? 4 : 5,
       isPanel: isPanel,
       onBack: () => _goBackToLightQuiz(set),
       child: ListView(

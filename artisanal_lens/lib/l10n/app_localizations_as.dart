@@ -3077,7 +3077,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csPickYourFrames => 'আপোনাৰ ফ্ৰেম বাছক';
 
   @override
-  String get csPickFramesSub => 'আপুনি কোনবোৰ ফটো তুলিব? কমেও দুটা বাছক।';
+  String get csPickFramesSub => 'আপুনি কোনবোৰ ফটো তুলিব? কমেও এটা বাছক।';
 
   @override
   String get csNoTemplatesYet =>
@@ -3366,7 +3366,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csProductSari => 'শাড়ী';
 
   @override
-  String get csProductStole => 'ষ্ট\'ল / দুপাট্টা';
+  String get csProductStole => 'ষ্ট\'ল';
 
   @override
   String get csFrame0Name => 'সম্পূৰ্ণ প্ৰদৰ্শন';

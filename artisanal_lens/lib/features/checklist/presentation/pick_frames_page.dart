@@ -13,7 +13,7 @@ import '../../home/click_social_store.dart';
 import '../../../data/services/click_social_sync_service.dart';
 import 'photo_lesson_chrome.dart';
 
-/// HTML photoStep 4 — Pick your frames (at least two).
+/// HTML photoStep 4 — Pick your frames (at least one).
 ///
 /// Only the six listing frames are offered.
 class PickFramesPage extends StatefulWidget {
@@ -47,7 +47,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
 
   List<ClickSocialFrame> get _frames => framesForSelection(isPanel: _isPanel);
 
-  bool get _ready => _picks.length >= 2;
+  bool get _ready => _picks.isNotEmpty;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
   }
 
   void _goBack() {
-    // Technique/product use context.go into this page, so there is often
+    // Product and material use context.go into this page, so there is often
     // nothing to pop — return to the previous lesson step explicitly.
     if (_isPanel) {
       context.goNamed(AppRoute.productSetup);
@@ -77,7 +77,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
 
     final product = widget.productLabel;
     context.goNamed(
-      AppRoute.technique,
+      AppRoute.material,
       queryParameters: {
         'category': widget.categoryId,
         if (widget.materialId != null && widget.materialId!.isNotEmpty)
@@ -105,7 +105,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
     final l10n = AppLocalizations.of(context);
 
     return PhotoLessonChrome(
-      stepIndex: 3,
+      stepIndex: _isPanel ? 3 : 2,
       isPanel: _isPanel,
       onBack: _goBack,
       footer: PhotoContinueBar(

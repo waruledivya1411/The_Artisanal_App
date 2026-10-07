@@ -13,7 +13,10 @@ import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 0 — What are you photographing?
 ///
-/// Image cards: Mekhela sador, Sari, Stole / Dupatta.
+/// Image cards for the cluster. Kamrup & Nalbari also offers Shawl, Gamusa,
+/// Jod Kapur, Yardages, and Home Furnishing. Home Furnishing opens into
+/// Cushion, Runners, and Mats. Maniabandha, Venkatgiri, and Gopalpur add
+/// their own garments on top of Mekhela sador, Sari, and Stole.
 class ProductSetupPage extends ConsumerStatefulWidget {
   const ProductSetupPage({
     this.setId,
@@ -31,7 +34,14 @@ class ProductSetupPage extends ConsumerStatefulWidget {
 class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
   String? _clusterId;
   String? _product;
+  String? _furnishing;
+  bool _pickingFurnishing = false;
   bool _loading = true;
+
+  List<String> get _cards =>
+      _pickingFurnishing ? homeFurnishingOptions : _products;
+
+  String? get _selected => _pickingFurnishing ? _furnishing : _product;
 
   @override
   void initState() {
@@ -49,6 +59,21 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
   }
 
   List<String> get _products => productsForCluster(_clusterId);
+
+  void _goBack() {
+    if (_pickingFurnishing) {
+      setState(() {
+        _pickingFurnishing = false;
+        _furnishing = null;
+      });
+      return;
+    }
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.goNamed(AppRoute.home);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,16 +100,11 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
     return PhotoLessonChrome(
       stepIndex: 0,
       isPanel: false,
+      onBack: _goBack,
       footer: PhotoContinueBar(
-        enabled: _product != null,
+        enabled: _selected != null,
         label: l10n.continueAction,
-        onBack: () {
-          if (context.canPop()) {
-            context.pop();
-          } else {
-            context.goNamed(AppRoute.home);
-          }
-        },
+        onBack: _goBack,
         onContinue: _continue,
       ),
       child: Padding(
@@ -93,7 +113,9 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              l10n.csWhatArePhotographing,
+              _pickingFurnishing
+                  ? 'Home furnishing'
+                  : l10n.csWhatArePhotographing,
               style: AppTypography.displayMedium.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -102,7 +124,9 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
             ),
             const SizedBox(height: 4),
             Text(
-              l10n.csPickYourProduct,
+              _pickingFurnishing
+                  ? 'Cushion, runners, or mats.'
+                  : l10n.csPickYourProduct,
               style: AppTypography.labelSmall.copyWith(
                 fontSize: 12,
                 color: AppColors.textMuted,
@@ -110,45 +134,29 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        for (var i = 0; i < 2; i++) ...[
-                          if (i > 0) const SizedBox(width: 10),
-                          Expanded(
-                            child: PhotoImageCard(
-                              label: _products[i],
-                              imageAsset: productImageAsset(_products[i]),
-                              selected: _product == _products[i],
-                              onTap: () =>
-                                  setState(() => _product = _products[i]),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: PhotoImageCard(
-                            label: _products[2],
-                            imageAsset: productImageAsset(_products[2]),
-                            selected: _product == _products[2],
-                            onTap: () =>
-                                setState(() => _product = _products[2]),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        const Expanded(child: SizedBox.shrink()),
-                      ],
-                    ),
-                  ),
-                ],
+              child: GridView.builder(
+                itemCount: _cards.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 0.78,
+                ),
+                itemBuilder: (context, i) {
+                  final label = _cards[i];
+                  return PhotoImageCard(
+                    label: label,
+                    imageAsset: productImageAsset(label),
+                    selected: _selected == label,
+                    onTap: () => setState(() {
+                      if (_pickingFurnishing) {
+                        _furnishing = label;
+                      } else {
+                        _product = label;
+                      }
+                    }),
+                  );
+                },
               ),
             ),
           ],
@@ -158,7 +166,11 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
   }
 
   Future<void> _continue() async {
-    final product = _product;
+    if (_product == 'Home Furnishing' && !_pickingFurnishing) {
+      setState(() => _pickingFurnishing = true);
+      return;
+    }
+    final product = _pickingFurnishing ? _furnishing : _product;
     if (product == null) return;
     final categoryId = categoryIdForProduct(product);
 

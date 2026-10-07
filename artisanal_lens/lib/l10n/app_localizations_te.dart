@@ -3135,8 +3135,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csPickYourFrames => 'మీ ఫ్రేమ్‌లను ఎంచుకోండి';
 
   @override
-  String get csPickFramesSub =>
-      'మీరు ఏ షాట్లు తీస్తారు? కనీసం ఇద్దరిని ఎంచుకోండి.';
+  String get csPickFramesSub => 'మీరు ఏ షాట్లు తీస్తారు? కనీసం ఒకటి ఎంచుకోండి.';
 
   @override
   String get csNoTemplatesYet => 'ఈ ఉత్పత్తికి ఇంకా టెంప్లేట్‌లు లేవు.';
@@ -3428,7 +3427,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csProductSari => 'చీర';
 
   @override
-  String get csProductStole => 'స్టోల్ / దుప్పట్టా';
+  String get csProductStole => 'స్టోల్';
 
   @override
   String get csFrame0Name => 'పూర్తి ప్రదర్శన';

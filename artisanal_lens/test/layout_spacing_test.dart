@@ -6,7 +6,6 @@ import 'package:artisanal_lens/features/checklist/presentation/material_selectio
 import 'package:artisanal_lens/features/checklist/presentation/pick_frames_page.dart';
 import 'package:artisanal_lens/features/checklist/presentation/product_setup_page.dart';
 import 'package:artisanal_lens/features/checklist/presentation/silk_type_page.dart';
-import 'package:artisanal_lens/features/checklist/presentation/technique_selection_page.dart';
 import 'package:artisanal_lens/features/home/presentation/click_social_home_page.dart';
 import 'package:artisanal_lens/features/home/presentation/create_post_page.dart';
 import 'package:artisanal_lens/features/home/presentation/instagram_setup_page.dart';
@@ -38,7 +37,6 @@ final _screens = <String, Widget Function()>{
   'product setup': () => const ProductSetupPage(),
   'material selection': () => MaterialSelectionPage(),
   'silk type': () => SilkTypePage(materialId: 'silk'),
-  'technique selection': () => const TechniqueSelectionPage(),
   'pick frames': () =>
       const PickFramesPage(setId: 'set-1', categoryId: 'saree'),
   'framing quiz': () => const FramingQuizPage(

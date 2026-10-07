@@ -10,7 +10,6 @@ import '../features/checklist/presentation/material_selection_page.dart';
 import '../features/checklist/presentation/photo_list_page.dart';
 import '../features/checklist/presentation/pick_frames_page.dart';
 import '../features/checklist/presentation/product_setup_page.dart';
-import '../features/checklist/presentation/technique_selection_page.dart';
 import '../features/completion/presentation/completion_page.dart';
 import '../features/gallery/presentation/product_viewer_page.dart';
 import '../features/home/presentation/click_social_home_page.dart';
@@ -41,7 +40,6 @@ abstract final class AppRoute {
   static const String postingPlan = 'postingPlan';
   static const String readTheNumbers = 'readTheNumbers';
   static const String productSetup = 'productSetup';
-  static const String technique = 'technique';
   static const String framingQuiz = 'framingQuiz';
   static const String pickFrames = 'pickFrames';
   static const String frameGuide = 'frameGuide';
@@ -134,7 +132,7 @@ GoRouter createRouter() {
 
       // The capture flow runs above the shell so the bottom bar is out of the
       // way once a shoot has started.
-      // Capture setup: product → material → technique → variety → quizzes → list.
+      // Capture setup: product → material → frames → quizzes → list.
       GoRoute(
         path: '/product/setup',
         name: AppRoute.productSetup,
@@ -152,17 +150,7 @@ GoRouter createRouter() {
           categoryId: state.uri.queryParameters['category'],
           productName: state.uri.queryParameters['name'],
           productLabel: state.uri.queryParameters['product'],
-        ),
-      ),
-      GoRoute(
-        path: '/product/technique',
-        name: AppRoute.technique,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => TechniqueSelectionPage(
-          categoryId: state.uri.queryParameters['category'],
-          productName: state.uri.queryParameters['name'],
           materialId: state.uri.queryParameters['material'],
-          productLabel: state.uri.queryParameters['product'],
         ),
       ),
       GoRoute(

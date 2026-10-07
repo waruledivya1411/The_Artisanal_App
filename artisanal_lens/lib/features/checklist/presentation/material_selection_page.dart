@@ -1,74 +1,138 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../l10n/app_copy.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/motion/motion.dart';
+import '../../home/shot_sets_controller.dart';
+import '../click_social_frames.dart';
 import 'photo_lesson_chrome.dart';
 
 /// HTML photoStep 1 — What is it made of?
 ///
-/// Vertical material cards (image + title + tip + Select), with photos
-/// matched to the chosen product.
-class MaterialSelectionPage extends StatefulWidget {
+/// Vertical material cards (image + title + tip + Select). The product was
+/// already chosen, so these cards name the fibre only. Kamrup & Nalbari also
+/// lists the local silks.
+class MaterialSelectionPage extends ConsumerStatefulWidget {
   const MaterialSelectionPage({
     this.categoryId,
     this.productName,
     this.productLabel,
+    this.materialId,
     super.key,
   });
 
   final String? categoryId;
   final String? productName;
   final String? productLabel;
+  final String? materialId;
 
   @override
-  State<MaterialSelectionPage> createState() => _MaterialSelectionPageState();
+  ConsumerState<MaterialSelectionPage> createState() =>
+      _MaterialSelectionPageState();
 }
 
-class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
-  static const _materialIds = ['cotton', 'silk'];
+class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
+  static const _baseMaterials = ['cotton', 'silk'];
 
+  /// Kamrup & Nalbari (cluster id `assam`).
+  static const _kamrupMaterials = [
+    'cotton',
+    'silk',
+    'mulberry',
+    'zari',
+    'eri',
+    'tussar',
+    'tussar-gheecha',
+    'muga',
+    'muga-gheecha',
+    'spun-silk',
+    'spun-tussar',
+  ];
+
+  String? _clusterId;
+  bool _clusterReady = false;
   String? _selected;
+  bool _busy = false;
 
-  String get _productKey {
-    final raw = (widget.productLabel ?? widget.productName ?? '').trim();
-    return switch (raw) {
-      'Mekhela sador' => 'mekhela',
-      'Sari' => 'sari',
-      'Stole / Dupatta' => 'stole',
-      'Accessories' => 'accessories',
-      _ => 'sari',
-    };
+  List<String> get _materials =>
+      _clusterId == 'assam' ? _kamrupMaterials : _baseMaterials;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCluster();
   }
 
-  String get _productDisplayName => switch (_productKey) {
-        'mekhela' => 'mekhela',
-        'sari' => 'sari',
-        'stole' => 'stole',
-        'accessories' => 'accessories',
-        _ => 'product',
+  Future<void> _loadCluster() async {
+    String? id;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      id = prefs.getString(clickSocialClusterKey);
+    } catch (_) {}
+    if (!mounted) return;
+    final materials =
+        id == 'assam' ? _kamrupMaterials : _baseMaterials;
+    final incoming = widget.materialId;
+    setState(() {
+      _clusterId = id;
+      _clusterReady = true;
+      if (incoming != null && materials.contains(incoming)) {
+        _selected = incoming;
+      }
+    });
+  }
+
+  String _assetFor(String materialId) => switch (materialId) {
+        'cotton' =>
+          'assets/images/clusters/kamrup/sari/cotton/woven/close-up_texture.jpg',
+        'silk' =>
+          'assets/images/clusters/kamrup/sari/silk/woven/close-up_texture.jpg',
+        'mulberry' => 'assets/images/materials/mulberry.jpg',
+        'zari' => 'assets/images/materials/zari.jpg',
+        'eri' => 'assets/images/materials/eri.jpg',
+        'tussar' => 'assets/images/materials/tussar.jpg',
+        'tussar-gheecha' => 'assets/images/materials/tussar_gheecha.jpg',
+        'muga' => 'assets/images/materials/muga.jpg',
+        'muga-gheecha' => 'assets/images/materials/muga_gheecha.jpg',
+        'spun-silk' => 'assets/images/materials/spun_silk.jpg',
+        'spun-tussar' => 'assets/images/materials/spun_tussar.jpg',
+        _ => 'assets/images/materials/$materialId.png',
       };
 
-  String _assetFor(String materialId) =>
-      'assets/images/materials/by_product/${_productKey}_$materialId.png';
-
-  String _labelFor(AppLocalizations l10n, String materialId) {
-    final material = switch (materialId) {
-      'cotton' => _titleCase(l10n.csMaterialCotton),
-      'silk' => _titleCase(l10n.csMaterialSilk),
-      _ => materialId,
-    };
-    final product = _productDisplayName;
-    if (product == 'product') return material;
-    return '$material $product';
-  }
+  String _labelFor(AppLocalizations l10n, String materialId) =>
+      switch (materialId) {
+        'cotton' => _titleCase(l10n.csMaterialCotton),
+        'silk' => _titleCase(l10n.csMaterialSilk),
+        'mulberry' => 'Mulberry',
+        'zari' => 'Zari',
+        'eri' => 'Eri',
+        'tussar' => 'Tussar',
+        'tussar-gheecha' => 'Tussar Gheecha',
+        'muga' => 'Muga',
+        'muga-gheecha' => 'Muga Gheecha',
+        'spun-silk' => 'Spun Silk',
+        'spun-tussar' => 'Spun Tussar',
+        _ => materialId,
+      };
 
   String _blurbFor(String materialId) => switch (materialId) {
         'cotton' => 'Matte finish · Soft woven texture',
         'silk' => 'Lustrous finish · Rich colour & drape',
+        'mulberry' => 'Smooth cultivated silk',
+        'zari' => 'Metallic gold thread',
+        'eri' => 'Matte, wool-soft silk',
+        'tussar' => 'Honey-gold wild silk',
+        'tussar-gheecha' => 'Coarse slubby tussar',
+        'muga' => 'Natural gold of Assam',
+        'muga-gheecha' => 'Slubby golden muga',
+        'spun-silk' => 'Fine spun silk yarn',
+        'spun-tussar' => 'Spun wild-silk yarn',
         _ => '',
       };
 
@@ -78,18 +142,62 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
     return '${t[0].toUpperCase()}${t.substring(1)}';
   }
 
-  void _continue() {
-    final selected = _selected;
-    if (selected == null) return;
-    context.pushNamed(
-      AppRoute.technique,
-      queryParameters: {
-        if (widget.categoryId != null) 'category': widget.categoryId!,
-        if (widget.productName != null) 'name': widget.productName!,
-        if (widget.productLabel != null) 'product': widget.productLabel!,
-        'material': selected,
-      },
+  Widget _card(AppLocalizations l10n, String materialId) {
+    return _MaterialChoiceCard(
+      title: _labelFor(l10n, materialId),
+      blurb: _blurbFor(materialId),
+      imageAsset: _assetFor(materialId),
+      selected: _selected == materialId,
+      selectLabel: 'Select',
+      onTap: () => setState(() => _selected = materialId),
     );
+  }
+
+  Future<void> _continue() async {
+    final selected = _selected;
+    if (selected == null || _busy) return;
+    setState(() => _busy = true);
+
+    try {
+      final l10n = AppLocalizations.of(context);
+      final categoryId = widget.categoryId;
+      if (categoryId == null || categoryId.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Missing product details. Go back and try again.'),
+          ),
+        );
+        return;
+      }
+
+      final productName = (widget.productName?.trim().isNotEmpty == true)
+          ? widget.productName!.trim()
+          : AppCopy.categoryName(l10n, categoryId);
+
+      final created = await ref.read(shotSetsProvider.notifier).createSet(
+            productName: productName,
+            categoryId: categoryId,
+            materialId: selected,
+          );
+
+      if (!mounted) return;
+      final q = <String>[
+        'category=$categoryId',
+        'material=$selected',
+        if (widget.productLabel != null && widget.productLabel!.isNotEmpty)
+          'product=${Uri.encodeComponent(widget.productLabel!)}',
+      ].join('&');
+      context.go('/product/${created.id}/pick-frames?$q');
+    } catch (error, stack) {
+      debugPrint('Material continue failed: $error\n$stack');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not continue: $error')),
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
   @override
@@ -99,7 +207,7 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
     return PhotoLessonChrome(
       stepIndex: 1,
       footer: PhotoContinueBar(
-        enabled: _selected != null,
+        enabled: _selected != null && !_busy,
         label: l10n.continueAction,
         onBack: () {
           if (context.canPop()) {
@@ -132,26 +240,35 @@ class _MaterialSelectionPageState extends State<MaterialSelectionPage> {
               ),
             ),
             const SizedBox(height: 12),
-            Expanded(
-              child: Column(
-                children: [
-                  for (var i = 0; i < _materialIds.length; i++) ...[
-                    if (i > 0) const SizedBox(height: 12),
-                    Expanded(
-                      child: _MaterialChoiceCard(
-                        title: _labelFor(l10n, _materialIds[i]),
-                        blurb: _blurbFor(_materialIds[i]),
-                        imageAsset: _assetFor(_materialIds[i]),
-                        selected: _selected == _materialIds[i],
-                        selectLabel: 'Select',
-                        onTap: () =>
-                            setState(() => _selected = _materialIds[i]),
-                      ),
-                    ),
+            if (!_clusterReady)
+              const Expanded(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else if (_materials.length <= 2)
+              Expanded(
+                child: Column(
+                  children: [
+                    for (var i = 0; i < _materials.length; i++) ...[
+                      if (i > 0) const SizedBox(height: 12),
+                      Expanded(child: _card(l10n, _materials[i])),
+                    ],
                   ],
-                ],
+                ),
+              )
+            else
+              Expanded(
+                child: GridView.builder(
+                  itemCount: _materials.length,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 0.62,
+                  ),
+                  itemBuilder: (context, i) => _card(l10n, _materials[i]),
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -213,6 +330,7 @@ class _MaterialChoiceCard extends StatelessWidget {
                         child: Image.asset(
                           imageAsset,
                           fit: BoxFit.cover,
+                          filterQuality: FilterQuality.high,
                         ),
                       ),
                       Positioned(

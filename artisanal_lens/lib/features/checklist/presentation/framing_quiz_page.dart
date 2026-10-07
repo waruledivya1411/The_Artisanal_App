@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
+import '../click_social_frames.dart';
 import '../framing_quiz_data.dart';
 import '../../../shared/motion/motion.dart';
 
@@ -376,9 +377,32 @@ String framingProductAsset({
 }) {
   final label = (productLabel ?? '').trim().toLowerCase();
   final productKey = switch (label) {
-    'mekhela sador' || 'mekhela' => 'mekhela',
+    'mekhela sador' || 'mekhela' || 'mekhela chador' || 'naga wraparound' =>
+      'mekhela',
     'sari' || 'saree' => 'sari',
-    'stole / dupatta' || 'stole' || 'dupatta' || 'shawl' => 'stole',
+    'stole / dupatta' ||
+    'stole' ||
+    'dupatta' ||
+    'dupattas' ||
+    'shawl' ||
+    'gamusa' ||
+    'muffler' ||
+    'chadar' ||
+    'uttaraya' ||
+    'handkerchief' ||
+    'angvastram set' ||
+    'mufflers' ||
+    'table cloth' ||
+    'naga sling bags' ||
+    'table runners' ||
+    'naga shawl' ||
+    'home furnishing' ||
+    'runners' ||
+    'mats' =>
+      'stole',
+    'cushion' => 'accessories',
+    'jod kapur' || 'jodo' => 'mekhela',
+    'yardages' || 'yardage' || 'dhoti' => 'sari',
     'accessories' => 'accessories',
     _ => switch (categoryId) {
         'stole' || 'shawl' => 'stole',
@@ -387,7 +411,7 @@ String framingProductAsset({
       },
   };
   final material =
-      (materialId ?? 'cotton').toLowerCase() == 'silk' ? 'silk' : 'cotton';
+      clickSocialMaterialFolder(materialId);
 
   // Prefer dedicated framing cutouts (product only). Fall back sensibly.
   const cutouts = {

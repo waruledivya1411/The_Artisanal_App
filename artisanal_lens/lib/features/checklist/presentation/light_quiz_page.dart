@@ -59,14 +59,13 @@ class _LightQuizPageState extends State<LightQuizPage> {
 
   String get _correctLight {
     if (_isPainted) return 'front';
-    final material = (widget.materialId ?? '').toLowerCase();
-    if (material == 'silk') return 'side';
+    if (clickSocialMaterialIsSilk(widget.materialId)) return 'side';
     return 'front';
   }
 
   bool get _isSilk {
     if (_isPainted) return false;
-    return (widget.materialId ?? '').toLowerCase() == 'silk';
+    return clickSocialMaterialIsSilk(widget.materialId);
   }
 
   String _heading(AppLocalizations l10n) {
@@ -158,7 +157,7 @@ class _LightQuizPageState extends State<LightQuizPage> {
     }
 
     return PhotoLessonChrome(
-      stepIndex: _isPanel ? 3 : 5,
+      stepIndex: _isPanel ? 3 : 4,
       isPanel: _isPanel,
       onBack: _goBack,
       footer: correct

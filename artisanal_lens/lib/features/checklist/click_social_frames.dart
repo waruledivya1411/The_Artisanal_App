@@ -143,8 +143,7 @@ class ClickSocialFrame {
         productLabel: productLabel,
         categoryId: categoryId,
       );
-      final material =
-          (materialId ?? '').toLowerCase() == 'silk' ? 'silk' : 'cotton';
+      final material = clickSocialMaterialFolder(materialId);
       final tech = (technique ?? '').toUpperCase() == 'HAND-PAINTED'
           ? 'handpainted'
           : 'woven';
@@ -419,6 +418,26 @@ String clickSocialTechniqueKey(String setId) =>
 /// SharedPreferences key holding the learner's chosen cluster.
 const String clickSocialClusterKey = 'click_social_cluster_id';
 
+/// Fibres that should use the silk photo set and silk lighting.
+const clickSocialSilkMaterials = {
+  'silk',
+  'mulberry',
+  'zari',
+  'eri',
+  'tussar',
+  'tussar-gheecha',
+  'muga',
+  'muga-gheecha',
+  'spun-silk',
+  'spun-tussar',
+};
+
+bool clickSocialMaterialIsSilk(String? materialId) =>
+    clickSocialSilkMaterials.contains((materialId ?? '').trim().toLowerCase());
+
+String clickSocialMaterialFolder(String? materialId) =>
+    clickSocialMaterialIsSilk(materialId) ? 'silk' : 'cotton';
+
 /// HTML `isPanel` — a hand-painted Kalamkari panel.
 bool clickSocialIsPanel({String? categoryId, String? technique}) =>
     categoryId == 'cushion_cover' &&
@@ -445,9 +464,33 @@ String? clickSocialListingClusterDir(String? clusterId) => switch (clusterId) {
 /// the product label must win.
 String kamrupProductKey({String? productLabel, String? categoryId}) {
   final p = (productLabel ?? '').toLowerCase();
-  if (p.contains('mekhela')) return 'mekhela';
-  if (p.contains('stole') || p.contains('dupatta')) return 'stole';
-  if (p.contains('sari') || p.contains('saree')) return 'sari';
+  if (p.contains('mekhela') || p.contains('jod') || p.contains('wrap')) {
+    return 'mekhela';
+  }
+  if (p.contains('gamusa') ||
+      p.contains('gamosa') ||
+      p.contains('furnish') ||
+      p.contains('shawl') ||
+      p.contains('cushion') ||
+      p.contains('runner') ||
+      p.contains('mat') ||
+      p.contains('stole') ||
+      p.contains('dupatta') ||
+      p.contains('muffler') ||
+      p.contains('chadar') ||
+      p.contains('uttar') ||
+      p.contains('handker') ||
+      p.contains('angvastram') ||
+      p.contains('cloth') ||
+      p.contains('bag')) {
+    return 'stole';
+  }
+  if (p.contains('yardage') ||
+      p.contains('dhoti') ||
+      p.contains('sari') ||
+      p.contains('saree')) {
+    return 'sari';
+  }
   final c = (categoryId ?? '').toLowerCase();
   if (c == 'stole' || c == 'shawl') return 'stole';
   return 'sari';
