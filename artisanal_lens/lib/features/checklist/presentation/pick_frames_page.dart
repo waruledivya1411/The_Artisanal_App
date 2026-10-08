@@ -222,6 +222,7 @@ class _FramePickGrid extends StatelessWidget {
               productLabel: productLabel,
               materialId: materialId,
             ),
+            imageFit: frame.index == 2 ? BoxFit.contain : BoxFit.cover,
             onTap: () => onToggle(frame.index),
           ),
         );
@@ -236,6 +237,7 @@ class _FramePickCard extends StatelessWidget {
     required this.content,
     required this.selected,
     required this.imageAsset,
+    this.imageFit = BoxFit.cover,
     required this.onTap,
   });
 
@@ -243,6 +245,7 @@ class _FramePickCard extends StatelessWidget {
   final String content;
   final bool selected;
   final String imageAsset;
+  final BoxFit imageFit;
   final VoidCallback onTap;
 
   @override
@@ -280,9 +283,12 @@ class _FramePickCard extends StatelessWidget {
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(14),
                         ),
-                        child: GuideImage(
-                          asset: imageAsset,
-                          fit: BoxFit.cover,
+                        child: ColoredBox(
+                          color: AppColors.surfaceMuted,
+                          child: GuideImage(
+                            asset: imageAsset,
+                            fit: imageFit,
+                          ),
                         ),
                       ),
                       if (selected)

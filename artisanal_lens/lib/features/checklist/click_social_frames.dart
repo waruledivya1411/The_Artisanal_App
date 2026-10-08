@@ -107,9 +107,9 @@ class ClickSocialFrame {
 
   /// Coarse overlay type for the analyser; drawing prefers [gridPath].
   GridOverlayType get grid => switch (index) {
-        0 || 5 || 7 || 10 => GridOverlayType.ruleOfThirds,
+        0 || 2 || 5 || 7 || 10 => GridOverlayType.ruleOfThirds,
         1 || 6 || 8 || 11 => GridOverlayType.centerFocus,
-        2 || 9 => GridOverlayType.leadingLines,
+        9 => GridOverlayType.leadingLines,
         3 => GridOverlayType.detailFrame,
         4 => GridOverlayType.horizontalFolds,
         _ => switch (arch) {
@@ -239,10 +239,10 @@ const clickSocialFrames = <ClickSocialFrame>[
     index: 2,
     name: 'Draped look',
     content: 'Flimsiness, sheen, flow, weight',
-    thumbAsset: '$_guides/ex-drape-pleats.jpg',
-    arch: FrameArch.diag,
-    tipDetail: 'leading lines grid',
-    gridPath: 'M0 100L100 0M0 55L55 0M45 100L100 45',
+    thumbAsset: '$_guides/cs_cam_ref_2.jpg',
+    arch: FrameArch.thirds,
+    tipDetail: 'rule of thirds · full-length person',
+    gridPath: 'M33.3 0v100M66.6 0v100M0 33.3h100M0 66.6h100',
   ),
   ClickSocialFrame(
     index: 3,
@@ -349,9 +349,9 @@ List<String> clickSocialCameraPlacementLines(int index) => switch (index) {
           'Hold the phone 15–30 cm away',
         ],
       2 => const [
-          'Let the folds follow the diagonal',
-          'One end hangs free',
-          'Chair sits in the lower half',
+          'Person wearing the sari stands in the dashed box',
+          'Pallu over the shoulder · pleats to the floor',
+          'Head near the top third · feet near the bottom',
         ],
       3 => const [
           'Put the motif in the small window',
@@ -850,26 +850,25 @@ List<GuideStep> _baseGuideSteps(
     case 2:
       return [
         const GuideStep(
-          title: 'Throw one end over',
-          subtitle: 'Over a chair or rod · let it fall in natural folds',
-          diagram: 'drape',
-          // Chair drape = literally thrown over — not a floor-pleat close-up.
-          referenceAsset: '$_guides/ex-drape-chair.jpg',
+          title: 'Drape it on a person',
+          subtitle: 'Worn, full length · pallu over the shoulder',
+          diagram: 'worn',
+          referenceAsset: '$_guides/cs_cam_ref_2.jpg',
         ),
         if (isAssam)
           const GuideStep(
-            title: 'Like this — on a form',
-            subtitle: 'A dark background makes pale silk glow',
-            imageAsset: '$_guides/stole-hung.webp',
-            caption: 'Stole draped on a dress form against black.',
+            title: 'Like this — on a person',
+            subtitle: 'Show how the cloth sits when worn',
+            imageAsset: '$_guides/ex-drape-worn.jpg',
+            caption: 'Sari draped on a person — pallu, pleats and fall.',
           ),
         const GuideStep(
           title: 'Good examples',
-          subtitle: 'Pleats falling free — or over the back of a chair',
+          subtitle: 'Worn on a person — pleats and pallu readable',
           gallery: [
+            '$_guides/cs_cam_ref_2.jpg',
+            '$_guides/ex-drape-worn.jpg',
             '$_guides/ex-drape-pleats.jpg',
-            '$_guides/ex-drape-chair.jpg',
-            '$_guides/ex-drape-chair-pink.jpg',
           ],
         ),
       ];

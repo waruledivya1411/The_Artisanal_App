@@ -200,10 +200,10 @@ void main() {
       expect(template.grid, GridOverlayType.centerFocus);
     });
 
-    test('Draped Look uses Leading Lines', () {
+    test('Draped Look uses Rule of Thirds', () {
       expect(
         SareePhotographyTemplates.drapedLook.grid,
-        GridOverlayType.leadingLines,
+        GridOverlayType.ruleOfThirds,
       );
     });
 

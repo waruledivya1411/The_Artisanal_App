@@ -30,7 +30,7 @@ void main() {
     const expected = {
       'saree_full_display': ['saree_worn_drape', 'saree_roll_display'],
       'saree_texture_weave': <String>[],
-      'saree_draped_look': ['saree_pallu_drape'],
+      'saree_draped_look': ['saree_worn_drape'],
       'saree_embroidery_border': <String>[],
       'saree_folded_stack': ['saree_box_fold'],
       'cushion_full_cover': ['cushion_flat_lay'],

@@ -154,31 +154,25 @@ abstract final class SareePhotographyTemplates {
     ],
   );
 
-  /// Photography template only. Not the Pallu drape fold.
-  ///
-  /// SOURCE CONFLICT with Solution Deck p.9 (Pallu drape → Rule of Thirds).
-  /// This template keeps BTP §7.3 Leading Lines. The Pallu fold currently
-  /// shares this grid; that is an unresolved source conflict, not a claim
-  /// that Pallu drape *is* Draped Look.
+  /// Worn on a person. Pallu-on-hanger is a separate fold preset.
   static const drapedLook = PhotographyTemplate(
     id: 'saree_draped_look',
     name: 'Draped Look',
     content: 'Flimsiness, Sheen, Flow, Weight',
-    needs: 'Hanger, bamboo or mannequin; side lighting',
+    needs: 'A person to wear the sari; side lighting',
     referenceImageAsset: 'assets/images/templates/saree_draped_look.png',
-    grid: GridOverlayType.leadingLines,
-    composition: CompositionRule.leadingFabricLines,
-    // The guide does not name an angle; keep the existing drape default.
+    grid: GridOverlayType.ruleOfThirds,
+    composition: CompositionRule.ruleOfThirds,
     angle: CameraAngle.eyeLevel,
     lighting: LightingSetup.softWindowLight,
-    placement: 'Hanger, bamboo or mannequin',
+    placement: 'Worn on a person, full length',
     guidance: [
-      'Let the fabric fall naturally.',
-      'Folds follow the diagonal.',
+      'Drape the sari on a person.',
+      'Pallu over the shoulder; pleats to the floor.',
       'Use side lighting.',
     ],
-    overlayCaption: 'Let the folds follow the diagonal',
-    allowedPresetIds: ['saree_pallu_drape'],
+    overlayCaption: 'Keep the person on the centre vertical',
+    allowedPresetIds: ['saree_worn_drape'],
     highlightedProperties: [
       FabricProperty.flimsiness,
       FabricProperty.sheen,

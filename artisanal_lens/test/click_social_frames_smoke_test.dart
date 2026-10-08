@@ -625,7 +625,7 @@ void main() {
       const [
         FrameArch.thirds,
         FrameArch.center,
-        FrameArch.diag,
+        FrameArch.thirds,
         FrameArch.detail,
         FrameArch.detail,
         FrameArch.thirds,

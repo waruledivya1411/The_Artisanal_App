@@ -530,6 +530,8 @@ class GuideDiagramPainter extends CustomPainter {
         _hang(canvas);
       case 'drape':
         _drape(canvas);
+      case 'worn':
+        _worn(canvas);
       case 'grid':
         _grid(canvas);
       case 'gridmotif':
@@ -656,6 +658,31 @@ class GuideDiagramPainter extends CustomPainter {
     _arrow(
       canvas,
       const [Offset(78, 32), Offset(68, 31), Offset(72, 40)],
+      _accent,
+    );
+  }
+
+  void _worn(Canvas canvas) {
+    _phoneShell(canvas);
+    _thirdsGrid(canvas);
+    canvas.drawCircle(const Offset(100, 42), 8, _fill(_ink));
+    canvas.drawCircle(const Offset(100, 42), 8, _stroke(_ink, 1.5));
+    final body = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(86, 52, 28, 62),
+      const Radius.circular(10),
+    );
+    canvas.drawRRect(body, _fill(_line));
+    canvas.drawRRect(body, _stroke(_ink, 1.5));
+    _dashed(
+      canvas,
+      Path()
+        ..moveTo(40, 100)
+        ..cubicTo(48, 70, 62, 50, 88, 46),
+      _accent,
+    );
+    _arrow(
+      canvas,
+      const [Offset(90, 44), Offset(80, 42), Offset(84, 52)],
       _accent,
     );
   }

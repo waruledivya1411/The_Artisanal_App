@@ -170,10 +170,10 @@ void main() {
     );
   });
 
-  test('Draped Look uses Leading Lines', () {
+  test('Draped Look uses Rule of Thirds', () {
     expect(
       SareePhotographyTemplates.drapedLook.grid,
-      GridOverlayType.leadingLines,
+      GridOverlayType.ruleOfThirds,
     );
   });
 
@@ -191,11 +191,11 @@ void main() {
     );
   });
 
-  test('Pallu drape vs Draped Look conflict is left unresolved', () {
+  test('Pallu drape and Draped Look stay separate shots', () {
     const catalog = BundledCatalogDataSource();
     final pallu = catalog.presetById('saree_pallu_drape')!;
     expect(pallu.technique.grid, GridOverlayType.leadingLines);
-    expect(SareePhotographyTemplates.drapedLook.grid, GridOverlayType.leadingLines);
+    expect(SareePhotographyTemplates.drapedLook.grid, GridOverlayType.ruleOfThirds);
     expect(pallu.name, isNot(SareePhotographyTemplates.drapedLook.name));
   });
 
@@ -310,7 +310,7 @@ void main() {
       (
         index: 2,
         lighting: 'Flimsiness, Sheen, Flow, Weight',
-        placement: 'Hanger, bamboo or mannequin',
+        placement: 'Worn on a person, full length',
       ),
       (
         index: 3,

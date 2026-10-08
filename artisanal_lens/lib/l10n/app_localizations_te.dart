@@ -741,8 +741,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get templateTextureWeaveNeeds => 'ప్రాధాన్యంగా సహజ కాంతి';
 
   @override
-  String get templateDrapedLookNeeds =>
-      'హ్యాంగర్, వెదురు లేదా బొమ్మ; వైపు లైటింగ్';
+  String get templateDrapedLookNeeds => 'చీర కట్టుకునే వ్యక్తి; సైడ్ లైటింగ్';
 
   @override
   String get templateEmbroideryBorderNeeds =>
@@ -760,7 +759,7 @@ class AppLocalizationsTe extends AppLocalizations {
       'చీరలో బాగా వెలుతురు ఉన్న విభాగం, సహజ కాంతిలో ఉండటం మంచిది';
 
   @override
-  String get templateDrapedLookPlacement => 'హ్యాంగర్, వెదురు లేదా బొమ్మ';
+  String get templateDrapedLookPlacement => 'వ్యక్తి మీద కట్టి, పూర్తి నిడివి';
 
   @override
   String get templateEmbroideryBorderPlacement =>
@@ -778,7 +777,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get templateTextureWeaveOverlay => 'ఆకృతిని మధ్యలో ఉంచండి';
 
   @override
-  String get templateDrapedLookOverlay => 'మడతలు వికర్ణాన్ని అనుసరించనివ్వండి';
+  String get templateDrapedLookOverlay => 'వ్యక్తిని మధ్య నిలువు రేఖపై ఉంచండి';
 
   @override
   String get templateEmbroideryBorderOverlay =>
@@ -2005,10 +2004,10 @@ class AppLocalizationsTe extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get guideSareeDrapedLook1 => 'ఫాబ్రిక్ సహజంగా పడిపోనివ్వండి.';
+  String get guideSareeDrapedLook1 => 'చీరను వ్యక్తి మీద కట్టండి.';
 
   @override
-  String get guideSareeDrapedLook2 => 'మడతలు వికర్ణాన్ని అనుసరిస్తాయి.';
+  String get guideSareeDrapedLook2 => 'పల్లు భుజం మీద; ప్లీట్లు నేల వరకు.';
 
   @override
   String get guideSareeDrapedLook3 => 'సైడ్ లైటింగ్ ఉపయోగించండి.';
@@ -3484,13 +3483,13 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csCam1c => 'ఫోన్‌ను 15–30 సెం.మీ. దూరంలో పట్టుకోండి';
 
   @override
-  String get csCam2a => 'మడతలు వికర్ణం వెంబడి పడనివ్వండి';
+  String get csCam2a => 'చీర కట్టుకున్న వ్యక్తి డాష్ బాక్స్‌లో ఉండాలి';
 
   @override
-  String get csCam2b => 'ఒక చివర స్వేచ్ఛగా వేలాడనివ్వండి';
+  String get csCam2b => 'పల్లు భుజం మీద · ప్లీట్లు నేల వరకు';
 
   @override
-  String get csCam2c => 'కుర్చీ దిగువ సగంలో ఉండాలి';
+  String get csCam2c => 'తల పై మూడవ భాగంలో · కాళ్లు దిగువన';
 
   @override
   String get csCam3a => 'మోటిఫ్‌ను చిన్న కిటికీలో ఉంచండి';
@@ -3529,7 +3528,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csHintCloseUp => 'ఈ బాక్స్‌ను నేసిన వస్త్రంతో నింపండి';
 
   @override
-  String get csHintDrape => 'వస్త్రం వికర్ణం వెంబడి పడనివ్వండి';
+  String get csHintDrape => 'కట్టుకున్న వ్యక్తిని ఈ ఫ్రేమ్‌లో ఉంచండి';
 
   @override
   String get csHintBorder => 'బోర్డర్ / మోటిఫ్ ఈ కిటికీలో ఉంచండి';

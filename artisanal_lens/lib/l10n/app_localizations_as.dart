@@ -735,7 +735,8 @@ class AppLocalizationsAs extends AppLocalizations {
   String get templateTextureWeaveNeeds => 'যিমান পাৰি প্ৰাকৃতিক পোহৰ';
 
   @override
-  String get templateDrapedLookNeeds => 'হেংগাৰ, বাঁহ বা পুতলা; কাষৰ পোহৰ';
+  String get templateDrapedLookNeeds =>
+      'চাৰিখন পিন্ধিবলৈ এগৰাকী ব্যক্তি; কাষৰ পোহৰ';
 
   @override
   String get templateEmbroideryBorderNeeds => 'কাষৰ পোহৰ; বিপৰীত পৃষ্ঠভূমি';
@@ -752,7 +753,7 @@ class AppLocalizationsAs extends AppLocalizations {
       'শাড়ীৰ ভালকৈ পোহৰ পৰা অংশ, ভাল হয় প্ৰাকৃতিক পোহৰত';
 
   @override
-  String get templateDrapedLookPlacement => 'হেংগাৰ, বাঁহ বা পুতলা';
+  String get templateDrapedLookPlacement => 'মানুহৰ গাত পিন্ধা, গোটেই দৈৰ্ঘ্য';
 
   @override
   String get templateEmbroideryBorderPlacement =>
@@ -769,8 +770,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get templateTextureWeaveOverlay => 'গঠনটো কেন্দ্ৰত ৰাখক';
 
   @override
-  String get templateDrapedLookOverlay =>
-      'ভাঁজবোৰ তিৰ্যক ৰেখাৰ সৈতে যাবলৈ দিয়ক';
+  String get templateDrapedLookOverlay => 'ব্যক্তিজনক মাজৰ উলম্ব ৰেখাত ৰাখক';
 
   @override
   String get templateEmbroideryBorderOverlay => 'এমব্ৰয়ডাৰী ফ্ৰেমৰ ভিতৰত ৰাখক';
@@ -1962,10 +1962,11 @@ class AppLocalizationsAs extends AppLocalizations {
   String get languageEnglish => 'ইংৰাজী';
 
   @override
-  String get guideSareeDrapedLook1 => 'কাপোৰ স্বাভাৱিকভাৱে পৰিবলৈ দিয়ক।';
+  String get guideSareeDrapedLook1 => 'চাৰিখন মানুহৰ গাত পিন্ধাওক।';
 
   @override
-  String get guideSareeDrapedLook2 => 'ভাঁজবোৰ তিৰ্যক ৰেখাৰে যায়।';
+  String get guideSareeDrapedLook2 =>
+      'পল্লু কান্ধৰ ওপৰত পৰক; প্লিটবোৰ তললৈ যাওক।';
 
   @override
   String get guideSareeDrapedLook3 => 'কাষৰ পৰা পোহৰ লওক।';
@@ -3423,13 +3424,13 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csCam1c => 'ফোনখন ১৫–৩০ ছে.মি. দূৰত ধৰক';
 
   @override
-  String get csCam2a => 'ভাঁজবোৰ তিৰ্যক ৰেখাৰে যাবলৈ দিয়ক';
+  String get csCam2a => 'চাৰিখন পিন্ধা ব্যক্তিজনক ডেছড বাকচত ৰাখক';
 
   @override
-  String get csCam2b => 'এটা মূৰ মুকলিকৈ ওলমি থাকক';
+  String get csCam2b => 'পল্লু কান্ধৰ ওপৰত · প্লিটবোৰ ভৰিলৈ';
 
   @override
-  String get csCam2c => 'চকীখন তলৰ আধাত থাকক';
+  String get csCam2c => 'মূৰ ওপৰৰ তৃতীয়াংশত · ভৰি তলত';
 
   @override
   String get csCam3a => 'মটিফটো সৰু খিৰিকীত ৰাখক';
@@ -3468,7 +3469,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csHintCloseUp => 'এই বাকচখন বোৱা কাপোৰেৰে ভৰাওক';
 
   @override
-  String get csHintDrape => 'কাপোৰখন তিৰ্যক ৰেখাৰে পৰিবলৈ দিয়ক';
+  String get csHintDrape => 'পিন্ধা ব্যক্তিজনক এই ফ্ৰেমত ৰাখক';
 
   @override
   String get csHintBorder => 'বৰ্ডাৰ / মটিফ এই খিৰিকীত ৰাখক';

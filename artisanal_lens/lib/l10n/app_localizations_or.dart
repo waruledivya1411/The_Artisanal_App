@@ -744,7 +744,7 @@ class AppLocalizationsOr extends AppLocalizations {
 
   @override
   String get templateDrapedLookNeeds =>
-      'ହ୍ୟାଙ୍ଗର୍, ବାଉଁଶ କିମ୍ବା ମେନେକ୍ଇନ୍; ପାର୍ଶ୍ୱ ଆଲୋକ';
+      'ସାଢ଼ୀ ପିନ୍ଧିବା ପାଇଁ ଜଣେ ବ୍ୟକ୍ତି; ପାର୍ଶ୍ୱ ଆଲୋକ';
 
   @override
   String get templateEmbroideryBorderNeeds =>
@@ -762,8 +762,7 @@ class AppLocalizationsOr extends AppLocalizations {
       'ସାରୀର ଏକ ସୁସଜ୍ଜିତ ବିଭାଗ, ବିଶେଷତ natural ପ୍ରାକୃତିକ ଆଲୋକରେ |';
 
   @override
-  String get templateDrapedLookPlacement =>
-      'ହ୍ୟାଙ୍ଗର୍, ବାଉଁଶ କିମ୍ବା ମେନେକ୍ଇନ୍ |';
+  String get templateDrapedLookPlacement => 'ବ୍ୟକ୍ତି ଉପରେ ପିନ୍ଧା, ପୂର୍ଣ୍ଣ ଲମ୍ବ';
 
   @override
   String get templateEmbroideryBorderPlacement =>
@@ -782,7 +781,7 @@ class AppLocalizationsOr extends AppLocalizations {
 
   @override
   String get templateDrapedLookOverlay =>
-      'ଫୋଲ୍ଡଗୁଡ଼ିକୁ ତ୍ରିକୋଣୀୟ ଅନୁସରଣ କରିବାକୁ ଦିଅ |';
+      'ବ୍ୟକ୍ତିଙ୍କୁ ମଝି ଭୂଲମ୍ବ ରେଖାରେ ରଖନ୍ତୁ';
 
   @override
   String get templateEmbroideryBorderOverlay =>
@@ -2006,10 +2005,11 @@ class AppLocalizationsOr extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get guideSareeDrapedLook1 => 'କପଡାକୁ ସ୍ୱାଭାବିକ ଭାବରେ ପଡ଼ିବାକୁ ଦିଅ |';
+  String get guideSareeDrapedLook1 => 'ସାଢ଼ୀକୁ ବ୍ୟକ୍ତି ଉପରେ ପିନ୍ଧାନ୍ତୁ |';
 
   @override
-  String get guideSareeDrapedLook2 => 'ଫୋଲ୍ଡଗୁଡ଼ିକ ତ୍ରିକୋଣୀୟ ଅନୁସରଣ କରନ୍ତି |';
+  String get guideSareeDrapedLook2 =>
+      'ପଲ୍ଲୁ କାନ୍ଧ ଉପରେ; ପ୍ଲିଟ୍ ମାଟି ପର୍ଯ୍ୟନ୍ତ |';
 
   @override
   String get guideSareeDrapedLook3 => 'ପାର୍ଶ୍ୱ ଆଲୋକ ବ୍ୟବହାର କରନ୍ତୁ |';
@@ -3481,13 +3481,13 @@ class AppLocalizationsOr extends AppLocalizations {
   String get csCam1c => 'ଫୋନ୍ ୧୫–୩୦ ସେ.ମି. ଦୂରରେ ଧରନ୍ତୁ';
 
   @override
-  String get csCam2a => 'ମଡ଼ାଗୁଡ଼ିକୁ ତିର୍ଯକ ରେଖାରେ ପଡ଼ିବାକୁ ଦିଅନ୍ତୁ';
+  String get csCam2a => 'ସାଢ଼ୀ ପିନ୍ଧିଥିବା ବ୍ୟକ୍ତି ଡ୍ୟାସ୍ ବାକ୍ସରେ ରୁହନ୍ତୁ';
 
   @override
-  String get csCam2b => 'ଗୋଟିଏ ମୁଣ୍ଡ ଖୋଲାରେ ଝୁଲୁଥାଉ';
+  String get csCam2b => 'ପଲ୍ଲୁ କାନ୍ଧ ଉପରେ · ପ୍ଲିଟ୍ ମାଟି ପର୍ଯ୍ୟନ୍ତ';
 
   @override
-  String get csCam2c => 'ଚୌକି ତଳ ଅଧାରେ ରହୁ';
+  String get csCam2c => 'ମୁଣ୍ଡ ଉପର ତୃତୀୟାଂଶରେ · ଗୋଡ଼ ତଳେ';
 
   @override
   String get csCam3a => 'ମୋଟିଫ୍ ଛୋଟ ଝରକାରେ ରଖନ୍ତୁ';
@@ -3526,7 +3526,7 @@ class AppLocalizationsOr extends AppLocalizations {
   String get csHintCloseUp => 'ଏହି ବାକ୍ସକୁ ବୁଣା କପଡ଼ାରେ ଭରନ୍ତୁ';
 
   @override
-  String get csHintDrape => 'କପଡ଼ା ତିର୍ଯକ ରେଖାରେ ପଡ଼ିବାକୁ ଦିଅନ୍ତୁ';
+  String get csHintDrape => 'ପିନ୍ଧିଥିବା ବ୍ୟକ୍ତିଙ୍କୁ ଏହି ଫ୍ରେମ୍ ଭିତରେ ରଖନ୍ତୁ';
 
   @override
   String get csHintBorder => 'ବର୍ଡର୍ / ମୋଟିଫ୍ ଏହି ଝରକାରେ ରଖନ୍ତୁ';
