@@ -1443,7 +1443,7 @@ abstract class AppLocalizations {
   /// No description provided for @templateDrapedLookNeeds.
   ///
   /// In en, this message translates to:
-  /// **'Hanger, bamboo or mannequin; side lighting'**
+  /// **'A person to wear the sari; side lighting'**
   String get templateDrapedLookNeeds;
 
   /// No description provided for @templateEmbroideryBorderNeeds.
@@ -1473,7 +1473,7 @@ abstract class AppLocalizations {
   /// No description provided for @templateDrapedLookPlacement.
   ///
   /// In en, this message translates to:
-  /// **'Hanger, bamboo or mannequin'**
+  /// **'Worn on a person, full length'**
   String get templateDrapedLookPlacement;
 
   /// No description provided for @templateEmbroideryBorderPlacement.
@@ -1503,7 +1503,7 @@ abstract class AppLocalizations {
   /// No description provided for @templateDrapedLookOverlay.
   ///
   /// In en, this message translates to:
-  /// **'Let the folds follow the diagonal'**
+  /// **'Keep the person on the centre vertical'**
   String get templateDrapedLookOverlay;
 
   /// No description provided for @templateEmbroideryBorderOverlay.
@@ -3651,13 +3651,13 @@ abstract class AppLocalizations {
   /// No description provided for @guideSareeDrapedLook1.
   ///
   /// In en, this message translates to:
-  /// **'Let the fabric fall naturally.'**
+  /// **'Drape the sari on a person.'**
   String get guideSareeDrapedLook1;
 
   /// No description provided for @guideSareeDrapedLook2.
   ///
   /// In en, this message translates to:
-  /// **'Folds follow the diagonal.'**
+  /// **'Pallu over the shoulder; pleats to the floor.'**
   String get guideSareeDrapedLook2;
 
   /// No description provided for @guideSareeDrapedLook3.
@@ -6339,19 +6339,19 @@ abstract class AppLocalizations {
   /// No description provided for @csCam2a.
   ///
   /// In en, this message translates to:
-  /// **'Let the folds follow the diagonal'**
+  /// **'Person wearing the sari stands in the dashed box'**
   String get csCam2a;
 
   /// No description provided for @csCam2b.
   ///
   /// In en, this message translates to:
-  /// **'One end hangs free'**
+  /// **'Pallu over the shoulder · pleats to the floor'**
   String get csCam2b;
 
   /// No description provided for @csCam2c.
   ///
   /// In en, this message translates to:
-  /// **'Chair sits in the lower half'**
+  /// **'Head near the top third · feet near the bottom'**
   String get csCam2c;
 
   /// No description provided for @csCam3a.
@@ -6429,7 +6429,7 @@ abstract class AppLocalizations {
   /// No description provided for @csHintDrape.
   ///
   /// In en, this message translates to:
-  /// **'Let the cloth fall along the diagonal'**
+  /// **'Place the person wearing it inside this frame'**
   String get csHintDrape;
 
   /// No description provided for @csHintBorder.

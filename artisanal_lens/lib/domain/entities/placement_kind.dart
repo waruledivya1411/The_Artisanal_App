@@ -11,7 +11,7 @@ enum PlacementKind {
   /// Texture / weave — small centre box.
   closeUp,
 
-  /// Thrown / draped cloth — portrait with a diagonal.
+  /// Worn on a person — full-length portrait on thirds.
   drape,
 
   /// Embroidery and border — offset detail window.
@@ -85,7 +85,7 @@ enum PlacementKind {
   String get hint => switch (this) {
         PlacementKind.fullDisplay => 'Place the whole piece inside this frame',
         PlacementKind.closeUp => 'Fill this box with the weave',
-        PlacementKind.drape => 'Let the cloth fall along the diagonal',
+        PlacementKind.drape => 'Place the person wearing it inside this frame',
         PlacementKind.border => 'Put the border / motif in this window',
         PlacementKind.folded => 'Lay the folded stack in this box',
         PlacementKind.scale => 'Piece in the frame · object on the spot',
@@ -100,7 +100,7 @@ enum PlacementKind {
   double get ghostInsetX => switch (this) {
         PlacementKind.fullDisplay => 0.12,
         PlacementKind.closeUp => 0.22,
-        PlacementKind.drape => 0.14,
+        PlacementKind.drape => 0.10,
         PlacementKind.border => 0.16,
         PlacementKind.folded => 0.08,
         PlacementKind.scale => 0.12,
@@ -115,7 +115,7 @@ enum PlacementKind {
   double get ghostInsetY => switch (this) {
         PlacementKind.fullDisplay => 0.14,
         PlacementKind.closeUp => 0.26,
-        PlacementKind.drape => 0.12,
+        PlacementKind.drape => 0.04,
         PlacementKind.border => 0.18,
         PlacementKind.folded => 0.26,
         PlacementKind.scale => 0.14,

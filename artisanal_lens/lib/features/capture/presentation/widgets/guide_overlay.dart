@@ -149,8 +149,9 @@ class _GuidePainter extends CustomPainter {
     canvas.clipRect(box);
     final path = gridPath?.trim();
     final hasPath = path != null && path.isNotEmpty;
-    // Border shots: one motif window from placement marks, not a second SVG box.
-    final skipPath = placement == PlacementKind.border;
+    // Border: motif window from marks. Drape: person silhouette + thirds grid.
+    final skipPath = placement == PlacementKind.border ||
+        placement == PlacementKind.drape;
     if (hasPath && !skipPath) {
       paintSvgPath(
         canvas,
@@ -182,6 +183,7 @@ class _GuidePainter extends CustomPainter {
   static bool _gridDrawnByPlacement(PlacementKind placement) =>
       placement == PlacementKind.fullDisplay ||
       placement == PlacementKind.closeUp ||
+      placement == PlacementKind.drape ||
       placement == PlacementKind.lifestyle ||
       placement == PlacementKind.making;
 
@@ -306,6 +308,7 @@ class _GuidePainter extends CustomPainter {
         canvas.drawCircle(spot, 10, mark);
         canvas.drawCircle(spot, 4, mark);
       case PlacementKind.drape:
+        _personSilhouette(canvas, box, mark);
       case PlacementKind.fringe:
         canvas.drawLine(box.bottomLeft, box.topRight, mark);
       case PlacementKind.border:
@@ -331,6 +334,25 @@ class _GuidePainter extends CustomPainter {
       case PlacementKind.making:
         break;
     }
+  }
+
+  void _personSilhouette(Canvas canvas, Rect box, Paint paint) {
+    final cx = box.center.dx;
+    final headR = (box.shortestSide * 0.075).clamp(18.0, 34.0);
+    // Full-length pulled-back portraits: face sits ~23% down the frame.
+    final head = Offset(cx, box.top + box.height * 0.23);
+    canvas.drawCircle(head, headR, paint);
+    final bodyTop = head.dy + headR * 1.05;
+    final body = Rect.fromLTRB(
+      cx - box.width * 0.22,
+      bodyTop,
+      cx + box.width * 0.22,
+      box.bottom - 10,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(body, Radius.circular(body.width * 0.22)),
+      paint,
+    );
   }
 
   void _corners(Canvas canvas, Rect rect, Paint paint) {

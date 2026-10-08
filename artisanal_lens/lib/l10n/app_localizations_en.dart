@@ -740,7 +740,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get templateDrapedLookNeeds =>
-      'Hanger, bamboo or mannequin; side lighting';
+      'A person to wear the sari; side lighting';
 
   @override
   String get templateEmbroideryBorderNeeds =>
@@ -758,7 +758,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'A well-lit section of the saree, preferably in natural light';
 
   @override
-  String get templateDrapedLookPlacement => 'Hanger, bamboo or mannequin';
+  String get templateDrapedLookPlacement => 'Worn on a person, full length';
 
   @override
   String get templateEmbroideryBorderPlacement =>
@@ -776,7 +776,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get templateTextureWeaveOverlay => 'Keep the texture in the centre';
 
   @override
-  String get templateDrapedLookOverlay => 'Let the folds follow the diagonal';
+  String get templateDrapedLookOverlay =>
+      'Keep the person on the centre vertical';
 
   @override
   String get templateEmbroideryBorderOverlay =>
@@ -2007,10 +2008,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
-  String get guideSareeDrapedLook1 => 'Let the fabric fall naturally.';
+  String get guideSareeDrapedLook1 => 'Drape the sari on a person.';
 
   @override
-  String get guideSareeDrapedLook2 => 'Folds follow the diagonal.';
+  String get guideSareeDrapedLook2 =>
+      'Pallu over the shoulder; pleats to the floor.';
 
   @override
   String get guideSareeDrapedLook3 => 'Use side lighting.';
@@ -3475,13 +3477,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csCam1c => 'Hold the phone 15–30 cm away';
 
   @override
-  String get csCam2a => 'Let the folds follow the diagonal';
+  String get csCam2a => 'Person wearing the sari stands in the dashed box';
 
   @override
-  String get csCam2b => 'One end hangs free';
+  String get csCam2b => 'Pallu over the shoulder · pleats to the floor';
 
   @override
-  String get csCam2c => 'Chair sits in the lower half';
+  String get csCam2c => 'Head near the top third · feet near the bottom';
 
   @override
   String get csCam3a => 'Put the motif in the small window';
@@ -3520,7 +3522,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csHintCloseUp => 'Fill this box with the weave';
 
   @override
-  String get csHintDrape => 'Let the cloth fall along the diagonal';
+  String get csHintDrape => 'Place the person wearing it inside this frame';
 
   @override
   String get csHintBorder => 'Put the border / motif in this window';
