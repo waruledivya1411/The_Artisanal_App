@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import '../features/capture/presentation/capture_page.dart';
 import '../features/capture/presentation/capture_reference_page.dart';
 import '../features/checklist/presentation/frame_guide_page.dart';
-import '../features/checklist/presentation/framing_quiz_page.dart';
-import '../features/checklist/presentation/light_quiz_page.dart';
 import '../features/checklist/presentation/material_selection_page.dart';
 import '../features/checklist/presentation/photo_list_page.dart';
 import '../features/checklist/presentation/pick_frames_page.dart';
@@ -40,10 +38,8 @@ abstract final class AppRoute {
   static const String postingPlan = 'postingPlan';
   static const String readTheNumbers = 'readTheNumbers';
   static const String productSetup = 'productSetup';
-  static const String framingQuiz = 'framingQuiz';
   static const String pickFrames = 'pickFrames';
   static const String frameGuide = 'frameGuide';
-  static const String lightQuiz = 'lightQuiz';
   static const String material = 'material';
   static const String photoList = 'photoList';
   static const String shotAndStyle = 'shotAndStyle';
@@ -132,7 +128,7 @@ GoRouter createRouter() {
 
       // The capture flow runs above the shell so the bottom bar is out of the
       // way once a shoot has started.
-      // Capture setup: product → material → frames → quizzes → list.
+      // Capture setup: product → material → frames → list.
       GoRoute(
         path: '/product/setup',
         name: AppRoute.productSetup,
@@ -167,28 +163,6 @@ GoRouter createRouter() {
         ),
       ),
       GoRoute(
-        path: '/product/:setId/framing-quiz',
-        name: AppRoute.framingQuiz,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) {
-          final framesRaw = state.uri.queryParameters['frames'] ?? '';
-          final frames = framesRaw
-              .split(',')
-              .map((e) => int.tryParse(e.trim()))
-              .whereType<int>()
-              .toList();
-          return FramingQuizPage(
-            setId: state.pathParameters['setId']!,
-            categoryId: state.uri.queryParameters['category'] ?? 'saree',
-            frameIndexes: frames,
-            materialId: state.uri.queryParameters['material'],
-            technique: state.uri.queryParameters['technique'],
-            productLabel: state.uri.queryParameters['product'] ??
-                state.uri.queryParameters['name'],
-          );
-        },
-      ),
-      GoRoute(
         path: '/product/:setId/frame-guide',
         name: AppRoute.frameGuide,
         parentNavigatorKey: rootNavigatorKey,
@@ -201,26 +175,6 @@ GoRouter createRouter() {
           technique: state.uri.queryParameters['technique'],
           productLabel: state.uri.queryParameters['product'],
         ),
-      ),
-      GoRoute(
-        path: '/product/:setId/light-quiz',
-        name: AppRoute.lightQuiz,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) {
-          final framesRaw = state.uri.queryParameters['frames'] ?? '';
-          final frames = framesRaw
-              .split(',')
-              .map((e) => int.tryParse(e.trim()))
-              .whereType<int>()
-              .toList();
-          return LightQuizPage(
-            setId: state.pathParameters['setId']!,
-            categoryId: state.uri.queryParameters['category'],
-            materialId: state.uri.queryParameters['material'],
-            technique: state.uri.queryParameters['technique'],
-            frameIndexes: frames,
-          );
-        },
       ),
       GoRoute(
         path: '/product/:setId/list',

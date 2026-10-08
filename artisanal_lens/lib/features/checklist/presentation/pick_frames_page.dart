@@ -105,7 +105,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
     final l10n = AppLocalizations.of(context);
 
     return PhotoLessonChrome(
-      stepIndex: _isPanel ? 3 : 2,
+      stepIndex: _isPanel ? 1 : 2,
       isPanel: _isPanel,
       onBack: _goBack,
       footer: PhotoContinueBar(
@@ -166,17 +166,7 @@ class _PickFramesPageState extends State<PickFramesPage> {
     ClickSocialSync.schedulePush();
     if (!mounted) return;
 
-    final q = <String>[
-      'category=${widget.categoryId}',
-      'frames=${picks.join(',')}',
-      if (widget.materialId != null && widget.materialId!.isNotEmpty)
-        'material=${widget.materialId}',
-      if (widget.technique != null && widget.technique!.isNotEmpty)
-        'technique=${widget.technique}',
-      if (widget.productLabel != null && widget.productLabel!.isNotEmpty)
-        'product=${Uri.encodeComponent(widget.productLabel!)}',
-    ].join('&');
-    context.go('/product/${widget.setId}/framing-quiz?$q');
+    context.go('/product/${widget.setId}/list');
   }
 }
 

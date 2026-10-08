@@ -10,7 +10,7 @@ import 'support/test_l10n.dart';
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  testWidgets('Kamrup and Nalbari list local silks with cotton and silk',
+  testWidgets('Kamrup and Nalbari list cotton eri mulberry tussar and muga',
       (tester) async {
     SharedPreferences.setMockInitialValues({
       clickSocialClusterKey: 'assam',
@@ -26,20 +26,47 @@ void main() {
 
     for (final name in [
       'Cotton',
-      'Silk',
-      'Mulberry',
-      'Zari',
       'Eri',
+      'Mulberry',
       'Tussar',
-      'Tussar Gheecha',
       'Muga',
-      'Muga Gheecha',
-      'Spun Silk',
+    ]) {
+      expect(find.text(name), findsOneWidget);
+    }
+    expect(find.text('Silk'), findsNothing);
+    expect(find.text('Zari'), findsNothing);
+  });
+
+  for (final cluster in ['maniabandha', 'gopalpur']) {
+  testWidgets('$cluster lists its fibres with cotton and silk',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({
+      clickSocialClusterKey: cluster,
+    });
+    await tester.binding.setSurfaceSize(const Size(400, 3600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(
+      ProviderScope(
+        child: l10nApp(home: const MaterialSelectionPage()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    for (final name in [
+      'Cotton',
+      'Silk',
+      'Korea Tussar',
+      'Mulberry',
+      'Eri',
+      'Liva/Viscose',
+      'Linen',
       'Spun Tussar',
+      'Noil',
     ]) {
       expect(find.text(name), findsOneWidget);
     }
   });
+  }
 
   for (final product in ['Sari', 'Stole / Dupatta', 'Mekhela sador']) {
     testWidgets('material cards for $product name cotton and silk only',

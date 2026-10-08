@@ -16,8 +16,8 @@ import 'photo_lesson_chrome.dart';
 /// HTML photoStep 1 — What is it made of?
 ///
 /// Vertical material cards (image + title + tip + Select). The product was
-/// already chosen, so these cards name the fibre only. Kamrup & Nalbari also
-/// lists the local silks.
+/// already chosen, so these cards name the fibre only. Kamrup & Nalbari,
+/// Maniabandha, and Gopalpur also list their local fibres.
 class MaterialSelectionPage extends ConsumerStatefulWidget {
   const MaterialSelectionPage({
     this.categoryId,
@@ -43,16 +43,23 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
   /// Kamrup & Nalbari (cluster id `assam`).
   static const _kamrupMaterials = [
     'cotton',
-    'silk',
-    'mulberry',
-    'zari',
     'eri',
+    'mulberry',
     'tussar',
-    'tussar-gheecha',
     'muga',
-    'muga-gheecha',
-    'spun-silk',
+  ];
+
+  /// Maniabandha and Gopalpur keep cotton and silk and add these fibres.
+  static const _maniabandhaMaterials = [
+    'cotton',
+    'silk',
+    'korea-tussar',
+    'mulberry',
+    'eri',
+    'liva-viscose',
+    'linen',
     'spun-tussar',
+    'noil',
   ];
 
   String? _clusterId;
@@ -60,8 +67,13 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
   String? _selected;
   bool _busy = false;
 
-  List<String> get _materials =>
-      _clusterId == 'assam' ? _kamrupMaterials : _baseMaterials;
+  List<String> _materialsFor(String? clusterId) => switch (clusterId) {
+        'assam' => _kamrupMaterials,
+        'maniabandha' || 'gopalpur' => _maniabandhaMaterials,
+        _ => _baseMaterials,
+      };
+
+  List<String> get _materials => _materialsFor(_clusterId);
 
   @override
   void initState() {
@@ -76,8 +88,7 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
       id = prefs.getString(clickSocialClusterKey);
     } catch (_) {}
     if (!mounted) return;
-    final materials =
-        id == 'assam' ? _kamrupMaterials : _baseMaterials;
+    final materials = _materialsFor(id);
     final incoming = widget.materialId;
     setState(() {
       _clusterId = id;
@@ -100,6 +111,10 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
         'muga-gheecha' => 'assets/images/materials/muga_gheecha.jpg',
         'spun-silk' => 'assets/images/materials/spun_silk.jpg',
         'spun-tussar' => 'assets/images/materials/spun_tussar.jpg',
+        'korea-tussar' => 'assets/images/materials/korea_tussar.jpg',
+        'liva-viscose' => 'assets/images/materials/liva_viscose.jpg',
+        'linen' => 'assets/images/materials/linen.jpg',
+        'noil' => 'assets/images/materials/noil.jpg',
         _ => 'assets/images/materials/$materialId.png',
       };
 
@@ -116,6 +131,10 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
         'muga-gheecha' => 'Muga Gheecha',
         'spun-silk' => 'Spun Silk',
         'spun-tussar' => 'Spun Tussar',
+        'korea-tussar' => 'Korea Tussar',
+        'liva-viscose' => 'Liva/Viscose',
+        'linen' => 'Linen',
+        'noil' => 'Noil',
         _ => materialId,
       };
 
@@ -131,6 +150,10 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
         'muga-gheecha' => 'Slubby golden muga',
         'spun-silk' => 'Fine spun silk yarn',
         'spun-tussar' => 'Spun wild-silk yarn',
+        'korea-tussar' => 'Pale, even wild silk',
+        'liva-viscose' => 'Fluid drape · Soft lustre',
+        'linen' => 'Crisp weave · Natural slub',
+        'noil' => 'Matte, nubby silk',
         _ => '',
       };
 

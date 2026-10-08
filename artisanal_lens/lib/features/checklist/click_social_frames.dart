@@ -146,6 +146,7 @@ class ClickSocialFrame {
       final material = clickSocialMaterialFolder(
         materialId,
         product: product,
+        clusterId: clusterId,
       );
       final tech = (technique ?? '').toUpperCase() == 'HAND-PAINTED'
           ? 'handpainted'
@@ -433,6 +434,9 @@ const clickSocialSilkMaterials = {
   'muga-gheecha',
   'spun-silk',
   'spun-tussar',
+  'korea-tussar',
+  'noil',
+  'liva-viscose',
 };
 
 bool clickSocialMaterialIsSilk(String? materialId) =>
@@ -450,9 +454,14 @@ const _kamrupNamedFibreFolders = {
   'spun-tussar',
 };
 
-String clickSocialMaterialFolder(String? materialId, {String? product}) {
+String clickSocialMaterialFolder(
+  String? materialId, {
+  String? product,
+  String? clusterId,
+}) {
   final id = (materialId ?? '').trim().toLowerCase();
-  if ((product == 'shawl' ||
+  if (clusterId == 'assam' &&
+      (product == 'shawl' ||
           product == 'gamusa' ||
           product == 'sari' ||
           product == 'mekhela') &&

@@ -318,8 +318,7 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
         'assets/images/clusters/kamrup/gamusa/cotton/woven/hanging_display.jpg',
       'Jod Kapur' =>
         'assets/images/clusters/kamrup/mekhela/silk/woven/full_display.jpg',
-      'Yardages' || 'Yardage' =>
-        'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.jpg',
+      'Yardages' || 'Yardage' => 'assets/images/products/yardage.jpg',
       'Chadar' =>
         'assets/images/clusters/maniabandha/sari/silk/woven/draped_look.jpg',
       'Dhoti' =>

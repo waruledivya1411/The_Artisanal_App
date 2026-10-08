@@ -166,9 +166,9 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
     );
 
     return PhotoLessonChrome(
-      stepIndex: isPanel ? 4 : 5,
+      stepIndex: isPanel ? 2 : 3,
       isPanel: isPanel,
-      onBack: () => _goBackToLightQuiz(set),
+      onBack: () => _goBackToFrames(set),
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
         children: [
@@ -364,18 +364,17 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
     await _pickAndSaveShot(slot);
   }
 
-  void _goBackToLightQuiz(ShotSet set) {
-    // Opened via context.go from the light quiz — pop often has nowhere to go.
-    final frames = _picks?.join(',') ?? '';
+  void _goBackToFrames(ShotSet set) {
     final q = <String>[
       'category=${set.categoryId}',
-      if (frames.isNotEmpty) 'frames=$frames',
       if (set.materialId != null && set.materialId!.isNotEmpty)
         'material=${set.materialId}',
       if (_technique != null && _technique!.isNotEmpty)
         'technique=$_technique',
+      if (set.productName.trim().isNotEmpty)
+        'product=${Uri.encodeComponent(set.productName)}',
     ].join('&');
-    context.go('/product/${widget.setId}/light-quiz?$q');
+    context.go('/product/${widget.setId}/pick-frames?$q');
   }
 
   Future<void> _openGuide(ShotSet set, int frameIndex) async {

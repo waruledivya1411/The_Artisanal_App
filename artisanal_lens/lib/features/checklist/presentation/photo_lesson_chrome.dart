@@ -9,8 +9,8 @@ import '../../../shared/motion/motion.dart';
 
 /// HTML photography lesson chrome: LESSON 01 header + 7 segment bar.
 ///
-/// Non-panel sequence: product → material → frames → framing →
-/// light → shoot (steps 0,1,4,5,6,7). Panel skips material.
+/// Non-panel sequence: product → material → frames → shoot.
+/// Panel skips material.
 class PhotoLessonChrome extends StatelessWidget {
   const PhotoLessonChrome({
     required this.stepIndex,
@@ -30,7 +30,7 @@ class PhotoLessonChrome extends StatelessWidget {
 
   /// HTML `photoSegs` step ids.
   List<int> get _seq =>
-      isPanel ? const [0, 4, 5, 6, 7] : const [0, 1, 4, 5, 6, 7];
+      isPanel ? const [0, 1, 2] : const [0, 1, 2, 3];
 
   void _defaultBack(BuildContext context) {
     if (context.canPop()) {
