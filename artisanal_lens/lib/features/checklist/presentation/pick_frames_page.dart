@@ -195,36 +195,43 @@ class _FramePickGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: frames.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        childAspectRatio: 0.72,
-      ),
-      itemBuilder: (context, i) {
-        final l10n = AppLocalizations.of(context);
-        final frame = frames[i];
-        final on = picks.contains(frame.index);
-        return FadeSlideIn.staggered(
-          index: staggerOffset + i,
-          child: _FramePickCard(
-            name: AppCopy.csFrameName(l10n, frame.index),
-            content: AppCopy.csFrameContent(l10n, frame.index),
-            selected: on,
-            imageAsset: frame.thumbAssetFor(
-              clusterId: clusterId,
-              categoryId: categoryId,
-              technique: technique,
-              productLabel: productLabel,
-              materialId: materialId,
-            ),
-            imageFit: frame.index == 2 ? BoxFit.contain : BoxFit.cover,
-            onTap: () => onToggle(frame.index),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const spacing = 12.0;
+        const footer = 78.0;
+        final cardWidth = (constraints.maxWidth - spacing) / 2;
+        final cardHeight = cardWidth * 4 / 3 + footer;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: frames.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: spacing,
+            crossAxisSpacing: spacing,
+            childAspectRatio: cardWidth / cardHeight,
           ),
+          itemBuilder: (context, i) {
+            final l10n = AppLocalizations.of(context);
+            final frame = frames[i];
+            final on = picks.contains(frame.index);
+            return FadeSlideIn.staggered(
+              index: staggerOffset + i,
+              child: _FramePickCard(
+                name: AppCopy.csFrameName(l10n, frame.index),
+                content: AppCopy.csFrameContent(l10n, frame.index),
+                selected: on,
+                imageAsset: frame.thumbAssetFor(
+                  clusterId: clusterId,
+                  categoryId: categoryId,
+                  technique: technique,
+                  productLabel: productLabel,
+                  materialId: materialId,
+                ),
+                onTap: () => onToggle(frame.index),
+              ),
+            );
+          },
         );
       },
     );
@@ -237,7 +244,6 @@ class _FramePickCard extends StatelessWidget {
     required this.content,
     required this.selected,
     required this.imageAsset,
-    this.imageFit = BoxFit.cover,
     required this.onTap,
   });
 
@@ -245,7 +251,6 @@ class _FramePickCard extends StatelessWidget {
   final String content;
   final bool selected;
   final String imageAsset;
-  final BoxFit imageFit;
   final VoidCallback onTap;
 
   @override
@@ -274,8 +279,8 @@ class _FramePickCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  flex: 5,
+                AspectRatio(
+                  aspectRatio: 3 / 4,
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -287,7 +292,7 @@ class _FramePickCard extends StatelessWidget {
                           color: AppColors.surfaceMuted,
                           child: GuideImage(
                             asset: imageAsset,
-                            fit: imageFit,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

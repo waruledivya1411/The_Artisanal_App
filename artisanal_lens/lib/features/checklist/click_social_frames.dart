@@ -177,6 +177,10 @@ class ClickSocialFrame {
       ..._baseGuideSteps(
         index,
         isAssam: isAssam,
+        isMekhela: clickSocialDrapeOnChair(
+          clusterId: clusterId,
+          productLabel: productLabel,
+        ),
         detailTip: clickSocialDetailTip(clusterId),
         making: clickSocialMakingGallery(clusterId),
       ),
@@ -332,12 +336,31 @@ const clickSocialFrames = <ClickSocialFrame>[
 /// Listing frames shown on Pick your frames (the six we keep).
 const clickSocialOfferedFrames = <int>[0, 1, 2, 3, 4, 8];
 
+/// Mekhela sador draped look is two unstitched cloths over a chair, not worn.
+bool clickSocialDrapeOnChair({
+  String? clusterId,
+  String? productLabel,
+  String? categoryId,
+}) =>
+    clickSocialFrameProductKey(
+      clusterId: clusterId,
+      productLabel: productLabel,
+      categoryId: categoryId,
+    ) ==
+    'mekhela';
+
 /// Camera-layout reference shown after Capture, before the live shutter.
-String clickSocialCameraRefAsset(int index) =>
-    '$_guides/cs_cam_ref_$index.jpg';
+String clickSocialCameraRefAsset(int index, {bool chairDrape = false}) =>
+    index == 2 && chairDrape
+        ? '$_guides/cs_cam_ref_2_chair.jpg'
+        : '$_guides/cs_cam_ref_$index.jpg';
 
 /// Where each part of the product sits on that camera grid.
-List<String> clickSocialCameraPlacementLines(int index) => switch (index) {
+List<String> clickSocialCameraPlacementLines(
+  int index, {
+  bool chairDrape = false,
+}) =>
+    switch (index) {
       0 => const [
           'Whole piece inside the dashed box',
           'Spread it on the floor or a table — do not hang it',
@@ -348,11 +371,17 @@ List<String> clickSocialCameraPlacementLines(int index) => switch (index) {
           'Keep the motif in the middle',
           'Hold the phone 15–30 cm away',
         ],
-      2 => const [
-          'Person wearing the sari stands in the dashed box',
-          'Pallu over the shoulder · pleats to the floor',
-          'Head near the top third · feet near the bottom',
-        ],
+      2 => chairDrape
+          ? const [
+              'Drape both cloths over the chair inside the dashed box',
+              'Folds fall to the floor · border readable',
+              'Chair back near the top third · hem near the bottom',
+            ]
+          : const [
+              'Person wearing the sari stands in the dashed box',
+              'Pallu over the shoulder · pleats to the floor',
+              'Head near the top third · feet near the bottom',
+            ],
       3 => const [
           'Put the motif in the small window',
           'Border fills the rest of the frame',
@@ -574,10 +603,15 @@ List<String> clickSocialMakingGallery(String? clusterId) {
 /// [PhotographyTemplate], so a picked frame has to become one. [skipsStyleStep]
 /// is always true: the Click & Social guide replaces the fold step, so
 /// `beginCaptureForSlot` opens the camera-layout reference, then the shutter.
-PhotographyTemplate asTemplate(ClickSocialFrame f, {String? thumbAsset}) {
+PhotographyTemplate asTemplate(
+  ClickSocialFrame f, {
+  String? thumbAsset,
+  bool chairDrape = false,
+}) {
   final steps = _baseGuideSteps(
     f.index,
     isAssam: false,
+    isMekhela: chairDrape,
     detailTip: clickSocialDetailTip(null),
     making: clickSocialMakingGallery(null),
   );
@@ -610,7 +644,7 @@ PhotographyTemplate asTemplate(ClickSocialFrame f, {String? thumbAsset}) {
     guidance: setup,
     overlayCaption: steps.isEmpty ? f.name : steps.first.title,
     referenceImageAsset: clickSocialOfferedFrames.contains(f.index)
-        ? clickSocialCameraRefAsset(f.index)
+        ? clickSocialCameraRefAsset(f.index, chairDrape: chairDrape)
         : (thumbAsset ?? f.thumbAsset),
     skipsStyleStep: true,
     highlightedProperties: switch (f.arch) {
@@ -771,6 +805,7 @@ const _kalGalleries = <String, Map<int, List<String>>>{
 List<GuideStep> _baseGuideSteps(
   int index, {
   required bool isAssam,
+  required bool isMekhela,
   required String detailTip,
   required List<String> making,
 }) {
@@ -848,6 +883,33 @@ List<GuideStep> _baseGuideSteps(
         ),
       ];
     case 2:
+      if (isMekhela) {
+        return [
+          const GuideStep(
+            title: 'Drape it over a chair',
+            subtitle: 'Both cloths over the seat · folds to the floor',
+            diagram: 'chair',
+            referenceAsset: '$_guides/cs_cam_ref_2_chair.jpg',
+          ),
+          if (isAssam)
+            const GuideStep(
+              title: 'Like this — on a chair',
+              subtitle: 'Show how the two cloths fall and fold',
+              imageAsset: '$_guides/cs_cam_ref_2_chair.jpg',
+              caption:
+                  'Mekhela sador draped on a chair — folds, border and hem.',
+            ),
+          const GuideStep(
+            title: 'Good examples',
+            subtitle: 'Over a chair — folds and hem in frame',
+            gallery: [
+              '$_guides/cs_cam_ref_2_chair.jpg',
+              '$_guides/ex-drape-chair.jpg',
+              '$_guides/ex-drape-chair-pink.jpg',
+            ],
+          ),
+        ];
+      }
       return [
         const GuideStep(
           title: 'Drape it on a person',

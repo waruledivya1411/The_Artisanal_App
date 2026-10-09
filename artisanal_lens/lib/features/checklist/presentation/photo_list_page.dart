@@ -113,6 +113,11 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
               productLabel: set.productName,
               materialId: set.materialId,
             ),
+            chairDrape: clickSocialDrapeOnChair(
+              clusterId: _clusterId,
+              productLabel: set.productName,
+              categoryId: set.categoryId,
+            ),
           ),
         ),
     ];

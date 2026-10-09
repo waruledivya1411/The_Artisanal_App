@@ -1196,22 +1196,33 @@ abstract final class AppCopy {
         _ => '',
       };
 
-  static List<String> csCameraLines(AppLocalizations l10n, int index) =>
+  static List<String> csCameraLines(
+    AppLocalizations l10n,
+    int index, {
+    bool chairDrape = false,
+  }) =>
       switch (index) {
         0 => [l10n.csCam0a, l10n.csCam0b, l10n.csCam0c],
         1 => [l10n.csCam1a, l10n.csCam1b, l10n.csCam1c],
-        2 => [l10n.csCam2a, l10n.csCam2b, l10n.csCam2c],
+        2 => chairDrape
+            ? [l10n.csCam2ChairA, l10n.csCam2ChairB, l10n.csCam2ChairC]
+            : [l10n.csCam2a, l10n.csCam2b, l10n.csCam2c],
         3 => [l10n.csCam3a, l10n.csCam3b, l10n.csCam3c],
         4 => [l10n.csCam4a, l10n.csCam4b, l10n.csCam4c],
         8 => [l10n.csCam8a, l10n.csCam8b, l10n.csCam8c],
         _ => [l10n.csCamFallback],
       };
 
-  static String csPlacementHint(AppLocalizations l10n, PlacementKind kind) =>
+  static String csPlacementHint(
+    AppLocalizations l10n,
+    PlacementKind kind, {
+    bool chairDrape = false,
+  }) =>
       switch (kind) {
         PlacementKind.fullDisplay => l10n.csHintFullDisplay,
         PlacementKind.closeUp => l10n.csHintCloseUp,
-        PlacementKind.drape => l10n.csHintDrape,
+        PlacementKind.drape =>
+          chairDrape ? l10n.csHintDrapeChair : l10n.csHintDrape,
         PlacementKind.border => l10n.csHintBorder,
         PlacementKind.folded => l10n.csHintFolded,
         PlacementKind.hanging => l10n.csHintHanging,

@@ -605,6 +605,36 @@ void main() {
     expect(gallery.first, contains('kal-panel-tree'));
   });
 
+  test('mekhela draped look uses the chair camera guide', () {
+    final steps = clickSocialFrames[2].guideSteps(
+      isAssam: true,
+      isKal: false,
+      clusterId: 'assam',
+      productLabel: 'Mekhela sador',
+      technique: 'WOVEN',
+    );
+    expect(steps.first.title, 'Drape it over a chair');
+    expect(steps.first.diagram, 'chair');
+    expect(steps.first.referenceAsset, contains('cs_cam_ref_2_chair'));
+    expect(
+      asTemplate(clickSocialFrames[2], chairDrape: true).referenceImageAsset,
+      clickSocialCameraRefAsset(2, chairDrape: true),
+    );
+    expect(File(clickSocialCameraRefAsset(2, chairDrape: true)).existsSync(), isTrue);
+  });
+
+  test('sari draped look stays a worn person guide', () {
+    final steps = clickSocialFrames[2].guideSteps(
+      isAssam: true,
+      isKal: false,
+      clusterId: 'assam',
+      productLabel: 'Sari',
+      technique: 'WOVEN',
+    );
+    expect(steps.first.title, 'Drape it on a person');
+    expect(steps.first.diagram, 'worn');
+  });
+
   test('an Assam learner gets the extra drape pages', () {
     final steps = clickSocialFrames[0].guideSteps(
       isAssam: true,

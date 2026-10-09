@@ -3492,6 +3492,16 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csCam2c => 'తల పై మూడవ భాగంలో · కాళ్లు దిగువన';
 
   @override
+  String get csCam2ChairA =>
+      'రెండు వస్త్రాలను కుర్చీపై డ్రేప్ చేసి డాష్ బాక్స్‌లో ఉంచండి';
+
+  @override
+  String get csCam2ChairB => 'మడతలు నేల వరకు · బోర్డర్ కనిపించాలి';
+
+  @override
+  String get csCam2ChairC => 'కుర్చీ వీపు పై మూడవ భాగంలో · హేమ్ దిగువన';
+
+  @override
   String get csCam3a => 'మోటిఫ్‌ను చిన్న కిటికీలో ఉంచండి';
 
   @override
@@ -3529,6 +3539,9 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get csHintDrape => 'కట్టుకున్న వ్యక్తిని ఈ ఫ్రేమ్‌లో ఉంచండి';
+
+  @override
+  String get csHintDrapeChair => 'కుర్చీ వీపు, మడతలు, హేమ్ ఈ బాక్స్‌లో';
 
   @override
   String get csHintBorder => 'బోర్డర్ / మోటిఫ్ ఈ కిటికీలో ఉంచండి';

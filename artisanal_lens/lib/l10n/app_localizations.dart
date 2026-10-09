@@ -6354,6 +6354,24 @@ abstract class AppLocalizations {
   /// **'Head near the top third · feet near the bottom'**
   String get csCam2c;
 
+  /// No description provided for @csCam2ChairA.
+  ///
+  /// In en, this message translates to:
+  /// **'Drape both cloths over the chair inside the dashed box'**
+  String get csCam2ChairA;
+
+  /// No description provided for @csCam2ChairB.
+  ///
+  /// In en, this message translates to:
+  /// **'Folds fall to the floor · border readable'**
+  String get csCam2ChairB;
+
+  /// No description provided for @csCam2ChairC.
+  ///
+  /// In en, this message translates to:
+  /// **'Chair back near the top third · hem near the bottom'**
+  String get csCam2ChairC;
+
   /// No description provided for @csCam3a.
   ///
   /// In en, this message translates to:
@@ -6431,6 +6449,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Place the person wearing it inside this frame'**
   String get csHintDrape;
+
+  /// No description provided for @csHintDrapeChair.
+  ///
+  /// In en, this message translates to:
+  /// **'Chair back, folds and hem inside this box'**
+  String get csHintDrapeChair;
 
   /// No description provided for @csHintBorder.
   ///

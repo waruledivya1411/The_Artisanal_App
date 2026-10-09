@@ -1303,6 +1303,9 @@
   "csCam2a": "Person wearing the sari stands in the dashed box",
   "csCam2b": "Pallu over the shoulder · pleats to the floor",
   "csCam2c": "Head near the top third · feet near the bottom",
+  "csCam2ChairA": "Drape both cloths over the chair inside the dashed box",
+  "csCam2ChairB": "Folds fall to the floor · border readable",
+  "csCam2ChairC": "Chair back near the top third · hem near the bottom",
   "csCam3a": "Put the motif in the small window",
   "csCam3b": "Border fills the rest of the frame",
   "csCam3c": "A slight fold gives the border depth",
@@ -1316,6 +1319,7 @@
   "csHintFullDisplay": "Place the whole piece inside this frame",
   "csHintCloseUp": "Fill this box with the weave",
   "csHintDrape": "Place the person wearing it inside this frame",
+  "csHintDrapeChair": "Chair back, folds and hem inside this box",
   "csHintBorder": "Put the border / motif in this window",
   "csHintFolded": "Lay the folded stack in this box",
   "csHintHanging": "Hang the piece in the centre, under the rod"

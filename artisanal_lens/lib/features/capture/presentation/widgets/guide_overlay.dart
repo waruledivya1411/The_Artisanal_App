@@ -19,6 +19,7 @@ class GuideOverlay extends StatelessWidget {
     required this.caption,
     this.gridPath,
     this.feedback,
+    this.chairDrape = false,
     super.key,
   });
 
@@ -27,6 +28,9 @@ class GuideOverlay extends StatelessWidget {
   final String? gridPath;
   final String caption;
   final CaptureFeedback? feedback;
+
+  /// Mekhela draped look: chair + cloth, not a standing person.
+  final bool chairDrape;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class GuideOverlay extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: TweenAnimationBuilder<double>(
-                  key: ValueKey('$grid|${placement.name}|$gridPath'),
+                  key: ValueKey('$grid|${placement.name}|$gridPath|$chairDrape'),
                   tween: Tween(begin: 0, end: 1),
                   duration: AppMotion.screen,
                   curve: AppMotion.curve,
@@ -49,6 +53,7 @@ class GuideOverlay extends StatelessWidget {
                       placement: placement,
                       gridPath: gridPath,
                       borderColor: _borderColor(feedback),
+                      chairDrape: chairDrape,
                     ),
                   ),
                 ),
@@ -122,12 +127,14 @@ class _GuidePainter extends CustomPainter {
     required this.placement,
     required this.borderColor,
     this.gridPath,
+    this.chairDrape = false,
   });
 
   final GridOverlayType grid;
   final PlacementKind placement;
   final Color borderColor;
   final String? gridPath;
+  final bool chairDrape;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -308,7 +315,11 @@ class _GuidePainter extends CustomPainter {
         canvas.drawCircle(spot, 10, mark);
         canvas.drawCircle(spot, 4, mark);
       case PlacementKind.drape:
-        _personSilhouette(canvas, box, mark);
+        if (chairDrape) {
+          _chairDrapeSilhouette(canvas, box, mark);
+        } else {
+          _personSilhouette(canvas, box, mark);
+        }
       case PlacementKind.fringe:
         canvas.drawLine(box.bottomLeft, box.topRight, mark);
       case PlacementKind.border:
@@ -334,6 +345,81 @@ class _GuidePainter extends CustomPainter {
       case PlacementKind.making:
         break;
     }
+  }
+
+  /// Three named marks: chair back, folds, hem — no mystery shapes.
+  void _chairDrapeSilhouette(Canvas canvas, Rect box, Paint paint) {
+    final cx = box.center.dx;
+    final backY = box.top + box.height * 0.22;
+    final backHalf = box.width * 0.18;
+    canvas.drawLine(
+      Offset(cx - backHalf, backY),
+      Offset(cx + backHalf, backY),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(cx - backHalf, backY - 8),
+      Offset(cx - backHalf, backY + 8),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(cx + backHalf, backY - 8),
+      Offset(cx + backHalf, backY + 8),
+      paint,
+    );
+    _overlayLabel(canvas, 'Chair back', Offset(cx + backHalf + 10, backY - 10));
+
+    final foldTop = box.top + box.height * 0.40;
+    final foldBot = box.bottom - box.height * 0.16;
+    final foldX = cx - box.width * 0.06;
+    _dashedLine(canvas, Offset(foldX, foldTop), Offset(foldX, foldBot), paint);
+    _dashedLine(
+      canvas,
+      Offset(foldX + 16, foldTop),
+      Offset(foldX + 12, foldBot),
+      paint,
+    );
+    _overlayLabel(
+      canvas,
+      'Folds',
+      Offset(foldX + 24, (foldTop + foldBot) / 2 - 8),
+    );
+
+    final hemY = box.bottom - 10;
+    canvas.drawLine(
+      Offset(box.left + 16, hemY),
+      Offset(box.right - 16, hemY),
+      paint,
+    );
+    _overlayLabel(canvas, 'Hem', Offset(box.left + 20, hemY - 26));
+  }
+
+  void _overlayLabel(Canvas canvas, String text, Offset topLeft) {
+    final painter = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+          height: 1,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    final pad = const Offset(7, 4);
+    final rect = Rect.fromLTWH(
+      topLeft.dx,
+      topLeft.dy,
+      painter.width + pad.dx * 2,
+      painter.height + pad.dy * 2,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, const Radius.circular(8)),
+      Paint()..color = const Color(0xCC1A202C),
+    );
+    painter.paint(canvas, topLeft + pad);
   }
 
   void _personSilhouette(Canvas canvas, Rect box, Paint paint) {
@@ -398,5 +484,6 @@ class _GuidePainter extends CustomPainter {
       oldDelegate.grid != grid ||
       oldDelegate.placement != placement ||
       oldDelegate.gridPath != gridPath ||
-      oldDelegate.borderColor != borderColor;
+      oldDelegate.borderColor != borderColor ||
+      oldDelegate.chairDrape != chairDrape;
 }

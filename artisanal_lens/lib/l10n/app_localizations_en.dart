@@ -3486,6 +3486,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csCam2c => 'Head near the top third · feet near the bottom';
 
   @override
+  String get csCam2ChairA =>
+      'Drape both cloths over the chair inside the dashed box';
+
+  @override
+  String get csCam2ChairB => 'Folds fall to the floor · border readable';
+
+  @override
+  String get csCam2ChairC =>
+      'Chair back near the top third · hem near the bottom';
+
+  @override
   String get csCam3a => 'Put the motif in the small window';
 
   @override
@@ -3523,6 +3534,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csHintDrape => 'Place the person wearing it inside this frame';
+
+  @override
+  String get csHintDrapeChair => 'Chair back, folds and hem inside this box';
 
   @override
   String get csHintBorder => 'Put the border / motif in this window';

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -259,6 +261,7 @@ class GuideImage extends StatelessWidget {
     required this.asset,
     this.fit = BoxFit.contain,
     this.borderRadius,
+    this.fillFrame = false,
     super.key,
   });
 
@@ -266,22 +269,54 @@ class GuideImage extends StatelessWidget {
   final BoxFit fit;
   final BorderRadius? borderRadius;
 
+  /// Fill the box edge-to-edge without cropping the photo: a blurred
+  /// cover sits behind, and the full image is contained on top.
+  final bool fillFrame;
+
   @override
   Widget build(BuildContext context) {
-    final image = Image.asset(
-      asset,
-      fit: fit,
-      errorBuilder: (_, _, _) => Container(
-        color: AppColors.surfaceMuted,
-        alignment: Alignment.center,
-        child: const Icon(
-          Icons.image_outlined,
-          color: AppColors.textMuted,
-          size: 28,
-        ),
-      ),
-    );
+    final image = fillFrame
+        ? Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.asset(
+                asset,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+                errorBuilder: _missing,
+              ),
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+                child: const ColoredBox(color: Color(0x14000000)),
+              ),
+              Image.asset(
+                asset,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+                filterQuality: FilterQuality.high,
+                errorBuilder: _missing,
+              ),
+            ],
+          )
+        : Image.asset(
+            asset,
+            fit: fit,
+            filterQuality: FilterQuality.high,
+            errorBuilder: _missing,
+          );
     if (borderRadius == null) return image;
     return ClipRRect(borderRadius: borderRadius!, child: image);
+  }
+
+  static Widget _missing(BuildContext context, Object error, StackTrace? _) {
+    return Container(
+      color: AppColors.surfaceMuted,
+      alignment: Alignment.center,
+      child: const Icon(
+        Icons.image_outlined,
+        color: AppColors.textMuted,
+        size: 28,
+      ),
+    );
   }
 }

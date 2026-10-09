@@ -532,6 +532,8 @@ class GuideDiagramPainter extends CustomPainter {
         _drape(canvas);
       case 'worn':
         _worn(canvas);
+      case 'chair':
+        _chair(canvas);
       case 'grid':
         _grid(canvas);
       case 'gridmotif':
@@ -683,6 +685,33 @@ class GuideDiagramPainter extends CustomPainter {
     _arrow(
       canvas,
       const [Offset(90, 44), Offset(80, 42), Offset(84, 52)],
+      _accent,
+    );
+  }
+
+  void _chair(Canvas canvas) {
+    _phoneShell(canvas);
+    _thirdsGrid(canvas);
+    _rect(canvas, 88, 28, 24, 30, fill: _pale, stroke: _ink, strokeWidth: 1.5);
+    _rect(canvas, 80, 58, 40, 10, fill: _line, stroke: _ink, strokeWidth: 1.5);
+    final cloth = Path()
+      ..moveTo(80, 58)
+      ..lineTo(86, 108)
+      ..lineTo(100, 70)
+      ..lineTo(118, 110)
+      ..lineTo(120, 58);
+    canvas.drawPath(cloth, _fill(_line));
+    canvas.drawPath(cloth, _stroke(_ink, 1.5));
+    _dashed(
+      canvas,
+      Path()
+        ..moveTo(40, 100)
+        ..cubicTo(52, 78, 66, 62, 80, 58),
+      _accent,
+    );
+    _arrow(
+      canvas,
+      const [Offset(82, 56), Offset(72, 54), Offset(76, 64)],
       _accent,
     );
   }

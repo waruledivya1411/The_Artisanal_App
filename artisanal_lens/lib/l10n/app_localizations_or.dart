@@ -3490,6 +3490,16 @@ class AppLocalizationsOr extends AppLocalizations {
   String get csCam2c => 'ମୁଣ୍ଡ ଉପର ତୃତୀୟାଂଶରେ · ଗୋଡ଼ ତଳେ';
 
   @override
+  String get csCam2ChairA =>
+      'ଦୁଇ ଲୁଗା ଚେୟାରରେ ଡ୍ରେପ୍ କରି ଡ୍ୟାସ୍ ବାକ୍ସରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csCam2ChairB => 'ମଡ଼ା ମାଟି ପର୍ଯ୍ୟନ୍ତ ପଡ଼ୁ · ବର୍ଡର୍ ଦେଖାଯାଉ';
+
+  @override
+  String get csCam2ChairC => 'ଚେୟାର ପିଠି ଉପର ତୃତୀୟାଂଶରେ · ହେମ୍ ତଳେ';
+
+  @override
   String get csCam3a => 'ମୋଟିଫ୍ ଛୋଟ ଝରକାରେ ରଖନ୍ତୁ';
 
   @override
@@ -3527,6 +3537,9 @@ class AppLocalizationsOr extends AppLocalizations {
 
   @override
   String get csHintDrape => 'ପିନ୍ଧିଥିବା ବ୍ୟକ୍ତିଙ୍କୁ ଏହି ଫ୍ରେମ୍ ଭିତରେ ରଖନ୍ତୁ';
+
+  @override
+  String get csHintDrapeChair => 'ଚେୟାର ପିଠି, ମଡ଼ା ଏବଂ ହେମ୍ ଏହି ବାକ୍ସରେ';
 
   @override
   String get csHintBorder => 'ବର୍ଡର୍ / ମୋଟିଫ୍ ଏହି ଝରକାରେ ରଖନ୍ତୁ';

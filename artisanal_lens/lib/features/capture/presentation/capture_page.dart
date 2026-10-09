@@ -14,6 +14,7 @@ import '../../../domain/entities/preset_capture_guidance.dart';
 import '../../../domain/entities/shot_type.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
+import '../../checklist/click_social_frames.dart';
 import '../../home/shot_sets_controller.dart';
 import '../camera_controller.dart';
 import '../capture_session_controller.dart';
@@ -63,13 +64,24 @@ class _CapturePageState extends ConsumerState<CapturePage> {
       session.template?.id ?? guidance.templateId,
       technique.grid,
     );
+    final chairDrape = clickSocialDrapeOnChair(
+      productLabel: set?.productName,
+      categoryId: set?.categoryId,
+    );
+    final hint = AppCopy.csPlacementHint(
+      l10n,
+      placement,
+      chairDrape: chairDrape,
+    );
     final overlayCaption = camera.feedback.hasVisiblePrompt
-        ? AppCopy.csPlacementHint(l10n, placement)
-        : (AppCopy.overlayCaptionForTemplate(
-              l10n,
-              guidance.templateId ?? guidance.templateName,
-            ) ??
-            AppCopy.csPlacementHint(l10n, placement));
+        ? hint
+        : (chairDrape && placement == PlacementKind.drape
+            ? hint
+            : (AppCopy.overlayCaptionForTemplate(
+                  l10n,
+                  guidance.templateId ?? guidance.templateName,
+                ) ??
+                hint));
 
     return Scaffold(
       backgroundColor: AppColors.textPrimary,
@@ -84,6 +96,7 @@ class _CapturePageState extends ConsumerState<CapturePage> {
               gridPath: session.template?.gridPath,
               caption: overlayCaption,
               feedback: camera.feedback,
+              chairDrape: chairDrape,
             ),
           _TopBar(
             productName: set?.productName ?? '',
