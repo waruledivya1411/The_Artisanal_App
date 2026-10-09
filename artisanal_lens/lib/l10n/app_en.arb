@@ -1146,10 +1146,6 @@
   "csClusterNagalandTag6": "#northeastindia",
   "csClusterNagalandTag7": "#craftindia",
   "csNewProductTitle": "New product",
-  "csHowIsItMade": "How is it made?",
-  "csTechniqueSub": "The technique decides what the camera must show.",
-  "csTechniqueWoven": "WOVEN",
-  "csTechniqueHandPainted": "HAND-PAINTED",
   "csNextMaterialType": "NEXT — MATERIAL TYPE",
   "csNextMaterial": "NEXT — MATERIAL",
   "csWhatArePhotographing": "What are you photographing?",
@@ -1157,88 +1153,12 @@
   "csPickYourFrames": "Pick your frames",
   "csPickFramesSub": "Which shots will you take? Choose at least one.",
   "csNoTemplatesYet": "No templates for this product yet.",
-  "csNextFrameIt": "NEXT — FRAME IT",
-  "csFramingProgress": "FRAMING {index} OF {total}",
-  "@csFramingProgress": {
-    "placeholders": {
-      "index": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "csFramingProgressNamed": "FRAMING {index} OF {total} — {names}",
-  "@csFramingProgressNamed": {
-    "placeholders": {
-      "index": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      },
-      "names": {
-        "type": "String"
-      }
-    }
-  },
-  "csFramingThirdsTitle": "Where should your product sit?",
-  "csFramingThirdsSub": "Same 3×3 grid on every card. Put the piece on a crossing.",
-  "csFramingThirdsMsg0": "Dead centre feels flat. Sit it on a grid crossing.",
-  "csFramingThirdsMsg1": "Yes — the product sits where the grid lines cross.",
-  "csFramingThirdsMsg2": "Packed into a corner — it gets cut off the grid.",
-  "csFramingCenterTitle": "How much of the grid should it fill?",
-  "csFramingCenterSub": "For a close-up, fill the middle of the grid — not a tiny corner.",
-  "csFramingCenterMsg0": "Too small, stuck in one cell — step in.",
-  "csFramingCenterMsg1": "Yes — the piece fills the centre of the grid.",
-  "csFramingCenterMsg2": "Half off the grid — keep it inside the lines.",
-  "csFramingDiagTitle": "Where does a drape sit on the grid?",
-  "csFramingDiagSub": "Let the cloth rest on the lower third so it still has room to fall.",
-  "csFramingDiagMsg0": "Parked in the exact middle — no fall, no story.",
-  "csFramingDiagMsg1": "Yes — it sits on the lower-left crossing of the grid.",
-  "csFramingDiagMsg2": "Crammed in a corner — the grid cannot read the drape.",
-  "csFramingDetailTitle": "Which grid cell holds the border?",
-  "csFramingDetailSub": "Put the embroidery in the top-right cell of the same 3×3 grid.",
-  "csFramingDetailMsg0": "Too low — that cell is empty table, not the border.",
-  "csFramingDetailMsg1": "Yes — the motif fills the top-right cell.",
-  "csFramingDetailMsg2": "Centre cell shows cloth, not the border work.",
-  "csNextFraming": "NEXT FRAMING",
-  "csNextLightIt": "NEXT — LIGHT IT",
-  "csLightSide": "Light from the side",
-  "csLightFront": "Soft light from the front",
-  "csLightBack": "Light from behind",
-  "csLightHeadingPanel": "A painted panel hates glare.",
-  "csLightHeadingPainted": "Painted by hand — keep it even.",
-  "csLightHeadingSilk": "Silk shines. Make it glow.",
-  "csLightHeadingCotton": "Cotton is soft. Keep the light soft.",
-  "csLightPromptPanel": "A painting on cloth reflects. Light it flat and soft.",
-  "csLightPromptPainted": "Pick the light that keeps painted colours true.",
-  "csLightPromptSilk": "Pick the light that shows your silk best.",
-  "csLightPromptDefault": "Pick the light that shows your product best.",
-  "csLightWhyPanel": "Right — soft, even, diffused light from the front. Natural-dye colours stay true and nothing shines back at the camera. Never use flash.",
-  "csLightWhyPainted": "Right — even front light keeps the colours true, no glare on the painted surface.",
-  "csLightWhySilk": "Right — side light catches the lustre of the silk.",
-  "csLightWhyCotton": "Right — soft front light keeps cotton gentle and its colours true.",
-  "csLightWrongPanel": "Raking side light throws shadows across the brushwork and catches glare on the surface. Keep it even and diffused.",
-  "csLightWrongPainted": "Side light throws shadows across the painted work. Keep it soft and even.",
-  "csLightWrongSilk": "Flat front light kills the shine. Bring the light around to the side.",
-  "csLightWrongCotton": "Hard side light makes cotton look rough. Keep it soft, from the front.",
-  "csLightWrongBacklight": "Backlight turns your product into a shadow. Save it for the thickness shot.",
-  "csLightTipDoThisBadge": "DO THIS",
-  "csLightTipDoThisBody": "Big soft window, curtain drawn. Even light across the whole panel — every colour true, no shine.",
-  "csLightTipNeverFlashBadge": "NEVER FLASH",
-  "csLightTipNeverFlashBody": "Flash bounces straight back — a white glare spot burns out the painting.",
-  "csLightTipAvoidSideBadge": "AVOID HARD SIDE LIGHT",
-  "csLightTipAvoidSideBody": "A lamp or sun from one side drags shadows across the brushwork and the cloth texture fights the painting.",
-  "csLightNowPick": "Now pick the right light",
   "csNextShootYours": "NEXT — SHOOT YOURS",
   "csFinishEarnBadge": "FINISH — EARN BADGE",
   "languageOdia": "Odia",
   "languageTelugu": "Telugu",
   "csWhatIsItMadeOf": "What is it made of?",
   "csMaterialDecidesLight": "The material decides the light.",
-  "csNextTechnique": "NEXT — TECHNIQUE",
   "csNextPickYourFrames": "NEXT — PICK YOUR FRAMES",
   "csMaterialCotton": "COTTON",
   "csMaterialSilk": "SILK",

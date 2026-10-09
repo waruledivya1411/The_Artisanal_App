@@ -35,9 +35,8 @@ flutter test        # unit tests
 Sutra splash  (tap to skip)
   └─ Learn
         Lesson 01 Photography
-          Product → Material → Technique → Pick frames
-            → Framing quiz (one 3×3 question per pick)
-            → Light quiz → Photo list (GUIDE / CAPTURE / GALLERY)
+          Product → Material → Pick frames
+            → Photo list (GUIDE / CAPTURE / GALLERY)
             → Camera with placement marks → Review
         Lesson 02 Instagram · 03 Create a Post · 04 Posting Plan · 05 Numbers
   Practice  (feed)

@@ -4,7 +4,7 @@ import 'dart:ui';
 /// Parses the small subset of SVG path data used by Click & Social grids.
 ///
 /// Supports M/L/H/V/Z/A and their relative forms — enough for the HTML
-/// `gridPaths` and framing-quiz `archDefs.grid` strings.
+/// `gridPaths` and camera `archDefs.grid` strings.
 Path parseSvgPath(
   String data, {
   double scaleX = 1,

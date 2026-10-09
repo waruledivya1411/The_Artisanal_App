@@ -11,7 +11,7 @@ import '../../../shared/widgets/choice_image_grid.dart';
 import '../../../shared/widgets/common.dart';
 import '../../home/shot_sets_controller.dart';
 
-/// Material variety step, then framing quiz / shoot flow.
+/// Material variety step, then pick-frames / shoot flow.
 class SilkTypePage extends ConsumerStatefulWidget {
   const SilkTypePage({
     this.materialId,

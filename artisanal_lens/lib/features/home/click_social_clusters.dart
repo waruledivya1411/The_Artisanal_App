@@ -330,7 +330,7 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
       'Dupatta' =>
         'assets/images/clusters/maniabandha/stole/cotton/woven/draped_look.jpg',
       'Dupattas' =>
-        'assets/images/clusters/srikalahasti/stole/cotton/handpainted/draped_look.jpg',
+        'assets/images/clusters/srikalahasti/stole/cotton/woven/draped_look.jpg',
       'Angvastram set' =>
         'assets/images/clusters/kamrup/sari/silk/woven/embroidery_and_border.jpg',
       'Uttaraya' =>

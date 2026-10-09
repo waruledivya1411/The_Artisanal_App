@@ -343,7 +343,7 @@ void main() {
     );
     expect(sariFull, contains('clusters/maniabandha/sari/cotton/woven/full_display'));
     expect(stoleDrape, contains('clusters/maniabandha/stole/silk/woven/draped_look'));
-    expect(hp, contains('clusters/maniabandha/sari/silk/handpainted/full_display'));
+    expect(hp, contains('clusters/maniabandha/sari/silk/woven/full_display'));
     expect(hp, isNot(contains('kal-')));
   });
 
@@ -369,8 +369,8 @@ void main() {
       productLabel: 'Sari',
       materialId: 'silk',
     );
-    expect(sariHang, contains('clusters/srikalahasti/sari/cotton/handpainted/hanging_display'));
-    expect(stoleClose, contains('clusters/srikalahasti/stole/cotton/handpainted/close-up_texture'));
+    expect(sariHang, contains('clusters/srikalahasti/sari/cotton/woven/hanging_display'));
+    expect(stoleClose, contains('clusters/srikalahasti/stole/cotton/woven/close-up_texture'));
     expect(woven, contains('clusters/srikalahasti/sari/silk/woven/full_display'));
     expect(sariHang, isNot(contains('kal-')));
   });
@@ -403,7 +403,7 @@ void main() {
     );
     expect(
       silkPainted,
-      contains('clusters/venkatgiri/sari/silk/handpainted/hanging_display'),
+      contains('clusters/venkatgiri/sari/silk/woven/hanging_display'),
     );
     expect(
       stoleFallback,
@@ -432,7 +432,7 @@ void main() {
     );
     expect(
       silkPainted,
-      contains('clusters/venkatgiri/stole/silk/handpainted/hanging_display'),
+      contains('clusters/venkatgiri/stole/silk/woven/hanging_display'),
     );
   });
 
@@ -457,7 +457,7 @@ void main() {
     );
     expect(
       silkPainted,
-      contains('clusters/venkatgiri/mekhela/silk/handpainted/draped_look'),
+      contains('clusters/venkatgiri/mekhela/silk/woven/draped_look'),
     );
   });
 

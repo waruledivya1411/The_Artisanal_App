@@ -26,7 +26,7 @@ const _clusterListingFrameImgs = <int, String>{
   8: 'hanging_display.jpg', // Hanging display
 };
 
-/// Framing-quiz archetypes from Click & Social HTML (`archOf`).
+/// Camera-grid archetypes from Click & Social HTML (`archOf`).
 enum FrameArch { thirds, center, diag, detail }
 
 /// One page of a frame's multi-step guide (HTML `guideDefs` entry).
@@ -135,7 +135,8 @@ class ClickSocialFrame {
     String? productLabel,
     String? materialId,
   }) {
-    // Cluster listing folders first — even HAND-PAINTED Srikalahasti uses these six frames.
+    // Cluster listing folders first. There is no woven / hand-painted picker,
+    // so every listing thumb uses the woven set.
     final listing = _clusterListingFrameImgs[index];
     final clusterDir = clickSocialListingClusterDir(clusterId);
     if (listing != null && clusterDir != null) {
@@ -148,10 +149,7 @@ class ClickSocialFrame {
         product: product,
         clusterId: clusterId,
       );
-      final tech = (technique ?? '').toUpperCase() == 'HAND-PAINTED'
-          ? 'handpainted'
-          : 'woven';
-      return 'assets/images/clusters/$clusterDir/$product/$material/$tech/$listing';
+      return 'assets/images/clusters/$clusterDir/$product/$material/woven/$listing';
     }
     if (clickSocialIsKal(clusterId: clusterId, technique: technique)) {
       final set = _kalFrameImgs[_kalProduct(categoryId, technique)]!;
@@ -402,7 +400,7 @@ List<String> clickSocialCameraPlacementLines(
         ],
     };
 
-/// Kept for older panel/light-quiz call sites — same six as everyone else.
+/// Kept for older panel call sites — same six as everyone else.
 const clickSocialPanelFrames = clickSocialOfferedFrames;
 
 /// Fallback when the learner picked nothing at the checklist.
@@ -421,7 +419,7 @@ ClickSocialFrame? frameByIndex(int i) {
   return null;
 }
 
-/// HTML `archOf` — which framing quiz a frame belongs to.
+/// HTML `archOf` — which camera grid a frame uses.
 FrameArch archForFrameIndex(int i) =>
     frameByIndex(i)?.arch ?? FrameArch.thirds;
 

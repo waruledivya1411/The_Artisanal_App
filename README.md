@@ -104,11 +104,9 @@ Sutra splash  (tap to skip)
         │
         ├─ Lesson 01  Photography
         │     Product (Mekhela / Sari / Stole / Accessories)
-        │       └─ Material → Technique
-        │            └─ Pick your frames  (up to 12 shared shots)
-        │                 └─ Framing quiz  (one 3×3-grid question per picked frame)
-        │                      └─ Light quiz
-        │                           └─ Photo list
+        │       └─ Material
+        │            └─ Pick your frames
+        │                 └─ Photo list
         │                                GUIDE → per-frame steps
         │                                CAPTURE → live camera (placement marks + light/distance)
         │                                GALLERY → upload from the library
@@ -136,12 +134,6 @@ Hanging display · Macro fringe detail · The making · Framed display
 
 Thumbs live in `artisanal_lens/assets/images/guides/`. Core shots sit at the
 **bottom** of Pick frames as one grid — not a separate section.
-
-### Framing quiz
-
-Every picked frame gets its **own** quiz card set. Layout is always a full
-**3×3 grid**; the product cutout moves to the right cell for that shot
-(crossing, centre fill, top-right border cell, and so on).
 
 ### Live capture
 

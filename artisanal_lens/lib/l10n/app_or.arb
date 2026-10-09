@@ -1146,10 +1146,6 @@
   "csClusterNagalandTag6": "# ଉତ୍ତରପୂର୍ବ",
   "csClusterNagalandTag7": "#craftindia",
   "csNewProductTitle": "ନୂତନ ଉତ୍ପାଦ |",
-  "csHowIsItMade": "ଏହା କିପରି ତିଆରି ହୁଏ?",
-  "csTechniqueSub": "କ୍ୟାମେରା କ’ଣ ଦେଖାଇବ ତାହା କ The ଶଳ ସ୍ଥିର କରେ |",
-  "csTechniqueWoven": "WOVEN",
-  "csTechniqueHandPainted": "ହାତ-ଚିତ୍ରିତ |",
   "csNextMaterialType": "ପରବର୍ତ୍ତୀ - ମ୍ୟାଟେରିଆଲ୍ ପ୍ରକାର |",
   "csNextMaterial": "ପରବର୍ତ୍ତୀ - ମ୍ୟାଟେରିଆଲ୍ |",
   "csWhatArePhotographing": "ଆପଣ କ’ଣ ଫଟୋଗ୍ରାଫି କରୁଛନ୍ତି?",
@@ -1157,88 +1153,12 @@
   "csPickYourFrames": "ତୁମର ଫ୍ରେମ୍ ବାଛ |",
   "csPickFramesSub": "ଆପଣ କେଉଁ ଶଟ ନେବେ? ଅତିକମରେ ଗୋଟିଏ ବାଛନ୍ତୁ |",
   "csNoTemplatesYet": "ଏହି ଉତ୍ପାଦ ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ କ temp ଣସି ଟେମ୍ପଲେଟ୍ ନାହିଁ |",
-  "csNextFrameIt": "ପରବର୍ତ୍ତୀ - ଏହାକୁ ଫ୍ରେମ୍ କରନ୍ତୁ |",
-  "csFramingProgress": "ଫ୍ରେମ୍ {index} ର {total} |",
-  "@csFramingProgress": {
-    "placeholders": {
-      "index": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "csFramingProgressNamed": "ଫ୍ରେମ୍ {index} ର {total} - {names} |",
-  "@csFramingProgressNamed": {
-    "placeholders": {
-      "index": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      },
-      "names": {
-        "type": "String"
-      }
-    }
-  },
-  "csFramingThirdsTitle": "ତୁମର ଉତ୍ପାଦ କେଉଁଠାରେ ବସିବା ଉଚିତ୍?",
-  "csFramingThirdsSub": "ସର୍ବୋତ୍ତମ ଫ୍ରେମ୍ ଟ୍ୟାପ୍ କରନ୍ତୁ | ରେଖାଗୁଡ଼ିକ ହେଉଛି ତୃତୀୟାଂଶର ନିୟମ |",
-  "csFramingThirdsMsg0": "ମୃତ କେନ୍ଦ୍ର ସମତଳ ଅନୁଭବ କରେ | ଏକ କ୍ରସିଂ ପଏଣ୍ଟ ଚେଷ୍ଟା କରନ୍ତୁ |",
-  "csFramingThirdsMsg1": "ହଁ - ଯେଉଁଠାରେ ରେଖା ଅତିକ୍ରମ କରେ ଏହାକୁ ସେଟ୍ କରନ୍ତୁ | ଫଟୋ ନିଶ୍ୱାସ ପ୍ରଶ୍ୱାସ କରେ |",
-  "csFramingThirdsMsg2": "ଧାରର ଅତି ନିକଟ - ଉତ୍ପାଦଟି କଟିଯାଏ |",
-  "csFramingCenterTitle": "ତୁମେ କେତେ ନିକଟତର ହେବା ଉଚିତ୍?",
-  "csFramingCenterSub": "କ୍ଲୋଜ ଅପ୍ସ, ଫ୍ଲାଟ ଲେ ଏବଂ ହ୍ୟାଙ୍ଗ ଖଣ୍ଡଗୁଡ଼ିକ କେନ୍ଦ୍ରୀଭୂତ ହୋଇ ବସିଥାଏ - ମଧ୍ୟମ ବାକ୍ସ ଭରନ୍ତୁ |",
-  "csFramingCenterMsg0": "ବହୁତ ଦୂରରେ - ସବିଶେଷ ତଥ୍ୟ ହଜିଯାଇଛି | ପାଦ ଦିଅନ୍ତୁ |",
-  "csFramingCenterMsg1": "ହଁ - ଫ୍ରେମ୍ ସହିତ ସମାନ୍ତରାଳ ଭାବରେ କେନ୍ଦ୍ର ବାକ୍ସ, ଧାରଗୁଡିକ ପୂରଣ କରନ୍ତୁ |",
-  "csFramingCenterMsg2": "ଫ୍ରେମ୍ର ଅଧା ବାହାରେ - ଆପଣ ଶୁଟ୍ କରିବା ପୂର୍ବରୁ ଏହାକୁ କେନ୍ଦ୍ର କରନ୍ତୁ |",
-  "csFramingDiagTitle": "କପଡା କିପରି ପ୍ରବାହିତ ହେବା ଉଚିତ୍?",
-  "csFramingDiagSub": "ଡ୍ରାପ୍ସ ଏବଂ ମାକ୍ରୋ ସଟଗୁଡିକ ଡାଇଗୋନାଲ୍ ସହିତ ଗତି କରେ - କପଡା ଆଖିକୁ ଆଗେଇ ନେବାକୁ ଦିଅ |",
-  "csFramingDiagMsg0": "ଏକ ସମତଳ ଧାଡିରେ କ movement ଣସି ଗତି ନାହିଁ | ଏହାକୁ ଧାଡ଼ିରେ ପଡ଼ିବାକୁ ଦିଅ |",
-  "csFramingDiagMsg1": "ହଁ - ଫୋଲ୍ଡଗୁଡ଼ିକ ତ୍ରିକୋଣୀୟ ତଳକୁ ଓହ୍ଲାଇଥାଏ ଏବଂ ଆଖି ଅନୁସରଣ କରେ |",
-  "csFramingDiagMsg2": "ଏକ କୋଣରେ ବନ୍ଧା - ପ୍ରବାହ ଚାଲିଗଲା |",
-  "csFramingDetailTitle": "ଫ୍ରେମରେ କେତେ ସୀମା?",
-  "csFramingDetailSub": "ସୀମା, ମୋଟିଫ୍ ଏବଂ ଫୋଲଡ୍ ସଟଗୁଡିକ: କାର୍ଯ୍ୟଟି ସହିତ ସବିଶେଷ ଫ୍ରେମ୍ ପୁରଣ କରନ୍ତୁ |",
-  "csFramingDetailMsg0": "ଅତ୍ୟଧିକ ପତଳା, ବହୁତ ଦୂରରେ - ଶିଳ୍ପକୁ କେହି ଦେଖି ପାରିବେ ନାହିଁ |",
-  "csFramingDetailMsg1": "ହଁ - ସୀମା ଫ୍ରେମ୍ ଭରିଦିଏ, ଥ୍ରେଡ୍ ଗଣିବା ପାଇଁ ଯଥେଷ୍ଟ ବନ୍ଦ |",
-  "csFramingDetailMsg2": "ଏକ ଭାସମାନ ବର୍ଗ ସୀମା କିମ୍ବା ମୋଟିଫ୍ ଦେଖାଏ ନାହିଁ | ବ୍ୟାଣ୍ଡକୁ ଅନୁସରଣ କରନ୍ତୁ |",
-  "csNextFraming": "ପରବର୍ତ୍ତୀ ଫ୍ରେମ୍",
-  "csNextLightIt": "ପରବର୍ତ୍ତୀ - ଏହାକୁ ହାଲୁକା କରନ୍ତୁ |",
-  "csLightSide": "ପାର୍ଶ୍ୱରୁ ଆଲୋକ |",
-  "csLightFront": "ଆଗରୁ କୋମଳ ଆଲୋକ |",
-  "csLightBack": "ପଛରୁ ଆଲୋକ |",
-  "csLightHeadingPanel": "ଏକ ଚିତ୍ରିତ ପ୍ୟାନେଲ୍ ଚମକକୁ ଘୃଣା କରେ |",
-  "csLightHeadingPainted": "ହାତରେ ରଙ୍ଗିତ - ଏହାକୁ ମଧ୍ୟ ରଖନ୍ତୁ |",
-  "csLightHeadingSilk": "ରେଶମ ଉଜ୍ଜ୍ୱଳ | ଏହାକୁ ଚମକାନ୍ତୁ |",
-  "csLightHeadingCotton": "କପା ନରମ ଅଟେ | ଆଲୋକକୁ ନରମ ରଖନ୍ତୁ |",
-  "csLightPromptPanel": "କପଡା ଉପରେ ଏକ ଚିତ୍ର ପ୍ରତିଫଳିତ ହୁଏ | ଏହାକୁ ସମତଳ ଏବଂ ନରମ ହାଲୁକା କରନ୍ତୁ |",
-  "csLightPromptPainted": "ଆଲୋକ ବାଛନ୍ତୁ ଯାହା ରଙ୍ଗୀନ ରଙ୍ଗକୁ ସତ ରଖେ |",
-  "csLightPromptSilk": "ତୁମର ରେଶମକୁ ସର୍ବୋତ୍ତମ ଦେଖାଉଥିବା ଆଲୋକ ବାଛ |",
-  "csLightPromptDefault": "ତୁମର ଉତ୍ପାଦକୁ ସର୍ବୋତ୍ତମ ଦେଖାଉଥିବା ଆଲୋକ ବାଛ |",
-  "csLightWhyPanel": "ଡାହାଣ - ନରମ, ଏପରିକି, ଆଗରୁ ବିସ୍ତାରିତ ଆଲୋକ | ପ୍ରାକୃତିକ ରଙ୍ଗର ରଙ୍ଗ ସତ୍ୟ ରହେ ଏବଂ କ୍ୟାମେରାରେ କିଛି ଜ୍ୟୋତି ହୁଏ ନାହିଁ | କଦାପି ଫ୍ଲାସ ବ୍ୟବହାର କରନ୍ତୁ ନାହିଁ |",
-  "csLightWhyPainted": "ଡାହାଣ - ଏପରିକି ଆଗ ଆଲୋକ ମଧ୍ୟ ରଙ୍ଗକୁ ସତ୍ୟ ରଖେ, ଚିତ୍ରିତ ପୃଷ୍ଠରେ କ lar ଣସି ଚମକ ନାହିଁ |",
-  "csLightWhySilk": "ଡାହାଣ ପାର୍ଶ୍ୱ ଆଲୋକ ରେଶମର ଉଜ୍ଜ୍ୱଳତା ଧରିଥାଏ |",
-  "csLightWhyCotton": "ଡାହାଣ - ନରମ ସାମ୍ନା ଆଲୋକ ସୂତା କୋମଳ ଏବଂ ଏହାର ରଙ୍ଗ ସତ୍ୟ ରଖେ |",
-  "csLightWrongPanel": "ପାର୍ଶ୍ୱ ଆଲୋକକୁ ବ୍ରଶ୍ ୱାର୍କରେ ଛାଇ ପକାଇଥାଏ ଏବଂ ଭୂପୃଷ୍ଠରେ lar ଲକ ଧରିଥାଏ | ଏହାକୁ ସମାନ ଏବଂ ବିସ୍ତାର କରନ୍ତୁ |",
-  "csLightWrongPainted": "ସାଇଡ୍ ଲାଇଟ୍ ଚିତ୍ରିତ କାର୍ଯ୍ୟରେ ଛାୟା ପକାଇଥାଏ | ଏହାକୁ ନରମ ଏବଂ ଏପରିକି ରଖନ୍ତୁ |",
-  "csLightWrongSilk": "ଫ୍ଲାଟ ସାମ୍ନା ଆଲୋକ ଉଜ୍ଜ୍ୱଳତାକୁ ମାରିଦିଏ | ଆଲୋକକୁ ପାର୍ଶ୍ୱକୁ ଆଣ |",
-  "csLightWrongCotton": "କଠିନ ପାର୍ଶ୍ୱ ଆଲୋକ ସୂତାକୁ ରୁଗ୍ଣ ଦେଖାଏ | ଏହାକୁ ଆଗରୁ ନରମ ରଖନ୍ତୁ |",
-  "csLightWrongBacklight": "ବ୍ୟାକ୍ ଲାଇଟ୍ ଆପଣଙ୍କ ଉତ୍ପାଦକୁ ଏକ ଛାଇରେ ପରିଣତ କରେ | ମୋଟା ଶଟ ପାଇଁ ଏହାକୁ ସେଭ୍ କରନ୍ତୁ |",
-  "csLightTipDoThisBadge": "ଏହା କର |",
-  "csLightTipDoThisBody": "ବଡ ନରମ ୱିଣ୍ଡୋ, ପରଦା ଅଙ୍କିତ | ଏପରିକି ସମଗ୍ର ପ୍ୟାନେଲରେ ଆଲୋକ - ପ୍ରତ୍ୟେକ ରଙ୍ଗ ସତ୍ୟ, ଉଜ୍ଜ୍ୱଳ ନୁହେଁ |",
-  "csLightTipNeverFlashBadge": "କେବେବି ଫ୍ଲାସ୍ କରନ୍ତୁ ନାହିଁ |",
-  "csLightTipNeverFlashBody": "ଫ୍ଲାସ୍ ସିଧା ପଛକୁ ବାଉନ୍ସ ହୁଏ - ଏକ ଧଳା ରଙ୍ଗର ଦାଗ ଚିତ୍ରକୁ ପୋଡି ଦିଏ |",
-  "csLightTipAvoidSideBadge": "ହାର୍ଡ ସାଇଡ୍ ଲାଇଟ୍ ଠାରୁ ଦୂରେଇ ରୁହନ୍ତୁ |",
-  "csLightTipAvoidSideBody": "ଗୋଟିଏ ପାର୍ଶ୍ୱରୁ ଏକ ଦୀପ କିମ୍ବା ସୂର୍ଯ୍ୟ ବ୍ରଶ୍ ୱାର୍କରେ ଛାୟା ଟାଣିଥାଏ ଏବଂ କପଡା ଟେକ୍ସଚର୍ ପେଣ୍ଟିଂ ସହିତ ଲ ights େ |",
-  "csLightNowPick": "ବର୍ତ୍ତମାନ ସଠିକ୍ ଆଲୋକ ବାଛନ୍ତୁ |",
   "csNextShootYours": "ପରବର୍ତ୍ତୀ - ତୁମକୁ ଗୁଳି କର |",
   "csFinishEarnBadge": "ଶେଷ - ବ୍ୟାଡ୍ ରୋଜଗାର କରନ୍ତୁ |",
   "languageOdia": "ଓଡ଼ିଆ",
   "languageTelugu": "ତେଲୁଗୁ",
   "csWhatIsItMadeOf": "ଏହା କ’ଣ ତିଆରି ହୋଇଛି?",
   "csMaterialDecidesLight": "ପଦାର୍ଥ ଆଲୋକ ସ୍ଥିର କରେ |",
-  "csNextTechnique": "ପରବର୍ତ୍ତୀ - ଟେକ୍ନିକ୍ |",
   "csNextPickYourFrames": "ପରବର୍ତ୍ତୀ - ଆପଣଙ୍କର ଫ୍ରେମ୍ଗୁଡିକୁ ବାଛନ୍ତୁ |",
   "csMaterialCotton": "କୋଟନ୍ |",
   "csMaterialSilk": "ସିଲ୍କ |",

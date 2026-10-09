@@ -88,7 +88,7 @@ class _FadeSlideInState extends State<FadeSlideIn>
 /// Fades and lifts new content in whenever [child] changes identity.
 ///
 /// Used for a step replacing the one before it inside a screen that stays
-/// put — the quiz questions and the photography guide steps. Give the child a
+/// put — photography guide steps. Give the child a
 /// [ValueKey] for the step so the switcher knows when to run.
 class StepSwitcher extends StatelessWidget {
   const StepSwitcher({
