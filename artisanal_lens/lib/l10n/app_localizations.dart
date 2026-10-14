@@ -4047,7 +4047,7 @@ abstract class AppLocalizations {
   /// No description provided for @csChange.
   ///
   /// In en, this message translates to:
-  /// **'CHANGE'**
+  /// **'Change'**
   String get csChange;
 
   /// No description provided for @csLessonsDone.
@@ -4527,7 +4527,7 @@ abstract class AppLocalizations {
   /// No description provided for @csHashtagsPick.
   ///
   /// In en, this message translates to:
-  /// **'Hashtags — pick 3 to 5 '**
+  /// **'Hashtags — pick 3 to 5'**
   String get csHashtagsPick;
 
   /// No description provided for @csHashtagCount.
@@ -4545,7 +4545,7 @@ abstract class AppLocalizations {
   /// No description provided for @csCaptionPreview.
   ///
   /// In en, this message translates to:
-  /// **'CAPTION PREVIEW'**
+  /// **'Caption & feed preview'**
   String get csCaptionPreview;
 
   /// No description provided for @csCaptionPlaceholder.
@@ -4665,43 +4665,43 @@ abstract class AppLocalizations {
   /// No description provided for @csDayMon.
   ///
   /// In en, this message translates to:
-  /// **'M'**
+  /// **'Mon'**
   String get csDayMon;
 
   /// No description provided for @csDayTue.
   ///
   /// In en, this message translates to:
-  /// **'T'**
+  /// **'Tue'**
   String get csDayTue;
 
   /// No description provided for @csDayWed.
   ///
   /// In en, this message translates to:
-  /// **'W'**
+  /// **'Wed'**
   String get csDayWed;
 
   /// No description provided for @csDayThu.
   ///
   /// In en, this message translates to:
-  /// **'T'**
+  /// **'Thu'**
   String get csDayThu;
 
   /// No description provided for @csDayFri.
   ///
   /// In en, this message translates to:
-  /// **'F'**
+  /// **'Fri'**
   String get csDayFri;
 
   /// No description provided for @csDaySat.
   ///
   /// In en, this message translates to:
-  /// **'S'**
+  /// **'Sat'**
   String get csDaySat;
 
   /// No description provided for @csDaySun.
   ///
   /// In en, this message translates to:
-  /// **'S'**
+  /// **'Sun'**
   String get csDaySun;
 
   /// No description provided for @csGoodRhythm.
@@ -4959,7 +4959,7 @@ abstract class AppLocalizations {
   /// No description provided for @csCancel.
   ///
   /// In en, this message translates to:
-  /// **'CANCEL'**
+  /// **'Cancel'**
   String get csCancel;
 
   /// No description provided for @csClear.
@@ -5922,6 +5922,42 @@ abstract class AppLocalizations {
   /// **'Hanging display'**
   String get csFrame8Name;
 
+  /// No description provided for @csFrame5Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Scale reference'**
+  String get csFrame5Name;
+
+  /// No description provided for @csFrame6Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Styled flat lay'**
+  String get csFrame6Name;
+
+  /// No description provided for @csFrame7Name.
+  ///
+  /// In en, this message translates to:
+  /// **'In-context lifestyle'**
+  String get csFrame7Name;
+
+  /// No description provided for @csFrame9Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Macro fringe detail'**
+  String get csFrame9Name;
+
+  /// No description provided for @csFrame10Name.
+  ///
+  /// In en, this message translates to:
+  /// **'The making'**
+  String get csFrame10Name;
+
+  /// No description provided for @csFrame11Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Framed display'**
+  String get csFrame11Name;
+
   /// No description provided for @csFrame0Content.
   ///
   /// In en, this message translates to:
@@ -5957,6 +5993,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Drape, symmetry, fringe'**
   String get csFrame8Content;
+
+  /// No description provided for @csFrame5Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Size, proportion, length'**
+  String get csFrame5Content;
+
+  /// No description provided for @csFrame6Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Styling, colour, use-case'**
+  String get csFrame6Content;
+
+  /// No description provided for @csFrame7Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Application, ambience'**
+  String get csFrame7Content;
+
+  /// No description provided for @csFrame9Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand-finishing, craft'**
+  String get csFrame9Content;
+
+  /// No description provided for @csFrame10Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Process, hands, tools'**
+  String get csFrame10Content;
+
+  /// No description provided for @csFrame11Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Presentation, wall-ready'**
+  String get csFrame11Content;
 
   /// No description provided for @csCam0a.
   ///
@@ -6030,6 +6102,24 @@ abstract class AppLocalizations {
   /// **'Chair back near the top third · hem near the bottom'**
   String get csCam2ChairC;
 
+  /// No description provided for @csCam2SariChairA.
+  ///
+  /// In en, this message translates to:
+  /// **'Drape the sari over the chair inside the dashed box'**
+  String get csCam2SariChairA;
+
+  /// No description provided for @csCam2SariChairB.
+  ///
+  /// In en, this message translates to:
+  /// **'Folded piece on the seat · pallu falls to the floor'**
+  String get csCam2SariChairB;
+
+  /// No description provided for @csCam2SariChairC.
+  ///
+  /// In en, this message translates to:
+  /// **'Chair back near the top third · hem near the bottom'**
+  String get csCam2SariChairC;
+
   /// No description provided for @csCam3a.
   ///
   /// In en, this message translates to:
@@ -6065,6 +6155,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Folded edge faces the camera'**
   String get csCam4c;
+
+  /// No description provided for @csCam4SariA.
+  ///
+  /// In en, this message translates to:
+  /// **'One folded sari inside the dashed box'**
+  String get csCam4SariA;
+
+  /// No description provided for @csCam4SariB.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoot from above · edges parallel to the box'**
+  String get csCam4SariB;
+
+  /// No description provided for @csCam4SariC.
+  ///
+  /// In en, this message translates to:
+  /// **'Border on the long edge, facing the camera'**
+  String get csCam4SariC;
 
   /// No description provided for @csCam8a.
   ///
@@ -6114,6 +6222,12 @@ abstract class AppLocalizations {
   /// **'Chair back, folds and hem inside this box'**
   String get csHintDrapeChair;
 
+  /// No description provided for @csHintDrapeSariChair.
+  ///
+  /// In en, this message translates to:
+  /// **'Chair, folded seat piece and pallu inside this box'**
+  String get csHintDrapeSariChair;
+
   /// No description provided for @csHintBorder.
   ///
   /// In en, this message translates to:
@@ -6126,11 +6240,1223 @@ abstract class AppLocalizations {
   /// **'Lay the folded stack in this box'**
   String get csHintFolded;
 
+  /// No description provided for @csHintFoldedSari.
+  ///
+  /// In en, this message translates to:
+  /// **'One folded sari in this box — border on the side'**
+  String get csHintFoldedSari;
+
   /// No description provided for @csHintHanging.
   ///
   /// In en, this message translates to:
   /// **'Hang the piece in the centre, under the rod'**
   String get csHintHanging;
+
+  /// No description provided for @csSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get csSelect;
+
+  /// No description provided for @csNextShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get csNextShort;
+
+  /// No description provided for @csTakeTheShot.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the shot'**
+  String get csTakeTheShot;
+
+  /// No description provided for @csTapToOpenCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to open camera'**
+  String get csTapToOpenCamera;
+
+  /// No description provided for @csSearchLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Search language or dialect...'**
+  String get csSearchLanguage;
+
+  /// No description provided for @csFilterClusters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter clusters or states...'**
+  String get csFilterClusters;
+
+  /// No description provided for @csHomeFurnishingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home furnishing'**
+  String get csHomeFurnishingTitle;
+
+  /// No description provided for @csHomeFurnishingSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Cushion, runners, or mats.'**
+  String get csHomeFurnishingSub;
+
+  /// No description provided for @csMissingProductDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing product details. Go back and try again.'**
+  String get csMissingProductDetails;
+
+  /// No description provided for @csCouldNotContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not continue: {error}'**
+  String csCouldNotContinue(String error);
+
+  /// No description provided for @csYourName.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get csYourName;
+
+  /// No description provided for @csChangeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Change name'**
+  String get csChangeName;
+
+  /// No description provided for @csSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get csSave;
+
+  /// No description provided for @csUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get csUpdate;
+
+  /// No description provided for @csEnterYourName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name.'**
+  String get csEnterYourName;
+
+  /// No description provided for @csSavedAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as {name}.'**
+  String csSavedAs(String name);
+
+  /// No description provided for @csSutraCraftEcosystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Sutra craft ecosystem'**
+  String get csSutraCraftEcosystem;
+
+  /// No description provided for @csTapAnywhereToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap anywhere to start'**
+  String get csTapAnywhereToStart;
+
+  /// No description provided for @csProductGamusa.
+  ///
+  /// In en, this message translates to:
+  /// **'Gamusa'**
+  String get csProductGamusa;
+
+  /// No description provided for @csProductShawl.
+  ///
+  /// In en, this message translates to:
+  /// **'Shawl'**
+  String get csProductShawl;
+
+  /// No description provided for @csProductJodKapur.
+  ///
+  /// In en, this message translates to:
+  /// **'Jod Kapur'**
+  String get csProductJodKapur;
+
+  /// No description provided for @csProductYardages.
+  ///
+  /// In en, this message translates to:
+  /// **'Yardages'**
+  String get csProductYardages;
+
+  /// No description provided for @csProductYardage.
+  ///
+  /// In en, this message translates to:
+  /// **'Yardage'**
+  String get csProductYardage;
+
+  /// No description provided for @csProductHomeFurnishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Furnishing'**
+  String get csProductHomeFurnishing;
+
+  /// No description provided for @csProductCushion.
+  ///
+  /// In en, this message translates to:
+  /// **'Cushion'**
+  String get csProductCushion;
+
+  /// No description provided for @csProductRunners.
+  ///
+  /// In en, this message translates to:
+  /// **'Runners'**
+  String get csProductRunners;
+
+  /// No description provided for @csProductMats.
+  ///
+  /// In en, this message translates to:
+  /// **'Mats'**
+  String get csProductMats;
+
+  /// No description provided for @csProductChadar.
+  ///
+  /// In en, this message translates to:
+  /// **'Chadar'**
+  String get csProductChadar;
+
+  /// No description provided for @csProductDhoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhoti'**
+  String get csProductDhoti;
+
+  /// No description provided for @csProductJodo.
+  ///
+  /// In en, this message translates to:
+  /// **'Jodo'**
+  String get csProductJodo;
+
+  /// No description provided for @csProductMuffler.
+  ///
+  /// In en, this message translates to:
+  /// **'Muffler'**
+  String get csProductMuffler;
+
+  /// No description provided for @csProductDupatta.
+  ///
+  /// In en, this message translates to:
+  /// **'Dupatta'**
+  String get csProductDupatta;
+
+  /// No description provided for @csProductDupattas.
+  ///
+  /// In en, this message translates to:
+  /// **'Dupattas'**
+  String get csProductDupattas;
+
+  /// No description provided for @csProductAngvastram.
+  ///
+  /// In en, this message translates to:
+  /// **'Angvastram set'**
+  String get csProductAngvastram;
+
+  /// No description provided for @csProductUttaraya.
+  ///
+  /// In en, this message translates to:
+  /// **'Uttaraya'**
+  String get csProductUttaraya;
+
+  /// No description provided for @csProductHandkerchief.
+  ///
+  /// In en, this message translates to:
+  /// **'Handkerchief'**
+  String get csProductHandkerchief;
+
+  /// No description provided for @csProductMekhelaChador.
+  ///
+  /// In en, this message translates to:
+  /// **'Mekhela Chador'**
+  String get csProductMekhelaChador;
+
+  /// No description provided for @csProductTableCloth.
+  ///
+  /// In en, this message translates to:
+  /// **'Table Cloth'**
+  String get csProductTableCloth;
+
+  /// No description provided for @csProductNagaSlingBags.
+  ///
+  /// In en, this message translates to:
+  /// **'Naga Sling Bags'**
+  String get csProductNagaSlingBags;
+
+  /// No description provided for @csProductTableRunners.
+  ///
+  /// In en, this message translates to:
+  /// **'Table Runners'**
+  String get csProductTableRunners;
+
+  /// No description provided for @csProductNagaShawl.
+  ///
+  /// In en, this message translates to:
+  /// **'Naga Shawl'**
+  String get csProductNagaShawl;
+
+  /// No description provided for @csProductNagaWraparound.
+  ///
+  /// In en, this message translates to:
+  /// **'Naga Wraparound'**
+  String get csProductNagaWraparound;
+
+  /// No description provided for @csProductAccessories.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessories'**
+  String get csProductAccessories;
+
+  /// No description provided for @csProductStoleDupatta.
+  ///
+  /// In en, this message translates to:
+  /// **'Stole / Dupatta'**
+  String get csProductStoleDupatta;
+
+  /// No description provided for @csFibreMulberry.
+  ///
+  /// In en, this message translates to:
+  /// **'Mulberry'**
+  String get csFibreMulberry;
+
+  /// No description provided for @csFibreZari.
+  ///
+  /// In en, this message translates to:
+  /// **'Zari'**
+  String get csFibreZari;
+
+  /// No description provided for @csFibreEri.
+  ///
+  /// In en, this message translates to:
+  /// **'Eri'**
+  String get csFibreEri;
+
+  /// No description provided for @csFibreTussar.
+  ///
+  /// In en, this message translates to:
+  /// **'Tussar'**
+  String get csFibreTussar;
+
+  /// No description provided for @csFibreTussarGheecha.
+  ///
+  /// In en, this message translates to:
+  /// **'Tussar Gheecha'**
+  String get csFibreTussarGheecha;
+
+  /// No description provided for @csFibreMuga.
+  ///
+  /// In en, this message translates to:
+  /// **'Muga'**
+  String get csFibreMuga;
+
+  /// No description provided for @csFibreMugaGheecha.
+  ///
+  /// In en, this message translates to:
+  /// **'Muga Gheecha'**
+  String get csFibreMugaGheecha;
+
+  /// No description provided for @csFibreSpunSilk.
+  ///
+  /// In en, this message translates to:
+  /// **'Spun Silk'**
+  String get csFibreSpunSilk;
+
+  /// No description provided for @csFibreSpunTussar.
+  ///
+  /// In en, this message translates to:
+  /// **'Spun Tussar'**
+  String get csFibreSpunTussar;
+
+  /// No description provided for @csFibreKoreaTussar.
+  ///
+  /// In en, this message translates to:
+  /// **'Korea Tussar'**
+  String get csFibreKoreaTussar;
+
+  /// No description provided for @csFibreLivaViscose.
+  ///
+  /// In en, this message translates to:
+  /// **'Liva/Viscose'**
+  String get csFibreLivaViscose;
+
+  /// No description provided for @csFibreLinen.
+  ///
+  /// In en, this message translates to:
+  /// **'Linen'**
+  String get csFibreLinen;
+
+  /// No description provided for @csFibreNoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Noil'**
+  String get csFibreNoil;
+
+  /// No description provided for @csBlurbCotton.
+  ///
+  /// In en, this message translates to:
+  /// **'Matte finish · Soft woven texture'**
+  String get csBlurbCotton;
+
+  /// No description provided for @csBlurbSilk.
+  ///
+  /// In en, this message translates to:
+  /// **'Lustrous finish · Rich colour & drape'**
+  String get csBlurbSilk;
+
+  /// No description provided for @csBlurbMulberry.
+  ///
+  /// In en, this message translates to:
+  /// **'Smooth cultivated silk'**
+  String get csBlurbMulberry;
+
+  /// No description provided for @csBlurbZari.
+  ///
+  /// In en, this message translates to:
+  /// **'Metallic gold thread'**
+  String get csBlurbZari;
+
+  /// No description provided for @csBlurbEri.
+  ///
+  /// In en, this message translates to:
+  /// **'Matte, wool-soft silk'**
+  String get csBlurbEri;
+
+  /// No description provided for @csBlurbTussar.
+  ///
+  /// In en, this message translates to:
+  /// **'Honey-gold wild silk'**
+  String get csBlurbTussar;
+
+  /// No description provided for @csBlurbTussarGheecha.
+  ///
+  /// In en, this message translates to:
+  /// **'Coarse slubby tussar'**
+  String get csBlurbTussarGheecha;
+
+  /// No description provided for @csBlurbMuga.
+  ///
+  /// In en, this message translates to:
+  /// **'Natural gold of Assam'**
+  String get csBlurbMuga;
+
+  /// No description provided for @csBlurbMugaGheecha.
+  ///
+  /// In en, this message translates to:
+  /// **'Slubby golden muga'**
+  String get csBlurbMugaGheecha;
+
+  /// No description provided for @csBlurbSpunSilk.
+  ///
+  /// In en, this message translates to:
+  /// **'Fine spun silk yarn'**
+  String get csBlurbSpunSilk;
+
+  /// No description provided for @csBlurbSpunTussar.
+  ///
+  /// In en, this message translates to:
+  /// **'Spun wild-silk yarn'**
+  String get csBlurbSpunTussar;
+
+  /// No description provided for @csBlurbKoreaTussar.
+  ///
+  /// In en, this message translates to:
+  /// **'Pale, even wild silk'**
+  String get csBlurbKoreaTussar;
+
+  /// No description provided for @csBlurbLivaViscose.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluid drape · Soft lustre'**
+  String get csBlurbLivaViscose;
+
+  /// No description provided for @csBlurbLinen.
+  ///
+  /// In en, this message translates to:
+  /// **'Crisp weave · Natural slub'**
+  String get csBlurbLinen;
+
+  /// No description provided for @csBlurbNoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Matte, nubby silk'**
+  String get csBlurbNoil;
+
+  /// No description provided for @csCapture.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture'**
+  String get csCapture;
+
+  /// No description provided for @csGuideCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide'**
+  String get csGuideCta;
+
+  /// No description provided for @csHowtoSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'How-to steps'**
+  String get csHowtoSteps;
+
+  /// No description provided for @csGoodExamples.
+  ///
+  /// In en, this message translates to:
+  /// **'Good examples'**
+  String get csGoodExamples;
+
+  /// No description provided for @csGoodExample.
+  ///
+  /// In en, this message translates to:
+  /// **'Good example'**
+  String get csGoodExample;
+
+  /// No description provided for @csKalExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Kalamkari, photographed well'**
+  String get csKalExSub;
+
+  /// No description provided for @csG0HangTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang the whole piece'**
+  String get csG0HangTitle;
+
+  /// No description provided for @csG0HangSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Bamboo rod · plain wall behind'**
+  String get csG0HangSub;
+
+  /// No description provided for @csG0ThreeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Three ways to style it'**
+  String get csG0ThreeTitle;
+
+  /// No description provided for @csG0ThreeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Dress form · pick one look and keep it for every product'**
+  String get csG0ThreeSub;
+
+  /// No description provided for @csG0ThreeCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Mekhela sador on a dress form — full display, three drape styles.'**
+  String get csG0ThreeCaption;
+
+  /// No description provided for @csG0AlignTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Align with the gridlines'**
+  String get csG0AlignTitle;
+
+  /// No description provided for @csG0AlignSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Edges along the lines · borders straight'**
+  String get csG0AlignSub;
+
+  /// No description provided for @csG0ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole piece in frame — on a form, a chair, or spread flat'**
+  String get csG0ExSub;
+
+  /// No description provided for @csG1SpanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One hand-span away'**
+  String get csG1SpanTitle;
+
+  /// No description provided for @csG1SpanSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the phone 15–30 cm above the fabric — close enough to count threads'**
+  String get csG1SpanSub;
+
+  /// No description provided for @csG1RakeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rake the light across'**
+  String get csG1RakeTitle;
+
+  /// No description provided for @csG1RakeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Light from one side, low at about 30° — the tiny shadows make the weave stand up'**
+  String get csG1RakeSub;
+
+  /// No description provided for @csG1WindowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Like this — window light'**
+  String get csG1WindowTitle;
+
+  /// No description provided for @csG1WindowSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat on a mat · light raking in from one side'**
+  String get csG1WindowSub;
+
+  /// No description provided for @csG1WindowCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'See the shadows in the tassels and motifs — that is the 30° raking light doing the work.'**
+  String get csG1WindowCaption;
+
+  /// No description provided for @csG1FrameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame the detail'**
+  String get csG1FrameTitle;
+
+  /// No description provided for @csG1FrameSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the centre box · edges parallel'**
+  String get csG1FrameSub;
+
+  /// No description provided for @csG1ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'So close you can count the threads'**
+  String get csG1ExSub;
+
+  /// No description provided for @csG2ChairTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drape it over a chair'**
+  String get csG2ChairTitle;
+
+  /// No description provided for @csG2ChairSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Both cloths over the seat · folds to the floor'**
+  String get csG2ChairSub;
+
+  /// No description provided for @csG2ChairLikeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Like this — on a chair'**
+  String get csG2ChairLikeTitle;
+
+  /// No description provided for @csG2ChairLikeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Show how the two cloths fall and fold'**
+  String get csG2ChairLikeSub;
+
+  /// No description provided for @csG2ChairCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Mekhela sador draped on a chair — folds, border and hem.'**
+  String get csG2ChairCaption;
+
+  /// No description provided for @csG2ChairExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Over a chair — folds and hem in frame'**
+  String get csG2ChairExSub;
+
+  /// No description provided for @csG2SariChairSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the chair · folded piece on the seat · pallu to the floor'**
+  String get csG2SariChairSub;
+
+  /// No description provided for @csG2SariChairLikeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the fall, the fold on the seat, and the border'**
+  String get csG2SariChairLikeSub;
+
+  /// No description provided for @csG2SariChairCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Sari draped on a chair — seat fold, pallu and border.'**
+  String get csG2SariChairCaption;
+
+  /// No description provided for @csG2SariChairExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Over a chair — pallu and hem in frame'**
+  String get csG2SariChairExSub;
+
+  /// No description provided for @csG2PersonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drape it on a person'**
+  String get csG2PersonTitle;
+
+  /// No description provided for @csG2PersonSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Worn, full length · pallu over the shoulder'**
+  String get csG2PersonSub;
+
+  /// No description provided for @csG2PersonLikeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Like this — on a person'**
+  String get csG2PersonLikeTitle;
+
+  /// No description provided for @csG2PersonLikeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Show how the cloth sits when worn'**
+  String get csG2PersonLikeSub;
+
+  /// No description provided for @csG2PersonCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Sari draped on a person — pallu, pleats and fall.'**
+  String get csG2PersonCaption;
+
+  /// No description provided for @csG2PersonExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Worn on a person — pleats and pallu readable'**
+  String get csG2PersonExSub;
+
+  /// No description provided for @csG3FindTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the border'**
+  String get csG3FindTitle;
+
+  /// No description provided for @csG3MotifTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Motif on a crossing point'**
+  String get csG3MotifTitle;
+
+  /// No description provided for @csG3MotifSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the grid — motif where lines cross'**
+  String get csG3MotifSub;
+
+  /// No description provided for @csG3ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Border filling the frame, folds giving it depth'**
+  String get csG3ExSub;
+
+  /// No description provided for @csG4MidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fold from the middle'**
+  String get csG4MidTitle;
+
+  /// No description provided for @csG4MidSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat on the floor · fold in half'**
+  String get csG4MidSub;
+
+  /// No description provided for @csG4CornerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fold a corner back'**
+  String get csG4CornerTitle;
+
+  /// No description provided for @csG4CornerSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The folded edge shows the thickness'**
+  String get csG4CornerSub;
+
+  /// No description provided for @csG4ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Folded stacks — layers show body and weight'**
+  String get csG4ExSub;
+
+  /// No description provided for @csG4SariTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fold one sari into a rectangle'**
+  String get csG4SariTitle;
+
+  /// No description provided for @csG4SariSub.
+  ///
+  /// In en, this message translates to:
+  /// **'One piece only · lay it on a table'**
+  String get csG4SariSub;
+
+  /// No description provided for @csG4SariBorderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the border on the long edge'**
+  String get csG4SariBorderTitle;
+
+  /// No description provided for @csG4SariBorderSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Border faces the camera · edges parallel'**
+  String get csG4SariBorderSub;
+
+  /// No description provided for @csG4SariCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'One folded sari — rectangle, border on the side.'**
+  String get csG4SariCaption;
+
+  /// No description provided for @csG4SariExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'One sari, folded flat — not a stack'**
+  String get csG4SariExSub;
+
+  /// No description provided for @csG5ObjTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a familiar object'**
+  String get csG5ObjTitle;
+
+  /// No description provided for @csG5ObjSub.
+  ///
+  /// In en, this message translates to:
+  /// **'A basket, coin or pen beside the piece shows true size'**
+  String get csG5ObjSub;
+
+  /// No description provided for @csG5CrossTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Object on a crossing point'**
+  String get csG5CrossTitle;
+
+  /// No description provided for @csG5CrossSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Piece fills the frame · reference on a thirds line'**
+  String get csG5CrossSub;
+
+  /// No description provided for @csG6FlatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lay it flat, style around it'**
+  String get csG6FlatTitle;
+
+  /// No description provided for @csG6FlatSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Fold neatly · add 1–2 props: flowers, a cup, thread'**
+  String get csG6FlatSub;
+
+  /// No description provided for @csG6AboveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoot from directly above'**
+  String get csG6AboveTitle;
+
+  /// No description provided for @csG6AboveSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the piece centred and edges parallel to the frame'**
+  String get csG6AboveSub;
+
+  /// No description provided for @csG6ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat lay with a prop in window light'**
+  String get csG6ExSub;
+
+  /// No description provided for @csG7UseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show it in use'**
+  String get csG7UseTitle;
+
+  /// No description provided for @csG7UseSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Worn, on a bed, on a table — where it lives'**
+  String get csG7UseSub;
+
+  /// No description provided for @csG7EyeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Eye level, thirds grid'**
+  String get csG7EyeTitle;
+
+  /// No description provided for @csG7EyeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera at eye height · subject on a thirds line'**
+  String get csG7EyeSub;
+
+  /// No description provided for @csG7ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Draped over a chair — at home in a room'**
+  String get csG7ExSub;
+
+  /// No description provided for @csG8HangTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang it dead centre'**
+  String get csG8HangTitle;
+
+  /// No description provided for @csG8HangSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Rod or hanger · piece on the center vertical axis'**
+  String get csG8HangSub;
+
+  /// No description provided for @csG8FringeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the fringe hang free'**
+  String get csG8FringeTitle;
+
+  /// No description provided for @csG8FringeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Straighten the tassels · keep both edges symmetric'**
+  String get csG8FringeSub;
+
+  /// No description provided for @csG9MacroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go macro on the fringe'**
+  String get csG9MacroTitle;
+
+  /// No description provided for @csG9MacroSub.
+  ///
+  /// In en, this message translates to:
+  /// **'As close as your phone will focus · tassels and knots'**
+  String get csG9MacroSub;
+
+  /// No description provided for @csG9DiagTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the diagonal'**
+  String get csG9DiagTitle;
+
+  /// No description provided for @csG9DiagSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Run the fringe along the diagonal line'**
+  String get csG9DiagSub;
+
+  /// No description provided for @csG9ExSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Border and finishing, thread-close'**
+  String get csG9ExSub;
+
+  /// No description provided for @csG10HandsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show your hands at work'**
+  String get csG10HandsTitle;
+
+  /// No description provided for @csG10HandsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Kalam, brush or shuttle in motion · window light on the work'**
+  String get csG10HandsSub;
+
+  /// No description provided for @csG10StoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyers pay for the story'**
+  String get csG10StoryTitle;
+
+  /// No description provided for @csG10StorySub.
+  ///
+  /// In en, this message translates to:
+  /// **'A making photo proves it is handmade — post one for every piece'**
+  String get csG10StorySub;
+
+  /// No description provided for @csG11WallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang it straight, eye height'**
+  String get csG11WallTitle;
+
+  /// No description provided for @csG11WallSub.
+  ///
+  /// In en, this message translates to:
+  /// **'On a plain wall · daylight from the side of the room, never flash'**
+  String get csG11WallSub;
+
+  /// No description provided for @csG11SquareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoot square-on'**
+  String get csG11SquareTitle;
+
+  /// No description provided for @csG11SquareSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone parallel to the wall · panel edges parallel to the frame lines'**
+  String get csG11SquareSub;
+
+  /// No description provided for @csG11RoomTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show it in a room'**
+  String get csG11RoomTitle;
+
+  /// No description provided for @csG11RoomSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Framed, or on a scroll rod — buyers see it in their own home'**
+  String get csG11RoomSub;
+
+  /// No description provided for @csPracticeSandbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe practice sandbox. Test your photos, stories & hashtags before posting to live Instagram.'**
+  String get csPracticeSandbox;
+
+  /// No description provided for @csCreatePracticePost.
+  ///
+  /// In en, this message translates to:
+  /// **'Create practice post'**
+  String get csCreatePracticePost;
+
+  /// No description provided for @csNoPracticePosts.
+  ///
+  /// In en, this message translates to:
+  /// **'No practice posts yet'**
+  String get csNoPracticePosts;
+
+  /// No description provided for @csNoPracticePostsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a practice post from Lesson 03 to preview it here.'**
+  String get csNoPracticePostsBody;
+
+  /// No description provided for @csCreateFirstPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first post'**
+  String get csCreateFirstPost;
+
+  /// No description provided for @csAddCraftPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a craft photo'**
+  String get csAddCraftPhoto;
+
+  /// No description provided for @csReplacePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace photo'**
+  String get csReplacePhoto;
+
+  /// No description provided for @csVerifiedLesson03.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified with Lesson 03 tags • Ready for Instagram'**
+  String get csVerifiedLesson03;
+
+  /// No description provided for @csYourCraftCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'Your craft cluster'**
+  String get csYourCraftCluster;
+
+  /// No description provided for @csAssamSilkCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'Assam silk cluster'**
+  String get csAssamSilkCluster;
+
+  /// No description provided for @csNagalandCraftCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'Nagaland craft cluster'**
+  String get csNagalandCraftCluster;
+
+  /// No description provided for @csYourCraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Your craft'**
+  String get csYourCraft;
+
+  /// No description provided for @csDayMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get csDayMonday;
+
+  /// No description provided for @csDayTuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get csDayTuesday;
+
+  /// No description provided for @csDayWednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get csDayWednesday;
+
+  /// No description provided for @csDayThursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get csDayThursday;
+
+  /// No description provided for @csDayFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get csDayFriday;
+
+  /// No description provided for @csDaySaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get csDaySaturday;
+
+  /// No description provided for @csDaySunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get csDaySunday;
+
+  /// No description provided for @csPostingWindowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the primary active browsing window for craft lovers.'**
+  String get csPostingWindowHint;
+
+  /// No description provided for @csYourPostingSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Your posting schedule:'**
+  String get csYourPostingSchedule;
+
+  /// No description provided for @csArtisanTipSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Artisan tip: Consistency beats volume. 3 quality posts a week builds trust with genuine buyers.'**
+  String get csArtisanTipSchedule;
+
+  /// No description provided for @csSaveAndContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & continue'**
+  String get csSaveAndContinue;
+
+  /// No description provided for @csChooseStoryLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the story lines that tell your craft journey.'**
+  String get csChooseStoryLines;
+
+  /// No description provided for @csAddStoryLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Add story lines on the previous step.'**
+  String get csAddStoryLines;
+
+  /// No description provided for @csStorySelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Story selected'**
+  String get csStorySelected;
+
+  /// No description provided for @csHashtagsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose relevant craft tags to help buyers and craft lovers discover your work.'**
+  String get csHashtagsHelp;
+
+  /// No description provided for @csLiveSimulation.
+  ///
+  /// In en, this message translates to:
+  /// **'Live simulation'**
+  String get csLiveSimulation;
+
+  /// No description provided for @csJustNowPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now  •  Antaran practice feed'**
+  String get csJustNowPractice;
+
+  /// No description provided for @csNextHashtagsPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Next — hashtags & preview'**
+  String get csNextHashtagsPreview;
+
+  /// No description provided for @csEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get csEdit;
+
+  /// No description provided for @csEveningWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'7:00 – 10:00 PM'**
+  String get csEveningWindow;
+
+  /// No description provided for @csNSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String csNSelected(int count);
+
+  /// No description provided for @csTagsOf5Selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / 5 selected'**
+  String csTagsOf5Selected(int count);
+
+  /// No description provided for @csAntaranArtisanPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Antaran artisan • {place}'**
+  String csAntaranArtisanPlace(String place);
+
+  /// No description provided for @csDetailTipAssam.
+  ///
+  /// In en, this message translates to:
+  /// **'Close on the extra-weft buta of the pallu — that is the handwork'**
+  String get csDetailTipAssam;
+
+  /// No description provided for @csDetailTipKal.
+  ///
+  /// In en, this message translates to:
+  /// **'Close on one motif — show the free hand of the kalam pen'**
+  String get csDetailTipKal;
+
+  /// No description provided for @csDetailTipManiabandha.
+  ///
+  /// In en, this message translates to:
+  /// **'Close on a motif edge — the soft feathering is proof of true ikat'**
+  String get csDetailTipManiabandha;
+
+  /// No description provided for @csDetailTipVenkatgiri.
+  ///
+  /// In en, this message translates to:
+  /// **'Close on the zari border at a slight angle so the gold glints'**
+  String get csDetailTipVenkatgiri;
+
+  /// No description provided for @csDetailTipGopalpur.
+  ///
+  /// In en, this message translates to:
+  /// **'Close on the gheecha texture — the slubs say real wild silk'**
+  String get csDetailTipGopalpur;
+
+  /// No description provided for @csDetailTipNagaland.
+  ///
+  /// In en, this message translates to:
+  /// **'Close on the motif band — every stripe carries a meaning'**
+  String get csDetailTipNagaland;
 }
 
 class _AppLocalizationsDelegate

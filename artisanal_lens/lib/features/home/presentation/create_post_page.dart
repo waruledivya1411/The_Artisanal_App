@@ -377,7 +377,7 @@ class _Header extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      '${l10n.csLesson03Overline}  •  SOCIAL MEDIA',
+                      l10n.csLesson03Overline,
                       textAlign: TextAlign.center,
                       style: AppTypography.navLabel.copyWith(
                         fontSize: 10,
@@ -546,7 +546,7 @@ class _StoryStep extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Choose the story lines that tell your craft journey.',
+                    l10n.csChooseStoryLines,
                     style: AppTypography.labelSmall.copyWith(
                       fontSize: 12.5,
                       color: AppColors.textMuted,
@@ -556,7 +556,7 @@ class _StoryStep extends StatelessWidget {
               ),
             ),
             Text(
-              '$selectedCount selected',
+              l10n.csNSelected(selectedCount),
               style: AppTypography.labelSmall.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -619,9 +619,9 @@ class _HashtagsStep extends StatelessWidget {
   final String publishLabel;
   final String practiceOnly;
 
-  String get _snippet {
+  String _snippetFor(AppLocalizations l10n) {
     final t = captionText.trim();
-    if (t.isEmpty) return 'Add story lines on the previous step.';
+    if (t.isEmpty) return l10n.csAddStoryLines;
     if (t.length <= 42) return t;
     return '${t.substring(0, 40)}…';
   }
@@ -643,6 +643,7 @@ class _HashtagsStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final selectedCount = selectedTags.length;
     final hasMedia = displayPath != null && displayPath!.isNotEmpty;
 
@@ -726,7 +727,7 @@ class _HashtagsStep extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          'Story selected',
+                          l10n.csStorySelected,
                           style: AppTypography.labelLarge.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
@@ -737,7 +738,7 @@ class _HashtagsStep extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _snippet,
+                      _snippetFor(l10n),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: AppTypography.labelSmall.copyWith(
@@ -757,7 +758,7 @@ class _HashtagsStep extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
-                  'Edit',
+                  l10n.csEdit,
                   style: AppTypography.labelLarge.copyWith(
                     fontSize: 13.5,
                     fontWeight: FontWeight.w700,
@@ -773,7 +774,7 @@ class _HashtagsStep extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'HASHTAGS — PICK 3 TO 5',
+                l10n.csHashtagsPick.toUpperCase(),
                 style: AppTypography.navLabel.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -789,7 +790,7 @@ class _HashtagsStep extends StatelessWidget {
                 borderRadius: BorderRadius.circular(99),
               ),
               child: Text(
-                '$selectedCount / 5 selected',
+                l10n.csTagsOf5Selected(selectedCount),
                 style: AppTypography.labelSmall.copyWith(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w700,
@@ -801,7 +802,7 @@ class _HashtagsStep extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Choose relevant craft tags to help buyers and craft lovers discover your work.',
+          l10n.csHashtagsHelp,
           style: AppTypography.labelSmall.copyWith(
             fontSize: 12.5,
             height: 1.4,
@@ -827,7 +828,7 @@ class _HashtagsStep extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'CAPTION & FEED PREVIEW',
+                l10n.csCaptionPreview.toUpperCase(),
                 style: AppTypography.navLabel.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -837,7 +838,7 @@ class _HashtagsStep extends StatelessWidget {
               ),
             ),
             Text(
-              'Live Simulation',
+              l10n.csLiveSimulation,
               style: AppTypography.labelSmall.copyWith(
                 fontSize: 11.5,
                 fontStyle: FontStyle.italic,
@@ -894,7 +895,7 @@ class _HashtagsStep extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Antaran Artisan • $placeLabel',
+                            l10n.csAntaranArtisanPlace(placeLabel),
                             style: AppTypography.labelSmall.copyWith(
                               fontSize: 11.5,
                               color: AppColors.textMuted,
@@ -982,7 +983,7 @@ class _HashtagsStep extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 14),
                 child: Text(
-                  'JUST NOW  •  ANTARAN PRACTICE FEED',
+                  l10n.csJustNowPractice.toUpperCase(),
                   style: AppTypography.navLabel.copyWith(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -1079,7 +1080,9 @@ class _StoryFooter extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'NEXT — HASHTAGS & PREVIEW',
+                            AppLocalizations.of(context)
+                                .csNextHashtagsPreview
+                                .toUpperCase(),
                             style: AppTypography.labelLarge.copyWith(
                               fontSize: 13,
                               fontWeight: FontWeight.w800,
@@ -1213,7 +1216,7 @@ class _MediaSlot extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
-                                  'Change',
+                                  AppLocalizations.of(context).csChange,
                                   style: AppTypography.labelLarge.copyWith(
                                     fontSize: 12.5,
                                     fontWeight: FontWeight.w700,

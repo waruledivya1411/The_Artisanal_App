@@ -96,16 +96,21 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
   }
 
   /// Click & Social slots: one per picked frame, indexed by HTML frame index.
-  List<ShotSlot> _frameSlots(ShotSet set, List<ClickSocialFrame> frames) {
+  List<ShotSlot> _frameSlots(
+    ShotSet set,
+    List<ClickSocialFrame> frames,
+    AppLocalizations l10n,
+  ) {
     return [
       for (final frame in frames)
         ShotSlot(
           shotType: ShotType.photography,
           index: frame.index,
-          label: frame.name,
+          label: AppCopy.csFrameName(l10n, frame.index),
           shot: _shotFor(set, frame.index),
           template: asTemplate(
             frame,
+            l10n: l10n,
             thumbAsset: frame.thumbAssetFor(
               clusterId: _clusterId,
               categoryId: set.categoryId,
@@ -114,6 +119,11 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
               materialId: set.materialId,
             ),
             chairDrape: clickSocialDrapeOnChair(
+              clusterId: _clusterId,
+              productLabel: set.productName,
+              categoryId: set.categoryId,
+            ),
+            sariChair: clickSocialSariChairDrape(
               clusterId: _clusterId,
               productLabel: set.productName,
               categoryId: set.categoryId,
@@ -161,7 +171,7 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
     ShotSet set,
     List<ClickSocialFrame> frames,
   ) {
-    final slots = _frameSlots(set, frames);
+    final slots = _frameSlots(set, frames, l10n);
     final done = slots.where((slot) => slot.isFilled).length;
     final allDone = done == slots.length && slots.isNotEmpty;
     final left = slots.length - done;
@@ -356,7 +366,11 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not save photo: $error')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context).couldNotSavePhoto('$error'),
+          ),
+        ),
       );
     }
   }
@@ -413,7 +427,11 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
       setState(() => _expandedShot = result);
       final frames = _frames;
       if (frames == null) return;
-      final slots = _frameSlots(set, frames);
+      final slots = _frameSlots(
+        set,
+        frames,
+        AppLocalizations.of(context),
+      );
       for (final slot in slots) {
         if (slot.index == result) {
           _openCamera(slot);
@@ -678,7 +696,7 @@ class _FrameSlotCard extends StatelessWidget {
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
                               child: Text(
-                                'Guide',
+                                l10n.csGuideCta,
                                 style: AppTypography.labelSmall.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w800,
@@ -788,7 +806,8 @@ class _FrameSlotCard extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        'Tap to open camera',
+                                        AppLocalizations.of(context)
+                                            .csTapToOpenCamera,
                                         textAlign: TextAlign.center,
                                         style: AppTypography.labelSmall
                                             .copyWith(
@@ -830,7 +849,9 @@ class _FrameSlotCard extends StatelessWidget {
                                   ),
                                 ),
                                 child: Text(
-                                  'CAPTURE',
+                                  AppLocalizations.of(context)
+                                      .csCapture
+                                      .toUpperCase(),
                                   style: AppTypography.labelLarge.copyWith(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w800,

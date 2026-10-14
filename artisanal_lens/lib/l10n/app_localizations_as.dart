@@ -2187,7 +2187,7 @@ class AppLocalizationsAs extends AppLocalizations {
   }
 
   @override
-  String get csChange => 'সলনি কৰক';
+  String get csChange => 'সলাওক';
 
   @override
   String csLessonsDone(int done) {
@@ -2441,7 +2441,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csAddYourStory => 'আপোনাৰ কাহিনী যোগ কৰক — শাৰীবোৰত টিপক';
 
   @override
-  String get csHashtagsPick => 'হেছটেগ — ৩ৰ পৰা ৫ টা বাছক ';
+  String get csHashtagsPick => 'হেছটেগ — ৩ৰ পৰা ৫টা বাছক';
 
   @override
   String csHashtagCount(int count) {
@@ -2454,7 +2454,7 @@ class AppLocalizationsAs extends AppLocalizations {
   }
 
   @override
-  String get csCaptionPreview => 'কেপচনৰ পূৰ্বদৰ্শন';
+  String get csCaptionPreview => 'কেপচন আৰু ফিড পূৰ্বদৰ্শন';
 
   @override
   String get csCaptionPlaceholder =>
@@ -2519,25 +2519,25 @@ class AppLocalizationsAs extends AppLocalizations {
       'দিনবোৰ সিঁচৰতি কৰি ৰাখক। গ্ৰাহকে গোটেই সপ্তাহ আপোনাক দেখা পাওক।';
 
   @override
-  String get csDayMon => 'সো';
+  String get csDayMon => 'সোম';
 
   @override
-  String get csDayTue => 'মঙ';
+  String get csDayTue => 'মঙ্গল';
 
   @override
-  String get csDayWed => 'বু';
+  String get csDayWed => 'বুধ';
 
   @override
-  String get csDayThu => 'বৃ';
+  String get csDayThu => 'বৃহ';
 
   @override
-  String get csDayFri => 'শু';
+  String get csDayFri => 'শুক্ৰ';
 
   @override
-  String get csDaySat => 'শ';
+  String get csDaySat => 'শনি';
 
   @override
-  String get csDaySun => 'দে';
+  String get csDaySun => 'দেও';
 
   @override
   String get csGoodRhythm => 'ভাল ছন্দ — তিনিটা পোষ্ট, গোটেই সপ্তাহত সিঁচৰতি।';
@@ -3184,6 +3184,24 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csFrame8Name => 'ওলোমাই ৰখা প্ৰদৰ্শন';
 
   @override
+  String get csFrame5Name => 'আকাৰৰ তুলনা';
+
+  @override
+  String get csFrame6Name => 'ষ্টাইল ফ্লেট লে\'';
+
+  @override
+  String get csFrame7Name => 'জীৱনশৈলীৰ প্ৰসংগত';
+
+  @override
+  String get csFrame9Name => 'ম্যাক্ৰো ফ্ৰিঞ্জ';
+
+  @override
+  String get csFrame10Name => 'বনোৱাৰ মুহূৰ্ত';
+
+  @override
+  String get csFrame11Name => 'ফ্ৰেমত প্ৰদৰ্শন';
+
+  @override
   String get csFrame0Content => 'ৰং, আৰ্হি, সামগ্ৰী';
 
   @override
@@ -3200,6 +3218,24 @@ class AppLocalizationsAs extends AppLocalizations {
 
   @override
   String get csFrame8Content => 'ড্ৰেপ, সমতা, ফ্ৰিঞ্জ';
+
+  @override
+  String get csFrame5Content => 'আকাৰ, অনুপাত, দৈৰ্ঘ্য';
+
+  @override
+  String get csFrame6Content => 'ষ্টাইলিং, ৰং, ব্যৱহাৰ';
+
+  @override
+  String get csFrame7Content => 'প্ৰয়োগ, পৰিৱেশ';
+
+  @override
+  String get csFrame9Content => 'হাতে সমাপ্তি, শিল্প';
+
+  @override
+  String get csFrame10Content => 'প্ৰক্ৰিয়া, হাত, সঁজুলি';
+
+  @override
+  String get csFrame11Content => 'প্ৰদৰ্শন, দেৱালৰ বাবে';
 
   @override
   String get csCam0a => 'গোটেই কাপোৰখন ডেশ্ব বাকচৰ ভিতৰত';
@@ -3238,6 +3274,15 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csCam2ChairC => 'চেয়াৰৰ পিঠি ওপৰৰ তৃতীয়াংশত · হেম তলত';
 
   @override
+  String get csCam2SariChairA => 'চাৰিখন চেয়াৰত দ্ৰেপ কৰি ডেশ্ব বাকচত ৰাখক';
+
+  @override
+  String get csCam2SariChairB => 'আসনত ভাঁজ কৰা কাপোৰ · পল্লু মজিয়ালৈ';
+
+  @override
+  String get csCam2SariChairC => 'চেয়াৰৰ পিঠি ওপৰৰ তৃতীয়াংশত · হেম তলত';
+
+  @override
   String get csCam3a => 'মটিফটো সৰু খিৰিকীত ৰাখক';
 
   @override
@@ -3254,6 +3299,15 @@ class AppLocalizationsAs extends AppLocalizations {
 
   @override
   String get csCam4c => 'ভাঁজৰ কাষ কেমেৰাৰ ফালে';
+
+  @override
+  String get csCam4SariA => 'এখন ভাঁজ কৰা চাৰি ডেশ্ব বাকচত ৰাখক';
+
+  @override
+  String get csCam4SariB => 'ওপৰৰ পৰা তোলক · কাষবোৰ বাকচৰ সমান্তৰাল';
+
+  @override
+  String get csCam4SariC => 'বৰ্ডাৰ দীঘল কাষত, কেমেৰাৰ ফালে';
 
   @override
   String get csCam8a => 'মাজৰ উলম্ব ৰেখাত ওলোমাই ৰাখক';
@@ -3280,11 +3334,647 @@ class AppLocalizationsAs extends AppLocalizations {
   String get csHintDrapeChair => 'চেয়াৰৰ পিঠি, ভাঁজ আৰু হেম এই বাকচত';
 
   @override
+  String get csHintDrapeSariChair => 'চেয়াৰ, আসনৰ ভাঁজ আৰু পল্লু এই বাকচত';
+
+  @override
   String get csHintBorder => 'বৰ্ডাৰ / মটিফ এই খিৰিকীত ৰাখক';
 
   @override
   String get csHintFolded => 'ভাঁজ কৰা স্তূপ এই বাকচত ৰাখক';
 
   @override
+  String get csHintFoldedSari => 'এখন ভাঁজ কৰা চাৰি এই বাকচত — বৰ্ডাৰ কাষত';
+
+  @override
   String get csHintHanging => 'কাপোৰখন মাজত, ৰডৰ তলত ওলোমাই ৰাখক';
+
+  @override
+  String get csSelect => 'বাছক';
+
+  @override
+  String get csNextShort => 'পৰৱৰ্তী';
+
+  @override
+  String get csTakeTheShot => 'ফটো তোলক';
+
+  @override
+  String get csTapToOpenCamera => 'কেমেৰা খুলিবলৈ টিপক';
+
+  @override
+  String get csSearchLanguage => 'ভাষা বা উপভাষা বিচাৰক...';
+
+  @override
+  String get csFilterClusters => 'ক্লাষ্টাৰ বা ৰাজ্য ফিল্টাৰ কৰক...';
+
+  @override
+  String get csHomeFurnishingTitle => 'ঘৰুৱা সাজ-সজ্জা';
+
+  @override
+  String get csHomeFurnishingSub => 'কুশ্বন, ৰানাৰ, বা মেট।';
+
+  @override
+  String get csMissingProductDetails =>
+      'সামগ্ৰীৰ বিৱৰণ নাই। উভতি গৈ পুনৰ চেষ্টা কৰক।';
+
+  @override
+  String csCouldNotContinue(String error) {
+    return 'আগবাঢ়িব পৰা নগ\'ল: $error';
+  }
+
+  @override
+  String get csYourName => 'আপোনাৰ নাম';
+
+  @override
+  String get csChangeName => 'নাম সলাওক';
+
+  @override
+  String get csSave => 'সংৰক্ষণ কৰক';
+
+  @override
+  String get csUpdate => 'আপডেট কৰক';
+
+  @override
+  String get csEnterYourName => 'আপোনাৰ নাম লিখক।';
+
+  @override
+  String csSavedAs(String name) {
+    return '$name হিচাপে সংৰক্ষণ হ\'ল।';
+  }
+
+  @override
+  String get csSutraCraftEcosystem => 'সূত্ৰ শিল্প পৰিৱেশ';
+
+  @override
+  String get csTapAnywhereToStart => 'আৰম্ভ কৰিবলৈ যিকোনো ঠাইত টিপক';
+
+  @override
+  String get csProductGamusa => 'গামোচা';
+
+  @override
+  String get csProductShawl => 'শাল';
+
+  @override
+  String get csProductJodKapur => 'জোৰ কাপোৰ';
+
+  @override
+  String get csProductYardages => 'ইয়াৰ্ডেজ';
+
+  @override
+  String get csProductYardage => 'ইয়াৰ্ডেজ';
+
+  @override
+  String get csProductHomeFurnishing => 'ঘৰুৱা সাজ-সজ্জা';
+
+  @override
+  String get csProductCushion => 'কুশ্বন';
+
+  @override
+  String get csProductRunners => 'ৰানাৰ';
+
+  @override
+  String get csProductMats => 'মেট';
+
+  @override
+  String get csProductChadar => 'চাদৰ';
+
+  @override
+  String get csProductDhoti => 'ধুতি';
+
+  @override
+  String get csProductJodo => 'জোদো';
+
+  @override
+  String get csProductMuffler => 'মাফলাৰ';
+
+  @override
+  String get csProductDupatta => 'দুপাট্টা';
+
+  @override
+  String get csProductDupattas => 'দুপাট্টা';
+
+  @override
+  String get csProductAngvastram => 'অংগবস্ত্ৰম চেট';
+
+  @override
+  String get csProductUttaraya => 'উত্তৰায়';
+
+  @override
+  String get csProductHandkerchief => 'ৰুমাল';
+
+  @override
+  String get csProductMekhelaChador => 'মেখেলা চাদৰ';
+
+  @override
+  String get csProductTableCloth => 'টেবুল ক্লথ';
+
+  @override
+  String get csProductNagaSlingBags => 'নাগা স্লিং বেগ';
+
+  @override
+  String get csProductTableRunners => 'টেবুল ৰানাৰ';
+
+  @override
+  String get csProductNagaShawl => 'নাগা শাল';
+
+  @override
+  String get csProductNagaWraparound => 'নাগা ৰেপএৰাউণ্ড';
+
+  @override
+  String get csProductAccessories => 'এক্সেচাৰিজ';
+
+  @override
+  String get csProductStoleDupatta => 'ষ্টোল / দুপাট্টা';
+
+  @override
+  String get csFibreMulberry => 'মালবেৰী';
+
+  @override
+  String get csFibreZari => 'জাৰি';
+
+  @override
+  String get csFibreEri => 'এৰি';
+
+  @override
+  String get csFibreTussar => 'টুছৰ';
+
+  @override
+  String get csFibreTussarGheecha => 'টুছৰ ঘিচা';
+
+  @override
+  String get csFibreMuga => 'মুগা';
+
+  @override
+  String get csFibreMugaGheecha => 'মুগা ঘিচা';
+
+  @override
+  String get csFibreSpunSilk => 'স্পন ৰেশম';
+
+  @override
+  String get csFibreSpunTussar => 'স্পন টুছৰ';
+
+  @override
+  String get csFibreKoreaTussar => 'কোৰিয়া টুছৰ';
+
+  @override
+  String get csFibreLivaViscose => 'লিভা/ভিস্কোজ';
+
+  @override
+  String get csFibreLinen => 'লিনেন';
+
+  @override
+  String get csFibreNoil => 'নইল';
+
+  @override
+  String get csBlurbCotton => 'মেট ফিনিচ · কোমল বোৱা গাঁঠনি';
+
+  @override
+  String get csBlurbSilk => 'উজ্জ্বল ফিনিচ · ৰং আৰু ড্ৰেপ';
+
+  @override
+  String get csBlurbMulberry => 'মসৃণ খেতি ৰেশম';
+
+  @override
+  String get csBlurbZari => 'সোণালী ধাতু সূতা';
+
+  @override
+  String get csBlurbEri => 'মেট, উলৰ দৰে কোমল ৰেশম';
+
+  @override
+  String get csBlurbTussar => 'মৌ-সোণ বনৰীয়া ৰেশম';
+
+  @override
+  String get csBlurbTussarGheecha => 'মোটা স্লাবযুক্ত টুছৰ';
+
+  @override
+  String get csBlurbMuga => 'অসমৰ প্ৰাকৃতিক সোণ';
+
+  @override
+  String get csBlurbMugaGheecha => 'স্লাবযুক্ত সোণালী মুগা';
+
+  @override
+  String get csBlurbSpunSilk => 'মিহি স্পন ৰেশম সূতা';
+
+  @override
+  String get csBlurbSpunTussar => 'স্পন বনৰীয়া ৰেশম সূতা';
+
+  @override
+  String get csBlurbKoreaTussar => 'ফিকা, সমান বনৰীয়া ৰেশম';
+
+  @override
+  String get csBlurbLivaViscose => 'নৰম ড্ৰেপ · কোমল উজ্জ্বলতা';
+
+  @override
+  String get csBlurbLinen => 'কঠিন বোৱা · প্ৰাকৃতিক স্লাব';
+
+  @override
+  String get csBlurbNoil => 'মেট, গুটিযুক্ত ৰেশম';
+
+  @override
+  String get csCapture => 'কেপচাৰ';
+
+  @override
+  String get csGuideCta => 'গাইড';
+
+  @override
+  String get csHowtoSteps => 'কেনেকৈ কৰিব পদক্ষেপ';
+
+  @override
+  String get csGoodExamples => 'ভাল উদাহৰণ';
+
+  @override
+  String get csGoodExample => 'ভাল উদাহৰণ';
+
+  @override
+  String get csKalExSub => 'কালামকাৰী, ভালকৈ তোলা';
+
+  @override
+  String get csG0HangTitle => 'গোটেই কাপোৰখন ওলোমাই ৰাখক';
+
+  @override
+  String get csG0HangSub => 'বাঁহৰ ৰড · পিছফালে সাধাৰণ দেৱাল';
+
+  @override
+  String get csG0ThreeTitle => 'ষ্টাইল কৰাৰ তিনিটা উপায়';
+
+  @override
+  String get csG0ThreeSub => 'ড্ৰেছ ফৰ্ম · এটা লুক বাছি সকলো সামগ্ৰীত ৰাখক';
+
+  @override
+  String get csG0ThreeCaption =>
+      'ড্ৰেছ ফৰ্মত মেখেলা চাদৰ — সম্পূৰ্ণ প্ৰদৰ্শন, তিনিটা ড্ৰেপ।';
+
+  @override
+  String get csG0AlignTitle => 'গ্ৰিডৰেখাৰ সৈতে মিলাওক';
+
+  @override
+  String get csG0AlignSub => 'কাষবোৰ ৰেখাৰ লগত · বৰ্ডাৰ পোন';
+
+  @override
+  String get csG0ExSub => 'গোটেই কাপোৰ ফ্ৰেমত — ফৰ্ম, চেয়াৰ, বা মেলি থোৱা';
+
+  @override
+  String get csG1SpanTitle => 'এহাত দূৰত';
+
+  @override
+  String get csG1SpanSub => 'ফোন ১৫–৩০ ছে.মি. ওপৰত ৰাখক — সূতা গণিব পৰাকৈ ওচৰ';
+
+  @override
+  String get csG1RakeTitle => 'কাষৰ পৰা পোহৰ দিয়ক';
+
+  @override
+  String get csG1RakeSub =>
+      'এফালৰ পৰা তলৰ পোহৰ, প্ৰায় ৩০° — সৰু ছাঁই বোৱা দেখুৱায়';
+
+  @override
+  String get csG1WindowTitle => 'এনেদৰে — খিৰিকীৰ পোহৰ';
+
+  @override
+  String get csG1WindowSub => 'মেটত সমান · এফালৰ পৰা পোহৰ';
+
+  @override
+  String get csG1WindowCaption =>
+      'ফ্ৰিঞ্জ আৰু মটিফৰ ছাঁ চাওক — সেয়া ৩০° পোহৰৰ কাম।';
+
+  @override
+  String get csG1FrameTitle => 'বিৱৰণ ফ্ৰেম কৰক';
+
+  @override
+  String get csG1FrameSub => 'মাজৰ বাকচ ভৰাওক · কাষ পোন';
+
+  @override
+  String get csG1ExSub => 'ইমান ওচৰ যে সূতা গণিব পাৰে';
+
+  @override
+  String get csG2ChairTitle => 'চেয়াৰত ড্ৰেপ কৰক';
+
+  @override
+  String get csG2ChairSub => 'দুয়োখন কাপোৰ আসনত · ভাঁজ মাটিত';
+
+  @override
+  String get csG2ChairLikeTitle => 'এনেদৰে — চেয়াৰত';
+
+  @override
+  String get csG2ChairLikeSub => 'দুয়োখন কাপোৰ কেনেকৈ পৰে দেখুৱাওক';
+
+  @override
+  String get csG2ChairCaption => 'চেয়াৰত মেখেলা চাদৰ — ভাঁজ, বৰ্ডাৰ আৰু হেম।';
+
+  @override
+  String get csG2ChairExSub => 'চেয়াৰত — ভাঁজ আৰু হেম ফ্ৰেমত';
+
+  @override
+  String get csG2SariChairSub => 'চেয়াৰত · আসনত ভাঁজ · পল্লু মজিয়ালৈ';
+
+  @override
+  String get csG2SariChairLikeSub => 'পতন, আসনৰ ভাঁজ আৰু বৰ্ডাৰ দেখুৱাওক';
+
+  @override
+  String get csG2SariChairCaption =>
+      'চেয়াৰত দ্ৰেপ কৰা চাৰি — আসনৰ ভাঁজ, পল্লু আৰু বৰ্ডাৰ।';
+
+  @override
+  String get csG2SariChairExSub => 'চেয়াৰত — পল্লু আৰু হেম ফ্ৰেমত';
+
+  @override
+  String get csG2PersonTitle => 'মানুহত ড্ৰেপ কৰক';
+
+  @override
+  String get csG2PersonSub => 'পিন্ধা, সম্পূৰ্ণ দৈৰ্ঘ্য · কান্ধত পল্লু';
+
+  @override
+  String get csG2PersonLikeTitle => 'এনেদৰে — মানুহত';
+
+  @override
+  String get csG2PersonLikeSub => 'পিন্ধিলে কাপোৰ কেনেকুৱা বহি থাকে দেখুৱাওক';
+
+  @override
+  String get csG2PersonCaption => 'মানুহত শাড়ী — পল্লু, প্লিট আৰু পতন।';
+
+  @override
+  String get csG2PersonExSub => 'মানুহত পিন্ধা — প্লিট আৰু পল্লু স্পষ্ট';
+
+  @override
+  String get csG3FindTitle => 'বৰ্ডাৰ বিচাৰক';
+
+  @override
+  String get csG3MotifTitle => 'ক্ৰছিং পইণ্টত মটিফ';
+
+  @override
+  String get csG3MotifSub => 'গ্ৰিড ব্যৱহাৰ কৰক — ৰেখা কটা ঠাইত মটিফ';
+
+  @override
+  String get csG3ExSub => 'বৰ্ডাৰে ফ্ৰেম ভৰায়, ভাঁজে গভীৰতা দিয়ে';
+
+  @override
+  String get csG4MidTitle => 'মাজৰ পৰা ভাঁজ কৰক';
+
+  @override
+  String get csG4MidSub => 'মজিয়াত সমান · আধা ভাঁজ';
+
+  @override
+  String get csG4CornerTitle => 'কোণটো উলটি ভাঁজ কৰক';
+
+  @override
+  String get csG4CornerSub => 'ভাঁজৰ কাষে ডাঠতা দেখুৱায়';
+
+  @override
+  String get csG4ExSub => 'ভাঁজৰ স্তূপ — স্তৰে ওজন দেখুৱায়';
+
+  @override
+  String get csG4SariTitle => 'এখন চাৰি আয়তাকাৰকৈ ভাঁজ কৰক';
+
+  @override
+  String get csG4SariSub => 'কেৱল এখন · মেজত ৰাখক';
+
+  @override
+  String get csG4SariBorderTitle => 'বৰ্ডাৰ দীঘল কাষত ৰাখক';
+
+  @override
+  String get csG4SariBorderSub => 'বৰ্ডাৰ কেমেৰাৰ ফালে · কাষ সমান্তৰাল';
+
+  @override
+  String get csG4SariCaption => 'এখন ভাঁজ কৰা চাৰি — আয়ত, বৰ্ডাৰ কাষত।';
+
+  @override
+  String get csG4SariExSub => 'এখন চাৰি, সমানকৈ ভাঁজ — স্তূপ নহয়';
+
+  @override
+  String get csG5ObjTitle => 'চিনাকি বস্তু ৰাখক';
+
+  @override
+  String get csG5ObjSub => 'কাষত টুকৰি, মুদ্ৰা বা কলমে আকাৰ দেখুৱায়';
+
+  @override
+  String get csG5CrossTitle => 'ক্ৰছিং পইণ্টত বস্তু';
+
+  @override
+  String get csG5CrossSub => 'কাপোৰে ফ্ৰেম ভৰায় · তৃতীয়াংশ ৰেখাত সন্দৰ্ভ';
+
+  @override
+  String get csG6FlatTitle => 'সমানকৈ পাৰি ষ্টাইল কৰক';
+
+  @override
+  String get csG6FlatSub => 'গোট খোৱাকৈ ভাঁজ · ১–২টা প্ৰপ: ফুল, কাপ, সূতা';
+
+  @override
+  String get csG6AboveTitle => 'ওপৰৰ পৰা তোলক';
+
+  @override
+  String get csG6AboveSub => 'মাজত ৰাখক আৰু কাষ ফ্ৰেমৰ সমান্তৰাল';
+
+  @override
+  String get csG6ExSub => 'খিৰিকীৰ পোহৰত প্ৰপৰ সৈতে ফ্লেট লে\'';
+
+  @override
+  String get csG7UseTitle => 'ব্যৱহাৰত দেখুৱাওক';
+
+  @override
+  String get csG7UseSub => 'পিন্ধা, বিচনাত, টেবুলত — য\'ত ই থাকে';
+
+  @override
+  String get csG7EyeTitle => 'চকুৰ সমান, তৃতীয়াংশ গ্ৰিড';
+
+  @override
+  String get csG7EyeSub => 'কেমেৰা চকুৰ উচ্চতাত · বিষয় তৃতীয়াংশ ৰেখাত';
+
+  @override
+  String get csG7ExSub => 'চেয়াৰত ড্ৰেপ — ঘৰৰ কোঠাত';
+
+  @override
+  String get csG8HangTitle => 'মাজতে ওলোমাই ৰাখক';
+
+  @override
+  String get csG8HangSub => 'ৰড বা হেংগাৰ · মাজৰ উলম্ব অক্ষত';
+
+  @override
+  String get csG8FringeTitle => 'ফ্ৰিঞ্জ মুক্তকৈ ওলোমাওক';
+
+  @override
+  String get csG8FringeSub => 'টাছেল পোন কৰক · দুয়ো কাষ সমান';
+
+  @override
+  String get csG9MacroTitle => 'ফ্ৰিঞ্জৰ মেক্ৰ\'';
+
+  @override
+  String get csG9MacroSub => 'ফোনে ফোকাছ কৰা যিমান ওচৰ · টাছেল আৰু গাঁঠি';
+
+  @override
+  String get csG9DiagTitle => 'কর্ণৰেখা ব্যৱহাৰ কৰক';
+
+  @override
+  String get csG9DiagSub => 'ফ্ৰিঞ্জ কর্ণৰেখাৰে যাওক';
+
+  @override
+  String get csG9ExSub => 'বৰ্ডাৰ আৰু ফিনিচিং, সূতা-ওচৰ';
+
+  @override
+  String get csG10HandsTitle => 'কাম কৰা হাত দেখুৱাওক';
+
+  @override
+  String get csG10HandsSub => 'কালাম, ব্ৰাছ বা শাটল চলি আছে · খিৰিকীৰ পোহৰ';
+
+  @override
+  String get csG10StoryTitle => 'ক্ৰেতাই কাহিনীৰ বাবে পইচা দিয়ে';
+
+  @override
+  String get csG10StorySub =>
+      'মেকিং ফটোৱে হস্তনিৰ্মিত প্ৰমাণ কৰে — প্ৰতিটোৰ বাবে এখন';
+
+  @override
+  String get csG11WallTitle => 'পোনকৈ, চকুৰ উচ্চতাত ওলোমাই ৰাখক';
+
+  @override
+  String get csG11WallSub => 'সাধাৰণ দেৱাল · কোঠাৰ কাষৰ পোহৰ, ফ্লাছ নহয়';
+
+  @override
+  String get csG11SquareTitle => 'সন্মুখৰ পৰা তোলক';
+
+  @override
+  String get csG11SquareSub =>
+      'ফোন দেৱালৰ সমান্তৰাল · পেনেলৰ কাষ ফ্ৰেমৰ সমান্তৰাল';
+
+  @override
+  String get csG11RoomTitle => 'কোঠাত দেখুৱাওক';
+
+  @override
+  String get csG11RoomSub => 'ফ্ৰেম বা স্ক্ৰল ৰডত — ক্ৰেতাই নিজৰ ঘৰত দেখে';
+
+  @override
+  String get csPracticeSandbox =>
+      'সুৰক্ষিত অনুশীলন। লাইভ ইনষ্টাগ্ৰামৰ আগত ফটো, কাহিনী আৰু হেছটেগ পৰীক্ষা কৰক।';
+
+  @override
+  String get csCreatePracticePost => 'অনুশীলন পোষ্ট বনাওক';
+
+  @override
+  String get csNoPracticePosts => 'এতিয়াও কোনো অনুশীলন পোষ্ট নাই';
+
+  @override
+  String get csNoPracticePostsBody =>
+      'ইয়াত চাবলৈ পাঠ ০৩ৰ পৰা এটা অনুশীলন পোষ্ট বনাওক।';
+
+  @override
+  String get csCreateFirstPost => 'প্ৰথম পোষ্ট বনাওক';
+
+  @override
+  String get csAddCraftPhoto => 'শিপৰ ফটো যোগ কৰক';
+
+  @override
+  String get csReplacePhoto => 'ফটো সলাওক';
+
+  @override
+  String get csVerifiedLesson03 =>
+      'পাঠ ০৩ টেগৰে প্ৰমাণিত • ইনষ্টাগ্ৰামৰ বাবে সাজু';
+
+  @override
+  String get csYourCraftCluster => 'আপোনাৰ শিল্প ক্লাষ্টাৰ';
+
+  @override
+  String get csAssamSilkCluster => 'অসম ৰেশম ক্লাষ্টাৰ';
+
+  @override
+  String get csNagalandCraftCluster => 'নাগালেণ্ড শিল্প ক্লাষ্টাৰ';
+
+  @override
+  String get csYourCraft => 'আপোনাৰ শিল্প';
+
+  @override
+  String get csDayMonday => 'সোমবাৰ';
+
+  @override
+  String get csDayTuesday => 'মঙ্গলবাৰ';
+
+  @override
+  String get csDayWednesday => 'বুধবাৰ';
+
+  @override
+  String get csDayThursday => 'বৃহস্পতিবাৰ';
+
+  @override
+  String get csDayFriday => 'শুক্ৰবাৰ';
+
+  @override
+  String get csDaySaturday => 'শনিবাৰ';
+
+  @override
+  String get csDaySunday => 'দেওবাৰ';
+
+  @override
+  String get csPostingWindowHint =>
+      'শিল্পপ্ৰেমীৰ মুখ্য চাওঁতে সময়ৰ খিৰিকী টিপক।';
+
+  @override
+  String get csYourPostingSchedule => 'আপোনাৰ পোষ্টিং সময়সূচী:';
+
+  @override
+  String get csArtisanTipSchedule =>
+      'কাৰিগৰৰ পৰামৰ্শ: নিয়মিততাই বেছি। সপ্তাহত ৩টা ভাল পোষ্টে বিশ্বাস গঢ়ে।';
+
+  @override
+  String get csSaveAndContinue => 'সংৰক্ষণ কৰি আগবাঢ়ক';
+
+  @override
+  String get csChooseStoryLines => 'আপোনাৰ শিল্পৰ কাহিনী কোৱা শাৰীবোৰ বাছক।';
+
+  @override
+  String get csAddStoryLines => 'আগৰ পদক্ষেপত কাহিনী শাৰী যোগ কৰক।';
+
+  @override
+  String get csStorySelected => 'কাহিনী বাছনি হ\'ল';
+
+  @override
+  String get csHashtagsHelp =>
+      'ক্ৰেতা আৰু শিল্পপ্ৰেমীয়ে বিচাৰি পোৱাকৈ উপযোগী টেগ বাছক।';
+
+  @override
+  String get csLiveSimulation => 'লাইভ চিমুলেশ্বন';
+
+  @override
+  String get csJustNowPractice => 'এইমাত্ৰ  •  অন্তৰণ অনুশীলন ফিড';
+
+  @override
+  String get csNextHashtagsPreview => 'পৰৱৰ্তী — হেছটেগ আৰু পূৰ্বদৰ্শন';
+
+  @override
+  String get csEdit => 'সম্পাদনা';
+
+  @override
+  String get csEveningWindow => 'সন্ধিয়া ৭:০০ – ১০:০০';
+
+  @override
+  String csNSelected(int count) {
+    return '$count বাছনি';
+  }
+
+  @override
+  String csTagsOf5Selected(int count) {
+    return '$count / ৫ বাছনি';
+  }
+
+  @override
+  String csAntaranArtisanPlace(String place) {
+    return 'অন্তৰণ কাৰিগৰ • $place';
+  }
+
+  @override
+  String get csDetailTipAssam =>
+      'পল্লুৰ এক্সট্ৰা-ৱেফ্ট বুটাৰ ওচৰলৈ — হাতে কাম তাতেই দেখা যায়';
+
+  @override
+  String get csDetailTipKal => 'এটা মটিফৰ ওচৰলৈ — কলম কলমৰ মুক্ত হাত দেখুৱাওক';
+
+  @override
+  String get csDetailTipManiabandha =>
+      'মটিফৰ কাষৰ ওচৰলৈ — কোমল পাখিৰ দৰে ধাৰে প্ৰকৃত ইকট প্ৰমাণ কৰে';
+
+  @override
+  String get csDetailTipVenkatgiri =>
+      'জৰিৰ পাৰি কাষৰ পৰা সামান্য কোণত — সোণৰ জিলিকনি দেখা যায়';
+
+  @override
+  String get csDetailTipGopalpur =>
+      'ঘিচাৰ গাঁঠৰ ওচৰলৈ — সেই গাঁঠেই প্ৰকৃত বনৰীয়া ৰেশম';
+
+  @override
+  String get csDetailTipNagaland => 'মটিফ বেণ্ডৰ ওচৰলৈ — প্ৰতি ডোঙেৰে অৰ্থ আছে';
 }

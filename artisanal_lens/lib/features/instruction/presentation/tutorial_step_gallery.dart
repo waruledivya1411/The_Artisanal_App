@@ -5,6 +5,7 @@ import '../../../app/theme/app_dimens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../data/services/tutorial_catalog_service.dart';
 import '../../../domain/entities/tutorial_catalog_entry.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/asset_placeholder.dart';
 
 /// Horizontal strip of step cards from Supabase (with bundled fallbacks).
@@ -25,7 +26,10 @@ class TutorialStepGallery extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('How-to steps', style: AppTypography.sectionHeader),
+        Text(
+          AppLocalizations.of(context).csHowtoSteps,
+          style: AppTypography.sectionHeader,
+        ),
         const SizedBox(height: AppDimens.space12),
         SizedBox(
           height: 220,

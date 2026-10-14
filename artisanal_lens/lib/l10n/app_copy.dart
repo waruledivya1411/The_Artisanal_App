@@ -1181,7 +1181,13 @@ abstract final class AppCopy {
         2 => l10n.csFrame2Name,
         3 => l10n.csFrame3Name,
         4 => l10n.csFrame4Name,
+        5 => l10n.csFrame5Name,
+        6 => l10n.csFrame6Name,
+        7 => l10n.csFrame7Name,
         8 => l10n.csFrame8Name,
+        9 => l10n.csFrame9Name,
+        10 => l10n.csFrame10Name,
+        11 => l10n.csFrame11Name,
         _ => l10n.csFrameFallback,
       };
 
@@ -1192,7 +1198,13 @@ abstract final class AppCopy {
         2 => l10n.csFrame2Content,
         3 => l10n.csFrame3Content,
         4 => l10n.csFrame4Content,
+        5 => l10n.csFrame5Content,
+        6 => l10n.csFrame6Content,
+        7 => l10n.csFrame7Content,
         8 => l10n.csFrame8Content,
+        9 => l10n.csFrame9Content,
+        10 => l10n.csFrame10Content,
+        11 => l10n.csFrame11Content,
         _ => '',
       };
 
@@ -1200,15 +1212,20 @@ abstract final class AppCopy {
     AppLocalizations l10n,
     int index, {
     bool chairDrape = false,
+    bool sariChair = false,
   }) =>
       switch (index) {
         0 => [l10n.csCam0a, l10n.csCam0b, l10n.csCam0c],
         1 => [l10n.csCam1a, l10n.csCam1b, l10n.csCam1c],
-        2 => chairDrape
+        2 => sariChair
+            ? [l10n.csCam2SariChairA, l10n.csCam2SariChairB, l10n.csCam2SariChairC]
+            : chairDrape
             ? [l10n.csCam2ChairA, l10n.csCam2ChairB, l10n.csCam2ChairC]
             : [l10n.csCam2a, l10n.csCam2b, l10n.csCam2c],
         3 => [l10n.csCam3a, l10n.csCam3b, l10n.csCam3c],
-        4 => [l10n.csCam4a, l10n.csCam4b, l10n.csCam4c],
+        4 => sariChair
+            ? [l10n.csCam4SariA, l10n.csCam4SariB, l10n.csCam4SariC]
+            : [l10n.csCam4a, l10n.csCam4b, l10n.csCam4c],
         8 => [l10n.csCam8a, l10n.csCam8b, l10n.csCam8c],
         _ => [l10n.csCamFallback],
       };
@@ -1217,25 +1234,108 @@ abstract final class AppCopy {
     AppLocalizations l10n,
     PlacementKind kind, {
     bool chairDrape = false,
+    bool sariChair = false,
   }) =>
       switch (kind) {
         PlacementKind.fullDisplay => l10n.csHintFullDisplay,
         PlacementKind.closeUp => l10n.csHintCloseUp,
-        PlacementKind.drape =>
-          chairDrape ? l10n.csHintDrapeChair : l10n.csHintDrape,
+        PlacementKind.drape => sariChair
+            ? l10n.csHintDrapeSariChair
+            : chairDrape
+            ? l10n.csHintDrapeChair
+            : l10n.csHintDrape,
         PlacementKind.border => l10n.csHintBorder,
-        PlacementKind.folded => l10n.csHintFolded,
+        PlacementKind.folded =>
+          sariChair ? l10n.csHintFoldedSari : l10n.csHintFolded,
         PlacementKind.hanging => l10n.csHintHanging,
         _ => kind.hint,
       };
 
   static String csProductLabel(AppLocalizations l10n, String? name) {
-    final n = (name ?? '').toLowerCase();
+    final n = (name ?? '').toLowerCase().trim();
+    if (n.isEmpty) return '';
+    if (n.contains('jod kapur')) return l10n.csProductJodKapur;
+    if (n.contains('mekhela chador')) return l10n.csProductMekhelaChador;
     if (n.contains('mekhela')) return l10n.csProductMekhela;
-    if (n.contains('stole') || n.contains('dupatta')) {
-      return l10n.csProductStole;
+    if (n.contains('gamusa') || n.contains('gamosa')) {
+      return l10n.csProductGamusa;
+    }
+    if (n.contains('naga shawl')) return l10n.csProductNagaShawl;
+    if (n.contains('naga wrap')) return l10n.csProductNagaWraparound;
+    if (n.contains('naga sling')) return l10n.csProductNagaSlingBags;
+    if (n.contains('table runner')) return l10n.csProductTableRunners;
+    if (n.contains('table cloth')) return l10n.csProductTableCloth;
+    if (n.contains('shawl')) return l10n.csProductShawl;
+    if (n.contains('stole') && n.contains('dupatta')) {
+      return l10n.csProductStoleDupatta;
+    }
+    if (n.contains('stole')) return l10n.csProductStole;
+    if (n.contains('dupatta')) {
+      return n.contains('dupattas') ? l10n.csProductDupattas : l10n.csProductDupatta;
     }
     if (n.contains('sari') || n.contains('saree')) return l10n.csProductSari;
+    if (n.contains('home furnish')) return l10n.csProductHomeFurnishing;
+    if (n == 'cushion') return l10n.csProductCushion;
+    if (n == 'runners') return l10n.csProductRunners;
+    if (n == 'mats') return l10n.csProductMats;
+    if (n.contains('yardages')) return l10n.csProductYardages;
+    if (n.contains('yardage')) return l10n.csProductYardage;
+    if (n.contains('chadar')) return l10n.csProductChadar;
+    if (n.contains('dhoti')) return l10n.csProductDhoti;
+    if (n.contains('jodo')) return l10n.csProductJodo;
+    if (n.contains('muffler')) return l10n.csProductMuffler;
+    if (n.contains('angvastram')) return l10n.csProductAngvastram;
+    if (n.contains('uttaraya')) return l10n.csProductUttaraya;
+    if (n.contains('handker')) return l10n.csProductHandkerchief;
+    if (n.contains('accessories')) return l10n.csProductAccessories;
     return name ?? '';
+  }
+
+  static String csMaterialLabel(AppLocalizations l10n, String? materialId) {
+    return switch ((materialId ?? '').trim().toLowerCase()) {
+      'cotton' => _titleCase(l10n.csMaterialCotton),
+      'silk' => _titleCase(l10n.csMaterialSilk),
+      'mulberry' => l10n.csFibreMulberry,
+      'zari' => l10n.csFibreZari,
+      'eri' => l10n.csFibreEri,
+      'tussar' => l10n.csFibreTussar,
+      'tussar-gheecha' => l10n.csFibreTussarGheecha,
+      'muga' => l10n.csFibreMuga,
+      'muga-gheecha' => l10n.csFibreMugaGheecha,
+      'spun-silk' => l10n.csFibreSpunSilk,
+      'spun-tussar' => l10n.csFibreSpunTussar,
+      'korea-tussar' => l10n.csFibreKoreaTussar,
+      'liva-viscose' => l10n.csFibreLivaViscose,
+      'linen' => l10n.csFibreLinen,
+      'noil' => l10n.csFibreNoil,
+      _ => materialId ?? '',
+    };
+  }
+
+  static String csMaterialBlurb(AppLocalizations l10n, String? materialId) {
+    return switch ((materialId ?? '').trim().toLowerCase()) {
+      'cotton' => l10n.csBlurbCotton,
+      'silk' => l10n.csBlurbSilk,
+      'mulberry' => l10n.csBlurbMulberry,
+      'zari' => l10n.csBlurbZari,
+      'eri' => l10n.csBlurbEri,
+      'tussar' => l10n.csBlurbTussar,
+      'tussar-gheecha' => l10n.csBlurbTussarGheecha,
+      'muga' => l10n.csBlurbMuga,
+      'muga-gheecha' => l10n.csBlurbMugaGheecha,
+      'spun-silk' => l10n.csBlurbSpunSilk,
+      'spun-tussar' => l10n.csBlurbSpunTussar,
+      'korea-tussar' => l10n.csBlurbKoreaTussar,
+      'liva-viscose' => l10n.csBlurbLivaViscose,
+      'linen' => l10n.csBlurbLinen,
+      'noil' => l10n.csBlurbNoil,
+      _ => '',
+    };
+  }
+
+  static String _titleCase(String raw) {
+    final t = raw.trim().toLowerCase();
+    if (t.isEmpty) return raw;
+    return '${t[0].toUpperCase()}${t.substring(1)}';
   }
 }

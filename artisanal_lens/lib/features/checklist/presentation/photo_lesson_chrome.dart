@@ -193,6 +193,71 @@ class PhotoLessonChrome extends StatelessWidget {
   }
 }
 
+/// Reminder of cluster, product, and material already chosen in this lesson.
+class PhotoLessonPicks extends StatelessWidget {
+  const PhotoLessonPicks({
+    this.clusterLabel,
+    this.productLabel,
+    this.materialLabel,
+    super.key,
+  });
+
+  final String? clusterLabel;
+  final String? productLabel;
+  final String? materialLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final chips = <(String, Color, Color)>[
+      if ((clusterLabel ?? '').trim().isNotEmpty)
+        (
+          clusterLabel!.trim(),
+          AppColors.successBorder,
+          AppColors.success,
+        ),
+      if ((productLabel ?? '').trim().isNotEmpty)
+        (
+          productLabel!.trim(),
+          const Color(0xFFFFF3D6),
+          AppColors.warning,
+        ),
+      if ((materialLabel ?? '').trim().isNotEmpty)
+        (
+          materialLabel!.trim(),
+          AppColors.surfaceMuted,
+          AppColors.textPrimary,
+        ),
+    ];
+    if (chips.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          for (final chip in chips)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: chip.$2,
+                borderRadius: BorderRadius.circular(99),
+              ),
+              child: Text(
+                chip.$1,
+                style: AppTypography.labelSmall.copyWith(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: chip.$3,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 /// HTML-style selectable text chip (no images).
 class PhotoChoiceChip extends StatelessWidget {
   const PhotoChoiceChip({

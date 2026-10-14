@@ -20,6 +20,7 @@ class GuideOverlay extends StatelessWidget {
     this.gridPath,
     this.feedback,
     this.chairDrape = false,
+    this.sariChair = false,
     super.key,
   });
 
@@ -32,6 +33,9 @@ class GuideOverlay extends StatelessWidget {
   /// Mekhela draped look: chair + cloth, not a standing person.
   final bool chairDrape;
 
+  /// Sari draped look: chair + folded seat piece + falling pallu.
+  final bool sariChair;
+
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
@@ -41,7 +45,9 @@ class GuideOverlay extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: TweenAnimationBuilder<double>(
-                  key: ValueKey('$grid|${placement.name}|$gridPath|$chairDrape'),
+                  key: ValueKey(
+                    '$grid|${placement.name}|$gridPath|$chairDrape|$sariChair',
+                  ),
                   tween: Tween(begin: 0, end: 1),
                   duration: AppMotion.screen,
                   curve: AppMotion.curve,
@@ -54,6 +60,7 @@ class GuideOverlay extends StatelessWidget {
                       gridPath: gridPath,
                       borderColor: _borderColor(feedback),
                       chairDrape: chairDrape,
+                      sariChair: sariChair,
                     ),
                   ),
                 ),
@@ -128,6 +135,7 @@ class _GuidePainter extends CustomPainter {
     required this.borderColor,
     this.gridPath,
     this.chairDrape = false,
+    this.sariChair = false,
   });
 
   final GridOverlayType grid;
@@ -135,6 +143,7 @@ class _GuidePainter extends CustomPainter {
   final Color borderColor;
   final String? gridPath;
   final bool chairDrape;
+  final bool sariChair;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -301,12 +310,16 @@ class _GuidePainter extends CustomPainter {
           mark,
         );
       case PlacementKind.folded:
-        _dashedLine(
-          canvas,
-          Offset(box.left, box.center.dy),
-          Offset(box.right, box.center.dy),
-          mark,
-        );
+        if (sariChair) {
+          _sariFoldedSilhouette(canvas, box, mark);
+        } else {
+          _dashedLine(
+            canvas,
+            Offset(box.left, box.center.dy),
+            Offset(box.right, box.center.dy),
+            mark,
+          );
+        }
       case PlacementKind.scale:
         final spot = Offset(
           box.left + box.width * 2 / 3,
@@ -315,7 +328,9 @@ class _GuidePainter extends CustomPainter {
         canvas.drawCircle(spot, 10, mark);
         canvas.drawCircle(spot, 4, mark);
       case PlacementKind.drape:
-        if (chairDrape) {
+        if (sariChair) {
+          _sariChairDrapeSilhouette(canvas, box, mark);
+        } else if (chairDrape) {
           _chairDrapeSilhouette(canvas, box, mark);
         } else {
           _personSilhouette(canvas, box, mark);
@@ -392,6 +407,101 @@ class _GuidePainter extends CustomPainter {
       paint,
     );
     _overlayLabel(canvas, 'Hem', Offset(box.left + 20, hemY - 26));
+  }
+
+  /// Matches the sari-on-chair photo: peak on the left, pack on the seat,
+  /// pallu falling right, hem on the hanging left pleats.
+  void _sariChairDrapeSilhouette(Canvas canvas, Rect box, Paint paint) {
+    final w = box.width;
+    final h = box.height;
+
+    // Chair back = the fabric peak over the backrest (left of centre).
+    final backLeft = Offset(box.left + w * 0.22, box.top + h * 0.16);
+    final backTop = Offset(box.left + w * 0.34, box.top + h * 0.05);
+    final backRight = Offset(box.left + w * 0.46, box.top + h * 0.16);
+    canvas.drawLine(backLeft, backTop, paint);
+    canvas.drawLine(backTop, backRight, paint);
+    _overlayLabel(
+      canvas,
+      'Chair back',
+      Offset(box.left + w * 0.02, box.top + h * 0.02),
+    );
+
+    // Folded pack sitting on the seat — left side, not the hanging body.
+    final seat = Rect.fromLTWH(
+      box.left + w * 0.06,
+      box.top + h * 0.26,
+      w * 0.40,
+      h * 0.13,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(seat, const Radius.circular(4)),
+      paint,
+    );
+    _overlayLabel(
+      canvas,
+      'Folded piece',
+      Offset(seat.left, seat.top - 24),
+    );
+
+    // Pallu = the long fall on the right (border panel).
+    _dashedLine(
+      canvas,
+      Offset(box.left + w * 0.50, box.top + h * 0.16),
+      Offset(box.left + w * 0.58, box.bottom - 12),
+      paint,
+    );
+    _dashedLine(
+      canvas,
+      Offset(box.left + w * 0.62, box.top + h * 0.12),
+      Offset(box.right - 10, box.bottom - 8),
+      paint,
+    );
+    _overlayLabel(
+      canvas,
+      'Pallu',
+      Offset(box.right - 78, box.top + h * 0.52),
+    );
+
+    // Hem only on the left hanging pleats, not across the pallu.
+    final hemY = box.top + h * 0.78;
+    canvas.drawLine(
+      Offset(box.left + w * 0.04, hemY),
+      Offset(box.left + w * 0.44, hemY),
+      paint,
+    );
+    _overlayLabel(canvas, 'Hem', Offset(box.left + w * 0.06, hemY - 26));
+  }
+
+  /// One folded sari as a flat rectangle, border on the long edge.
+  void _sariFoldedSilhouette(Canvas canvas, Rect box, Paint paint) {
+    final pack = Rect.fromCenter(
+      center: box.center,
+      width: box.width * 0.78,
+      height: box.height * 0.52,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(pack, const Radius.circular(6)),
+      paint,
+    );
+    _overlayLabel(
+      canvas,
+      'Folded sari',
+      Offset(pack.left, pack.top - 26),
+    );
+
+    final border = Rect.fromLTWH(
+      pack.right - pack.width * 0.22,
+      pack.top,
+      pack.width * 0.22,
+      pack.height,
+    );
+    canvas.drawLine(border.topLeft, border.bottomLeft, paint);
+    _overlayLabel(
+      canvas,
+      'Border',
+      Offset(border.left + 6, border.center.dy - 8),
+    );
   }
 
   void _overlayLabel(Canvas canvas, String text, Offset topLeft) {
@@ -485,5 +595,6 @@ class _GuidePainter extends CustomPainter {
       oldDelegate.placement != placement ||
       oldDelegate.gridPath != gridPath ||
       oldDelegate.borderColor != borderColor ||
-      oldDelegate.chairDrape != chairDrape;
+      oldDelegate.chairDrape != chairDrape ||
+      oldDelegate.sariChair != sariChair;
 }

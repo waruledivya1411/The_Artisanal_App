@@ -678,7 +678,7 @@ class _LanguageStepState extends State<_LanguageStep> {
         FadeSlideIn(
           delay: const Duration(milliseconds: 40),
           child: Text(
-            'Chosen once. Your lessons, instructions, and community stories will be tuned to it.',
+            AppLocalizations.of(context).csClusterHint,
             style: AppTypography.labelSmall.copyWith(
               color: AppColors.textMuted,
               height: 1.4,
@@ -690,7 +690,7 @@ class _LanguageStepState extends State<_LanguageStep> {
         FadeSlideIn(
           delay: const Duration(milliseconds: 70),
           child: _SearchField(
-            hint: 'Search language or dialect...',
+            hint: AppLocalizations.of(context).csSearchLanguage,
             onChanged: (value) => setState(() => _query = value.trim()),
           ),
         ),
@@ -786,7 +786,7 @@ class _ClusterStepState extends State<_ClusterStep> {
         FadeSlideIn(
           delay: const Duration(milliseconds: 70),
           child: _SearchField(
-            hint: 'Filter clusters or states...',
+            hint: AppLocalizations.of(context).csFilterClusters,
             onChanged: (value) => setState(() => _query = value.trim()),
           ),
         ),

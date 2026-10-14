@@ -68,14 +68,22 @@ class _CapturePageState extends ConsumerState<CapturePage> {
       productLabel: set?.productName,
       categoryId: set?.categoryId,
     );
+    final sariChair = clickSocialSariChairDrape(
+      productLabel: set?.productName,
+      categoryId: set?.categoryId,
+    );
     final hint = AppCopy.csPlacementHint(
       l10n,
       placement,
       chairDrape: chairDrape,
+      sariChair: sariChair,
     );
     final overlayCaption = camera.feedback.hasVisiblePrompt
         ? hint
-        : (chairDrape && placement == PlacementKind.drape
+        : ((sariChair &&
+                    (placement == PlacementKind.drape ||
+                        placement == PlacementKind.folded)) ||
+                (chairDrape && placement == PlacementKind.drape)
             ? hint
             : (AppCopy.overlayCaptionForTemplate(
                   l10n,
@@ -97,6 +105,7 @@ class _CapturePageState extends ConsumerState<CapturePage> {
               caption: overlayCaption,
               feedback: camera.feedback,
               chairDrape: chairDrape,
+              sariChair: sariChair,
             ),
           _TopBar(
             productName: set?.productName ?? '',
