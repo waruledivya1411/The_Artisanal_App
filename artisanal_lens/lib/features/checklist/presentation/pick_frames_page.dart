@@ -309,7 +309,7 @@ class _FramePickCard extends StatelessWidget {
                           color: AppColors.surfaceMuted,
                           child: GuideImage(
                             asset: imageAsset,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),

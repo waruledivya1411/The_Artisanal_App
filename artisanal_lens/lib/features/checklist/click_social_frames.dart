@@ -151,7 +151,10 @@ class ClickSocialFrame {
         product: product,
         clusterId: clusterId,
       );
-      return 'assets/images/clusters/$clusterDir/$product/$material/woven/$listing';
+      final file = product == 'sari' && material == 'tussar'
+          ? listing.replaceFirst('.jpg', '.png')
+          : listing;
+      return 'assets/images/clusters/$clusterDir/$product/$material/woven/$file';
     }
     if (clickSocialIsKal(clusterId: clusterId, technique: technique)) {
       final set = _kalFrameImgs[_kalProduct(categoryId, technique)]!;

@@ -237,6 +237,17 @@ void main() {
       liva,
       contains('clusters/kamrup/sari/liva-viscose/woven/draped_look'),
     );
+    final tussar = clickSocialFrames[1].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'tussar',
+    );
+    expect(
+      tussar,
+      'assets/images/clusters/kamrup/sari/tussar/woven/close-up_texture.png',
+    );
     expect(cotton, isNot(contains('/shawl/')));
     expect(cotton, isNot(contains('/gamusa/')));
   });
