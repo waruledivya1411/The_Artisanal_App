@@ -643,9 +643,14 @@ void main() {
       productLabel: 'saree',
       technique: 'WOVEN',
     );
+    expect(steps.map((step) => step.title), contains('Like this — hanging'));
     expect(
       steps.map((step) => step.imageAsset).whereType<String>(),
-      contains(contains('mekhela-drapes')),
+      contains(contains('full_display.jpg')),
+    );
+    expect(
+      steps.expand((step) => step.gallery ?? const <String>[]),
+      isNot(contains(contains('drape'))),
     );
   });
 

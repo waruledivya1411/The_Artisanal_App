@@ -104,7 +104,6 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
       footer: PhotoContinueBar(
         enabled: _selected != null,
         label: l10n.continueAction,
-        onBack: _goBack,
         onContinue: _continue,
       ),
       child: Padding(
@@ -117,7 +116,6 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
                   ? 'Home furnishing'
                   : l10n.csWhatArePhotographing,
               style: AppTypography.displayMedium.copyWith(
-                fontSize: 20,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
               ),

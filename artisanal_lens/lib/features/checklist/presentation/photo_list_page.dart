@@ -183,7 +183,6 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
                 TextSpan(
                   text: '${l10n.csPhotosToCaptureHeading} ',
                   style: AppTypography.displayMedium.copyWith(
-                    fontSize: 20,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
                   ),
@@ -191,7 +190,6 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
                 TextSpan(
                   text: '$done/${slots.length}',
                   style: AppTypography.displayMedium.copyWith(
-                    fontSize: 20,
                     fontWeight: FontWeight.w800,
                     color: AppColors.primary,
                   ),
@@ -212,7 +210,15 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
             _FrameSlotCard(
               slot: slots[i],
               frame: frames[i],
-              tip: AppCopy.csFrameContent(l10n, frames[i].index),
+              tip: clickSocialCameraPlacementLines(
+                frames[i].index,
+                chairDrape: clickSocialDrapeOnChair(
+                  clusterId: _clusterId,
+                  productLabel: set.productName,
+                  categoryId: set.categoryId,
+                ),
+              ).first,
+              reason: clickSocialShotReason(frames[i].index),
               expanded: _expandedShot == frames[i].index,
               onToggle: () => setState(() {
                 final id = frames[i].index;
@@ -228,8 +234,11 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
           if (!allDone && left > 0) ...[
             const SizedBox(height: 14),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              color: AppColors.surfaceMuted,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceSelected,
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Text(
                 left == slots.length
                     ? l10n.csDropFirstShot
@@ -254,7 +263,10 @@ class _PhotoListPageState extends ConsumerState<PhotoListPage> {
                   disabledBackgroundColor: AppColors.surfaceMuted,
                   foregroundColor: AppColors.white,
                   disabledForegroundColor: AppColors.textMuted,
-                  shape: const RoundedRectangleBorder(),
+                  elevation: allDone ? 2 : 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28),
+                  ),
                 ),
                 child: Text(
                   l10n.csFinishEarnBadge,
@@ -541,6 +553,7 @@ class _FrameSlotCard extends StatelessWidget {
     required this.slot,
     required this.frame,
     required this.tip,
+    required this.reason,
     required this.expanded,
     required this.onToggle,
     required this.onOpenGuide,
@@ -552,6 +565,7 @@ class _FrameSlotCard extends StatelessWidget {
   final ShotSlot slot;
   final ClickSocialFrame frame;
   final String tip;
+  final String reason;
   final bool expanded;
   final VoidCallback onToggle;
   final VoidCallback onOpenGuide;
@@ -564,126 +578,144 @@ class _FrameSlotCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final frameName = AppCopy.csFrameName(l10n, frame.index);
     final filled = slot.isFilled;
-    final boxBorder = filled ? AppColors.primary : AppColors.textPrimary;
-    final boxBg = filled ? AppColors.primary : Colors.transparent;
 
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.border),
+        color: filled ? const Color(0xFFF4FBF7) : AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: filled ? AppColors.successBorder : AppColors.borderLight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: onToggle,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 22,
-                            height: 22,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: boxBg,
-                              border: Border.all(color: boxBorder, width: 2),
-                            ),
-                            child: filled
-                                ? const Icon(
-                                    Icons.check,
-                                    size: 14,
-                                    color: AppColors.white,
-                                  )
-                                : null,
-                          ),
-                          const SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: filled ? null : onCapture,
-                            child: SizedBox(
-                              width: 48,
-                              height: 44,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: filled
-                                    ? PhotoThumb(path: slot.shot!.filePath)
-                                    : GuideImage(
-                                        asset:
-                                            slot.template!.referenceImageAsset!,
-                                        fit: BoxFit.cover,
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
+          InkWell(
+            onTap: onToggle,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18),
+                    child: Container(
+                      width: 22,
+                      height: 22,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: filled ? AppColors.success : Colors.transparent,
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: filled
+                              ? AppColors.success
+                              : AppColors.border,
+                          width: 1.6,
+                        ),
+                      ),
+                      child: filled
+                          ? const Icon(
+                              Icons.check_rounded,
+                              size: 15,
+                              color: AppColors.white,
+                            )
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: filled ? null : onCapture,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: SizedBox(
+                        width: 64,
+                        height: 80,
+                        child: filled
+                            ? PhotoThumb(path: slot.shot!.filePath)
+                            : GuideImage(
+                                asset: slot.template!.referenceImageAsset!,
+                                fit: BoxFit.cover,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                frameName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTypography.labelLarge.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.textPrimary,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  frameName,
-                                  style: AppTypography.bodyLarge.copyWith(
-                                    fontSize: 13.5,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary,
-                                  ),
+                            TextButton(
+                              onPressed: onOpenGuide,
+                              style: TextButton.styleFrom(
+                                foregroundColor: AppColors.primary,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  tip,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppTypography.labelSmall.copyWith(
-                                    fontSize: 11,
-                                    color: AppColors.textMuted,
-                                  ),
+                                minimumSize: const Size(0, 32),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                'Guide',
+                                style: AppTypography.labelSmall.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.primary,
                                 ),
-                              ],
+                              ),
                             ),
+                          ],
+                        ),
+                        Text(
+                          tip,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTypography.labelSmall.copyWith(
+                            fontSize: 12.5,
+                            height: 1.3,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textSecondary,
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          reason,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTypography.labelSmall.copyWith(
+                            fontSize: 12,
+                            height: 1.3,
+                            fontStyle: FontStyle.italic,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                const VerticalDivider(
-                  width: 2,
-                  thickness: 2,
-                  color: AppColors.divider,
-                ),
-                SizedBox(
-                  width: 64,
-                  child: Pressable(
-                    elevate: false,
-                    child: TextButton(
-                    onPressed: onOpenGuide,
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      shape: const RoundedRectangleBorder(),
-                      foregroundColor: AppColors.primary,
-                    ),
-                    child: Text(
-                      'GUIDE',
-                      style: AppTypography.navLabel.copyWith(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.8,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           // AnimatedSize drives the height while the contents fade, so the
@@ -711,7 +743,9 @@ class _FrameSlotCard extends StatelessWidget {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: filled ? null : onCapture,
-                      child: SizedBox(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: SizedBox(
                         height: 150,
                         child: Stack(
                           fit: StackFit.expand,
@@ -776,6 +810,7 @@ class _FrameSlotCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    ),
                   ),
                   if (!filled) ...[
                     const SizedBox(height: 8),
@@ -790,7 +825,9 @@ class _FrameSlotCard extends StatelessWidget {
                                 style: FilledButton.styleFrom(
                                   backgroundColor: AppColors.primary,
                                   foregroundColor: AppColors.white,
-                                  shape: const RoundedRectangleBorder(),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
                                 ),
                                 child: Text(
                                   'CAPTURE',
@@ -815,7 +852,9 @@ class _FrameSlotCard extends StatelessWidget {
                                     color: AppColors.border,
                                     width: 1.5,
                                   ),
-                                  shape: const RoundedRectangleBorder(),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
                                 ),
                                 child: Text(
                                   AppLocalizations.of(context)
@@ -847,7 +886,9 @@ class _FrameSlotCard extends StatelessWidget {
                           color: AppColors.border,
                           width: 1.5,
                         ),
-                        shape: const RoundedRectangleBorder(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                       child: Text(
                         filled

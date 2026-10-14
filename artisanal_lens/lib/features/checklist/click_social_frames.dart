@@ -181,6 +181,11 @@ class ClickSocialFrame {
         ),
         detailTip: clickSocialDetailTip(clusterId),
         making: clickSocialMakingGallery(clusterId),
+        listingAsset: thumbAssetFor(
+          clusterId: clusterId,
+          productLabel: productLabel,
+          technique: technique,
+        ),
       ),
     ];
     if (!isKal) return steps;
@@ -352,6 +357,17 @@ String clickSocialCameraRefAsset(int index, {bool chairDrape = false}) =>
     index == 2 && chairDrape
         ? '$_guides/cs_cam_ref_2_chair.jpg'
         : '$_guides/cs_cam_ref_$index.jpg';
+
+/// One line on why this listing shot helps a buyer.
+String clickSocialShotReason(int index) => switch (index) {
+      0 => 'Buyers decide from the full piece.',
+      1 => 'The weave proves it is handmade.',
+      2 => 'Shows how the cloth falls when worn.',
+      3 => 'The border is what buyers zoom in on.',
+      4 => 'A neat stack looks ready to sell.',
+      8 => 'Shows length, fringe, and the fall.',
+      _ => 'Helps a buyer trust the cloth.',
+    };
 
 /// Where each part of the product sits on that camera grid.
 List<String> clickSocialCameraPlacementLines(
@@ -806,39 +822,44 @@ List<GuideStep> _baseGuideSteps(
   required bool isMekhela,
   required String detailTip,
   required List<String> making,
+  String? listingAsset,
 }) {
   switch (index) {
     case 0:
+      // Full display is a hang. Use the uploaded listing photo, and keep
+      // drape shots off this guide — those belong on Draped look.
+      final hanging = (listingAsset != null && listingAsset.isNotEmpty)
+          ? listingAsset
+          : '$_guides/cs_cam_ref_8.jpg';
       return [
-        const GuideStep(
+        GuideStep(
           title: 'Hang the whole piece',
-          subtitle: 'Bamboo rod · plain wall behind',
+          subtitle: 'Hangers or a rod · plain wall behind',
           diagram: 'hang',
-          referenceAsset: '$_guides/kal-hung-rod.jpg',
+          referenceAsset: hanging,
         ),
         if (isAssam)
-          const GuideStep(
-            title: 'Three ways to style it',
-            subtitle: 'Dress form · pick one look and keep it for every product',
-            imageAsset: '$_guides/mekhela-drapes.png',
+          GuideStep(
+            title: 'Like this — hanging',
+            subtitle: 'Both cloths on hangers · the same pose as the last step',
+            imageAsset: hanging,
             caption:
-                'Mekhela sador on a dress form — full display, three drape '
-                'styles.',
+                'Full display stays a hang. Show the whole piece straight, '
+                'not draped on a form.',
           ),
-        const GuideStep(
+        GuideStep(
           title: 'Align with the gridlines',
           subtitle: 'Edges along the lines · borders straight',
           diagram: 'grid',
-          // Straight hang — edges parallel; not a tilted dress-form shot.
-          referenceAsset: '$_guides/kal-hung-rod.jpg',
+          referenceAsset: hanging,
         ),
-        const GuideStep(
+        GuideStep(
           title: 'Good examples',
-          subtitle: 'Whole piece in frame — on a form, a chair, or spread flat',
+          subtitle: 'Hung straight — whole piece in frame, not draped',
           gallery: [
-            '$_guides/ex-full-form.jpg',
-            '$_guides/ex-full-dark.jpg',
-            '$_guides/ex-full-spread.jpg',
+            hanging,
+            if (hanging != '$_guides/cs_cam_ref_8.jpg')
+              '$_guides/cs_cam_ref_8.jpg',
           ],
         ),
       ];

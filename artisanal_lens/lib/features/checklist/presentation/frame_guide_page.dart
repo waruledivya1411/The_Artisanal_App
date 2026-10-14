@@ -181,7 +181,7 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
           child: Column(
             children: [
               _GuideHeader(
-                onBack: () => Navigator.of(context).pop(),
+                onBack: _back,
                 stepLabel: '${_step + 1} / ${steps.length}',
               ),
               Expanded(
@@ -250,7 +250,6 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
                 enabled: true,
                 label:
                     _step == steps.length - 1 ? 'TAKE THE SHOT' : 'NEXT',
-                onBack: _back,
                 onContinue: () => _next(steps),
               ),
             ],

@@ -8,7 +8,7 @@ import 'app_colors.dart';
 /// headings and Inter for everything else. Sizes, weights, letter spacing and
 /// line heights below are the values measured in the file.
 abstract final class AppTypography {
-  static const String serif = 'Inter';
+  static const String serif = 'PlayfairDisplay';
   static const String sans = 'Inter';
 
   /// Hindi (Devanagari) and Assamese (Bengali script) are not in Inter or
@@ -24,7 +24,7 @@ abstract final class AppTypography {
   /// Playfair Display 700 · 30/36 — screen headlines such as
   /// "What are you photographing today?".
   static const TextStyle displayLarge = TextStyle(
-    fontFamily: sans,
+    fontFamily: serif,
     fontFamilyFallback: scriptFallback,
     fontWeight: FontWeight.w800,
     fontSize: 32,
@@ -34,7 +34,7 @@ abstract final class AppTypography {
 
   /// Playfair Display 600 · 24/32 — section headings and app-bar titles.
   static const TextStyle displayMedium = TextStyle(
-    fontFamily: sans,
+    fontFamily: serif,
     fontFamilyFallback: scriptFallback,
     fontWeight: FontWeight.w700,
     fontSize: 24,
@@ -45,7 +45,7 @@ abstract final class AppTypography {
   /// Playfair Display 700 · 24/32 — emphasised serif, e.g. reference preset
   /// names on the review screen.
   static const TextStyle displaySmall = TextStyle(
-    fontFamily: sans,
+    fontFamily: serif,
     fontFamilyFallback: scriptFallback,
     fontWeight: FontWeight.w800,
     fontSize: 24,

@@ -346,7 +346,6 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
               ),
               _Footer(
                 canContinue: _planReady,
-                onBack: () => context.goNamed(AppRoute.home),
                 onContinue: _finish,
               ),
             ],
@@ -588,45 +587,17 @@ class _DayButton extends StatelessWidget {
 class _Footer extends StatelessWidget {
   const _Footer({
     required this.canContinue,
-    required this.onBack,
     required this.onContinue,
   });
 
   final bool canContinue;
-  final VoidCallback onBack;
   final VoidCallback onContinue;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-      child: Row(
-        children: [
-          Material(
-            color: AppColors.white,
-            shape: const CircleBorder(),
-            elevation: 1,
-            shadowColor: AppColors.primary.withValues(alpha: 0.1),
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              onTap: onBack,
-              child: Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: const Icon(
-                  Icons.chevron_left_rounded,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Pressable(
+      child: Pressable(
               enabled: canContinue,
               elevate: true,
               borderRadius: BorderRadius.circular(28),
@@ -664,9 +635,6 @@ class _Footer extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
       ),
     );
   }

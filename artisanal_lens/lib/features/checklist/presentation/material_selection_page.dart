@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
@@ -230,13 +229,6 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
       footer: PhotoContinueBar(
         enabled: _selected != null && !_busy,
         label: l10n.continueAction,
-        onBack: () {
-          if (context.canPop()) {
-            context.pop();
-          } else {
-            context.goNamed(AppRoute.home);
-          }
-        },
         onContinue: _continue,
       ),
       child: Padding(
@@ -247,7 +239,6 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
             Text(
               l10n.csWhatIsItMadeOf,
               style: AppTypography.displayMedium.copyWith(
-                fontSize: 20,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
               ),

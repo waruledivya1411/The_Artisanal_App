@@ -111,7 +111,6 @@ class _PickFramesPageState extends State<PickFramesPage> {
       footer: PhotoContinueBar(
         enabled: _ready,
         label: l10n.continueAction,
-        onBack: _goBack,
         onContinue: _continue,
       ),
       child: ListView(
@@ -120,7 +119,6 @@ class _PickFramesPageState extends State<PickFramesPage> {
           Text(
             l10n.csPickYourFrames,
             style: AppTypography.displayMedium.copyWith(
-              fontSize: 20,
               fontWeight: FontWeight.w800,
               color: AppColors.primary,
             ),
@@ -198,7 +196,7 @@ class _FramePickGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         const spacing = 12.0;
-        const footer = 78.0;
+        const footer = 92.0;
         final cardWidth = (constraints.maxWidth - spacing) / 2;
         final cardHeight = cardWidth * 4 / 3 + footer;
         return GridView.builder(
@@ -219,7 +217,14 @@ class _FramePickGrid extends StatelessWidget {
               index: staggerOffset + i,
               child: _FramePickCard(
                 name: AppCopy.csFrameName(l10n, frame.index),
-                content: AppCopy.csFrameContent(l10n, frame.index),
+                content: clickSocialCameraPlacementLines(
+                  frame.index,
+                  chairDrape: clickSocialDrapeOnChair(
+                    clusterId: clusterId,
+                    productLabel: productLabel,
+                    categoryId: categoryId,
+                  ),
+                ).first,
                 selected: on,
                 imageAsset: frame.thumbAssetFor(
                   clusterId: clusterId,
@@ -346,12 +351,13 @@ class _FramePickCard extends StatelessWidget {
                             const SizedBox(height: 2),
                             Text(
                               content,
-                              maxLines: 2,
+                              maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: AppTypography.labelSmall.copyWith(
-                                fontSize: 10.5,
-                                height: 1.25,
-                                color: AppColors.textMuted,
+                                fontSize: 11,
+                                height: 1.3,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],

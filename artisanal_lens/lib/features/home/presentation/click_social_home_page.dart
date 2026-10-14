@@ -344,6 +344,28 @@ class _OnboardingView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 2, 20, 8),
                 child: Row(
                   children: [
+                    if (step > 0) ...[
+                      Material(
+                        color: AppColors.white,
+                        elevation: 2,
+                        shadowColor: AppColors.primary.withValues(alpha: 0.15),
+                        shape: const CircleBorder(),
+                        child: InkWell(
+                          customBorder: const CircleBorder(),
+                          onTap: _back,
+                          child: const SizedBox(
+                            width: 36,
+                            height: 36,
+                            child: Icon(
+                              Icons.arrow_back_rounded,
+                              color: AppColors.textPrimary,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                    ],
                     for (var i = 0; i < 3; i++) ...[
                       Expanded(
                         child: AnimatedContainer(
@@ -386,10 +408,8 @@ class _OnboardingView extends StatelessWidget {
               ListenableBuilder(
                 listenable: nameController,
                 builder: (context, _) => _FloatingBar(
-                  showBack: step > 0,
                   canAdvance: _canAdvance,
                   label: step < 2 ? 'NEXT' : l10n.csStartLearning,
-                  onBack: _back,
                   onNext: () => _next(l10n),
                 ),
               ),
@@ -434,17 +454,13 @@ class _OnboardingView extends StatelessWidget {
 
 class _FloatingBar extends StatelessWidget {
   const _FloatingBar({
-    required this.showBack,
     required this.canAdvance,
     required this.label,
-    required this.onBack,
     required this.onNext,
   });
 
-  final bool showBack;
   final bool canAdvance;
   final String label;
-  final VoidCallback onBack;
   final VoidCallback onNext;
 
   @override
@@ -467,10 +483,10 @@ class _FloatingBar extends StatelessWidget {
             child: SizedBox(
               height: 48,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: showBack ? 0 : 22),
+                padding: const EdgeInsets.symmetric(horizontal: 22),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: showBack ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       label,
@@ -500,36 +516,8 @@ class _FloatingBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 14),
       child: Row(
         children: [
-          if (showBack) ...[
-            Pressable(
-              elevate: true,
-              borderRadius: BorderRadius.circular(24),
-              child: Material(
-                color: AppColors.white,
-                elevation: 2,
-                shadowColor: AppColors.primary.withValues(alpha: 0.15),
-                shape: const CircleBorder(),
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: onBack,
-                  child: const SizedBox(
-                    width: 48,
-                    height: 48,
-                    child: Icon(
-                      Icons.arrow_back_rounded,
-                      color: AppColors.textPrimary,
-                      size: 22,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(child: nextButton),
-          ] else ...[
-            const Spacer(),
-            nextButton,
-          ],
+          const Spacer(),
+          nextButton,
         ],
       ),
     );

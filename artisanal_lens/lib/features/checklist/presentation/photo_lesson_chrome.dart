@@ -32,6 +32,14 @@ class PhotoLessonChrome extends StatelessWidget {
   List<int> get _seq =>
       isPanel ? const [0, 1, 2] : const [0, 1, 2, 3];
 
+  String _stepLabel(int index) {
+    const full = ['Product', 'Fibre', 'Frames', 'Shoot'];
+    const panel = ['Product', 'Frames', 'Shoot'];
+    final labels = isPanel ? panel : full;
+    if (index < 0 || index >= labels.length) return '';
+    return labels[index];
+  }
+
   void _defaultBack(BuildContext context) {
     if (context.canPop()) {
       context.pop();
@@ -134,23 +142,43 @@ class PhotoLessonChrome extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 2),
                 child: Row(
                   children: [
-                    for (final stepId in seq) ...[
+                    for (var i = 0; i < seq.length; i++) ...[
                       Expanded(
-                        child: AnimatedContainer(
-                          duration: AppMotion.select,
-                          height: 5,
-                          decoration: BoxDecoration(
-                            color: stepId <= currentStepId
-                                ? AppColors.primary
-                                : AppColors.surfaceMuted,
-                            borderRadius: BorderRadius.circular(99),
-                          ),
+                        child: Column(
+                          children: [
+                            AnimatedContainer(
+                              duration: AppMotion.select,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                color: seq[i] <= currentStepId
+                                    ? AppColors.primary
+                                    : AppColors.surfaceMuted,
+                                borderRadius: BorderRadius.circular(99),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              _stepLabel(i),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.navLabel.copyWith(
+                                fontSize: 10,
+                                fontWeight: seq[i] == currentStepId
+                                    ? FontWeight.w800
+                                    : FontWeight.w600,
+                                letterSpacing: 0.2,
+                                color: seq[i] <= currentStepId
+                                    ? AppColors.primary
+                                    : AppColors.textMuted,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      if (stepId != seq.last) const SizedBox(width: 4),
+                      if (i != seq.length - 1) const SizedBox(width: 8),
                     ],
                   ],
                 ),
@@ -340,96 +368,64 @@ class PhotoImageCard extends StatelessWidget {
   }
 }
 
-/// Floating back circle + wide CONTINUE pill.
+/// Wide CONTINUE pill. Back stays in the page header.
 class PhotoContinueBar extends StatelessWidget {
   const PhotoContinueBar({
     required this.enabled,
     required this.label,
-    required this.onBack,
     required this.onContinue,
     super.key,
   });
 
   final bool enabled;
   final String label;
-  final VoidCallback onBack;
   final VoidCallback onContinue;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-      child: Row(
-        children: [
-          Pressable(
-            elevate: true,
-            borderRadius: BorderRadius.circular(24),
-            child: Material(
-              color: AppColors.white,
-              elevation: 2,
-              shadowColor: AppColors.primary.withValues(alpha: 0.15),
-              shape: const CircleBorder(),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: onBack,
-                child: const SizedBox(
-                  width: 48,
-                  height: 48,
-                  child: Icon(
-                    Icons.arrow_back_rounded,
-                    color: AppColors.textPrimary,
-                    size: 22,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Pressable(
-              enabled: enabled,
-              elevate: true,
+      child: Pressable(
+        enabled: enabled,
+        elevate: true,
+        borderRadius: BorderRadius.circular(28),
+        child: AnimatedOpacity(
+          duration: AppMotion.select,
+          opacity: enabled ? 1 : 0.45,
+          child: Material(
+            color: AppColors.primary,
+            elevation: 4,
+            shadowColor: AppColors.primary.withValues(alpha: 0.35),
+            borderRadius: BorderRadius.circular(28),
+            child: InkWell(
               borderRadius: BorderRadius.circular(28),
-              child: AnimatedOpacity(
-                duration: AppMotion.select,
-                opacity: enabled ? 1 : 0.45,
-                child: Material(
-                  color: AppColors.primary,
-                  elevation: 4,
-                  shadowColor: AppColors.primary.withValues(alpha: 0.35),
-                  borderRadius: BorderRadius.circular(28),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(28),
-                    onTap: enabled ? onContinue : null,
-                    child: SizedBox(
-                      height: 48,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            label.toUpperCase(),
-                            style: AppTypography.labelLarge.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 13,
-                              letterSpacing: 0.6,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          const Icon(
-                            Icons.arrow_forward_rounded,
-                            color: AppColors.white,
-                            size: 18,
-                          ),
-                        ],
+              onTap: enabled ? onContinue : null,
+              child: SizedBox(
+                height: 48,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      label.toUpperCase(),
+                      style: AppTypography.labelLarge.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                        letterSpacing: 0.6,
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 6),
+                    const Icon(
+                      Icons.arrow_forward_rounded,
+                      color: AppColors.white,
+                      size: 18,
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

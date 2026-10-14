@@ -314,7 +314,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               if (_step == 0)
                 _StoryFooter(
                   canNext: _canGoHashtags,
-                  onBack: () => context.goNamed(AppRoute.home),
                   onNext: () => setState(() => _step = 1),
                 ),
             ],
@@ -1052,45 +1051,17 @@ class _HashtagsStep extends StatelessWidget {
 class _StoryFooter extends StatelessWidget {
   const _StoryFooter({
     required this.canNext,
-    required this.onBack,
     required this.onNext,
   });
 
   final bool canNext;
-  final VoidCallback onBack;
   final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-      child: Row(
-        children: [
-          Material(
-            color: AppColors.white,
-            shape: const CircleBorder(),
-            elevation: 1,
-            shadowColor: AppColors.primary.withValues(alpha: 0.1),
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              onTap: onBack,
-              child: Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: const Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Pressable(
+      child: Pressable(
               enabled: canNext,
               elevate: true,
               borderRadius: BorderRadius.circular(28),
@@ -1128,9 +1099,6 @@ class _StoryFooter extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
       ),
     );
   }

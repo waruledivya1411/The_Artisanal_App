@@ -197,7 +197,6 @@ class _InstagramSetupPageState extends ConsumerState<InstagramSetupPage> {
                       options: _usernameOptions(learnerName),
                       selected: _username,
                       onPick: (v) => setState(() => _username = v),
-                      onBack: () => context.goNamed(AppRoute.home),
                       onNext: () => setState(() => _step = 1),
                     ),
                   1 => _EditProfileStep(
@@ -510,14 +509,12 @@ class _UsernameStep extends StatelessWidget {
     required this.options,
     required this.selected,
     required this.onPick,
-    required this.onBack,
     required this.onNext,
   });
 
   final List<String> options;
   final String? selected;
   final ValueChanged<String> onPick;
-  final VoidCallback onBack;
   final VoidCallback onNext;
 
   @override
@@ -567,34 +564,7 @@ class _UsernameStep extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-          child: Row(
-            children: [
-              Pressable(
-                elevate: true,
-                borderRadius: BorderRadius.circular(14),
-                child: Material(
-                  color: AppColors.white,
-                  elevation: 1,
-                  shadowColor: AppColors.primary.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(14),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(14),
-                    onTap: onBack,
-                    child: const SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Icon(
-                        Icons.arrow_back_rounded,
-                        color: AppColors.textPrimary,
-                        size: 22,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Pressable(
+          child: Pressable(
                   enabled: selected != null,
                   elevate: true,
                   borderRadius: BorderRadius.circular(28),
@@ -635,9 +605,6 @@ class _UsernameStep extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
           ),
         ),
       ],
