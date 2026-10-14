@@ -8,6 +8,7 @@ import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
 import '../../../shared/motion/motion.dart';
+import '../../home/click_social_clusters.dart';
 import '../click_social_frames.dart';
 import '../../home/click_social_store.dart';
 import '../../../data/services/click_social_sync_service.dart';
@@ -103,6 +104,12 @@ class _PickFramesPageState extends State<PickFramesPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final cluster = clusterById(_clusterId);
+    final clusterLabel = _clusterId == null
+        ? ''
+        : (AppCopy.clusterPlace(l10n, _clusterId!).isEmpty
+            ? (cluster?.place ?? '')
+            : AppCopy.clusterPlace(l10n, _clusterId!));
 
     return PhotoLessonChrome(
       stepIndex: _isPanel ? 1 : 2,
@@ -117,6 +124,11 @@ class _PickFramesPageState extends State<PickFramesPage> {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
         children: [
+          PhotoLessonPicks(
+            clusterLabel: clusterLabel,
+            productLabel: AppCopy.csProductLabel(l10n, widget.productLabel),
+            materialLabel: AppCopy.csMaterialLabel(l10n, widget.materialId),
+          ),
           Text(
             l10n.csPickYourFrames,
             style: AppTypography.displayMedium.copyWith(
@@ -310,7 +322,7 @@ class _FramePickCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
-                              'Selected',
+                              AppLocalizations.of(context).csSelected,
                               style: AppTypography.navLabel.copyWith(
                                 fontSize: 9,
                                 fontWeight: FontWeight.w800,

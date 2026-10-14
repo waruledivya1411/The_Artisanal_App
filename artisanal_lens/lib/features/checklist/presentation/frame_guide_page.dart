@@ -87,6 +87,7 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
     final frame = _frame;
     if (frame == null) return const [];
     return frame.guideSteps(
+      l10n: AppLocalizations.of(context),
       isAssam: clickSocialIsAssam(_clusterId),
       isKal: clickSocialIsKal(
         clusterId: _clusterId,
@@ -100,9 +101,11 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
 
   /// HTML `guideShotName`: "FULL DISPLAY — SHOT 1 OF 5".
   String _overline(ClickSocialFrame frame) {
+    final l10n = AppLocalizations.of(context);
+    final name = AppCopy.csFrameName(l10n, frame.index);
     final at = _picks.indexOf(frame.index);
-    if (!_loaded || at == -1) return frame.name.toUpperCase();
-    return '${frame.name.toUpperCase()} — SHOT ${at + 1} OF ${_picks.length}';
+    if (!_loaded || at == -1) return name;
+    return '$name · ${at + 1}/${_picks.length}';
   }
 
   void _back() {
@@ -249,7 +252,9 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
               PhotoContinueBar(
                 enabled: true,
                 label:
-                    _step == steps.length - 1 ? 'TAKE THE SHOT' : 'NEXT',
+                    _step == steps.length - 1
+                        ? AppLocalizations.of(context).csTakeTheShot
+                        : AppLocalizations.of(context).csNextShort,
                 onBack: _back,
                 onContinue: () => _next(steps),
               ),
@@ -263,8 +268,9 @@ class _FrameGuidePageState extends ConsumerState<FrameGuidePage> {
   /// Label over the reference photograph — selected product + place.
   String _photoLabel() {
     final cluster = clusterById(_clusterId);
-    final product = (widget.productLabel ?? '').trim().isNotEmpty
-        ? widget.productLabel!.trim()
+    final l10n = AppLocalizations.of(context);
+    final product = AppCopy.csProductLabel(l10n, widget.productLabel).isNotEmpty
+        ? AppCopy.csProductLabel(l10n, widget.productLabel)
         : (cluster?.shortName ?? 'handloom');
     final place = (cluster?.place ?? '').split(',').first;
     if (place.isEmpty) return product.toUpperCase();

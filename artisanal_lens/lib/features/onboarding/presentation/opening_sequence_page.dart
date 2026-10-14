@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../l10n/app_copy.dart';
 
 /// Cold-start splash — Sutra mark on the app photography theme.
 ///
@@ -234,7 +235,7 @@ class _BrandSubtitle extends StatelessWidget {
       child: Transform.translate(
         offset: Offset(0, 8 * (1 - progress)),
         child: Text(
-          'SUTRA CRAFT ECOSYSTEM',
+          AppLocalizations.of(context).csSutraCraftEcosystem.toUpperCase(),
           textAlign: TextAlign.center,
           style: AppTypography.navLabel.copyWith(
             fontSize: 10.5,
@@ -258,7 +259,7 @@ class _SkipHint extends StatelessWidget {
     return Opacity(
       opacity: 0.75 * progress,
       child: Text(
-        'Tap anywhere to start',
+        AppLocalizations.of(context).csTapAnywhereToStart,
         textAlign: TextAlign.center,
         style: AppTypography.labelSmall.copyWith(
           fontSize: 12,

@@ -7,8 +7,8 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../l10n/app_copy.dart';
-import '../../../l10n/app_localizations.dart';
 import '../../../shared/motion/motion.dart';
+import '../../home/click_social_clusters.dart';
 import '../../home/shot_sets_controller.dart';
 import '../click_social_frames.dart';
 import 'photo_lesson_chrome.dart';
@@ -118,58 +118,13 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
         _ => 'assets/images/materials/$materialId.png',
       };
 
-  String _labelFor(AppLocalizations l10n, String materialId) =>
-      switch (materialId) {
-        'cotton' => _titleCase(l10n.csMaterialCotton),
-        'silk' => _titleCase(l10n.csMaterialSilk),
-        'mulberry' => 'Mulberry',
-        'zari' => 'Zari',
-        'eri' => 'Eri',
-        'tussar' => 'Tussar',
-        'tussar-gheecha' => 'Tussar Gheecha',
-        'muga' => 'Muga',
-        'muga-gheecha' => 'Muga Gheecha',
-        'spun-silk' => 'Spun Silk',
-        'spun-tussar' => 'Spun Tussar',
-        'korea-tussar' => 'Korea Tussar',
-        'liva-viscose' => 'Liva/Viscose',
-        'linen' => 'Linen',
-        'noil' => 'Noil',
-        _ => materialId,
-      };
-
-  String _blurbFor(String materialId) => switch (materialId) {
-        'cotton' => 'Matte finish · Soft woven texture',
-        'silk' => 'Lustrous finish · Rich colour & drape',
-        'mulberry' => 'Smooth cultivated silk',
-        'zari' => 'Metallic gold thread',
-        'eri' => 'Matte, wool-soft silk',
-        'tussar' => 'Honey-gold wild silk',
-        'tussar-gheecha' => 'Coarse slubby tussar',
-        'muga' => 'Natural gold of Assam',
-        'muga-gheecha' => 'Slubby golden muga',
-        'spun-silk' => 'Fine spun silk yarn',
-        'spun-tussar' => 'Spun wild-silk yarn',
-        'korea-tussar' => 'Pale, even wild silk',
-        'liva-viscose' => 'Fluid drape · Soft lustre',
-        'linen' => 'Crisp weave · Natural slub',
-        'noil' => 'Matte, nubby silk',
-        _ => '',
-      };
-
-  String _titleCase(String raw) {
-    final t = raw.trim().toLowerCase();
-    if (t.isEmpty) return raw;
-    return '${t[0].toUpperCase()}${t.substring(1)}';
-  }
-
   Widget _card(AppLocalizations l10n, String materialId) {
     return _MaterialChoiceCard(
-      title: _labelFor(l10n, materialId),
-      blurb: _blurbFor(materialId),
+      title: AppCopy.csMaterialLabel(l10n, materialId),
+      blurb: AppCopy.csMaterialBlurb(l10n, materialId),
       imageAsset: _assetFor(materialId),
       selected: _selected == materialId,
-      selectLabel: 'Select',
+      selectLabel: l10n.csSelect,
       onTap: () => setState(() => _selected = materialId),
     );
   }
@@ -185,9 +140,7 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
       if (categoryId == null || categoryId.isEmpty) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Missing product details. Go back and try again.'),
-          ),
+          SnackBar(content: Text(l10n.csMissingProductDetails)),
         );
         return;
       }
@@ -213,8 +166,9 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
     } catch (error, stack) {
       debugPrint('Material continue failed: $error\n$stack');
       if (!mounted) return;
+      final errL10n = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not continue: $error')),
+        SnackBar(content: Text(errL10n.csCouldNotContinue('$error'))),
       );
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -224,6 +178,16 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final cluster = clusterById(_clusterId);
+    final clusterLabel = _clusterId == null
+        ? ''
+        : (AppCopy.clusterPlace(l10n, _clusterId!).isEmpty
+            ? (cluster?.place ?? '')
+            : AppCopy.clusterPlace(l10n, _clusterId!));
+    final productLabel = AppCopy.csProductLabel(
+      l10n,
+      widget.productLabel ?? widget.productName,
+    );
 
     return PhotoLessonChrome(
       stepIndex: 1,
@@ -244,6 +208,10 @@ class _MaterialSelectionPageState extends ConsumerState<MaterialSelectionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            PhotoLessonPicks(
+              clusterLabel: clusterLabel,
+              productLabel: productLabel,
+            ),
             Text(
               l10n.csWhatIsItMadeOf,
               style: AppTypography.displayMedium.copyWith(

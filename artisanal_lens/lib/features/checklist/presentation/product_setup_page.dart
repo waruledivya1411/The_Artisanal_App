@@ -96,6 +96,12 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
     }
 
     final l10n = AppLocalizations.of(context);
+    final cluster = clusterById(_clusterId);
+    final clusterLabel = _clusterId == null
+        ? ''
+        : (AppCopy.clusterPlace(l10n, _clusterId!).isEmpty
+            ? (cluster?.place ?? '')
+            : AppCopy.clusterPlace(l10n, _clusterId!));
 
     return PhotoLessonChrome(
       stepIndex: 0,
@@ -112,26 +118,27 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            PhotoLessonPicks(clusterLabel: clusterLabel),
             Text(
               _pickingFurnishing
-                  ? 'Home furnishing'
-                  : l10n.csWhatArePhotographing,
+                  ? l10n.csHomeFurnishingTitle
+                  : l10n.csPickYourProduct,
               style: AppTypography.displayMedium.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
               ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              _pickingFurnishing
-                  ? 'Cushion, runners, or mats.'
-                  : l10n.csPickYourProduct,
-              style: AppTypography.labelSmall.copyWith(
-                fontSize: 12,
-                color: AppColors.textMuted,
+            if (_pickingFurnishing) ...[
+              const SizedBox(height: 4),
+              Text(
+                l10n.csHomeFurnishingSub,
+                style: AppTypography.labelSmall.copyWith(
+                  fontSize: 12,
+                  color: AppColors.textMuted,
+                ),
               ),
-            ),
+            ],
             const SizedBox(height: 10),
             Expanded(
               child: GridView.builder(
@@ -145,7 +152,7 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
                 itemBuilder: (context, i) {
                   final label = _cards[i];
                   return PhotoImageCard(
-                    label: label,
+                    label: AppCopy.csProductLabel(l10n, label),
                     imageAsset: productImageAsset(label),
                     selected: _selected == label,
                     onTap: () => setState(() {

@@ -92,7 +92,6 @@ flutter:
     - assets/images/templates/
     - assets/images/guides/
     - assets/images/materials/
-    - assets/images/materials/by_product/
     - assets/images/clusters/kamrup/
     - assets/images/clusters/kamrup/mekhela/cotton/woven/
     - assets/images/clusters/kamrup/mekhela/silk/woven/
@@ -106,6 +105,7 @@ flutter:
     - assets/images/clusters/kamrup/mekhela/spun-silk/woven/
     - assets/images/clusters/kamrup/mekhela/spun-tussar/woven/
     - assets/images/clusters/kamrup/sari/cotton/woven/
+    - assets/images/clusters/kamrup/sari/liva-viscose/woven/
     - assets/images/clusters/kamrup/sari/silk/woven/
     - assets/images/clusters/kamrup/sari/mulberry/woven/
     - assets/images/clusters/kamrup/sari/zari/woven/
@@ -161,8 +161,6 @@ flutter:
     - assets/images/clusters/venkatgiri/mekhela/silk/woven/
     - assets/images/clusters/venkatgiri/stole/cotton/woven/
     - assets/images/clusters/venkatgiri/stole/silk/woven/
-    - assets/images/techniques/
-    - assets/images/techniques/by_product/
     - assets/images/silk_types/
     - assets/images/cotton_types/
     - assets/images/wool_types/

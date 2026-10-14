@@ -14,6 +14,8 @@ Flutter app: [`artisanal_lens/`](artisanal_lens/). Package id:
 
 Repository: [github.com/waruledivya1411/The_Artisanal_App](https://github.com/waruledivya1411/The_Artisanal_App)
 
+Maintained by **Divya Warule** (`waruledivya1411`).
+
 ---
 
 ## Where it comes from
@@ -132,8 +134,23 @@ Folded stack · Scale reference · Styled flat lay · In-context lifestyle ·
 Hanging display · Macro fringe detail · The making · Framed display
 (framed is offered for wall panels).
 
-Thumbs live in `artisanal_lens/assets/images/guides/`. Core shots sit at the
-**bottom** of Pick frames as one grid — not a separate section.
+Pick-frames cards and the photo-list row thumbs use the **same listing
+photographs** for the chosen cluster, product and fibre:
+
+`artisanal_lens/assets/images/clusters/{cluster}/{product}/{material}/woven/`
+
+Filenames: `full_display.jpg`, `close-up_texture.jpg`, `draped_look.jpg`,
+`embroidery_and_border.jpg`, `folded_stack.jpg`, `hanging_display.jpg`.
+
+For **Sari**, draped look is the piece over a **chair** (folded seat pack +
+pallu), not worn on a person. Folded stack is **one** folded sari, border on
+the long edge — not a pile. Camera layout references for those two shots are
+`cs_cam_ref_2_sari_chair.jpg` and `cs_cam_ref_4_sari.jpg` under
+`assets/images/guides/`. Mekhela keeps the two-cloth chair drape and stacked
+fold.
+
+Core shots sit at the **bottom** of Pick frames as one grid — not a separate
+section.
 
 ### Live capture
 

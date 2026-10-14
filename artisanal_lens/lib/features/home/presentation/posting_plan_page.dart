@@ -20,16 +20,6 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
   String? _timeId; // m / e / a
   final Set<int> _days = {};
 
-  static const _dayMeta = [
-    (letter: 'M', abbr: 'MON', full: 'Monday'),
-    (letter: 'T', abbr: 'TUE', full: 'Tuesday'),
-    (letter: 'W', abbr: 'WED', full: 'Wednesday'),
-    (letter: 'T', abbr: 'THU', full: 'Thursday'),
-    (letter: 'F', abbr: 'FRI', full: 'Friday'),
-    (letter: 'S', abbr: 'SAT', full: 'Saturday'),
-    (letter: 'S', abbr: 'SUN', full: 'Sunday'),
-  ];
-
   bool get _timeCorrect => _timeId == 'e';
 
   String _timeMsg(AppLocalizations l10n) {
@@ -39,9 +29,29 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
 
   bool get _planReady => _timeCorrect && _days.length == 3;
 
-  String get _scheduleDays {
+  String _dayAbbr(AppLocalizations l10n, int i) => switch (i) {
+        0 => l10n.csDayMon,
+        1 => l10n.csDayTue,
+        2 => l10n.csDayWed,
+        3 => l10n.csDayThu,
+        4 => l10n.csDayFri,
+        5 => l10n.csDaySat,
+        _ => l10n.csDaySun,
+      };
+
+  String _dayFull(AppLocalizations l10n, int i) => switch (i) {
+        0 => l10n.csDayMonday,
+        1 => l10n.csDayTuesday,
+        2 => l10n.csDayWednesday,
+        3 => l10n.csDayThursday,
+        4 => l10n.csDayFriday,
+        5 => l10n.csDaySaturday,
+        _ => l10n.csDaySunday,
+      };
+
+  String _scheduleDays(AppLocalizations l10n) {
     final sorted = _days.toList()..sort();
-    return sorted.map((i) => _dayMeta[i].full).join(', ');
+    return sorted.map((i) => _dayFull(l10n, i)).join(', ');
   }
 
   Future<void> _finish() async {
@@ -97,7 +107,7 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Tap the primary active browsing window for craft lovers.',
+                      l10n.csPostingWindowHint,
                       style: AppTypography.labelSmall.copyWith(
                         fontSize: 13,
                         height: 1.4,
@@ -226,8 +236,8 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
                             if (i > 0) const SizedBox(width: 6),
                             Expanded(
                               child: _DayButton(
-                                letter: _dayMeta[i].letter,
-                                abbr: _dayMeta[i].abbr,
+                                letter: _dayAbbr(l10n, i).characters.first,
+                                abbr: _dayAbbr(l10n, i),
                                 selected: _days.contains(i),
                                 onTap: () {
                                   setState(() {
@@ -276,7 +286,7 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'YOUR POSTING SCHEDULE:',
+                                  l10n.csYourPostingSchedule.toUpperCase(),
                                   style: AppTypography.navLabel.copyWith(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w800,
@@ -298,7 +308,7 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      _scheduleDays,
+                                      _scheduleDays(l10n),
                                       style: AppTypography.labelLarge.copyWith(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
@@ -316,7 +326,7 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
                                       borderRadius: BorderRadius.circular(99),
                                     ),
                                     child: Text(
-                                      '7:00 – 10:00 PM',
+                                      l10n.csEveningWindow,
                                       style: AppTypography.labelSmall.copyWith(
                                         fontSize: 11.5,
                                         fontWeight: FontWeight.w700,
@@ -329,7 +339,7 @@ class _PostingPlanPageState extends State<PostingPlanPage> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              'Artisan Tip: Consistency beats volume. 3 quality posts a week builds trust with genuine buyers.',
+                              l10n.csArtisanTipSchedule,
                               style: AppTypography.labelSmall.copyWith(
                                 fontSize: 12.5,
                                 height: 1.4,
@@ -644,7 +654,9 @@ class _Footer extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'SAVE & CONTINUE',
+                            AppLocalizations.of(context)
+                                .csSaveAndContinue
+                                .toUpperCase(),
                             style: AppTypography.labelLarge.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w800,

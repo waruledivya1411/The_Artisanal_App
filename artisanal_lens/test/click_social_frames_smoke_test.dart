@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:artisanal_lens/features/checklist/click_social_frames.dart';
 import 'package:artisanal_lens/features/home/click_social_clusters.dart';
+import 'package:artisanal_lens/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+AppLocalizations get _en => lookupAppLocalizations(const Locale('en'));
 
 /// Every asset the frame catalog and its guides name, for one learner.
 Set<String> _assetsFor({
@@ -24,6 +28,7 @@ Set<String> _assetsFor({
       ),
     );
     final steps = frame.guideSteps(
+      l10n: _en,
       isAssam: clickSocialIsAssam(clusterId),
       isKal: clickSocialIsKal(clusterId: clusterId, technique: technique),
       clusterId: clusterId,
@@ -221,6 +226,17 @@ void main() {
     expect(cotton, contains('clusters/kamrup/sari/cotton/woven/full_display'));
     expect(muga, contains('clusters/kamrup/sari/muga/woven/hanging_display'));
     expect(zari, contains('clusters/kamrup/sari/zari/woven/embroidery_and_border'));
+    final liva = clickSocialFrames[2].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Sari',
+      materialId: 'liva-viscose',
+    );
+    expect(
+      liva,
+      contains('clusters/kamrup/sari/liva-viscose/woven/draped_look'),
+    );
     expect(cotton, isNot(contains('/shawl/')));
     expect(cotton, isNot(contains('/gamusa/')));
   });
@@ -583,6 +599,7 @@ void main() {
   test('every frame has at least one guide step', () {
     for (final frame in clickSocialFrames) {
       final steps = frame.guideSteps(
+        l10n: _en,
         isAssam: false,
         isKal: false,
         clusterId: null,
@@ -595,6 +612,7 @@ void main() {
 
   test('a Kalamkari learner gets their own galleries', () {
     final steps = clickSocialFrames[0].guideSteps(
+      l10n: _en,
       isAssam: false,
       isKal: true,
       clusterId: 'srikalahasti',
@@ -607,6 +625,7 @@ void main() {
 
   test('mekhela draped look uses the chair camera guide', () {
     final steps = clickSocialFrames[2].guideSteps(
+      l10n: _en,
       isAssam: true,
       isKal: false,
       clusterId: 'assam',
@@ -623,20 +642,61 @@ void main() {
     expect(File(clickSocialCameraRefAsset(2, chairDrape: true)).existsSync(), isTrue);
   });
 
-  test('sari draped look stays a worn person guide', () {
+  test('sari draped look uses the chair camera guide', () {
     final steps = clickSocialFrames[2].guideSteps(
+      l10n: _en,
       isAssam: true,
       isKal: false,
       clusterId: 'assam',
       productLabel: 'Sari',
       technique: 'WOVEN',
     );
-    expect(steps.first.title, 'Drape it on a person');
-    expect(steps.first.diagram, 'worn');
+    expect(steps.first.title, 'Drape it over a chair');
+    expect(steps.first.diagram, 'chair');
+    expect(steps.first.referenceAsset, contains('cs_cam_ref_2_sari_chair'));
+    expect(
+      asTemplate(
+        clickSocialFrames[2],
+        chairDrape: true,
+        sariChair: true,
+      ).referenceImageAsset,
+      clickSocialCameraRefAsset(2, chairDrape: true, sariChair: true),
+    );
+    expect(
+      File(clickSocialCameraRefAsset(2, chairDrape: true, sariChair: true))
+          .existsSync(),
+      isTrue,
+    );
+  });
+
+  test('sari folded stack uses the single-sari camera guide', () {
+    final steps = clickSocialFrames[4].guideSteps(
+      l10n: _en,
+      isAssam: true,
+      isKal: false,
+      clusterId: 'assam',
+      productLabel: 'Sari',
+      technique: 'WOVEN',
+    );
+    expect(steps.first.title, 'Fold one sari into a rectangle');
+    expect(steps.first.referenceAsset, contains('cs_cam_ref_4_sari'));
+    expect(
+      asTemplate(
+        clickSocialFrames[4],
+        chairDrape: true,
+        sariChair: true,
+      ).referenceImageAsset,
+      clickSocialCameraRefAsset(4, sariChair: true),
+    );
+    expect(
+      File(clickSocialCameraRefAsset(4, sariChair: true)).existsSync(),
+      isTrue,
+    );
   });
 
   test('an Assam learner gets the extra drape pages', () {
     final steps = clickSocialFrames[0].guideSteps(
+      l10n: _en,
       isAssam: true,
       isKal: false,
       clusterId: 'assam',
@@ -699,6 +759,15 @@ void main() {
     expect(template.skipsStyleStep, isTrue);
     expect(template.needsStyleStep, isFalse);
     expect(template.guidance, isNotEmpty);
+  });
+
+  test('checklist uses the listing thumb when one is passed in', () {
+    const listing =
+        'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.jpg';
+    expect(
+      asTemplate(clickSocialFrames[4], thumbAsset: listing).referenceImageAsset,
+      listing,
+    );
   });
 
   test('each listing frame has a camera-layout reference photo', () {

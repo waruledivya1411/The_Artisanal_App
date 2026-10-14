@@ -39,9 +39,17 @@ class CaptureReferencePage extends ConsumerWidget {
       productLabel: set?.productName,
       categoryId: set?.categoryId,
     );
+    final sariChair = clickSocialSariChairDrape(
+      productLabel: set?.productName,
+      categoryId: set?.categoryId,
+    );
     final asset = frameIndex == null
         ? template?.referenceImageAsset
-        : clickSocialCameraRefAsset(frameIndex, chairDrape: chairDrape);
+        : clickSocialCameraRefAsset(
+            frameIndex,
+            chairDrape: chairDrape,
+            sariChair: sariChair,
+          );
     final placement = frameIndex == null
         ? PlacementKind.fromTemplateId(template?.id)
         : PlacementKind.fromFrameIndex(frameIndex);
@@ -49,10 +57,16 @@ class CaptureReferencePage extends ConsumerWidget {
       l10n,
       placement,
       chairDrape: chairDrape,
+      sariChair: sariChair,
     );
     final lines = frameIndex == null
         ? const <String>[]
-        : AppCopy.csCameraLines(l10n, frameIndex, chairDrape: chairDrape);
+        : AppCopy.csCameraLines(
+            l10n,
+            frameIndex,
+            chairDrape: chairDrape,
+            sariChair: sariChair,
+          );
 
     return Scaffold(
       backgroundColor: AppColors.textPrimary,
@@ -124,6 +138,7 @@ class CaptureReferencePage extends ConsumerWidget {
                                 gridPath: template.gridPath,
                                 caption: hint,
                                 chairDrape: chairDrape,
+                                sariChair: sariChair,
                               ),
                           ],
                         ),

@@ -2242,7 +2242,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get csChange => 'CHANGE';
+  String get csChange => 'Change';
 
   @override
   String csLessonsDone(int done) {
@@ -2493,7 +2493,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csAddYourStory => 'Add your story — tap lines';
 
   @override
-  String get csHashtagsPick => 'Hashtags — pick 3 to 5 ';
+  String get csHashtagsPick => 'Hashtags — pick 3 to 5';
 
   @override
   String csHashtagCount(int count) {
@@ -2506,7 +2506,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get csCaptionPreview => 'CAPTION PREVIEW';
+  String get csCaptionPreview => 'Caption & feed preview';
 
   @override
   String get csCaptionPlaceholder =>
@@ -2571,25 +2571,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Spread them out. Buyers should see you all week.';
 
   @override
-  String get csDayMon => 'M';
+  String get csDayMon => 'Mon';
 
   @override
-  String get csDayTue => 'T';
+  String get csDayTue => 'Tue';
 
   @override
-  String get csDayWed => 'W';
+  String get csDayWed => 'Wed';
 
   @override
-  String get csDayThu => 'T';
+  String get csDayThu => 'Thu';
 
   @override
-  String get csDayFri => 'F';
+  String get csDayFri => 'Fri';
 
   @override
-  String get csDaySat => 'S';
+  String get csDaySat => 'Sat';
 
   @override
-  String get csDaySun => 'S';
+  String get csDaySun => 'Sun';
 
   @override
   String get csGoodRhythm =>
@@ -2725,7 +2725,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'This clears lesson badges and practice posts on this phone. Photos you already took stay in local storage.';
 
   @override
-  String get csCancel => 'CANCEL';
+  String get csCancel => 'Cancel';
 
   @override
   String get csClear => 'CLEAR';
@@ -3236,6 +3236,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csFrame8Name => 'Hanging display';
 
   @override
+  String get csFrame5Name => 'Scale reference';
+
+  @override
+  String get csFrame6Name => 'Styled flat lay';
+
+  @override
+  String get csFrame7Name => 'In-context lifestyle';
+
+  @override
+  String get csFrame9Name => 'Macro fringe detail';
+
+  @override
+  String get csFrame10Name => 'The making';
+
+  @override
+  String get csFrame11Name => 'Framed display';
+
+  @override
   String get csFrame0Content => 'Colour, pattern, material';
 
   @override
@@ -3252,6 +3270,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csFrame8Content => 'Drape, symmetry, fringe';
+
+  @override
+  String get csFrame5Content => 'Size, proportion, length';
+
+  @override
+  String get csFrame6Content => 'Styling, colour, use-case';
+
+  @override
+  String get csFrame7Content => 'Application, ambience';
+
+  @override
+  String get csFrame9Content => 'Hand-finishing, craft';
+
+  @override
+  String get csFrame10Content => 'Process, hands, tools';
+
+  @override
+  String get csFrame11Content => 'Presentation, wall-ready';
 
   @override
   String get csCam0a => 'Whole piece inside the dashed box';
@@ -3292,6 +3328,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Chair back near the top third · hem near the bottom';
 
   @override
+  String get csCam2SariChairA =>
+      'Drape the sari over the chair inside the dashed box';
+
+  @override
+  String get csCam2SariChairB =>
+      'Folded piece on the seat · pallu falls to the floor';
+
+  @override
+  String get csCam2SariChairC =>
+      'Chair back near the top third · hem near the bottom';
+
+  @override
   String get csCam3a => 'Put the motif in the small window';
 
   @override
@@ -3308,6 +3356,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csCam4c => 'Folded edge faces the camera';
+
+  @override
+  String get csCam4SariA => 'One folded sari inside the dashed box';
+
+  @override
+  String get csCam4SariB => 'Shoot from above · edges parallel to the box';
+
+  @override
+  String get csCam4SariC => 'Border on the long edge, facing the camera';
 
   @override
   String get csCam8a => 'Hang on the centre vertical line';
@@ -3334,11 +3391,669 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csHintDrapeChair => 'Chair back, folds and hem inside this box';
 
   @override
+  String get csHintDrapeSariChair =>
+      'Chair, folded seat piece and pallu inside this box';
+
+  @override
   String get csHintBorder => 'Put the border / motif in this window';
 
   @override
   String get csHintFolded => 'Lay the folded stack in this box';
 
   @override
+  String get csHintFoldedSari =>
+      'One folded sari in this box — border on the side';
+
+  @override
   String get csHintHanging => 'Hang the piece in the centre, under the rod';
+
+  @override
+  String get csSelect => 'Select';
+
+  @override
+  String get csNextShort => 'Next';
+
+  @override
+  String get csTakeTheShot => 'Take the shot';
+
+  @override
+  String get csTapToOpenCamera => 'Tap to open camera';
+
+  @override
+  String get csSearchLanguage => 'Search language or dialect...';
+
+  @override
+  String get csFilterClusters => 'Filter clusters or states...';
+
+  @override
+  String get csHomeFurnishingTitle => 'Home furnishing';
+
+  @override
+  String get csHomeFurnishingSub => 'Cushion, runners, or mats.';
+
+  @override
+  String get csMissingProductDetails =>
+      'Missing product details. Go back and try again.';
+
+  @override
+  String csCouldNotContinue(String error) {
+    return 'Could not continue: $error';
+  }
+
+  @override
+  String get csYourName => 'Your name';
+
+  @override
+  String get csChangeName => 'Change name';
+
+  @override
+  String get csSave => 'Save';
+
+  @override
+  String get csUpdate => 'Update';
+
+  @override
+  String get csEnterYourName => 'Enter your name.';
+
+  @override
+  String csSavedAs(String name) {
+    return 'Saved as $name.';
+  }
+
+  @override
+  String get csSutraCraftEcosystem => 'Sutra craft ecosystem';
+
+  @override
+  String get csTapAnywhereToStart => 'Tap anywhere to start';
+
+  @override
+  String get csProductGamusa => 'Gamusa';
+
+  @override
+  String get csProductShawl => 'Shawl';
+
+  @override
+  String get csProductJodKapur => 'Jod Kapur';
+
+  @override
+  String get csProductYardages => 'Yardages';
+
+  @override
+  String get csProductYardage => 'Yardage';
+
+  @override
+  String get csProductHomeFurnishing => 'Home Furnishing';
+
+  @override
+  String get csProductCushion => 'Cushion';
+
+  @override
+  String get csProductRunners => 'Runners';
+
+  @override
+  String get csProductMats => 'Mats';
+
+  @override
+  String get csProductChadar => 'Chadar';
+
+  @override
+  String get csProductDhoti => 'Dhoti';
+
+  @override
+  String get csProductJodo => 'Jodo';
+
+  @override
+  String get csProductMuffler => 'Muffler';
+
+  @override
+  String get csProductDupatta => 'Dupatta';
+
+  @override
+  String get csProductDupattas => 'Dupattas';
+
+  @override
+  String get csProductAngvastram => 'Angvastram set';
+
+  @override
+  String get csProductUttaraya => 'Uttaraya';
+
+  @override
+  String get csProductHandkerchief => 'Handkerchief';
+
+  @override
+  String get csProductMekhelaChador => 'Mekhela Chador';
+
+  @override
+  String get csProductTableCloth => 'Table Cloth';
+
+  @override
+  String get csProductNagaSlingBags => 'Naga Sling Bags';
+
+  @override
+  String get csProductTableRunners => 'Table Runners';
+
+  @override
+  String get csProductNagaShawl => 'Naga Shawl';
+
+  @override
+  String get csProductNagaWraparound => 'Naga Wraparound';
+
+  @override
+  String get csProductAccessories => 'Accessories';
+
+  @override
+  String get csProductStoleDupatta => 'Stole / Dupatta';
+
+  @override
+  String get csFibreMulberry => 'Mulberry';
+
+  @override
+  String get csFibreZari => 'Zari';
+
+  @override
+  String get csFibreEri => 'Eri';
+
+  @override
+  String get csFibreTussar => 'Tussar';
+
+  @override
+  String get csFibreTussarGheecha => 'Tussar Gheecha';
+
+  @override
+  String get csFibreMuga => 'Muga';
+
+  @override
+  String get csFibreMugaGheecha => 'Muga Gheecha';
+
+  @override
+  String get csFibreSpunSilk => 'Spun Silk';
+
+  @override
+  String get csFibreSpunTussar => 'Spun Tussar';
+
+  @override
+  String get csFibreKoreaTussar => 'Korea Tussar';
+
+  @override
+  String get csFibreLivaViscose => 'Liva/Viscose';
+
+  @override
+  String get csFibreLinen => 'Linen';
+
+  @override
+  String get csFibreNoil => 'Noil';
+
+  @override
+  String get csBlurbCotton => 'Matte finish · Soft woven texture';
+
+  @override
+  String get csBlurbSilk => 'Lustrous finish · Rich colour & drape';
+
+  @override
+  String get csBlurbMulberry => 'Smooth cultivated silk';
+
+  @override
+  String get csBlurbZari => 'Metallic gold thread';
+
+  @override
+  String get csBlurbEri => 'Matte, wool-soft silk';
+
+  @override
+  String get csBlurbTussar => 'Honey-gold wild silk';
+
+  @override
+  String get csBlurbTussarGheecha => 'Coarse slubby tussar';
+
+  @override
+  String get csBlurbMuga => 'Natural gold of Assam';
+
+  @override
+  String get csBlurbMugaGheecha => 'Slubby golden muga';
+
+  @override
+  String get csBlurbSpunSilk => 'Fine spun silk yarn';
+
+  @override
+  String get csBlurbSpunTussar => 'Spun wild-silk yarn';
+
+  @override
+  String get csBlurbKoreaTussar => 'Pale, even wild silk';
+
+  @override
+  String get csBlurbLivaViscose => 'Fluid drape · Soft lustre';
+
+  @override
+  String get csBlurbLinen => 'Crisp weave · Natural slub';
+
+  @override
+  String get csBlurbNoil => 'Matte, nubby silk';
+
+  @override
+  String get csCapture => 'Capture';
+
+  @override
+  String get csGuideCta => 'Guide';
+
+  @override
+  String get csHowtoSteps => 'How-to steps';
+
+  @override
+  String get csGoodExamples => 'Good examples';
+
+  @override
+  String get csGoodExample => 'Good example';
+
+  @override
+  String get csKalExSub => 'Kalamkari, photographed well';
+
+  @override
+  String get csG0HangTitle => 'Hang the whole piece';
+
+  @override
+  String get csG0HangSub => 'Bamboo rod · plain wall behind';
+
+  @override
+  String get csG0ThreeTitle => 'Three ways to style it';
+
+  @override
+  String get csG0ThreeSub =>
+      'Dress form · pick one look and keep it for every product';
+
+  @override
+  String get csG0ThreeCaption =>
+      'Mekhela sador on a dress form — full display, three drape styles.';
+
+  @override
+  String get csG0AlignTitle => 'Align with the gridlines';
+
+  @override
+  String get csG0AlignSub => 'Edges along the lines · borders straight';
+
+  @override
+  String get csG0ExSub =>
+      'Whole piece in frame — on a form, a chair, or spread flat';
+
+  @override
+  String get csG1SpanTitle => 'One hand-span away';
+
+  @override
+  String get csG1SpanSub =>
+      'Hold the phone 15–30 cm above the fabric — close enough to count threads';
+
+  @override
+  String get csG1RakeTitle => 'Rake the light across';
+
+  @override
+  String get csG1RakeSub =>
+      'Light from one side, low at about 30° — the tiny shadows make the weave stand up';
+
+  @override
+  String get csG1WindowTitle => 'Like this — window light';
+
+  @override
+  String get csG1WindowSub => 'Flat on a mat · light raking in from one side';
+
+  @override
+  String get csG1WindowCaption =>
+      'See the shadows in the tassels and motifs — that is the 30° raking light doing the work.';
+
+  @override
+  String get csG1FrameTitle => 'Frame the detail';
+
+  @override
+  String get csG1FrameSub => 'Fill the centre box · edges parallel';
+
+  @override
+  String get csG1ExSub => 'So close you can count the threads';
+
+  @override
+  String get csG2ChairTitle => 'Drape it over a chair';
+
+  @override
+  String get csG2ChairSub => 'Both cloths over the seat · folds to the floor';
+
+  @override
+  String get csG2ChairLikeTitle => 'Like this — on a chair';
+
+  @override
+  String get csG2ChairLikeSub => 'Show how the two cloths fall and fold';
+
+  @override
+  String get csG2ChairCaption =>
+      'Mekhela sador draped on a chair — folds, border and hem.';
+
+  @override
+  String get csG2ChairExSub => 'Over a chair — folds and hem in frame';
+
+  @override
+  String get csG2SariChairSub =>
+      'Over the chair · folded piece on the seat · pallu to the floor';
+
+  @override
+  String get csG2SariChairLikeSub =>
+      'Show the fall, the fold on the seat, and the border';
+
+  @override
+  String get csG2SariChairCaption =>
+      'Sari draped on a chair — seat fold, pallu and border.';
+
+  @override
+  String get csG2SariChairExSub => 'Over a chair — pallu and hem in frame';
+
+  @override
+  String get csG2PersonTitle => 'Drape it on a person';
+
+  @override
+  String get csG2PersonSub => 'Worn, full length · pallu over the shoulder';
+
+  @override
+  String get csG2PersonLikeTitle => 'Like this — on a person';
+
+  @override
+  String get csG2PersonLikeSub => 'Show how the cloth sits when worn';
+
+  @override
+  String get csG2PersonCaption =>
+      'Sari draped on a person — pallu, pleats and fall.';
+
+  @override
+  String get csG2PersonExSub => 'Worn on a person — pleats and pallu readable';
+
+  @override
+  String get csG3FindTitle => 'Find the border';
+
+  @override
+  String get csG3MotifTitle => 'Motif on a crossing point';
+
+  @override
+  String get csG3MotifSub => 'Use the grid — motif where lines cross';
+
+  @override
+  String get csG3ExSub => 'Border filling the frame, folds giving it depth';
+
+  @override
+  String get csG4MidTitle => 'Fold from the middle';
+
+  @override
+  String get csG4MidSub => 'Flat on the floor · fold in half';
+
+  @override
+  String get csG4CornerTitle => 'Fold a corner back';
+
+  @override
+  String get csG4CornerSub => 'The folded edge shows the thickness';
+
+  @override
+  String get csG4ExSub => 'Folded stacks — layers show body and weight';
+
+  @override
+  String get csG4SariTitle => 'Fold one sari into a rectangle';
+
+  @override
+  String get csG4SariSub => 'One piece only · lay it on a table';
+
+  @override
+  String get csG4SariBorderTitle => 'Keep the border on the long edge';
+
+  @override
+  String get csG4SariBorderSub => 'Border faces the camera · edges parallel';
+
+  @override
+  String get csG4SariCaption =>
+      'One folded sari — rectangle, border on the side.';
+
+  @override
+  String get csG4SariExSub => 'One sari, folded flat — not a stack';
+
+  @override
+  String get csG5ObjTitle => 'Add a familiar object';
+
+  @override
+  String get csG5ObjSub =>
+      'A basket, coin or pen beside the piece shows true size';
+
+  @override
+  String get csG5CrossTitle => 'Object on a crossing point';
+
+  @override
+  String get csG5CrossSub =>
+      'Piece fills the frame · reference on a thirds line';
+
+  @override
+  String get csG6FlatTitle => 'Lay it flat, style around it';
+
+  @override
+  String get csG6FlatSub =>
+      'Fold neatly · add 1–2 props: flowers, a cup, thread';
+
+  @override
+  String get csG6AboveTitle => 'Shoot from directly above';
+
+  @override
+  String get csG6AboveSub =>
+      'Keep the piece centred and edges parallel to the frame';
+
+  @override
+  String get csG6ExSub => 'Flat lay with a prop in window light';
+
+  @override
+  String get csG7UseTitle => 'Show it in use';
+
+  @override
+  String get csG7UseSub => 'Worn, on a bed, on a table — where it lives';
+
+  @override
+  String get csG7EyeTitle => 'Eye level, thirds grid';
+
+  @override
+  String get csG7EyeSub => 'Camera at eye height · subject on a thirds line';
+
+  @override
+  String get csG7ExSub => 'Draped over a chair — at home in a room';
+
+  @override
+  String get csG8HangTitle => 'Hang it dead centre';
+
+  @override
+  String get csG8HangSub => 'Rod or hanger · piece on the center vertical axis';
+
+  @override
+  String get csG8FringeTitle => 'Let the fringe hang free';
+
+  @override
+  String get csG8FringeSub =>
+      'Straighten the tassels · keep both edges symmetric';
+
+  @override
+  String get csG9MacroTitle => 'Go macro on the fringe';
+
+  @override
+  String get csG9MacroSub =>
+      'As close as your phone will focus · tassels and knots';
+
+  @override
+  String get csG9DiagTitle => 'Use the diagonal';
+
+  @override
+  String get csG9DiagSub => 'Run the fringe along the diagonal line';
+
+  @override
+  String get csG9ExSub => 'Border and finishing, thread-close';
+
+  @override
+  String get csG10HandsTitle => 'Show your hands at work';
+
+  @override
+  String get csG10HandsSub =>
+      'Kalam, brush or shuttle in motion · window light on the work';
+
+  @override
+  String get csG10StoryTitle => 'Buyers pay for the story';
+
+  @override
+  String get csG10StorySub =>
+      'A making photo proves it is handmade — post one for every piece';
+
+  @override
+  String get csG11WallTitle => 'Hang it straight, eye height';
+
+  @override
+  String get csG11WallSub =>
+      'On a plain wall · daylight from the side of the room, never flash';
+
+  @override
+  String get csG11SquareTitle => 'Shoot square-on';
+
+  @override
+  String get csG11SquareSub =>
+      'Phone parallel to the wall · panel edges parallel to the frame lines';
+
+  @override
+  String get csG11RoomTitle => 'Show it in a room';
+
+  @override
+  String get csG11RoomSub =>
+      'Framed, or on a scroll rod — buyers see it in their own home';
+
+  @override
+  String get csPracticeSandbox =>
+      'Safe practice sandbox. Test your photos, stories & hashtags before posting to live Instagram.';
+
+  @override
+  String get csCreatePracticePost => 'Create practice post';
+
+  @override
+  String get csNoPracticePosts => 'No practice posts yet';
+
+  @override
+  String get csNoPracticePostsBody =>
+      'Create a practice post from Lesson 03 to preview it here.';
+
+  @override
+  String get csCreateFirstPost => 'Create your first post';
+
+  @override
+  String get csAddCraftPhoto => 'Add a craft photo';
+
+  @override
+  String get csReplacePhoto => 'Replace photo';
+
+  @override
+  String get csVerifiedLesson03 =>
+      'Verified with Lesson 03 tags • Ready for Instagram';
+
+  @override
+  String get csYourCraftCluster => 'Your craft cluster';
+
+  @override
+  String get csAssamSilkCluster => 'Assam silk cluster';
+
+  @override
+  String get csNagalandCraftCluster => 'Nagaland craft cluster';
+
+  @override
+  String get csYourCraft => 'Your craft';
+
+  @override
+  String get csDayMonday => 'Monday';
+
+  @override
+  String get csDayTuesday => 'Tuesday';
+
+  @override
+  String get csDayWednesday => 'Wednesday';
+
+  @override
+  String get csDayThursday => 'Thursday';
+
+  @override
+  String get csDayFriday => 'Friday';
+
+  @override
+  String get csDaySaturday => 'Saturday';
+
+  @override
+  String get csDaySunday => 'Sunday';
+
+  @override
+  String get csPostingWindowHint =>
+      'Tap the primary active browsing window for craft lovers.';
+
+  @override
+  String get csYourPostingSchedule => 'Your posting schedule:';
+
+  @override
+  String get csArtisanTipSchedule =>
+      'Artisan tip: Consistency beats volume. 3 quality posts a week builds trust with genuine buyers.';
+
+  @override
+  String get csSaveAndContinue => 'Save & continue';
+
+  @override
+  String get csChooseStoryLines =>
+      'Choose the story lines that tell your craft journey.';
+
+  @override
+  String get csAddStoryLines => 'Add story lines on the previous step.';
+
+  @override
+  String get csStorySelected => 'Story selected';
+
+  @override
+  String get csHashtagsHelp =>
+      'Choose relevant craft tags to help buyers and craft lovers discover your work.';
+
+  @override
+  String get csLiveSimulation => 'Live simulation';
+
+  @override
+  String get csJustNowPractice => 'Just now  •  Antaran practice feed';
+
+  @override
+  String get csNextHashtagsPreview => 'Next — hashtags & preview';
+
+  @override
+  String get csEdit => 'Edit';
+
+  @override
+  String get csEveningWindow => '7:00 – 10:00 PM';
+
+  @override
+  String csNSelected(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String csTagsOf5Selected(int count) {
+    return '$count / 5 selected';
+  }
+
+  @override
+  String csAntaranArtisanPlace(String place) {
+    return 'Antaran artisan • $place';
+  }
+
+  @override
+  String get csDetailTipAssam =>
+      'Close on the extra-weft buta of the pallu — that is the handwork';
+
+  @override
+  String get csDetailTipKal =>
+      'Close on one motif — show the free hand of the kalam pen';
+
+  @override
+  String get csDetailTipManiabandha =>
+      'Close on a motif edge — the soft feathering is proof of true ikat';
+
+  @override
+  String get csDetailTipVenkatgiri =>
+      'Close on the zari border at a slight angle so the gold glints';
+
+  @override
+  String get csDetailTipGopalpur =>
+      'Close on the gheecha texture — the slubs say real wild silk';
+
+  @override
+  String get csDetailTipNagaland =>
+      'Close on the motif band — every stripe carries a meaning';
 }

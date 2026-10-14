@@ -345,7 +345,7 @@ class _Header extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  '${l10n.csLesson02Overline} • INSTAGRAM SETUP',
+                  l10n.csLesson02Overline,
                   textAlign: TextAlign.center,
                   style: AppTypography.navLabel.copyWith(
                     fontSize: 10,
@@ -1484,6 +1484,7 @@ class _ProfessionalSwitchStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final initialSource =
         displayName.trim().isNotEmpty ? displayName : username;
     final initial = initialSource.trim().isEmpty
@@ -1508,7 +1509,7 @@ class _ProfessionalSwitchStep extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'LESSON 02  •  INSTAGRAM SETUP',
+                      l10n.csLesson02Overline,
                       textAlign: TextAlign.center,
                       style: AppTypography.navLabel.copyWith(
                         fontSize: 10,

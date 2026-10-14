@@ -2235,7 +2235,7 @@ class AppLocalizationsTe extends AppLocalizations {
   }
 
   @override
-  String get csChange => 'మార్చు';
+  String get csChange => 'మార్చండి';
 
   @override
   String csLessonsDone(int done) {
@@ -2490,7 +2490,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csAddYourStory => 'మీ కథనాన్ని జోడించండి — లైన్లను నొక్కండి';
 
   @override
-  String get csHashtagsPick => 'హ్యాష్‌ట్యాగ్‌లు - 3 నుండి 5 వరకు ఎంచుకోండి';
+  String get csHashtagsPick => 'హ్యాష్‌ట్యాగ్‌లు — 3 నుంచి 5 ఎంచుకోండి';
 
   @override
   String csHashtagCount(int count) {
@@ -2503,7 +2503,7 @@ class AppLocalizationsTe extends AppLocalizations {
   }
 
   @override
-  String get csCaptionPreview => 'శీర్షిక ప్రివ్యూ';
+  String get csCaptionPreview => 'క్యాప్షన్ & ఫీడ్ ప్రివ్యూ';
 
   @override
   String get csCaptionPlaceholder =>
@@ -2571,25 +2571,25 @@ class AppLocalizationsTe extends AppLocalizations {
       'వాటిని విస్తరించండి. కొనుగోలుదారులు వారంతా మిమ్మల్ని చూడాలి.';
 
   @override
-  String get csDayMon => 'ఎం';
+  String get csDayMon => 'సోమ';
 
   @override
-  String get csDayTue => 'టి';
+  String get csDayTue => 'మంగళ';
 
   @override
-  String get csDayWed => 'W';
+  String get csDayWed => 'బుధ';
 
   @override
-  String get csDayThu => 'టి';
+  String get csDayThu => 'గురు';
 
   @override
-  String get csDayFri => 'ఎఫ్';
+  String get csDayFri => 'శుక్ర';
 
   @override
-  String get csDaySat => 'ఎస్';
+  String get csDaySat => 'శని';
 
   @override
-  String get csDaySun => 'ఎస్';
+  String get csDaySun => 'ఆది';
 
   @override
   String get csGoodRhythm =>
@@ -2728,7 +2728,7 @@ class AppLocalizationsTe extends AppLocalizations {
       'ఇది ఈ ఫోన్‌లో పాఠ్య బ్యాడ్జ్‌లు మరియు అభ్యాస పోస్ట్‌లను క్లియర్ చేస్తుంది. మీరు ఇప్పటికే తీసిన ఫోటోలు స్థానిక నిల్వలో ఉంటాయి.';
 
   @override
-  String get csCancel => 'రద్దు చేయి';
+  String get csCancel => 'రద్దు';
 
   @override
   String get csClear => 'క్లియర్';
@@ -3238,6 +3238,24 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csFrame8Name => 'వేలాడదీసిన ప్రదర్శన';
 
   @override
+  String get csFrame5Name => 'పరిమాణ సూచన';
+
+  @override
+  String get csFrame6Name => 'స్టైల్డ్ ఫ్లాట్ లే';
+
+  @override
+  String get csFrame7Name => 'జీవనశైలి సందర్భం';
+
+  @override
+  String get csFrame9Name => 'మాక్రో ఫ్రింజ్';
+
+  @override
+  String get csFrame10Name => 'తయారీ';
+
+  @override
+  String get csFrame11Name => 'ఫ్రేమ్‌లో ప్రదర్శన';
+
+  @override
   String get csFrame0Content => 'రంగు, నమూనా, పదార్థం';
 
   @override
@@ -3254,6 +3272,24 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get csFrame8Content => 'డ్రేప్, సమానత, ఫ్రింజ్';
+
+  @override
+  String get csFrame5Content => 'పరిమాణం, నిష్పత్తి, పొడవు';
+
+  @override
+  String get csFrame6Content => 'స్టైలింగ్, రంగు, వాడుక';
+
+  @override
+  String get csFrame7Content => 'వాడుక, వాతావరణం';
+
+  @override
+  String get csFrame9Content => 'చేతి పూర్తి, క్రాఫ్ట్';
+
+  @override
+  String get csFrame10Content => 'ప్రక్రియ, చేతులు, పనిముట్లు';
+
+  @override
+  String get csFrame11Content => 'ప్రదర్శన, గోడకు సిద్ధం';
 
   @override
   String get csCam0a => 'మొత్తం వస్త్రం డాష్ బాక్స్ లోపల';
@@ -3293,6 +3329,15 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csCam2ChairC => 'కుర్చీ వీపు పై మూడవ భాగంలో · హేమ్ దిగువన';
 
   @override
+  String get csCam2SariChairA => 'చీరను కుర్చీపై వేసి డాష్ బాక్స్‌లో ఉంచండి';
+
+  @override
+  String get csCam2SariChairB => 'సీటుపై మడత · పల్లు నేల వరకు';
+
+  @override
+  String get csCam2SariChairC => 'కుర్చీ వీపు పై మూడవ భాగంలో · హేమ్ దిగువన';
+
+  @override
   String get csCam3a => 'మోటిఫ్‌ను చిన్న కిటికీలో ఉంచండి';
 
   @override
@@ -3309,6 +3354,15 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get csCam4c => 'మడత అంచు కెమెరా వైపు';
+
+  @override
+  String get csCam4SariA => 'ఒక మడత చీర డాష్ బాక్స్‌లో ఉండాలి';
+
+  @override
+  String get csCam4SariB => 'పైనుంచి తీయండి · అంచులు బాక్స్‌కు సమాంతరం';
+
+  @override
+  String get csCam4SariC => 'బోర్డర్ పొడవు అంచున, కెమెరా వైపు';
 
   @override
   String get csCam8a => 'మధ్య నిలువు రేఖపై వేలాడదీయండి';
@@ -3335,11 +3389,653 @@ class AppLocalizationsTe extends AppLocalizations {
   String get csHintDrapeChair => 'కుర్చీ వీపు, మడతలు, హేమ్ ఈ బాక్స్‌లో';
 
   @override
+  String get csHintDrapeSariChair => 'కుర్చీ, సీటు మడత, పల్లు ఈ బాక్స్‌లో';
+
+  @override
   String get csHintBorder => 'బోర్డర్ / మోటిఫ్ ఈ కిటికీలో ఉంచండి';
 
   @override
   String get csHintFolded => 'మడతల స్టాక్‌ను ఈ బాక్స్‌లో ఉంచండి';
 
   @override
+  String get csHintFoldedSari => 'ఒక మడత చీర ఈ బాక్స్‌లో — బోర్డర్ పక్కన';
+
+  @override
   String get csHintHanging => 'వస్త్రాన్ని మధ్యలో, రాడ్ కింద వేలాడదీయండి';
+
+  @override
+  String get csSelect => 'ఎంచుకోండి';
+
+  @override
+  String get csNextShort => 'తర్వాత';
+
+  @override
+  String get csTakeTheShot => 'ఫోటో తీయండి';
+
+  @override
+  String get csTapToOpenCamera => 'కెమెరా తెరవడానికి నొక్కండి';
+
+  @override
+  String get csSearchLanguage => 'భాష లేదా మాండలికం వెతకండి...';
+
+  @override
+  String get csFilterClusters => 'క్లస్టర్లు లేదా రాష్ట్రాలు ఫిల్టర్ చేయండి...';
+
+  @override
+  String get csHomeFurnishingTitle => 'ఇంటి అలంకరణ';
+
+  @override
+  String get csHomeFurnishingSub => 'కుషన్, రన్నర్లు లేదా మ్యాట్స్.';
+
+  @override
+  String get csMissingProductDetails =>
+      'ఉత్పత్తి వివరాలు లేవు. వెనక్కి వెళ్లి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String csCouldNotContinue(String error) {
+    return 'కొనసాగించలేకపోయాం: $error';
+  }
+
+  @override
+  String get csYourName => 'మీ పేరు';
+
+  @override
+  String get csChangeName => 'పేరు మార్చండి';
+
+  @override
+  String get csSave => 'సేవ్ చేయండి';
+
+  @override
+  String get csUpdate => 'నవీకరించండి';
+
+  @override
+  String get csEnterYourName => 'మీ పేరు రాయండి.';
+
+  @override
+  String csSavedAs(String name) {
+    return '$nameగా సేవ్ అయింది.';
+  }
+
+  @override
+  String get csSutraCraftEcosystem => 'సూత్ర క్రాఫ్ట్ వ్యవస్థ';
+
+  @override
+  String get csTapAnywhereToStart => 'ప్రారంభించడానికి ఎక్కడైనా నొక్కండి';
+
+  @override
+  String get csProductGamusa => 'గముసా';
+
+  @override
+  String get csProductShawl => 'షాల్';
+
+  @override
+  String get csProductJodKapur => 'జోడ్ కపుర్';
+
+  @override
+  String get csProductYardages => 'యార్డేజెస్';
+
+  @override
+  String get csProductYardage => 'యార్డేజ్';
+
+  @override
+  String get csProductHomeFurnishing => 'ఇంటి అలంకరణ';
+
+  @override
+  String get csProductCushion => 'కుషన్';
+
+  @override
+  String get csProductRunners => 'రన్నర్లు';
+
+  @override
+  String get csProductMats => 'మ్యాట్స్';
+
+  @override
+  String get csProductChadar => 'చాదర్';
+
+  @override
+  String get csProductDhoti => 'ధోవతి';
+
+  @override
+  String get csProductJodo => 'జోడో';
+
+  @override
+  String get csProductMuffler => 'మఫ్లర్';
+
+  @override
+  String get csProductDupatta => 'దుపట్టా';
+
+  @override
+  String get csProductDupattas => 'దుపట్టాలు';
+
+  @override
+  String get csProductAngvastram => 'అంగవస్త్రం సెట్';
+
+  @override
+  String get csProductUttaraya => 'ఉత్తరాయ';
+
+  @override
+  String get csProductHandkerchief => 'చేతి రుమాలు';
+
+  @override
+  String get csProductMekhelaChador => 'మేఖల చాదర్';
+
+  @override
+  String get csProductTableCloth => 'టేబుల్ క్లాత్';
+
+  @override
+  String get csProductNagaSlingBags => 'నాగా స్లింగ్ బ్యాగులు';
+
+  @override
+  String get csProductTableRunners => 'టేబుల్ రన్నర్లు';
+
+  @override
+  String get csProductNagaShawl => 'నాగా షాల్';
+
+  @override
+  String get csProductNagaWraparound => 'నాగా రాప్‌అరౌండ్';
+
+  @override
+  String get csProductAccessories => 'యాక్సెసరీస్';
+
+  @override
+  String get csProductStoleDupatta => 'స్టోల్ / దుపట్టా';
+
+  @override
+  String get csFibreMulberry => 'మల్బరీ';
+
+  @override
+  String get csFibreZari => 'జరీ';
+
+  @override
+  String get csFibreEri => 'ఎరి';
+
+  @override
+  String get csFibreTussar => 'టస్సార్';
+
+  @override
+  String get csFibreTussarGheecha => 'టస్సార్ ఘీచా';
+
+  @override
+  String get csFibreMuga => 'ముగా';
+
+  @override
+  String get csFibreMugaGheecha => 'ముగా ఘీచా';
+
+  @override
+  String get csFibreSpunSilk => 'స్పన్ సిల్క్';
+
+  @override
+  String get csFibreSpunTussar => 'స్పన్ టస్సార్';
+
+  @override
+  String get csFibreKoreaTussar => 'కొరియా టస్సార్';
+
+  @override
+  String get csFibreLivaViscose => 'లివా/విస్కోస్';
+
+  @override
+  String get csFibreLinen => 'లినెన్';
+
+  @override
+  String get csFibreNoil => 'నాయిల్';
+
+  @override
+  String get csBlurbCotton => 'మాట్ ఫినిష్ · మెత్తని నేసిన ఆకృతి';
+
+  @override
+  String get csBlurbSilk => 'మెరుపు ఫినిష్ · రంగు మరియు డ్రేప్';
+
+  @override
+  String get csBlurbMulberry => 'నునుపైన సాగు పట్టు';
+
+  @override
+  String get csBlurbZari => 'బంగారు లోహ దారం';
+
+  @override
+  String get csBlurbEri => 'మాట్, ఉన్ని మెత్తదనం పట్టు';
+
+  @override
+  String get csBlurbTussar => 'తేనె-బంగారు అడవి పట్టు';
+
+  @override
+  String get csBlurbTussarGheecha => 'మోటు స్లబ్ టస్సార్';
+
+  @override
+  String get csBlurbMuga => 'అస్సాం సహజ బంగారం';
+
+  @override
+  String get csBlurbMugaGheecha => 'స్లబ్ బంగారు ముగా';
+
+  @override
+  String get csBlurbSpunSilk => 'సన్నని స్పన్ పట్టు దారం';
+
+  @override
+  String get csBlurbSpunTussar => 'స్పన్ అడవి పట్టు దారం';
+
+  @override
+  String get csBlurbKoreaTussar => 'లేత, సమాన అడవి పట్టు';
+
+  @override
+  String get csBlurbLivaViscose => 'మెత్తని డ్రేప్ · మెరుపు';
+
+  @override
+  String get csBlurbLinen => 'గట్టి నేత · సహజ స్లబ్';
+
+  @override
+  String get csBlurbNoil => 'మాట్, గుర్రుగా ఉన్న పట్టు';
+
+  @override
+  String get csCapture => 'క్యాప్చర్';
+
+  @override
+  String get csGuideCta => 'గైడ్';
+
+  @override
+  String get csHowtoSteps => 'ఎలా చేయాలో దశలు';
+
+  @override
+  String get csGoodExamples => 'మంచి ఉదాహరణలు';
+
+  @override
+  String get csGoodExample => 'మంచి ఉదాహరణ';
+
+  @override
+  String get csKalExSub => 'కలంకారీ, బాగా తీసిన ఫోటో';
+
+  @override
+  String get csG0HangTitle => 'మొత్తం వస్త్రాన్ని వేలాడదీయండి';
+
+  @override
+  String get csG0HangSub => 'వెదురు రాడ్ · వెనుక సాధారణ గోడ';
+
+  @override
+  String get csG0ThreeTitle => 'స్టైల్ చేయడానికి మూడు మార్గాలు';
+
+  @override
+  String get csG0ThreeSub =>
+      'డ్రెస్ ఫామ్ · ఒక లుక్ ఎంచుకుని ప్రతి ఉత్పత్తికి ఉంచండి';
+
+  @override
+  String get csG0ThreeCaption =>
+      'డ్రెస్ ఫామ్‌పై మేఖల చాదర్ — పూర్తి ప్రదర్శన, మూడు డ్రేప్‌లు.';
+
+  @override
+  String get csG0AlignTitle => 'గ్రిడ్ లైన్లతో సరిపెట్టండి';
+
+  @override
+  String get csG0AlignSub => 'అంచులు రేఖల వెంబడి · బోర్డర్లు నేరుగా';
+
+  @override
+  String get csG0ExSub => 'మొత్తం వస్త్రం ఫ్రేమ్‌లో — ఫామ్, కుర్చీ లేదా పరచి';
+
+  @override
+  String get csG1SpanTitle => 'ఒక చేయి దూరం';
+
+  @override
+  String get csG1SpanSub =>
+      'ఫోన్‌ను 15–30 సెం.మీ. ఎత్తున ఉంచండి — దారాలు లెక్కించగలిగేంత దగ్గర';
+
+  @override
+  String get csG1RakeTitle => 'పక్క నుంచి వెలుతురు';
+
+  @override
+  String get csG1RakeSub =>
+      'ఒక వైపు నుంచి తక్కువ వెలుతురు, సుమారు 30° — నీడలు నేతను చూపుతాయి';
+
+  @override
+  String get csG1WindowTitle => 'ఇలా — కిటికీ వెలుతురు';
+
+  @override
+  String get csG1WindowSub => 'చాపపై సమం · ఒక వైపు నుంచి వెలుతురు';
+
+  @override
+  String get csG1WindowCaption =>
+      'కుచ్చులు, మోటిఫ్‌లలో నీడలు చూడండి — అది 30° వెలుతురు.';
+
+  @override
+  String get csG1FrameTitle => 'వివరాన్ని ఫ్రేమ్ చేయండి';
+
+  @override
+  String get csG1FrameSub => 'మధ్య బాక్స్‌ను నింపండి · అంచులు సమాంతరం';
+
+  @override
+  String get csG1ExSub => 'దారాలు లెక్కించగలిగేంత దగ్గర';
+
+  @override
+  String get csG2ChairTitle => 'కుర్చీపై డ్రేప్ చేయండి';
+
+  @override
+  String get csG2ChairSub => 'రెండు వస్త్రాలు సీటుపై · మడతలు నేల వరకు';
+
+  @override
+  String get csG2ChairLikeTitle => 'ఇలా — కుర్చీపై';
+
+  @override
+  String get csG2ChairLikeSub => 'రెండు వస్త్రాలు ఎలా పడతాయో చూపండి';
+
+  @override
+  String get csG2ChairCaption => 'కుర్చీపై మేఖల చాదర్ — మడతలు, బోర్డర్, హేమ్.';
+
+  @override
+  String get csG2ChairExSub => 'కుర్చీపై — మడతలు, హేమ్ ఫ్రేమ్‌లో';
+
+  @override
+  String get csG2SariChairSub => 'కుర్చీపై · సీటుపై మడత · పల్లు నేల వరకు';
+
+  @override
+  String get csG2SariChairLikeSub => 'పతనం, సీటు మడత, బోర్డర్ చూపండి';
+
+  @override
+  String get csG2SariChairCaption => 'కుర్చీపై చీర — సీటు మడత, పల్లు, బోర్డర్.';
+
+  @override
+  String get csG2SariChairExSub => 'కుర్చీపై — పల్లు, హేమ్ ఫ్రేమ్‌లో';
+
+  @override
+  String get csG2PersonTitle => 'వ్యక్తిపై డ్రేప్ చేయండి';
+
+  @override
+  String get csG2PersonSub => 'కట్టుకుని, పూర్తి పొడవు · భుజంపై పల్లు';
+
+  @override
+  String get csG2PersonLikeTitle => 'ఇలా — వ్యక్తిపై';
+
+  @override
+  String get csG2PersonLikeSub =>
+      'కట్టుకున్నప్పుడు వస్త్రం ఎలా కూర్చుంటుందో చూపండి';
+
+  @override
+  String get csG2PersonCaption => 'వ్యక్తిపై చీర — పల్లు, ప్లీట్లు, పతనం.';
+
+  @override
+  String get csG2PersonExSub => 'వ్యక్తిపై — ప్లీట్లు, పల్లు స్పష్టం';
+
+  @override
+  String get csG3FindTitle => 'బోర్డర్‌ను కనుక్కోండి';
+
+  @override
+  String get csG3MotifTitle => 'క్రాసింగ్ పాయింట్‌లో మోటిఫ్';
+
+  @override
+  String get csG3MotifSub => 'గ్రిడ్ వాడండి — రేఖలు కలిసే చోట మోటిఫ్';
+
+  @override
+  String get csG3ExSub => 'బోర్డర్ ఫ్రేమ్ నింపుతుంది, మడతలు లోతు ఇస్తాయి';
+
+  @override
+  String get csG4MidTitle => 'మధ్య నుంచి మడవండి';
+
+  @override
+  String get csG4MidSub => 'నేలపై సమం · సగం మడత';
+
+  @override
+  String get csG4CornerTitle => 'మూలను వెనక్కి మడవండి';
+
+  @override
+  String get csG4CornerSub => 'మడత అంచు మందాన్ని చూపుతుంది';
+
+  @override
+  String get csG4ExSub => 'మడత స్టాక్‌లు — పొరలు బరువు చూపుతాయి';
+
+  @override
+  String get csG4SariTitle => 'ఒక చీరను దీర్ఘచతురస్రంగా మడవండి';
+
+  @override
+  String get csG4SariSub => 'ఒకటే · బల్లపై ఉంచండి';
+
+  @override
+  String get csG4SariBorderTitle => 'బోర్డర్ పొడవు అంచున ఉంచండి';
+
+  @override
+  String get csG4SariBorderSub => 'బోర్డర్ కెమెరా వైపు · అంచులు సమాంతరం';
+
+  @override
+  String get csG4SariCaption => 'ఒక మడత చీర — దీర్ఘచతురస్రం, బోర్డర్ పక్కన.';
+
+  @override
+  String get csG4SariExSub => 'ఒక చీర, చదునుగా మడత — స్టాక్ కాదు';
+
+  @override
+  String get csG5ObjTitle => 'తెలిసిన వస్తువు పెట్టండి';
+
+  @override
+  String get csG5ObjSub => 'పక్కన బుట్ట, నాణెం లేదా పెన్ సైజు చూపుతుంది';
+
+  @override
+  String get csG5CrossTitle => 'క్రాసింగ్ పాయింట్‌లో వస్తువు';
+
+  @override
+  String get csG5CrossSub => 'వస్త్రం ఫ్రేమ్ నింపుతుంది · మూడవ వంతు రేఖపై సూచన';
+
+  @override
+  String get csG6FlatTitle => 'చదునుగా పరచి స్టైల్ చేయండి';
+
+  @override
+  String get csG6FlatSub =>
+      'చక్కగా మడవండి · 1–2 ప్రాప్‌లు: పువ్వులు, కప్పు, దారం';
+
+  @override
+  String get csG6AboveTitle => 'నేరుగా పై నుంచి తీయండి';
+
+  @override
+  String get csG6AboveSub => 'మధ్యలో ఉంచి అంచులు ఫ్రేమ్‌కు సమాంతరం';
+
+  @override
+  String get csG6ExSub => 'కిటికీ వెలుతురులో ప్రాప్‌తో ఫ్లాట్ లే';
+
+  @override
+  String get csG7UseTitle => 'వాడుకలో చూపండి';
+
+  @override
+  String get csG7UseSub => 'కట్టుకుని, మంచంపై, టేబుల్‌పై — అది ఉండే చోట';
+
+  @override
+  String get csG7EyeTitle => 'కంటి స్థాయి, మూడవ వంతు గ్రిడ్';
+
+  @override
+  String get csG7EyeSub => 'కెమెరా కంటి ఎత్తులో · విషయం మూడవ వంతు రేఖపై';
+
+  @override
+  String get csG7ExSub => 'కుర్చీపై డ్రేప్ — ఇంట్లో గదిలో';
+
+  @override
+  String get csG8HangTitle => 'ఖచ్చితంగా మధ్యలో వేలాడదీయండి';
+
+  @override
+  String get csG8HangSub => 'రాడ్ లేదా హ్యాంగర్ · మధ్య నిలువు అక్షం';
+
+  @override
+  String get csG8FringeTitle => 'కుచ్చులు స్వేచ్ఛగా వేలాడనివ్వండి';
+
+  @override
+  String get csG8FringeSub => 'టాసెల్స్ నిర్దిష్టంగా · రెండు అంచులు సమం';
+
+  @override
+  String get csG9MacroTitle => 'కుచ్చుపై మ్యాక్రో';
+
+  @override
+  String get csG9MacroSub => 'ఫోన్ ఫోకస్ అయ్యేంత దగ్గర · టాసెల్స్, ముడులు';
+
+  @override
+  String get csG9DiagTitle => 'వికర్ణం వాడండి';
+
+  @override
+  String get csG9DiagSub => 'కుచ్చును వికర్ణ రేఖ వెంబడి తీసుకెళ్లండి';
+
+  @override
+  String get csG9ExSub => 'బోర్డర్ మరియు ఫినిషింగ్, దారం-దగ్గర';
+
+  @override
+  String get csG10HandsTitle => 'పనిచేస్తున్న చేతులు చూపండి';
+
+  @override
+  String get csG10HandsSub => 'కలం, బ్రష్ లేదా షటిల్ కదలిక · కిటికీ వెలుతురు';
+
+  @override
+  String get csG10StoryTitle => 'కొనేవారు కథకు డబ్బు చెల్లిస్తారు';
+
+  @override
+  String get csG10StorySub =>
+      'మేకింగ్ ఫోటో చేతిపని అని నిరూపిస్తుంది — ప్రతి ముక్కకు ఒకటి';
+
+  @override
+  String get csG11WallTitle => 'నేరుగా, కంటి ఎత్తులో వేలాడదీయండి';
+
+  @override
+  String get csG11WallSub => 'సాధారణ గోడ · గది పక్క వెలుతురు, ఫ్లాష్ వద్దు';
+
+  @override
+  String get csG11SquareTitle => 'నేరుగా ఎదురుగా తీయండి';
+
+  @override
+  String get csG11SquareSub =>
+      'ఫోన్ గోడకు సమాంతరం · ప్యానెల్ అంచులు ఫ్రేమ్‌కు సమాంతరం';
+
+  @override
+  String get csG11RoomTitle => 'గదిలో చూపండి';
+
+  @override
+  String get csG11RoomSub =>
+      'ఫ్రేమ్ లేదా స్క్రోల్ రాడ్‌పై — కొనేవారు తమ ఇంట్లో చూస్తారు';
+
+  @override
+  String get csPracticeSandbox =>
+      'సురక్షిత సాధనం. లైవ్ ఇన్‌స్టాగ్రామ్‌కు ముందు ఫోటోలు, కథలు, హ్యాష్‌ట్యాగ్‌లు పరీక్షించండి.';
+
+  @override
+  String get csCreatePracticePost => 'సాధన పోస్ట్ సృష్టించండి';
+
+  @override
+  String get csNoPracticePosts => 'ఇంకా సాధన పోస్ట్‌లు లేవు';
+
+  @override
+  String get csNoPracticePostsBody =>
+      'ఇక్కడ చూడటానికి పాఠం 03 నుంచి సాధన పోస్ట్ సృష్టించండి.';
+
+  @override
+  String get csCreateFirstPost => 'మొదటి పోస్ట్ సృష్టించండి';
+
+  @override
+  String get csAddCraftPhoto => 'క్రాఫ్ట్ ఫోటో జోడించండి';
+
+  @override
+  String get csReplacePhoto => 'ఫోటో మార్చండి';
+
+  @override
+  String get csVerifiedLesson03 =>
+      'పాఠం 03 ట్యాగ్‌లతో ధృవీకరణ • ఇన్‌స్టాగ్రామ్‌కు సిద్ధం';
+
+  @override
+  String get csYourCraftCluster => 'మీ క్రాఫ్ట్ క్లస్టర్';
+
+  @override
+  String get csAssamSilkCluster => 'అస్సాం సిల్క్ క్లస్టర్';
+
+  @override
+  String get csNagalandCraftCluster => 'నాగాలాండ్ క్రాఫ్ట్ క్లస్టర్';
+
+  @override
+  String get csYourCraft => 'మీ క్రాఫ్ట్';
+
+  @override
+  String get csDayMonday => 'సోమవారం';
+
+  @override
+  String get csDayTuesday => 'మంగళవారం';
+
+  @override
+  String get csDayWednesday => 'బుధవారం';
+
+  @override
+  String get csDayThursday => 'గురువారం';
+
+  @override
+  String get csDayFriday => 'శుక్రవారం';
+
+  @override
+  String get csDaySaturday => 'శనివారం';
+
+  @override
+  String get csDaySunday => 'ఆదివారం';
+
+  @override
+  String get csPostingWindowHint =>
+      'క్రాఫ్ట్ ప్రేమికుల ప్రధాన బ్రౌజింగ్ సమయాన్ని నొక్కండి.';
+
+  @override
+  String get csYourPostingSchedule => 'మీ పోస్టింగ్ షెడ్యూల్:';
+
+  @override
+  String get csArtisanTipSchedule =>
+      'కళాకారుల చిట్కా: నిలకడ పరిమాణం కంటే మిన్న. వారానికి 3 మంచి పోస్ట్‌లు నమ్మకం పెంచుతాయి.';
+
+  @override
+  String get csSaveAndContinue => 'సేవ్ చేసి కొనసాగండి';
+
+  @override
+  String get csChooseStoryLines =>
+      'మీ క్రాఫ్ట్ ప్రయాణాన్ని చెప్పే కథా పంక్తులు ఎంచుకోండి.';
+
+  @override
+  String get csAddStoryLines => 'మునుపటి దశలో కథా పంక్తులు జోడించండి.';
+
+  @override
+  String get csStorySelected => 'కథ ఎంచుకోబడింది';
+
+  @override
+  String get csHashtagsHelp =>
+      'కొనేవారు, క్రాఫ్ట్ ప్రేమికులు కనుక్కునేలా సంబంధిత ట్యాగ్‌లు ఎంచుకోండి.';
+
+  @override
+  String get csLiveSimulation => 'లైవ్ సిమ్యులేషన్';
+
+  @override
+  String get csJustNowPractice => 'ఇప్పుడే  •  అంతరన్ సాధన ఫీడ్';
+
+  @override
+  String get csNextHashtagsPreview => 'తర్వాత — హ్యాష్‌ట్యాగ్‌లు & ప్రివ్యూ';
+
+  @override
+  String get csEdit => 'సవరించు';
+
+  @override
+  String get csEveningWindow => 'సాయంత్రం 7:00 – 10:00';
+
+  @override
+  String csNSelected(int count) {
+    return '$count ఎంపిక';
+  }
+
+  @override
+  String csTagsOf5Selected(int count) {
+    return '$count / 5 ఎంపిక';
+  }
+
+  @override
+  String csAntaranArtisanPlace(String place) {
+    return 'అంతరన్ కళాకారుడు • $place';
+  }
+
+  @override
+  String get csDetailTipAssam =>
+      'పల్లు ఎక్స్‌ట్రా-వెఫ్ట్ బుటాకు దగ్గరగా — చేతి పని అక్కడే కనిపిస్తుంది';
+
+  @override
+  String get csDetailTipKal => 'ఒక మోటిఫ్‌కు దగ్గరగా — కలం పెన్ స్వేచ్ఛ చూపండి';
+
+  @override
+  String get csDetailTipManiabandha =>
+      'మోటిఫ్ అంచుకు దగ్గరగా — మృదువైన ఈకలాంటి అంచు నిజమైన ఇకట్';
+
+  @override
+  String get csDetailTipVenkatgiri =>
+      'జరీ బోర్డర్‌ను కొంచెం కోణంలో — బంగారు మెరుపు కనిపిస్తుంది';
+
+  @override
+  String get csDetailTipGopalpur =>
+      'ఘీచా గాడికి దగ్గరగా — ఆ గాడులే నిజమైన అడవి పట్టు';
+
+  @override
+  String get csDetailTipNagaland =>
+      'మోటిఫ్ బ్యాండ్‌కు దగ్గరగా — ప్రతి చారకు అర్థం ఉంది';
 }

@@ -9,7 +9,7 @@ import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../shared/motion/motion.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../l10n/app_copy.dart';
 import '../../../shared/widgets/common.dart';
 import '../../../shared/widgets/local_video_preview.dart';
 import '../../home/shot_sets_controller.dart';
@@ -121,30 +121,26 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
     return name.isEmpty ? 'artisan_weaves' : '${name}_weaves';
   }
 
-  String get _clusterLabel {
+  String _clusterLabel(AppLocalizations l10n) {
     final c = _cluster;
-    if (c == null) return 'Your craft cluster';
-    final place = c.place.split(',').last.trim();
-    final short = c.shortName.trim();
+    if (c == null) return l10n.csYourCraftCluster;
+    if (c.id == 'assam') return l10n.csAssamSilkCluster;
+    if (c.id == 'nagaland') return l10n.csNagalandCraftCluster;
+    final place = AppCopy.clusterPlace(l10n, c.id);
+    final short = AppCopy.clusterShortName(l10n, c.id);
     if (short.isEmpty) return place;
-    if (place.toLowerCase().contains('assam')) return 'Assam Silk Cluster';
-    if (place.toLowerCase().contains('nagaland')) {
-      return 'Nagaland Craft Cluster';
-    }
-    return '${short[0].toUpperCase()}${short.substring(1)} · $place';
+    return '$short · $place';
   }
 
-  String get _productTag {
-    final fabric = _cluster?.fabric.trim() ?? '';
-    if (fabric.isNotEmpty) {
+  String _productTag(AppLocalizations l10n) {
+    final id = _cluster?.id;
+    if (id != null) {
+      final fabric = AppCopy.clusterFabric(l10n, id);
       final head = fabric.split('—').first.trim();
       if (head.isNotEmpty) return head;
+      return AppCopy.clusterShortName(l10n, id);
     }
-    final short = _cluster?.shortName.trim() ?? '';
-    if (short.isNotEmpty) {
-      return '${short[0].toUpperCase()}${short.substring(1)}';
-    }
-    return 'Your craft';
+    return l10n.csYourCraft;
   }
 
   Future<void> _replacePhoto() async {
@@ -282,7 +278,7 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Safe practice sandbox. Test your photos, stories & hashtags before posting to live Instagram.',
+                        l10n.csPracticeSandbox,
                         style: AppTypography.labelSmall.copyWith(
                           fontSize: 12.5,
                           height: 1.4,
@@ -303,8 +299,8 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
                       index: 0,
                       child: _PracticePostCard(
                         user: _displayUser,
-                        clusterLabel: _clusterLabel,
-                        productTag: _productTag,
+                        clusterLabel: _clusterLabel(l10n),
+                        productTag: _productTag(l10n),
                         caption: _publishedCaption!,
                         tags: _publishedTags ?? '',
                         likes: _mineLikes,
@@ -350,7 +346,7 @@ class _PracticeFeedPageState extends ConsumerState<PracticeFeedPage> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'CREATE PRACTICE POST',
+                            l10n.csCreatePracticePost.toUpperCase(),
                             style: AppTypography.labelLarge.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w800,
@@ -379,6 +375,7 @@ class _EmptyFeedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 28),
       decoration: BoxDecoration(
@@ -403,7 +400,7 @@ class _EmptyFeedCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Text(
-            'No practice posts yet',
+            l10n.csNoPracticePosts,
             style: AppTypography.labelLarge.copyWith(
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -412,7 +409,7 @@ class _EmptyFeedCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Create a practice post from Lesson 03 to preview it here.',
+            l10n.csNoPracticePostsBody,
             textAlign: TextAlign.center,
             style: AppTypography.labelSmall.copyWith(
               fontSize: 13,
@@ -423,7 +420,7 @@ class _EmptyFeedCard extends StatelessWidget {
           TextButton(
             onPressed: onCreate,
             child: Text(
-              'Create your first post',
+              l10n.csCreateFirstPost,
               style: AppTypography.labelLarge.copyWith(
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
@@ -468,6 +465,7 @@ class _PracticePostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final hasMedia = photoPath != null && photoPath!.isNotEmpty;
     final heartColor = _liked ? AppColors.primary : AppColors.textPrimary;
 
@@ -588,7 +586,7 @@ class _PracticePostCard extends StatelessWidget {
                   child: !hasMedia
                       ? Center(
                           child: Text(
-                            'Add a craft photo',
+                            l10n.csAddCraftPhoto,
                             style: AppTypography.labelSmall.copyWith(
                               color: AppColors.textMuted,
                             ),
@@ -664,7 +662,7 @@ class _PracticePostCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              'Replace Photo',
+                              l10n.csReplacePhoto,
                               style: AppTypography.labelLarge.copyWith(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -791,7 +789,7 @@ class _PracticePostCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Verified with Lesson 03 tags • Ready for Instagram',
+                    l10n.csVerifiedLesson03,
                     style: AppTypography.labelSmall.copyWith(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w600,

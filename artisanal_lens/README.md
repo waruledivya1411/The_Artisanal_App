@@ -43,8 +43,11 @@ Sutra splash  (tap to skip)
   Progress  (badges)
 ```
 
-The root [`README.md`](../README.md) has the full lesson list, frame names, and
-how live guidance works.
+The root [`README.md`](../README.md) has the full lesson list, frame names,
+listing-photo paths, and how live guidance works.
+
+Repository: [github.com/waruledivya1411/The_Artisanal_App](https://github.com/waruledivya1411/The_Artisanal_App).
+Maintained by **Divya Warule**.
 
 ## The opening sequence
 

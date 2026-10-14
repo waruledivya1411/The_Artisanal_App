@@ -129,7 +129,7 @@ class _SilkTypePageState extends ConsumerState<SilkTypePage> {
         child: FilledButton.icon(
           onPressed: _selectedId == null || _busy ? null : _continue,
           icon: const Icon(Icons.arrow_forward, size: 20),
-          label: const Text('NEXT — FRAME IT'),
+          label: Text(AppLocalizations.of(context).continueAction),
         ),
       ),
     );
@@ -150,9 +150,7 @@ class _SilkTypePageState extends ConsumerState<SilkTypePage> {
       if (categoryId == null || categoryId.isEmpty) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Missing product details. Go back and try again.'),
-          ),
+          SnackBar(content: Text(l10n.csMissingProductDetails)),
         );
         return;
       }
@@ -178,7 +176,11 @@ class _SilkTypePageState extends ConsumerState<SilkTypePage> {
       debugPrint('Silk type continue failed: $error\n$stack');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not continue: $error')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context).csCouldNotContinue('$error'),
+          ),
+        ),
       );
     } finally {
       if (mounted) setState(() => _busy = false);

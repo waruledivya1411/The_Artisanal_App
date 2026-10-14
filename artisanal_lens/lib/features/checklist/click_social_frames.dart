@@ -6,11 +6,13 @@
 /// picks, and which reference photographs the guide shows for their cluster.
 library;
 
+import 'package:flutter/widgets.dart';
+
 import '../../domain/entities/fabric_property.dart';
 import '../../domain/entities/photography_guideline.dart';
 import '../../domain/entities/photography_template.dart';
 import '../../domain/entities/technique_preset.dart';
-import '../home/click_social_clusters.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Where the extracted HTML reference photographs live.
 const String _guides = 'assets/images/guides';
@@ -121,9 +123,9 @@ class ClickSocialFrame {
       };
 
   /// HTML `shotDefs[i][1]` — content plus the grid, as shown on the checklist.
-  String tipFor({String? clusterId}) {
+  String tipFor({String? clusterId, required AppLocalizations l10n}) {
     // Frame 3 leads with the cluster's own detail tip instead of the content.
-    final head = index == 3 ? clickSocialDetailTip(clusterId) : content;
+    final head = index == 3 ? clickSocialDetailTip(clusterId, l10n) : content;
     return '$head · $tipDetail';
   }
 
@@ -165,6 +167,7 @@ class ClickSocialFrame {
   /// Mirrors the HTML: Assam gets two extra "like this" pages, and a Kalamkari
   /// learner's "Good examples" gallery is replaced by their own product's set.
   List<GuideStep> guideSteps({
+    required AppLocalizations l10n,
     required bool isAssam,
     required bool isKal,
     required String? clusterId,
@@ -174,12 +177,17 @@ class ClickSocialFrame {
     final steps = <GuideStep>[
       ..._baseGuideSteps(
         index,
+        l10n: l10n,
         isAssam: isAssam,
         isMekhela: clickSocialDrapeOnChair(
           clusterId: clusterId,
           productLabel: productLabel,
         ),
-        detailTip: clickSocialDetailTip(clusterId),
+        isSari: clickSocialSariChairDrape(
+          clusterId: clusterId,
+          productLabel: productLabel,
+        ),
+        detailTip: clickSocialDetailTip(clusterId, l10n),
         making: clickSocialMakingGallery(clusterId),
       ),
     ];
@@ -194,8 +202,8 @@ class ClickSocialFrame {
     if (at == -1) {
       steps.add(
         GuideStep(
-          title: 'Good examples',
-          subtitle: 'Kalamkari, photographed well',
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csKalExSub,
           gallery: gallery,
         ),
       );
@@ -335,7 +343,22 @@ const clickSocialFrames = <ClickSocialFrame>[
 const clickSocialOfferedFrames = <int>[0, 1, 2, 3, 4, 8];
 
 /// Mekhela sador draped look is two unstitched cloths over a chair, not worn.
+/// Sari draped look is the sari over a chair, with a fold on the seat.
 bool clickSocialDrapeOnChair({
+  String? clusterId,
+  String? productLabel,
+  String? categoryId,
+}) {
+  final key = clickSocialFrameProductKey(
+    clusterId: clusterId,
+    productLabel: productLabel,
+    categoryId: categoryId,
+  );
+  return key == 'mekhela' || key == 'sari';
+}
+
+/// Sari chair drape (fold on the seat, pallu falling), not mekhela's two cloths.
+bool clickSocialSariChairDrape({
   String? clusterId,
   String? productLabel,
   String? categoryId,
@@ -345,13 +368,19 @@ bool clickSocialDrapeOnChair({
       productLabel: productLabel,
       categoryId: categoryId,
     ) ==
-    'mekhela';
+    'sari';
 
 /// Camera-layout reference shown after Capture, before the live shutter.
-String clickSocialCameraRefAsset(int index, {bool chairDrape = false}) =>
-    index == 2 && chairDrape
-        ? '$_guides/cs_cam_ref_2_chair.jpg'
-        : '$_guides/cs_cam_ref_$index.jpg';
+String clickSocialCameraRefAsset(
+  int index, {
+  bool chairDrape = false,
+  bool sariChair = false,
+}) {
+  if (index == 2 && sariChair) return '$_guides/cs_cam_ref_2_sari_chair.jpg';
+  if (index == 2 && chairDrape) return '$_guides/cs_cam_ref_2_chair.jpg';
+  if (index == 4 && sariChair) return '$_guides/cs_cam_ref_4_sari.jpg';
+  return '$_guides/cs_cam_ref_$index.jpg';
+}
 
 /// Where each part of the product sits on that camera grid.
 List<String> clickSocialCameraPlacementLines(
@@ -479,6 +508,7 @@ const _kamrupNamedFibreFolders = {
   'muga-gheecha',
   'spun-silk',
   'spun-tussar',
+  'liva-viscose',
 };
 
 String clickSocialMaterialFolder(
@@ -570,9 +600,15 @@ String clickSocialFrameProductKey({
 }
 
 /// HTML `cluster.detailTip`, with the Assam wording as the fallback.
-String clickSocialDetailTip(String? clusterId) =>
-    clusterById(clusterId)?.detailTip ??
-    'Close on the border — that is where the handwork shows';
+String clickSocialDetailTip(String? clusterId, AppLocalizations l10n) =>
+    switch (clusterId) {
+      'srikalahasti' => l10n.csDetailTipKal,
+      'maniabandha' => l10n.csDetailTipManiabandha,
+      'venkatgiri' => l10n.csDetailTipVenkatgiri,
+      'gopalpur' => l10n.csDetailTipGopalpur,
+      'nagaland' => l10n.csDetailTipNagaland,
+      _ => l10n.csDetailTipAssam,
+    };
 
 /// HTML `makingByCluster` — the making photographs for frame 10.
 List<String> clickSocialMakingGallery(String? clusterId) {
@@ -605,12 +641,17 @@ PhotographyTemplate asTemplate(
   ClickSocialFrame f, {
   String? thumbAsset,
   bool chairDrape = false,
+  bool sariChair = false,
+  AppLocalizations? l10n,
 }) {
+  final loc = l10n ?? lookupAppLocalizations(const Locale('en'));
   final steps = _baseGuideSteps(
     f.index,
+    l10n: loc,
     isAssam: false,
     isMekhela: chairDrape,
-    detailTip: clickSocialDetailTip(null),
+    isSari: sariChair,
+    detailTip: clickSocialDetailTip(null, loc),
     making: clickSocialMakingGallery(null),
   );
   final setup = [
@@ -641,9 +682,16 @@ PhotographyTemplate asTemplate(
     placement: steps.isEmpty ? f.content : steps.first.subtitle,
     guidance: setup,
     overlayCaption: steps.isEmpty ? f.name : steps.first.title,
-    referenceImageAsset: clickSocialOfferedFrames.contains(f.index)
-        ? clickSocialCameraRefAsset(f.index, chairDrape: chairDrape)
-        : (thumbAsset ?? f.thumbAsset),
+    // Checklist thumbs use the listing photo the learner picked. Camera
+    // layout still reads [clickSocialCameraRefAsset] on the capture screen.
+    referenceImageAsset: thumbAsset ??
+        (clickSocialOfferedFrames.contains(f.index)
+            ? clickSocialCameraRefAsset(
+                f.index,
+                chairDrape: chairDrape,
+                sariChair: sariChair,
+              )
+            : f.thumbAsset),
     skipsStyleStep: true,
     highlightedProperties: switch (f.arch) {
       FrameArch.thirds => const [
@@ -802,40 +850,39 @@ const _kalGalleries = <String, Map<int, List<String>>>{
 /// exists — never a random shot thumb.
 List<GuideStep> _baseGuideSteps(
   int index, {
+  required AppLocalizations l10n,
   required bool isAssam,
   required bool isMekhela,
+  bool isSari = false,
   required String detailTip,
   required List<String> making,
 }) {
   switch (index) {
     case 0:
       return [
-        const GuideStep(
-          title: 'Hang the whole piece',
-          subtitle: 'Bamboo rod · plain wall behind',
+        GuideStep(
+          title: l10n.csG0HangTitle,
+          subtitle: l10n.csG0HangSub,
           diagram: 'hang',
           referenceAsset: '$_guides/kal-hung-rod.jpg',
         ),
         if (isAssam)
-          const GuideStep(
-            title: 'Three ways to style it',
-            subtitle: 'Dress form · pick one look and keep it for every product',
+          GuideStep(
+            title: l10n.csG0ThreeTitle,
+            subtitle: l10n.csG0ThreeSub,
             imageAsset: '$_guides/mekhela-drapes.png',
-            caption:
-                'Mekhela sador on a dress form — full display, three drape '
-                'styles.',
+            caption: l10n.csG0ThreeCaption,
           ),
-        const GuideStep(
-          title: 'Align with the gridlines',
-          subtitle: 'Edges along the lines · borders straight',
+        GuideStep(
+          title: l10n.csG0AlignTitle,
+          subtitle: l10n.csG0AlignSub,
           diagram: 'grid',
-          // Straight hang — edges parallel; not a tilted dress-form shot.
           referenceAsset: '$_guides/kal-hung-rod.jpg',
         ),
-        const GuideStep(
-          title: 'Good examples',
-          subtitle: 'Whole piece in frame — on a form, a chair, or spread flat',
-          gallery: [
+        GuideStep(
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csG0ExSub,
+          gallery: const [
             '$_guides/ex-full-form.jpg',
             '$_guides/ex-full-dark.jpg',
             '$_guides/ex-full-spread.jpg',
@@ -843,64 +890,86 @@ List<GuideStep> _baseGuideSteps(
         ),
       ];
     case 1:
-      return const [
+      return [
         GuideStep(
-          title: 'One hand-span away',
-          subtitle: 'Hold the phone 15–30 cm above the fabric — close enough '
-              'to count threads',
+          title: l10n.csG1SpanTitle,
+          subtitle: l10n.csG1SpanSub,
           diagram: 'dist',
           referenceAsset: '$_guides/stole-flatlay.png',
         ),
         GuideStep(
-          title: 'Rake the light across',
-          subtitle: 'Light from one side, low at about 30° — the tiny shadows '
-              'make the weave stand up',
+          title: l10n.csG1RakeTitle,
+          subtitle: l10n.csG1RakeSub,
           diagram: 'rake',
           referenceAsset: '$_guides/stole-flatlay.png',
         ),
         GuideStep(
-          title: 'Like this — window light',
-          subtitle: 'Flat on a mat · light raking in from one side',
+          title: l10n.csG1WindowTitle,
+          subtitle: l10n.csG1WindowSub,
           imageAsset: '$_guides/stole-flatlay.png',
-          caption: 'See the shadows in the tassels and motifs — that is the '
-              '30° raking light doing the work.',
+          caption: l10n.csG1WindowCaption,
         ),
         GuideStep(
-          title: 'Frame the detail',
-          subtitle: 'Fill the centre box · edges parallel',
+          title: l10n.csG1FrameTitle,
+          subtitle: l10n.csG1FrameSub,
           diagram: 'close',
           referenceAsset: '$_guides/ex-close-motif.jpg',
         ),
         GuideStep(
-          title: 'Good examples',
-          subtitle: 'So close you can count the threads',
-          gallery: [
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csG1ExSub,
+          gallery: const [
             '$_guides/ex-close-motif.jpg',
             '$_guides/ex-border-flat.jpg',
           ],
         ),
       ];
     case 2:
+      if (isSari) {
+        return [
+          GuideStep(
+            title: l10n.csG2ChairTitle,
+            subtitle: l10n.csG2SariChairSub,
+            diagram: 'chair',
+            referenceAsset: '$_guides/cs_cam_ref_2_sari_chair.jpg',
+          ),
+          if (isAssam)
+            GuideStep(
+              title: l10n.csG2ChairLikeTitle,
+              subtitle: l10n.csG2SariChairLikeSub,
+              imageAsset: '$_guides/cs_cam_ref_2_sari_chair.jpg',
+              caption: l10n.csG2SariChairCaption,
+            ),
+          GuideStep(
+            title: l10n.csGoodExamples,
+            subtitle: l10n.csG2SariChairExSub,
+            gallery: const [
+              '$_guides/cs_cam_ref_2_sari_chair.jpg',
+              'assets/images/clusters/kamrup/sari/cotton/woven/draped_look.jpg',
+              'assets/images/clusters/kamrup/sari/mulberry/woven/draped_look.jpg',
+            ],
+          ),
+        ];
+      }
       if (isMekhela) {
         return [
-          const GuideStep(
-            title: 'Drape it over a chair',
-            subtitle: 'Both cloths over the seat · folds to the floor',
+          GuideStep(
+            title: l10n.csG2ChairTitle,
+            subtitle: l10n.csG2ChairSub,
             diagram: 'chair',
             referenceAsset: '$_guides/cs_cam_ref_2_chair.jpg',
           ),
           if (isAssam)
-            const GuideStep(
-              title: 'Like this — on a chair',
-              subtitle: 'Show how the two cloths fall and fold',
+            GuideStep(
+              title: l10n.csG2ChairLikeTitle,
+              subtitle: l10n.csG2ChairLikeSub,
               imageAsset: '$_guides/cs_cam_ref_2_chair.jpg',
-              caption:
-                  'Mekhela sador draped on a chair — folds, border and hem.',
+              caption: l10n.csG2ChairCaption,
             ),
-          const GuideStep(
-            title: 'Good examples',
-            subtitle: 'Over a chair — folds and hem in frame',
-            gallery: [
+          GuideStep(
+            title: l10n.csGoodExamples,
+            subtitle: l10n.csG2ChairExSub,
+            gallery: const [
               '$_guides/cs_cam_ref_2_chair.jpg',
               '$_guides/ex-drape-chair.jpg',
               '$_guides/ex-drape-chair-pink.jpg',
@@ -909,23 +978,23 @@ List<GuideStep> _baseGuideSteps(
         ];
       }
       return [
-        const GuideStep(
-          title: 'Drape it on a person',
-          subtitle: 'Worn, full length · pallu over the shoulder',
+        GuideStep(
+          title: l10n.csG2PersonTitle,
+          subtitle: l10n.csG2PersonSub,
           diagram: 'worn',
           referenceAsset: '$_guides/cs_cam_ref_2.jpg',
         ),
         if (isAssam)
-          const GuideStep(
-            title: 'Like this — on a person',
-            subtitle: 'Show how the cloth sits when worn',
+          GuideStep(
+            title: l10n.csG2PersonLikeTitle,
+            subtitle: l10n.csG2PersonLikeSub,
             imageAsset: '$_guides/ex-drape-worn.jpg',
-            caption: 'Sari draped on a person — pallu, pleats and fall.',
+            caption: l10n.csG2PersonCaption,
           ),
-        const GuideStep(
-          title: 'Good examples',
-          subtitle: 'Worn on a person — pleats and pallu readable',
-          gallery: [
+        GuideStep(
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csG2PersonExSub,
+          gallery: const [
             '$_guides/cs_cam_ref_2.jpg',
             '$_guides/ex-drape-worn.jpg',
             '$_guides/ex-drape-pleats.jpg',
@@ -935,148 +1004,167 @@ List<GuideStep> _baseGuideSteps(
     case 3:
       return [
         GuideStep(
-          title: 'Find the border',
+          title: l10n.csG3FindTitle,
           subtitle: detailTip,
           diagram: 'border',
           referenceAsset: '$_guides/ex-border-folds.jpg',
         ),
-        const GuideStep(
-          title: 'Motif on a crossing point',
-          subtitle: 'Use the grid — motif where lines cross',
+        GuideStep(
+          title: l10n.csG3MotifTitle,
+          subtitle: l10n.csG3MotifSub,
           diagram: 'gridmotif',
           referenceAsset: '$_guides/ex-close-motif.jpg',
         ),
-        const GuideStep(
-          title: 'Good examples',
-          subtitle: 'Border filling the frame, folds giving it depth',
-          gallery: [
+        GuideStep(
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csG3ExSub,
+          gallery: const [
             '$_guides/ex-border-folds.jpg',
             '$_guides/ex-border-flat.jpg',
           ],
         ),
       ];
     case 4:
-      return const [
-        // No mid-fold process photo — teach with the diagram only.
+      if (isSari) {
+        return [
+          GuideStep(
+            title: l10n.csG4SariTitle,
+            subtitle: l10n.csG4SariSub,
+            diagram: 'foldmid',
+            referenceAsset: '$_guides/cs_cam_ref_4_sari.jpg',
+          ),
+          GuideStep(
+            title: l10n.csG4SariBorderTitle,
+            subtitle: l10n.csG4SariBorderSub,
+            imageAsset: '$_guides/cs_cam_ref_4_sari.jpg',
+            caption: l10n.csG4SariCaption,
+          ),
+          GuideStep(
+            title: l10n.csGoodExamples,
+            subtitle: l10n.csG4SariExSub,
+            gallery: const [
+              '$_guides/cs_cam_ref_4_sari.jpg',
+              'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.jpg',
+              'assets/images/clusters/kamrup/sari/mulberry/woven/folded_stack.jpg',
+            ],
+          ),
+        ];
+      }
+      return [
         GuideStep(
-          title: 'Fold from the middle',
-          subtitle: 'Flat on the floor · fold in half',
+          title: l10n.csG4MidTitle,
+          subtitle: l10n.csG4MidSub,
           diagram: 'foldmid',
         ),
         GuideStep(
-          title: 'Fold a corner back',
-          subtitle: 'The folded edge shows the thickness',
+          title: l10n.csG4CornerTitle,
+          subtitle: l10n.csG4CornerSub,
           diagram: 'folddiag',
-          // Layers + turned edge — matches the corner-back diagram.
           referenceAsset: '$_guides/ex-folded-layers.jpg',
         ),
         GuideStep(
-          title: 'Good examples',
-          subtitle: 'Folded stacks — layers show body and weight',
-          gallery: [
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csG4ExSub,
+          gallery: const [
             '$_guides/ex-folded-layers.jpg',
             '$_guides/ex-folded-basket.jpg',
           ],
         ),
       ];
     case 5:
-      return const [
+      return [
         GuideStep(
-          title: 'Add a familiar object',
-          subtitle: 'A basket, coin or pen beside the piece shows true size',
+          title: l10n.csG5ObjTitle,
+          subtitle: l10n.csG5ObjSub,
           diagram: 'scale',
-          // Basket is a clear size reference — pink chair drape has none.
           referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
         GuideStep(
-          title: 'Object on a crossing point',
-          subtitle: 'Piece fills the frame · reference on a thirds line',
+          title: l10n.csG5CrossTitle,
+          subtitle: l10n.csG5CrossSub,
           diagram: 'gridthirds',
           referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
       ];
     case 6:
-      return const [
+      return [
         GuideStep(
-          title: 'Lay it flat, style around it',
-          subtitle: 'Fold neatly · add 1–2 props: flowers, a cup, thread',
+          title: l10n.csG6FlatTitle,
+          subtitle: l10n.csG6FlatSub,
           diagram: 'flatprops',
-          // Basket + flowers = folded piece with props (not a vertical drape).
           referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
         GuideStep(
-          title: 'Shoot from directly above',
-          subtitle: 'Keep the piece centred and edges parallel to the frame',
+          title: l10n.csG6AboveTitle,
+          subtitle: l10n.csG6AboveSub,
           diagram: 'grid',
           referenceAsset: '$_guides/ex-folded-basket.jpg',
         ),
         GuideStep(
-          title: 'Good example',
-          subtitle: 'Flat lay with a prop in window light',
-          gallery: [
+          title: l10n.csGoodExample,
+          subtitle: l10n.csG6ExSub,
+          gallery: const [
             '$_guides/ex-folded-basket.jpg',
             '$_guides/stole-flatlay.png',
           ],
         ),
       ];
     case 7:
-      return const [
+      return [
         GuideStep(
-          title: 'Show it in use',
-          subtitle: 'Worn, on a bed, on a table — where it lives',
+          title: l10n.csG7UseTitle,
+          subtitle: l10n.csG7UseSub,
           diagram: 'drape',
           referenceAsset: '$_guides/ex-drape-chair.jpg',
         ),
         GuideStep(
-          title: 'Eye level, thirds grid',
-          subtitle: 'Camera at eye height · subject on a thirds line',
+          title: l10n.csG7EyeTitle,
+          subtitle: l10n.csG7EyeSub,
           diagram: 'gridthirds',
           referenceAsset: '$_guides/ex-drape-chair.jpg',
         ),
         GuideStep(
-          title: 'Good examples',
-          subtitle: 'Draped over a chair — at home in a room',
-          gallery: [
+          title: l10n.csGoodExamples,
+          subtitle: l10n.csG7ExSub,
+          gallery: const [
             '$_guides/ex-drape-chair.jpg',
             '$_guides/ex-drape-chair-pink.jpg',
           ],
         ),
       ];
     case 8:
-      return const [
+      return [
         GuideStep(
-          title: 'Hang it dead centre',
-          subtitle: 'Rod or hanger · piece on the center vertical axis',
+          title: l10n.csG8HangTitle,
+          subtitle: l10n.csG8HangSub,
           diagram: 'hang',
           referenceAsset: '$_guides/kal-hung-rod.jpg',
         ),
         GuideStep(
-          title: 'Let the fringe hang free',
-          subtitle: 'Straighten the tassels · keep both edges symmetric',
+          title: l10n.csG8FringeTitle,
+          subtitle: l10n.csG8FringeSub,
           diagram: 'drape',
           referenceAsset: '$_guides/stole-hung.webp',
         ),
       ];
     case 9:
-      return const [
+      return [
         GuideStep(
-          title: 'Go macro on the fringe',
-          subtitle: 'As close as your phone will focus · tassels and knots',
+          title: l10n.csG9MacroTitle,
+          subtitle: l10n.csG9MacroSub,
           diagram: 'close',
-          // Tassels in frame — not a flat horizontal border band.
           referenceAsset: '$_guides/kal-drape-close.jpg',
         ),
         GuideStep(
-          title: 'Use the diagonal',
-          subtitle: 'Run the fringe along the diagonal line',
+          title: l10n.csG9DiagTitle,
+          subtitle: l10n.csG9DiagSub,
           diagram: 'diagline',
-          // Fabric + fringe laid on a diagonal.
           referenceAsset: '$_guides/kal-pen-bw.jpg',
         ),
         GuideStep(
-          title: 'Good example',
-          subtitle: 'Border and finishing, thread-close',
-          gallery: [
+          title: l10n.csGoodExample,
+          subtitle: l10n.csG9ExSub,
+          gallery: const [
             '$_guides/kal-drape-close.jpg',
             '$_guides/kal-pen-bw.jpg',
           ],
@@ -1084,41 +1172,36 @@ List<GuideStep> _baseGuideSteps(
       ];
     case 10:
       return [
-        const GuideStep(
-          title: 'Show your hands at work',
-          subtitle: 'Kalam, brush or shuttle in motion · window light on the '
-              'work',
+        GuideStep(
+          title: l10n.csG10HandsTitle,
+          subtitle: l10n.csG10HandsSub,
           diagram: 'close',
           referenceAsset: '$_guides/making-assam.jpg',
         ),
         GuideStep(
-          title: 'Buyers pay for the story',
-          subtitle: 'A making photo proves it is handmade — post one for every '
-              'piece',
+          title: l10n.csG10StoryTitle,
+          subtitle: l10n.csG10StorySub,
           gallery: making,
         ),
       ];
     case 11:
-      return const [
+      return [
         GuideStep(
-          title: 'Hang it straight, eye height',
-          subtitle: 'On a plain wall · daylight from the side of the room, '
-              'never flash',
+          title: l10n.csG11WallTitle,
+          subtitle: l10n.csG11WallSub,
           diagram: 'hang',
           referenceAsset: '$_guides/kal-scroll-hang.jpg',
         ),
         GuideStep(
-          title: 'Shoot square-on',
-          subtitle: 'Phone parallel to the wall · panel edges parallel to the '
-              'frame lines',
+          title: l10n.csG11SquareTitle,
+          subtitle: l10n.csG11SquareSub,
           diagram: 'grid',
           referenceAsset: '$_guides/kal-panel-tree.jpg',
         ),
         GuideStep(
-          title: 'Show it in a room',
-          subtitle: 'Framed, or on a scroll rod — buyers see it in their own '
-              'home',
-          gallery: [
+          title: l10n.csG11RoomTitle,
+          subtitle: l10n.csG11RoomSub,
+          gallery: const [
             '$_guides/kal-framed-sofa.jpg',
             '$_guides/kal-framed-dining.jpg',
             '$_guides/kal-scroll-hang.jpg',

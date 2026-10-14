@@ -74,7 +74,7 @@ Widget _harness({required ShotSet set, required String initialLocation}) {
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({
-      clickSocialFramePicksKey(_setId): '0,2,7',
+      clickSocialFramePicksKey(_setId): '0,2,8',
       clickSocialTechniqueKey(_setId): 'WOVEN',
       clickSocialClusterKey: 'assam',
     });
@@ -92,11 +92,11 @@ void main() {
 
     expect(find.text('Full display'), findsOneWidget);
     expect(find.text('Draped look'), findsOneWidget);
-    expect(find.text('In-context lifestyle'), findsOneWidget);
+    expect(find.text('Hanging display'), findsOneWidget);
     expect(find.text('Full Saree Display'), findsNothing);
     expect(find.text('Colour, pattern, material'), findsOneWidget);
     expect(find.text('GUIDE'), findsNWidgets(3));
-    expect(find.text('0 / 3'), findsOneWidget);
+    expect(find.textContaining('0/3'), findsWidgets);
     expect(
       find.text('Open the guide, take the shot, drop it in, tick it off.'),
       findsOneWidget,
@@ -117,7 +117,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Assam inserts the drape-styles page, so frame 0 has four steps.
-    expect(find.text('FULL DISPLAY — SHOT 1 OF 3'), findsOneWidget);
+    expect(find.text('Full display · 1/3'), findsOneWidget);
     expect(find.text('Hang the whole piece'), findsOneWidget);
     expect(find.text('1 / 4'), findsOneWidget);
 
