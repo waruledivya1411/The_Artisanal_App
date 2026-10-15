@@ -101,6 +101,37 @@ class CameraGuidanceProfile {
   /// Source-backed checks that cannot be measured with [FrameAnalyzer] today.
   final List<String> undetectableConditions;
 
+  /// The same profile with the device-angle check turned off, for a platform
+  /// that reports no accelerometer — a laptop browser.
+  ///
+  /// Pitch defaults to zero there, which reads as "off" against every target
+  /// angle, so the check would otherwise sit on `Tilt your phone` forever.
+  /// The condition moves into [undetectableConditions] so the screen keeps
+  /// saying it cannot judge the angle instead of going quiet about it.
+  CameraGuidanceProfile withoutAngleCheck() {
+    if (!detectsAngle) return this;
+    return CameraGuidanceProfile(
+      grid: grid,
+      composition: composition,
+      productNoun: productNoun,
+      placementInstruction: placementInstruction,
+      orientationTarget: orientationTarget,
+      minTargetCoverage: minTargetCoverage,
+      maxCentringOffset: maxCentringOffset,
+      isCloseUp: isCloseUp,
+      detectsLight: detectsLight,
+      detectsBacklight: detectsBacklight,
+      detectsAngle: false,
+      detectsSubjectFill: detectsSubjectFill,
+      detectsOverflow: detectsOverflow,
+      detectsCentring: detectsCentring,
+      undetectableConditions: [
+        ...undetectableConditions,
+        'The angle the camera is held at — this device reports no tilt sensor.',
+      ],
+    );
+  }
+
   factory CameraGuidanceProfile.fromTechnique(
     TechniquePreset technique, {
     String productNoun = 'product',

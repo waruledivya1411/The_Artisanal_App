@@ -138,6 +138,9 @@ class _ProductSetupPageState extends ConsumerState<ProductSetupPage> {
               ),
             ],
             const SizedBox(height: 10),
+            // Two cards to a row, however many the catalog lists. An odd
+            // last row keeps its empty half rather than stretching the final
+            // card across the width of two.
             Expanded(
               child: GridView.builder(
                 itemCount: _cards.length,

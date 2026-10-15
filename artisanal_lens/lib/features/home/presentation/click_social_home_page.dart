@@ -212,6 +212,7 @@ class _ClickSocialHomePageState extends ConsumerState<ClickSocialHomePage> {
       strategyLessonDone: _strategyLessonDone,
       analyticsLessonDone: _analyticsLessonDone,
       onEditProfile: _openOnboardingForEdit,
+      onBack: _openOnboardingForEdit,
     );
   }
 }
@@ -1066,6 +1067,7 @@ class _LearningHomeView extends StatelessWidget {
     required this.strategyLessonDone,
     required this.analyticsLessonDone,
     required this.onEditProfile,
+    required this.onBack,
   });
 
   final String learnerName;
@@ -1077,6 +1079,10 @@ class _LearningHomeView extends StatelessWidget {
   final bool strategyLessonDone;
   final bool analyticsLessonDone;
   final VoidCallback onEditProfile;
+
+  /// Returns to the setup questions, which are the screen before this one.
+  /// Home is a tab root, so there is no navigation stack to pop here.
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -1159,7 +1165,7 @@ class _LearningHomeView extends StatelessWidget {
                       shape: const CircleBorder(),
                       child: InkWell(
                         customBorder: const CircleBorder(),
-                        onTap: onEditProfile,
+                        onTap: onBack,
                         child: const SizedBox(
                           width: 40,
                           height: 40,
