@@ -151,7 +151,25 @@ class ClickSocialFrame {
         product: product,
         clusterId: clusterId,
       );
-      final file = product == 'sari' && material == 'tussar'
+      // Kamrup sari listing photos are PNG. Mekhela cotton uses PNG for the
+      // four studio poses ingested from the Cotton dump (fold/drape stay JPG).
+      const mekhelaCottonPng = {
+        'full_display.jpg',
+        'close-up_texture.jpg',
+        'embroidery_and_border.jpg',
+        'hanging_display.jpg',
+      };
+      final sariMulberryChairJpg =
+          product == 'sari' &&
+          material == 'mulberry' &&
+          listing == 'draped_look.jpg';
+      final file =
+          clusterDir == 'kamrup' &&
+              !sariMulberryChairJpg &&
+              (product == 'sari' ||
+                  (product == 'mekhela' &&
+                      material == 'cotton' &&
+                      mekhelaCottonPng.contains(listing)))
           ? listing.replaceFirst('.jpg', '.png')
           : listing;
       return 'assets/images/clusters/$clusterDir/$product/$material/woven/$file';
@@ -972,7 +990,7 @@ List<GuideStep> _baseGuideSteps(
             subtitle: l10n.csG2SariChairExSub,
             gallery: const [
               '$_guides/cs_cam_ref_2_sari_chair.jpg',
-              'assets/images/clusters/kamrup/sari/cotton/woven/draped_look.jpg',
+              'assets/images/clusters/kamrup/sari/cotton/woven/draped_look.png',
               'assets/images/clusters/kamrup/sari/mulberry/woven/draped_look.jpg',
             ],
           ),
@@ -1071,8 +1089,8 @@ List<GuideStep> _baseGuideSteps(
             subtitle: l10n.csG4SariExSub,
             gallery: const [
               '$_guides/cs_cam_ref_4_sari.jpg',
-              'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.jpg',
-              'assets/images/clusters/kamrup/sari/mulberry/woven/folded_stack.jpg',
+              'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.png',
+              'assets/images/clusters/kamrup/sari/mulberry/woven/folded_stack.png',
             ],
           ),
         ];

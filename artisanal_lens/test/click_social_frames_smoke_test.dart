@@ -268,8 +268,44 @@ void main() {
       materialId: 'eri',
     );
     expect(muga, contains('clusters/kamrup/mekhela/muga/woven/full_display'));
-    expect(eri, contains('clusters/kamrup/mekhela/eri/woven/draped_look'));
+    expect(
+      eri,
+      'assets/images/clusters/kamrup/mekhela/eri/woven/draped_look.jpg',
+    );
     expect(muga, isNot(contains('/sari/')));
+    final cottonFull = clickSocialFrames[0].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'cotton',
+    );
+    final cottonFold = clickSocialFrames[4].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'cotton',
+    );
+    final mulberryHang = clickSocialFrames[8].thumbAssetFor(
+      clusterId: 'assam',
+      categoryId: 'saree',
+      technique: 'WOVEN',
+      productLabel: 'Mekhela sador',
+      materialId: 'mulberry',
+    );
+    expect(
+      cottonFull,
+      'assets/images/clusters/kamrup/mekhela/cotton/woven/full_display.png',
+    );
+    expect(
+      cottonFold,
+      'assets/images/clusters/kamrup/mekhela/cotton/woven/folded_stack.jpg',
+    );
+    expect(
+      mulberryHang,
+      'assets/images/clusters/kamrup/mekhela/mulberry/woven/hanging_display.jpg',
+    );
   });
 
   test('Assam shawl thumbs use eri, tussar, tussar-gheecha and muga folders', () {
@@ -779,7 +815,7 @@ void main() {
 
   test('checklist uses the listing thumb when one is passed in', () {
     const listing =
-        'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.jpg';
+        'assets/images/clusters/kamrup/sari/cotton/woven/folded_stack.png';
     expect(
       asTemplate(clickSocialFrames[4], thumbAsset: listing).referenceImageAsset,
       listing,

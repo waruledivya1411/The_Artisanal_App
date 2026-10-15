@@ -660,7 +660,7 @@ class _FrameSlotCard extends StatelessWidget {
                             ? PhotoThumb(path: slot.shot!.filePath)
                             : GuideImage(
                                 asset: slot.template!.referenceImageAsset!,
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                       ),

@@ -225,28 +225,25 @@ class _FramePickGrid extends StatelessWidget {
             final l10n = AppLocalizations.of(context);
             final frame = frames[i];
             final on = picks.contains(frame.index);
-            return FadeSlideIn.staggered(
-              index: staggerOffset + i,
-              child: _FramePickCard(
-                name: AppCopy.csFrameName(l10n, frame.index),
-                content: clickSocialCameraPlacementLines(
-                  frame.index,
-                  chairDrape: clickSocialDrapeOnChair(
-                    clusterId: clusterId,
-                    productLabel: productLabel,
-                    categoryId: categoryId,
-                  ),
-                ).first,
-                selected: on,
-                imageAsset: frame.thumbAssetFor(
+            return _FramePickCard(
+              name: AppCopy.csFrameName(l10n, frame.index),
+              content: clickSocialCameraPlacementLines(
+                frame.index,
+                chairDrape: clickSocialDrapeOnChair(
                   clusterId: clusterId,
-                  categoryId: categoryId,
-                  technique: technique,
                   productLabel: productLabel,
-                  materialId: materialId,
+                  categoryId: categoryId,
                 ),
-                onTap: () => onToggle(frame.index),
+              ).first,
+              selected: on,
+              imageAsset: frame.thumbAssetFor(
+                clusterId: clusterId,
+                categoryId: categoryId,
+                technique: technique,
+                productLabel: productLabel,
+                materialId: materialId,
               ),
+              onTap: () => onToggle(frame.index),
             );
           },
         );
@@ -272,45 +269,34 @@ class _FramePickCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Pressable(
-      elevate: true,
+    return Material(
+      color: AppColors.white,
+      elevation: selected ? 3 : 1,
+      shadowColor: AppColors.primary.withValues(alpha: 0.14),
       borderRadius: BorderRadius.circular(16),
-      child: Material(
-        color: AppColors.white,
-        elevation: selected ? 3 : 1,
-        shadowColor: AppColors.primary.withValues(alpha: 0.14),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: onTap,
-          child: AnimatedContainer(
-            duration: AppMotion.select,
-            curve: AppMotion.curve,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: selected ? AppColors.primary : AppColors.borderLight,
-                width: selected ? 2 : 1.2,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AspectRatio(
-                  aspectRatio: 3 / 4,
-                  child: Stack(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AspectRatio(
+              aspectRatio: 3 / 4,
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  final dpr = MediaQuery.devicePixelRatioOf(context);
+                  final decodeW =
+                      (box.maxWidth * dpr * 2).round().clamp(800, 1600);
+                  return Stack(
                     fit: StackFit.expand,
                     children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(14),
-                        ),
-                        child: ColoredBox(
-                          color: AppColors.surfaceMuted,
-                          child: GuideImage(
-                            asset: imageAsset,
-                            fit: BoxFit.contain,
-                          ),
+                      ColoredBox(
+                        color: AppColors.surfaceMuted,
+                        child: GuideImage(
+                          asset: imageAsset,
+                          fit: BoxFit.cover,
+                          cacheWidth: decodeW,
                         ),
                       ),
                       if (selected)
@@ -338,11 +324,13 @@ class _FramePickCard extends StatelessWidget {
                           ),
                         ),
                     ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 8, 8, 10),
-                  child: Row(
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 8, 8, 10),
+              child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
@@ -403,9 +391,7 @@ class _FramePickCard extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );

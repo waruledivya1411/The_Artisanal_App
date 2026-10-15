@@ -262,6 +262,7 @@ class GuideImage extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.borderRadius,
     this.fillFrame = false,
+    this.cacheWidth,
     super.key,
   });
 
@@ -273,37 +274,34 @@ class GuideImage extends StatelessWidget {
   /// cover sits behind, and the full image is contained on top.
   final bool fillFrame;
 
+  /// Decode at this width so listing thumbs stay sharp on web.
+  final int? cacheWidth;
+
   @override
   Widget build(BuildContext context) {
+    Widget assetImage({required BoxFit fit}) => Image.asset(
+          asset,
+          fit: fit,
+          alignment: Alignment.center,
+          filterQuality: FilterQuality.medium,
+          isAntiAlias: true,
+          cacheWidth: cacheWidth,
+          errorBuilder: _missing,
+        );
+
     final image = fillFrame
         ? Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(
-                asset,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-                errorBuilder: _missing,
-              ),
+              assetImage(fit: BoxFit.cover),
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
                 child: const ColoredBox(color: Color(0x14000000)),
               ),
-              Image.asset(
-                asset,
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-                filterQuality: FilterQuality.high,
-                errorBuilder: _missing,
-              ),
+              assetImage(fit: BoxFit.contain),
             ],
           )
-        : Image.asset(
-            asset,
-            fit: fit,
-            filterQuality: FilterQuality.high,
-            errorBuilder: _missing,
-          );
+        : assetImage(fit: fit);
     if (borderRadius == null) return image;
     return ClipRRect(borderRadius: borderRadius!, child: image);
   }

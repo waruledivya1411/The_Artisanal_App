@@ -332,7 +332,7 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
       'Dupattas' =>
         'assets/images/clusters/srikalahasti/stole/cotton/woven/draped_look.jpg',
       'Angvastram set' =>
-        'assets/images/clusters/kamrup/sari/silk/woven/embroidery_and_border.jpg',
+        'assets/images/clusters/kamrup/sari/silk/woven/embroidery_and_border.png',
       'Uttaraya' =>
         'assets/images/clusters/kamrup/stole/silk/woven/embroidery_and_border.jpg',
       'Handkerchief' =>
@@ -341,9 +341,9 @@ String? productImageAsset(String productLabel) => switch (productLabel) {
         'assets/images/clusters/maniabandha/stole/silk/woven/hanging_display.jpg',
       'Mekhela Chador' => 'assets/images/products/mekhela.png',
       'Table Cloth' =>
-        'assets/images/clusters/kamrup/sari/cotton/woven/hanging_display.jpg',
+        'assets/images/clusters/kamrup/sari/cotton/woven/hanging_display.png',
       'Naga Sling Bags' =>
-        'assets/images/clusters/kamrup/mekhela/cotton/woven/close-up_texture.jpg',
+        'assets/images/clusters/kamrup/mekhela/cotton/woven/close-up_texture.png',
       'Table Runners' => 'assets/images/products/runner.jpg',
       'Naga Shawl' =>
         'assets/images/clusters/kamrup/stole/silk/woven/draped_look.jpg',
