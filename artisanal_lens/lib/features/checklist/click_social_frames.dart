@@ -929,8 +929,6 @@ List<GuideStep> _baseGuideSteps(
           subtitle: 'Hung straight — whole piece in frame, not draped',
           gallery: [
             hanging,
-            if (hanging != '$_guides/cs_cam_ref_8.jpg')
-              '$_guides/cs_cam_ref_8.jpg',
           ],
         ),
       ];
